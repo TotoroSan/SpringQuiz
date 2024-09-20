@@ -10,11 +10,13 @@ public class QuestionWithShuffledAnswersDto {
 	
 	
     private String questionText;        // The question itself
+    private Long questionId; 		// Id of the question 
     private List<AnswerDto> shuffledAnswers;  // The shuffled list of answers
 
     // Constructor
-    public QuestionWithShuffledAnswersDto(String questionText, List<AnswerDto> shuffledAnswers) {
+    public QuestionWithShuffledAnswersDto(String questionText, Long questionId, List<AnswerDto> shuffledAnswers) {
         this.questionText = questionText;
+        this.questionId = questionId; 
         this.shuffledAnswers = shuffledAnswers;
     }
 
@@ -34,4 +36,12 @@ public class QuestionWithShuffledAnswersDto {
     public void setShuffledAnswers(List<AnswerDto> shuffledAnswers) {
         this.shuffledAnswers = shuffledAnswers;
     }
+
+	public Long getQuestionId() {
+		return questionId;
+	}
+
+	public void setQuestionId(Long questionId) {
+		this.questionId = questionId;
+	}
 }

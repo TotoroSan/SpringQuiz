@@ -2,6 +2,7 @@ package com.example.quiz.service;
 
 import com.example.quiz.model.QuizSubmission;
 import com.example.quiz.repository.QuizSubmissionRepository;
+import com.example.quiz.service.admin.AdminQuizSubmissionService;
 import com.example.quiz.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ public class QuizSubmissionServiceTest {
     private QuizSubmissionRepository quizSubmissionRepository;
 
     @InjectMocks
-    private QuizSubmissionService quizSubmissionService;
+    private AdminQuizSubmissionService adminQuizSubmissionService;
 
     @BeforeEach
     public void setUp() {
@@ -37,7 +38,7 @@ public class QuizSubmissionServiceTest {
         when(quizSubmissionRepository.save(any(QuizSubmission.class))).thenReturn(submission);
 
         // Act
-        QuizSubmission savedSubmission = quizSubmissionService.submitQuiz(submission);
+        QuizSubmission savedSubmission = adminQuizSubmissionService.submitQuiz(submission);
 
         // Assert
         assertEquals(95, savedSubmission.getScore());
@@ -51,7 +52,7 @@ public class QuizSubmissionServiceTest {
         when(quizSubmissionRepository.findByUserId(1L)).thenReturn(submissions);
 
         // Act
-        List<QuizSubmission> result = quizSubmissionService.getSubmissionsByUserId(1L);
+        List<QuizSubmission> result = adminQuizSubmissionService.getSubmissionsByUserId(1L);
 
         // Assert
         assertEquals(2, result.size());
@@ -65,7 +66,7 @@ public class QuizSubmissionServiceTest {
 
         // Act & Assert
         assertThrows(ResourceNotFoundException.class, () -> {
-            quizSubmissionService.getSubmissionById(1L);
+            adminQuizSubmissionService.getSubmissionById(1L);
         });
     }
 
@@ -76,7 +77,7 @@ public class QuizSubmissionServiceTest {
         when(quizSubmissionRepository.findById(1L)).thenReturn(Optional.of(submission));
 
         // Act
-        quizSubmissionService.deleteSubmission(1L);
+        adminQuizSubmissionService.deleteSubmission(1L);
 
         // Assert
         verify(quizSubmissionRepository, times(1)).delete(submission);

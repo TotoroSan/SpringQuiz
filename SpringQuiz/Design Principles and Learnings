@@ -1,0 +1,3 @@
+- separation of concerns 
+- controllers handle interaction with session objects and attributes
+- 

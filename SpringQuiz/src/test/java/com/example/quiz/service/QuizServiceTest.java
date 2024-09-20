@@ -2,6 +2,8 @@ package com.example.quiz.service;
 
 import com.example.quiz.model.Quiz;
 import com.example.quiz.repository.QuizRepository;
+import com.example.quiz.service.admin.AdminQuizService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,7 +21,7 @@ public class QuizServiceTest {
     private QuizRepository quizRepository; // object which should be mocked (i.e. instead of actually calling the function a mock object will be returned)
 
     @InjectMocks
-    private QuizService quizService; // use the mock objects for testing the service 
+    private AdminQuizService adminQuizService; // use the mock objects for testing the service 
 
     @BeforeEach
     public void setup() {
@@ -38,7 +40,7 @@ public class QuizServiceTest {
         when(quizRepository.save(any(Quiz.class))).thenReturn(quiz);
 
         // Act
-        Quiz createdQuiz = quizService.createQuiz(quiz);
+        Quiz createdQuiz = adminQuizService.createQuiz(quiz);
 
         // Assert
         assertEquals("Sample Quiz", createdQuiz.getTitle());
@@ -52,7 +54,7 @@ public class QuizServiceTest {
         when(quizRepository.findAll()).thenReturn(quizzes);
 
         // Act
-        List<Quiz> result = quizService.getAllQuizzes();
+        List<Quiz> result = adminQuizService.getAllQuizzes();
 
         // Assert
         assertEquals(2, result.size());

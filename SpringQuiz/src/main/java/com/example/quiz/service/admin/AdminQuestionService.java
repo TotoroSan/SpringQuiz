@@ -1,4 +1,4 @@
-package com.example.quiz.service;
+package com.example.quiz.service.admin;
 
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import com.example.quiz.model.QuestionWithShuffledAnswersDto;
 import com.example.quiz.repository.QuestionRepository;
 
 @Service
-public class QuestionService {
+public class AdminQuestionService {
 
     @Autowired
     private QuestionRepository questionRepository;

@@ -1,7 +1,9 @@
 package com.example.quiz.controller;
 
+import com.example.quiz.controller.admin.AdminQuizSubmissionController;
 import com.example.quiz.model.QuizSubmission;
-import com.example.quiz.service.QuizSubmissionService;
+import com.example.quiz.service.admin.AdminQuizSubmissionService;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +21,14 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(QuizSubmissionController.class)
+@WebMvcTest(AdminQuizSubmissionController.class)
 public class QuizSubmissionControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private QuizSubmissionService quizSubmissionService;
+    private AdminQuizSubmissionService adminQuizSubmissionService;
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -34,7 +36,7 @@ public class QuizSubmissionControllerTest {
         // Arrange
         QuizSubmission submission = new QuizSubmission();
         submission.setScore(90);
-        when(quizSubmissionService.submitQuiz(any(QuizSubmission.class))).thenReturn(submission);
+        when(adminQuizSubmissionService.submitQuiz(any(QuizSubmission.class))).thenReturn(submission);
 
         // Act & Assert
         mockMvc.perform(post("/api/submissions")
@@ -44,7 +46,7 @@ public class QuizSubmissionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.score").value(90));
 
-        verify(quizSubmissionService, times(1)).submitQuiz(any(QuizSubmission.class));
+        verify(adminQuizSubmissionService, times(1)).submitQuiz(any(QuizSubmission.class));
     }
 
     @Test
@@ -52,7 +54,7 @@ public class QuizSubmissionControllerTest {
     public void testGetSubmissionsByUserId() throws Exception {
         // Arrange
         List<QuizSubmission> submissions = Arrays.asList(new QuizSubmission(), new QuizSubmission());
-        when(quizSubmissionService.getSubmissionsByUserId(1L)).thenReturn(submissions);
+        when(adminQuizSubmissionService.getSubmissionsByUserId(1L)).thenReturn(submissions);
 
         // Act & Assert
         mockMvc.perform(get("/api/submissions/user/1")
@@ -61,6 +63,6 @@ public class QuizSubmissionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
 
-        verify(quizSubmissionService, times(1)).getSubmissionsByUserId(1L);
+        verify(adminQuizSubmissionService, times(1)).getSubmissionsByUserId(1L);
     }
 }

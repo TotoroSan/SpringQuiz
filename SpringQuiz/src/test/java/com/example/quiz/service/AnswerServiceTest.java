@@ -2,6 +2,7 @@ package com.example.quiz.service;
 
 import com.example.quiz.model.Answer;
 import com.example.quiz.repository.AnswerRepository;
+import com.example.quiz.service.admin.AdminAnswerService;
 import com.example.quiz.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ public class AnswerServiceTest {
     private AnswerRepository answerRepository;
 
     @InjectMocks
-    private AnswerService answerService;
+    private AdminAnswerService adminAnswerService;
 
     @BeforeEach
     public void setUp() {
@@ -35,7 +36,7 @@ public class AnswerServiceTest {
         when(answerRepository.save(any(Answer.class))).thenReturn(answer);
 
         // Act
-        Answer createdAnswer = answerService.createAnswer(answer);
+        Answer createdAnswer = adminAnswerService.createAnswer(answer);
 
         // Assert
         assertEquals("Sample Answer", createdAnswer.getAnswerText());
@@ -49,7 +50,7 @@ public class AnswerServiceTest {
 
         // Act & Assert
         assertThrows(ResourceNotFoundException.class, () -> {
-            answerService.getAnswerById(1L);
+            adminAnswerService.getAnswerById(1L);
         });
     }
 }

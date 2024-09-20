@@ -1,41 +1,42 @@
-package com.example.quiz.controller;
+package com.example.quiz.controller.admin;
 
 
 import com.example.quiz.model.Answer;
-import com.example.quiz.service.AnswerService;
+import com.example.quiz.service.admin.AdminAnswerService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/answers")
-public class AnswerController {
+@RequestMapping("admin/api/answers")
+public class AdminAnswerController {
 
     @Autowired
-    private AnswerService answerService;
+    private AdminAnswerService adminAnswerService;
 
     // Get an answer by ID
     @GetMapping("/{id}")
     public Optional<Answer> getAnswerById(@PathVariable Long id) {
-        return answerService.getAnswerById(id);
+        return adminAnswerService.getAnswerById(id);
     }
 
     // Create a new answer
     @PostMapping
     public Answer createAnswer(@RequestBody Answer answer) {
-        return answerService.createAnswer(answer);
+        return adminAnswerService.createAnswer(answer);
     }
 
     // Update an answer
     @PutMapping("/{id}")
     public Answer updateAnswer(@PathVariable Long id, @RequestBody Answer answerDetails) {
-        return answerService.updateAnswer(id, answerDetails);
+        return adminAnswerService.updateAnswer(id, answerDetails);
     }
 
     // Delete an answer
     @DeleteMapping("/{id}")
     public void deleteAnswer(@PathVariable Long id) {
-        answerService.deleteAnswer(id);
+        adminAnswerService.deleteAnswer(id);
     }
 }

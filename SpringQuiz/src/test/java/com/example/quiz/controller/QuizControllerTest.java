@@ -1,7 +1,9 @@
 package com.example.quiz.controller;
 
+import com.example.quiz.controller.admin.AdminQuizController;
 import com.example.quiz.model.Quiz;
-import com.example.quiz.service.QuizService;
+import com.example.quiz.service.admin.AdminQuizService;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(QuizController.class)
+@WebMvcTest(AdminQuizController.class)
 public class QuizControllerTest {
 	
 	// MockMvc is used to simulate HTTP requests to the controller
@@ -28,14 +30,14 @@ public class QuizControllerTest {
     // This ensures that the controller interacts with the service as expected, 
     // but without relying on the actual business logic in the QuizService.
     @MockBean
-    private QuizService quizService;
+    private AdminQuizService adminQuizService;
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void testGetAllQuizzes() throws Exception {
         // Arrange
         List<Quiz> quizzes = Arrays.asList(new Quiz("Quiz 1"), new Quiz("Quiz 2"));
-        when(quizService.getAllQuizzes()).thenReturn(quizzes);
+        when(adminQuizService.getAllQuizzes()).thenReturn(quizzes);
 
         // Act & Assert
         mockMvc.perform(get("/api/quizzes")
@@ -45,7 +47,7 @@ public class QuizControllerTest {
                 .andExpect(jsonPath("$[0].title").value("Quiz 1"))
                 .andExpect(jsonPath("$[1].title").value("Quiz 2"));
 
-        verify(quizService, times(1)).getAllQuizzes();
+        verify(adminQuizService, times(1)).getAllQuizzes();
     }
 
     @Test
@@ -54,7 +56,7 @@ public class QuizControllerTest {
         // Arrange
         Quiz quiz = new Quiz();
         quiz.setTitle("New Quiz");
-        when(quizService.createQuiz(any(Quiz.class))).thenReturn(quiz);
+        when(adminQuizService.createQuiz(any(Quiz.class))).thenReturn(quiz);
 
         // Act & Assert
         mockMvc.perform(post("/api/quizzes")
@@ -64,6 +66,6 @@ public class QuizControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("New Quiz"));
 
-        verify(quizService, times(1)).createQuiz(any(Quiz.class));
+        verify(adminQuizService, times(1)).createQuiz(any(Quiz.class));
     }
 }

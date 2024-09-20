@@ -1,8 +1,10 @@
 package com.example.quiz.controller;
 
+import com.example.quiz.controller.admin.AdminQuestionController;
 import com.example.quiz.model.Question;
 import com.example.quiz.model.QuestionDto;
-import com.example.quiz.service.QuestionService;
+import com.example.quiz.service.admin.AdminQuestionService;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +21,14 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(QuestionController.class)
+@WebMvcTest(AdminQuestionController.class)
 public class QuestionControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private QuestionService questionService;
+    private AdminQuestionService adminQuestionService;
     // TODO IMPLEMENT
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -34,7 +36,7 @@ public class QuestionControllerTest {
         // Arrange
         QuestionDto question = new QuestionDto();
         question.setQuestionText("Sample Question");
-        when(questionService.getQuestionById(1L)).thenReturn(question);
+        when(adminQuestionService.getQuestionById(1L)).thenReturn(question);
 
         // Act & Assert
         mockMvc.perform(get("/api/questions/1")
@@ -43,7 +45,7 @@ public class QuestionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.questionText").value("Sample Question"));
 
-        verify(questionService, times(1)).getQuestionById(1L);
+        verify(adminQuestionService, times(1)).getQuestionById(1L);
     }
 
     @Test
@@ -52,7 +54,7 @@ public class QuestionControllerTest {
         // Arrange
         QuestionDto question = new QuestionDto();
         question.setQuestionText("New Question");
-        when(questionService.createQuestionFromDto(any(QuestionDto.class))).thenReturn(question);
+        when(adminQuestionService.createQuestionFromDto(any(QuestionDto.class))).thenReturn(question);
 
         // Act & Assert
         mockMvc.perform(post("/api/questions")
@@ -62,6 +64,6 @@ public class QuestionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.questionText").value("New Question"));
 
-        verify(questionService, times(1)).createQuestionFromDto(any(QuestionDto.class));
+        verify(adminQuestionService, times(1)).createQuestionFromDto(any(QuestionDto.class));
     }
 }

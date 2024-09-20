@@ -1,7 +1,8 @@
 package com.example.quiz.exception;
 
-import com.example.quiz.controller.QuizController;
-import com.example.quiz.service.QuizService;
+import com.example.quiz.controller.admin.AdminQuizController;
+import com.example.quiz.service.admin.AdminQuizService;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -15,20 +16,20 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(QuizController.class)
+@WebMvcTest(AdminQuizController.class)
 public class GlobalExceptionHandlerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private QuizService quizService;
+    private AdminQuizService adminQuizService;
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void testResourceNotFoundException() throws Exception {
         // Arrange: Mock the service to throw the ResourceNotFoundException
-        when(quizService.getQuizById(anyLong())).thenThrow(new ResourceNotFoundException("Quiz not found"));
+        when(adminQuizService.getQuizById(anyLong())).thenThrow(new ResourceNotFoundException("Quiz not found"));
 
         // Act & Assert
         mockMvc.perform(get("/api/quizzes/1")

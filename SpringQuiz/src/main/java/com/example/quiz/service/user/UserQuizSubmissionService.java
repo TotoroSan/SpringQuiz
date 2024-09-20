@@ -1,4 +1,4 @@
-package com.example.quiz.service;
+package com.example.quiz.service.user;
 
 
 import com.example.quiz.exception.ResourceNotFoundException;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class QuizSubmissionService {
+public class UserQuizSubmissionService {
 
     @Autowired
     private QuizSubmissionRepository quizSubmissionRepository;

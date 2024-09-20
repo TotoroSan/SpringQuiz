@@ -1,4 +1,4 @@
-package com.example.quiz.service;
+package com.example.quiz.service.admin;
 
 
 import com.example.quiz.exception.ResourceNotFoundException;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AnswerService {
+public class AdminAnswerService {
 
     @Autowired
     private AnswerRepository answerRepository;

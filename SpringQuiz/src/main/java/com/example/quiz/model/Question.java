@@ -29,7 +29,7 @@ public class Question {
     // Cascade the save operation to the real answer (i.e. if a question object is saved, the associated real answer object is also saved)
     @OneToOne(cascade = CascadeType.ALL) 
     @JoinColumn(name = "real_answer_id")
-    private Answer realAnswer;
+    private Answer correctAnswer;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Answer> mockAnswers;
@@ -76,11 +76,11 @@ public class Question {
     }
     
     public Answer getRealAnswer() {
-        return realAnswer;
+        return correctAnswer;
     }
 
     public void setRealAnswer(Answer answer) {
-        this.realAnswer = answer;
+        this.correctAnswer = answer;
     }
     
   

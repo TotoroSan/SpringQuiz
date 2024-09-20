@@ -12,7 +12,7 @@ public class QuizState {
 
     // List of all questions in the quiz
     private List<Question> allQuestions;
-
+    
     // Index of the current question
     private int currentQuestionIndex;
 
@@ -25,6 +25,14 @@ public class QuizState {
     // TODO think about this. i want to be able to flexibly change out questions for a given degree of diffuclty via a joker.
     // So either load spare question set or retrieve the questions "live" and do not make premade quiz set.
     
+    // Constructor to initialize a new quiz
+    public QuizState() {
+        this.allQuestions = new ArrayList<>();
+        this.currentQuestionIndex = 0;
+        this.completedQuestionIds = new HashSet<>();
+        this.score = 0;  // Initialize score to 0
+    }
+    
     // Constructor to initialize a new quiz with a list of questions
     public QuizState(List<Question> questions) {
         this.allQuestions = questions;
@@ -32,7 +40,11 @@ public class QuizState {
         this.completedQuestionIds = new HashSet<>();
         this.score = 0;  // Initialize score to 0
     }
-
+    
+    public void addQuestion(Question question) {
+    	allQuestions.add(question);
+    }
+    
     public Question getCurrentQuestion() {
         if (currentQuestionIndex < allQuestions.size()) {
             return allQuestions.get(currentQuestionIndex);

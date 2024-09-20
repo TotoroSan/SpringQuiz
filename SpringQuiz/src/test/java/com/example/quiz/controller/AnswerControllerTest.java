@@ -1,7 +1,9 @@
 package com.example.quiz.controller;
 
+import com.example.quiz.controller.admin.AdminAnswerController;
 import com.example.quiz.model.Answer;
-import com.example.quiz.service.AnswerService;
+import com.example.quiz.service.admin.AdminAnswerService;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +20,14 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(AnswerController.class)
+@WebMvcTest(AdminAnswerController.class)
 public class AnswerControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private AnswerService answerService;
+    private AdminAnswerService adminAnswerService;
    // TODO IMPLEMENT
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -33,7 +35,7 @@ public class AnswerControllerTest {
         // Arrange
         Answer answer = new Answer();
         answer.setAnswerText("Sample Answer");
-        when(answerService.getAnswerById(1L)).thenReturn(Optional.of(answer));
+        when(adminAnswerService.getAnswerById(1L)).thenReturn(Optional.of(answer));
 
         // Act & Assert
         mockMvc.perform(get("/api/answers/1")
@@ -41,7 +43,7 @@ public class AnswerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.answerText").value("Sample Answer"));
 
-        verify(answerService, times(1)).getAnswerById(1L);
+        verify(adminAnswerService, times(1)).getAnswerById(1L);
     }
 
     @Test
@@ -50,7 +52,7 @@ public class AnswerControllerTest {
         // Arrange
         Answer answer = new Answer();
         answer.setAnswerText("New Answer");
-        when(answerService.createAnswer(any(Answer.class))).thenReturn(answer);
+        when(adminAnswerService.createAnswer(any(Answer.class))).thenReturn(answer);
 
         // Act & Assert
         mockMvc.perform(post("/api/answers")
@@ -60,6 +62,6 @@ public class AnswerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.answerText").value("New Answer"));
 
-        verify(answerService, times(1)).createAnswer(any(Answer.class));
+        verify(adminAnswerService, times(1)).createAnswer(any(Answer.class));
     }
 }

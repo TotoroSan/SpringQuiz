@@ -6,6 +6,8 @@ import com.example.quiz.model.Question;
 import com.example.quiz.model.QuestionDto;
 import com.example.quiz.model.QuestionWithShuffledAnswersDto;
 import com.example.quiz.repository.QuestionRepository;
+import com.example.quiz.service.admin.AdminQuestionService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -25,7 +27,7 @@ class QuestionServiceTest {
     private QuestionRepository questionRepository;
 
     @InjectMocks
-    private QuestionService questionService;
+    private AdminQuestionService adminQuestionService;
 
     @BeforeEach
     void setUp() {
@@ -55,7 +57,7 @@ class QuestionServiceTest {
         when(questionRepository.save(any(Question.class))).thenReturn(question);
 
         // Act
-        QuestionDto result = questionService.createQuestionFromDto(questionDto);
+        QuestionDto result = adminQuestionService.createQuestionFromDto(questionDto);
 
         // Assert
         assertEquals("What is the capital of France?", result.getQuestionText());
@@ -79,7 +81,7 @@ class QuestionServiceTest {
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question));
 
         // Act
-        QuestionDto result = questionService.getQuestionById(1L);
+        QuestionDto result = adminQuestionService.getQuestionById(1L);
 
         // Assert
         assertNotNull(result);
@@ -93,7 +95,7 @@ class QuestionServiceTest {
         when(questionRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(ResourceNotFoundException.class, () -> questionService.getQuestionById(1L));
+        assertThrows(ResourceNotFoundException.class, () -> adminQuestionService.getQuestionById(1L));
     }
 
     @Test
@@ -109,7 +111,7 @@ class QuestionServiceTest {
         ));
 
         // Act
-        QuestionDto result = questionService.convertToDto(question);
+        QuestionDto result = adminQuestionService.convertToDto(question);
 
         // Assert
         assertNotNull(result);
@@ -133,7 +135,7 @@ class QuestionServiceTest {
         when(questionRepository.findRandomQuestion()).thenReturn(question);
 
         // Act
-        QuestionWithShuffledAnswersDto result = questionService.getRandomQuestionWithShuffledAnswers();
+        QuestionWithShuffledAnswersDto result = adminQuestionService.getRandomQuestionWithShuffledAnswers();
 
         // Assert
         assertNotNull(result);
