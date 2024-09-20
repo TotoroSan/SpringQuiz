@@ -15,7 +15,7 @@ public class Answer {
     private Long id;
 
     private String answerText;
-    private boolean isCorrect;
+    private boolean isCorrect; // this flags if it is a mock answer or not 
 
     @ManyToOne
     @JoinColumn(name = "question_id")

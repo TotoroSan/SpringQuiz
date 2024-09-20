@@ -1,6 +1,7 @@
 package com.example.quiz.controller;
 
 import com.example.quiz.model.Question;
+import com.example.quiz.model.QuestionDto;
 import com.example.quiz.service.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -31,9 +32,9 @@ public class QuestionControllerTest {
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void testGetQuestionById() throws Exception {
         // Arrange
-        Question question = new Question();
+        QuestionDto question = new QuestionDto();
         question.setQuestionText("Sample Question");
-        when(questionService.getQuestionById(1L)).thenReturn(Optional.of(question));
+        when(questionService.getQuestionById(1L)).thenReturn(question);
 
         // Act & Assert
         mockMvc.perform(get("/api/questions/1")
@@ -49,9 +50,9 @@ public class QuestionControllerTest {
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void testCreateQuestion() throws Exception {
         // Arrange
-        Question question = new Question();
+        QuestionDto question = new QuestionDto();
         question.setQuestionText("New Question");
-        when(questionService.createQuestion(any(Question.class))).thenReturn(question);
+        when(questionService.createQuestionFromDto(any(QuestionDto.class))).thenReturn(question);
 
         // Act & Assert
         mockMvc.perform(post("/api/questions")
@@ -61,6 +62,6 @@ public class QuestionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.questionText").value("New Question"));
 
-        verify(questionService, times(1)).createQuestion(any(Question.class));
+        verify(questionService, times(1)).createQuestionFromDto(any(QuestionDto.class));
     }
 }

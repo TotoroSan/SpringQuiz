@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Question {
@@ -24,9 +25,14 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
+    
+    // Cascade the save operation to the real answer (i.e. if a question object is saved, the associated real answer object is also saved)
+    @OneToOne(cascade = CascadeType.ALL) 
+    @JoinColumn(name = "real_answer_id")
+    private Answer realAnswer;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Answer> answers;
+    private List<Answer> mockAnswers;
 
     // Constructors
     public Question() {}
@@ -61,11 +67,22 @@ public class Question {
         this.quiz = quiz;
     }
 
-    public List<Answer> getAnswers() {
-        return answers;
+    public List<Answer> getMockAnswers() {
+        return mockAnswers;
     }
 
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
+    public void setMockAnswers(List<Answer> answers) {
+        this.mockAnswers = answers;
     }
+    
+    public Answer getRealAnswer() {
+        return realAnswer;
+    }
+
+    public void setRealAnswer(Answer answer) {
+        this.realAnswer = answer;
+    }
+    
+  
+    
 }
