@@ -27,11 +27,11 @@ public class UserAnswerController {
     
     // check is answer is true 
     @PostMapping("/answer")
-    public ResponseEntity<String> submitAnswer(@RequestBody AnswerDto answerDto, HttpSession session) {
+    public ResponseEntity<Boolean> submitAnswer(@RequestBody AnswerDto answerDto, HttpSession session) {
         QuizState quizState = (QuizState) session.getAttribute("quizState");
 
         if (quizState == null) {
-            return ResponseEntity.badRequest().body("No quiz found");
+            return ResponseEntity.badRequest().body(null);
         }
         
         // get current question id from quizState
@@ -44,7 +44,7 @@ public class UserAnswerController {
 
         if (!isCorrect) {
         	// TODO: decrease lifes / quiz failed -> restart / etc.
-            return ResponseEntity.ok("Incorrect answer!");
+            return ResponseEntity.ok(false);
         }
         
         //DEBUGGING mark question as done
@@ -53,6 +53,6 @@ public class UserAnswerController {
         //increment score 
         quizState.incrementScore();
         
-        return ResponseEntity.ok("Correct answer!");
+        return ResponseEntity.ok(true);
     }
 }

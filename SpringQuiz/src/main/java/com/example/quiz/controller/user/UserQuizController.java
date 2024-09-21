@@ -36,7 +36,7 @@ public class UserQuizController {
     
     // start quiz (start session)
         
-    @PostMapping("/start")
+    @GetMapping("/start")
     public ResponseEntity<String> startQuiz(HttpSession session) {
         // Initialize a new quiz and store the state in the session
         QuizState quizState = userQuizService.startNewQuiz();
