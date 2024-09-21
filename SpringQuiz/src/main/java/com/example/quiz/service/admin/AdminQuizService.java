@@ -59,42 +59,4 @@ public class AdminQuizService {
         
         quizRepository.delete(quiz);  // Delete the quiz
     }
-    
-    // Initialize quiz with questions fetched from the QuestionService
-    public QuizState startNewQuiz() {
-        List<Question> allQuestions = adminQuestionService.getAllQuestions();
-        return new QuizState(allQuestions);
-    }
-
-    // Get the next question that hasn't been answered yet
-    public Question getNextQuestion(QuizState quizState) {
-        if (!quizState.hasMoreQuestions()) {
-            return null;  // No more questions
-        }
-        Question currentQuestion = quizState.getCurrentQuestion();
-        quizState.incrementQuestionIndex();  // Move to the next question
-        return currentQuestion;
-    }
-
-    // Submit an answer and update the quiz state accordingly
-    public boolean submitAnswer(QuizState quizState, Long questionId, AnswerDto submittedAnswer) {
-        Question question = adminQuestionService.findQuestionById(questionId);  // Use QuestionService to get the question
-
-        if (quizState.isCompleted(question.getId())) {
-            return false;  // Question has already been answered
-        }
-
-        // Check if the answer is correct
-        boolean isCorrect = question.getRealAnswer().getAnswerText().equals(submittedAnswer.getText());
-
-        // Update the score if the answer is correct
-        if (isCorrect) {
-            quizState.incrementScore();
-        }
-
-        // Mark the question as completed
-        quizState.markQuestionAsCompleted(question.getId());
-
-        return isCorrect;  // Return whether the answer was correct or not
-    }
 }

@@ -1,4 +1,4 @@
-package com.example.quiz.service;
+package com.example.quiz.service.admin;
 
 import com.example.quiz.exception.ResourceNotFoundException;
 import com.example.quiz.model.Answer;
@@ -21,7 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class QuestionServiceTest {
+class AdminQuestionServiceTest {
 
     @Mock
     private QuestionRepository questionRepository;
@@ -51,7 +51,7 @@ class QuestionServiceTest {
         );
 
         question.setQuestionText("What is the capital of France?");
-        question.setRealAnswer(realAnswer);
+        question.setCorrectAnswer(realAnswer);
         question.setMockAnswers(mockAnswers);
 
         when(questionRepository.save(any(Question.class))).thenReturn(question);
@@ -71,7 +71,7 @@ class QuestionServiceTest {
         // Arrange
         Question question = new Question();
         question.setQuestionText("What is the capital of France?");
-        question.setRealAnswer(new Answer("Paris", true, question));
+        question.setCorrectAnswer(new Answer("Paris", true, question));
         question.setMockAnswers(Arrays.asList(
             new Answer("London", false, question),
             new Answer("Berlin", false, question),
@@ -103,7 +103,7 @@ class QuestionServiceTest {
         // Arrange
         Question question = new Question();
         question.setQuestionText("What is the capital of France?");
-        question.setRealAnswer(new Answer("Paris", true, question));
+        question.setCorrectAnswer(new Answer("Paris", true, question));
         question.setMockAnswers(Arrays.asList(
             new Answer("London", false, question),
             new Answer("Berlin", false, question),
@@ -120,26 +120,5 @@ class QuestionServiceTest {
         assertEquals(3, result.getMockAnswers().size());
     }
 
-    @Test
-    void testGetRandomQuestionWithShuffledAnswers() {
-        // Arrange
-        Question question = new Question();
-        question.setQuestionText("What is the capital of France?");
-        question.setRealAnswer(new Answer("Paris", true, question));
-        question.setMockAnswers(Arrays.asList(
-            new Answer("London", false, question),
-            new Answer("Berlin", false, question),
-            new Answer("Rome", false, question)
-        ));
 
-        when(questionRepository.findRandomQuestion()).thenReturn(question);
-
-        // Act
-        QuestionWithShuffledAnswersDto result = adminQuestionService.getRandomQuestionWithShuffledAnswers();
-
-        // Assert
-        assertNotNull(result);
-        assertEquals("What is the capital of France?", result.getQuestionText());
-        assertEquals(4, result.getShuffledAnswers().size());  // 1 real answer + 3 mock answers
-    }
 }

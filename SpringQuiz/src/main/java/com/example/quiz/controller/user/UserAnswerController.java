@@ -43,8 +43,15 @@ public class UserAnswerController {
         boolean isCorrect = userAnswerService.isCorrectAnswer(answerDto, currentQuestion);
 
         if (!isCorrect) {
+        	// TODO: decrease lifes / quiz failed -> restart / etc.
             return ResponseEntity.ok("Incorrect answer!");
         }
+        
+        //DEBUGGING mark question as done
+        quizState.markQuestionAsCompleted(currentQuestion.getId());
+        
+        //increment score 
+        quizState.incrementScore();
         
         return ResponseEntity.ok("Correct answer!");
     }
