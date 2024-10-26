@@ -23,11 +23,11 @@ public class AdminQuestionController {
         return adminQuestionService.getQuestionById(id);
     }
     
-    // Get a random question with shuffled answers including realAnswer and answers from the mock-answer pool
-    @GetMapping
-    public QuestionWithShuffledAnswersDto getRandomQuestionWithShuffledAnswers() {
-        return adminQuestionService.getRandomQuestionWithShuffledAnswers();
-    }
+//    // Get a random question with shuffled answers including realAnswer and answers from the mock-answer pool
+//    @GetMapping
+//    public QuestionWithShuffledAnswersDto getRandomQuestionWithShuffledAnswers() {
+//        return adminQuestionService.getQuestionWithShuffledAnswersDto();
+//    }
 
     // Create a new question
     @PostMapping

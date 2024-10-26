@@ -85,12 +85,7 @@ public class Question {
         this.mockAnswers = mockAnswers;
     }
     
-    public Answer getCorrectAnswer() {
-        return correctAnswer;
-    }
 
-    public void setCorrectAnswer(Answer answer) {
-        this.correctAnswer = answer;
     public CorrectAnswer getCorrectAnswer() {
         return correctAnswer;
     }
