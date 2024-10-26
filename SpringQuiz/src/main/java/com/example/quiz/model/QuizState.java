@@ -28,7 +28,7 @@ public class QuizState {
     // Constructor to initialize a new quiz
     public QuizState() {
         this.allQuestions = new ArrayList<>();
-        this.currentQuestionIndex = -1; //TODO  as long as there is no question we keep this -1 because we increase everytime we generate a new question. so this always points to the current question.
+        this.currentQuestionIndex = 0;
         this.completedQuestionIds = new HashSet<>();
         this.score = 0;  // Initialize score to 0
     }

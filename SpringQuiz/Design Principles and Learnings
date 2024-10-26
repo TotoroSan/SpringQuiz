@@ -1,4 +1,3 @@
 - separation of concerns 
-- controllers handle interaction with session objects and their attributes
-- frontend layer only consumes and produces data transfer objects (dto)
--
+- controllers handle interaction with session objects and attributes
+- 

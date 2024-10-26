@@ -43,6 +43,7 @@ public class UserAnswerController {
         boolean isCorrect = userAnswerService.isCorrectAnswer(answerDto, currentQuestion);
 
         if (!isCorrect) {
+<<<<<<< HEAD
         	// TODO: decrease lifes / quiz failed -> restart / etc.
             return ResponseEntity.ok(false);
         }
@@ -54,5 +55,11 @@ public class UserAnswerController {
         quizState.incrementScore();
         
         return ResponseEntity.ok(true);
+=======
+            return ResponseEntity.ok("Incorrect answer!");
+        }
+        
+        return ResponseEntity.ok("Correct answer!");
+>>>>>>> parent of d1b4186 (Updated Model)
     }
 }

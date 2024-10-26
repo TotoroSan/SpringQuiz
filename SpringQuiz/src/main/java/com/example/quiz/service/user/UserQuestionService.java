@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.example.quiz.exception.ResourceNotFoundException;
 import com.example.quiz.model.Answer;
 import com.example.quiz.model.AnswerDto;
-import com.example.quiz.model.MockAnswer;
 import com.example.quiz.model.Question;
 import com.example.quiz.model.QuestionDto;
 import com.example.quiz.model.QuestionWithShuffledAnswersDto;
@@ -61,23 +60,13 @@ public class UserQuestionService {
 
         // Add the correct answer
         finalAnswers.add(new AnswerDto(question.getCorrectAnswer().getId(), question.getCorrectAnswer().getAnswerText()));
-        // Debug
-        System.out.println("Non copy before shuffle: " + question.getMockAnswers());
-        // Create a copy of the mock answers list to shuffle
-        List<MockAnswer> mockAnswersCopy = new ArrayList<>(question.getMockAnswers());
-        
-        
 
-        // Debug
-        System.out.println("Mock answers before shuffle: " + mockAnswersCopy);
-        
+        // Create a copy of the mock answers list to shuffle
+        List<Answer> mockAnswersCopy = new ArrayList<>(question.getMockAnswers());
         Collections.shuffle(mockAnswersCopy);  // Shuffle the copied list
-        
-        // Debug
-        System.out.println("Mock answers after shuffle: " + mockAnswersCopy);
 
         // Add up to 3 mock answers from the shuffled copy
-        for (int i = 0; i < Math.min(3, mockAnswersCopy.size()); i++) {
+        for (int i = 0; i < Math.min(3,mockAnswersCopy.size()); i++) {
         	finalAnswers.add(new AnswerDto(mockAnswersCopy.get(i).getId(), mockAnswersCopy.get(i).getAnswerText()));
         }
 

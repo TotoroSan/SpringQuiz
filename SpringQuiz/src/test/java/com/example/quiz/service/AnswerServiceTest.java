@@ -1,4 +1,4 @@
-package com.example.quiz.service.user;
+package com.example.quiz.service;
 
 import com.example.quiz.model.Answer;
 import com.example.quiz.model.CorrectAnswer;
@@ -16,7 +16,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class UserAnswerServiceTest {
+public class AnswerServiceTest {
 
     @Mock
     private AnswerRepository answerRepository;

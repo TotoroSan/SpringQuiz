@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import com.example.quiz.exception.ResourceNotFoundException;
 import com.example.quiz.model.Answer;
 import com.example.quiz.model.AnswerDto;
-import com.example.quiz.model.CorrectAnswer;
-import com.example.quiz.model.MockAnswer;
 import com.example.quiz.model.Question;
 import com.example.quiz.model.QuestionDto;
 import com.example.quiz.model.QuestionWithShuffledAnswersDto;
@@ -25,50 +23,28 @@ public class AdminQuestionService {
     @Autowired
     private QuestionRepository questionRepository;
 
-    @SuppressWarnings("deprecation")
-	public QuestionDto createQuestionFromDto(QuestionDto questionDto) {
+    public QuestionDto createQuestionFromDto(QuestionDto questionDto) {
 
         // create question model object
         Question question = new Question();
 
-        List<MockAnswer> mockAnswers = new ArrayList<>();
+        List<Answer> mockAnswers = new ArrayList<>();
 
         // create mockAnswer objects
         for (String mockAnswer : questionDto.getMockAnswers()) {
-        	mockAnswers.add(new MockAnswer(mockAnswer, question));
+        	mockAnswers.add(new Answer(mockAnswer, false, question));
         }
-        
+
         // create real answer object
-        CorrectAnswer correctAnswer = new CorrectAnswer(questionDto.getRealAnswer(),question);
+        Answer realAnswer = new Answer(questionDto.getRealAnswer(), true, question);
 
         // update question model object
         question.setQuestionText(questionDto.getQuestionText());
-        question.setCorrectAnswer(correctAnswer);
+        question.setRealAnswer(realAnswer);
         question.setMockAnswers(mockAnswers);
-        
-        // DEBUG: Print out mock answers and correct answer before saving
-        System.out.println("Correct Answer BEFORE SAVING: " + question.getCorrectAnswer().getAnswerText());
-        for (Answer mockAnswer : question.getMockAnswers()) {
-            System.out.println("Mock Answer: " + mockAnswer.getAnswerText());
-        }
 
         Question savedQuestion = questionRepository.save(question);
-          
-        // DEBUG: Print out mock answers and correct answer before saving
-        System.out.println("Correct Answer AFTER SAVING: " + savedQuestion.getCorrectAnswer().getAnswerText());
-        for (Answer mockAnswer : savedQuestion.getMockAnswers()) {
-            System.out.println("Mock Answer: " + mockAnswer.getAnswerText());
-        }
-        
-        savedQuestion = questionRepository.getById(savedQuestion.getId());
-        
-        // DEBUG: Print out mock answers and correct answer before saving
-        System.out.println("Correct Answer AFTER RETREIVING: " + savedQuestion.getCorrectAnswer().getAnswerText());
-        for (Answer mockAnswer : savedQuestion.getMockAnswers()) {
-            System.out.println("Mock Answer: " + mockAnswer.getAnswerText());
-        }
-        
-        
+
         return convertToDto(savedQuestion);
     }
 
@@ -81,13 +57,13 @@ public class AdminQuestionService {
         existingQuestion.setQuestionText(questionDto.getQuestionText());
 
         // Update real answer
-        CorrectAnswer correctAnswer = new CorrectAnswer(questionDto.getRealAnswer(), existingQuestion);
-        existingQuestion.setCorrectAnswer(correctAnswer);
+        Answer realAnswer = new Answer(questionDto.getRealAnswer(), true, existingQuestion);
+        existingQuestion.setRealAnswer(realAnswer);
 
         // Update mock answers
-        List<MockAnswer> mockAnswers = questionDto.getMockAnswers()
+        List<Answer> mockAnswers = questionDto.getMockAnswers()
                 .stream()
-                .map(mockAnswerText -> new MockAnswer(mockAnswerText, existingQuestion))
+                .map(mockAnswerText -> new Answer(mockAnswerText, false, existingQuestion))
                 .collect(Collectors.toList());
         existingQuestion.setMockAnswers(mockAnswers);
 
@@ -106,7 +82,7 @@ public class AdminQuestionService {
     }
 
     public QuestionDto convertToDto(Question question) {
-        String correctAnswerText = question.getCorrectAnswer().getAnswerText();
+        String realAnswerText = question.getRealAnswer().getAnswerText();
 
         // extract mockAnswer text as string from answer objects
         List<String> mockAnswersText = question.getMockAnswers()
@@ -116,7 +92,7 @@ public class AdminQuestionService {
 
         QuestionDto questionDto = new QuestionDto();
         questionDto.setQuestionText(question.getQuestionText());
-        questionDto.setRealAnswer(correctAnswerText);
+        questionDto.setRealAnswer(realAnswerText);
         questionDto.setMockAnswers(mockAnswersText);
 
         return questionDto;
@@ -129,5 +105,33 @@ public class AdminQuestionService {
         // Delete the question
         questionRepository.delete(question);
     }
+    // Get a random question
+	public QuestionWithShuffledAnswersDto getRandomQuestionWithShuffledAnswers() {
+		// TODO check where to add exception for findRandomQuestion (e.g. there are no questions left)
+		// we use this datatype and not questionDto because we do not want to reveal real true answer to the client
 
+		// get random question from repository
+		Question question = questionRepository.findRandomQuestion();
+
+		// Prepare a list to hold the final answers (including the real one)
+        List<AnswerDto> finalAnswers = new ArrayList<>();
+
+        // Add the correct answer
+        finalAnswers.add(new AnswerDto(question.getRealAnswer().getId(), question.getRealAnswer().getAnswerText()));
+
+        // Create a copy of the mock answers list to shuffle
+        List<Answer> mockAnswersCopy = new ArrayList<>(question.getMockAnswers());
+        Collections.shuffle(mockAnswersCopy);  // Shuffle the copied list
+
+        // Add up to 3 mock answers from the shuffled copy
+        for (int i = 0; i < Math.min(3,mockAnswersCopy.size()); i++) {
+        	finalAnswers.add(new AnswerDto(mockAnswersCopy.get(i).getId(), mockAnswersCopy.get(i).getAnswerText()));
+        }
+
+        // Shuffle the final list of answers (real + selected mock answers)
+        Collections.shuffle(finalAnswers);
+
+        // Return the question with the shuffled answers
+        return new QuestionWithShuffledAnswersDto(question.getQuestionText(), finalAnswers);
+	}
 }

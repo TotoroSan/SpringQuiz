@@ -1,19 +1,14 @@
 package com.example.quiz.model;
 
-import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "answer_type")
-public abstract class Answer {
+public class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +18,7 @@ public abstract class Answer {
     private boolean isCorrect; // this flags if it is a mock answer or not 
 
     @ManyToOne
-    @JoinColumn(name = "question_id") // Foreign key in Answer table
+    @JoinColumn(name = "question_id")
     private Question question;
 
     // Constructors
@@ -34,13 +29,7 @@ public abstract class Answer {
         this.isCorrect = isCorrect;
         this.question = question;
     }
-    
-    @Override
-    public String toString() {
-        return "Answer Text: " + answerText;
-    }
-    
-    
+
     // Getters and Setters
     public Long getId() {
         return id;
@@ -73,6 +62,5 @@ public abstract class Answer {
     public void setQuestion(Question question) {
         this.question = question;
     }
-
 }
 

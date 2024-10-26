@@ -10,7 +10,6 @@ import com.example.quiz.service.user.UserQuestionService;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -26,20 +25,15 @@ public class UserQuestionController {
 
     // Get a random question with shuffled answers including realAnswer and answers from the mock-answer pool
     @GetMapping
-    public ResponseEntity<QuestionWithShuffledAnswersDto> getRandomQuestionWithShuffledAnswers(HttpSession session) {
+    public QuestionWithShuffledAnswersDto getRandomQuestionWithShuffledAnswers(HttpSession session) {
     	QuizState quizState = (QuizState) session.getAttribute("quizState");
     	
-    	// add next question to session
-    	Question currentQuestion = userQuestionService.getRandomQuestion();
-    	quizState.addQuestion(currentQuestion);
-    	quizState.incrementQuestionIndex();
-    	
-    	System.out.println("Mock answers before shuffle after load" + currentQuestion.getMockAnswers());
-    	
-        QuestionWithShuffledAnswersDto questionWithShuffledAnswersDto = userQuestionService.createQuestionWithShuffledAnswersDto(currentQuestion);
+
+        QuestionWithShuffledAnswersDto questionWithShuffledAnswersDto = userQuestionService.getRandomQuestionWithShuffledAnswers();
         
-         
-        return ResponseEntity.ok(questionWithShuffledAnswersDto); 
+        // TODO explicit search is placeholder. maybe change question lookup and just insert DTO or create extra datatype that is non DTO. 
+        
+        return null; 
         // set new question as active 
     }
     

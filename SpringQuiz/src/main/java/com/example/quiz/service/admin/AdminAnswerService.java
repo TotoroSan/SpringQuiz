@@ -3,8 +3,6 @@ package com.example.quiz.service.admin;
 
 import com.example.quiz.exception.ResourceNotFoundException;
 import com.example.quiz.model.Answer;
-import com.example.quiz.model.CorrectAnswer;
-import com.example.quiz.model.MockAnswer;
 import com.example.quiz.repository.AnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +18,6 @@ public class AdminAnswerService {
 
     // Create a new Answer
     public Answer createAnswer(Answer answer) {
-    	if (answer.isCorrect()) {
-    		answer = new CorrectAnswer(answer.getAnswerText(), answer.getQuestion());
-    	} else {
-    		answer = new MockAnswer(answer.getAnswerText(), answer.getQuestion());
-    	}
         return answerRepository.save(answer);
     }
 

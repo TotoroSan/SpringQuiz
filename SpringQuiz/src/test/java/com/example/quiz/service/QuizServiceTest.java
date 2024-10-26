@@ -1,4 +1,4 @@
-package com.example.quiz.service.user;
+package com.example.quiz.service;
 
 import com.example.quiz.model.Quiz;
 import com.example.quiz.repository.QuizRepository;
@@ -15,7 +15,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class UserQuizServiceTest {
+public class QuizServiceTest {
 
     @Mock
     private QuizRepository quizRepository; // object which should be mocked (i.e. instead of actually calling the function a mock object will be returned)

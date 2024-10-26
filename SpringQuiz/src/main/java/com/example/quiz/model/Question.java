@@ -26,30 +26,20 @@ public class Question {
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
     
-   
-    
     // Cascade the save operation to the real answer (i.e. if a question object is saved, the associated real answer object is also saved)
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
-    @JoinColumn(name = "correct_answer_id", referencedColumnName = "id")  // Separate column for correct answer
-    private CorrectAnswer correctAnswer;
-    
-    // Reminder: we need this mock_answer_question_id because JPA otherwise throws correct answer and mock answer 
-    // together since they are both associated with the same question id and are both the same data type.
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    //@JoinColumn(name = "mock_answer_question_id")  // Separate column for mock answers
-    private List<MockAnswer> mockAnswers;
-    
+    @OneToOne(cascade = CascadeType.ALL) 
+    @JoinColumn(name = "real_answer_id")
+    private Answer correctAnswer;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Answer> mockAnswers;
+
     // Constructors
     public Question() {}
 
     public Question(String questionText, Quiz quiz) {
         this.questionText = questionText;
         this.quiz = quiz;
-    }
-    
-    @Override
-    public String toString() {
-        return "Question Text: " + questionText;
     }
 
     // Getters and Setters
@@ -77,20 +67,20 @@ public class Question {
         this.quiz = quiz;
     }
 
-    public List<MockAnswer> getMockAnswers() {
+    public List<Answer> getMockAnswers() {
         return mockAnswers;
     }
 
-    public void setMockAnswers(List<MockAnswer> mockAnswers) {
-        this.mockAnswers = mockAnswers;
+    public void setMockAnswers(List<Answer> answers) {
+        this.mockAnswers = answers;
     }
     
-    public CorrectAnswer getCorrectAnswer() {
+    public Answer getRealAnswer() {
         return correctAnswer;
     }
 
-    public void setCorrectAnswer(CorrectAnswer correctAnswer) {
-        this.correctAnswer = correctAnswer;
+    public void setRealAnswer(Answer answer) {
+        this.correctAnswer = answer;
     }
     
   

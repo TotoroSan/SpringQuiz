@@ -82,17 +82,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<!--TODO temporarily disable test -->
-	        <plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-surefire-plugin</artifactId>
-	             <!-- Adjust to the version you're using -->
-	            <configuration>
-	                <skipTests>true</skipTests>
-	            </configuration>
-	        </plugin>
-	    </plugins>
-
+		</plugins>
 	</build>
 
 </project>
