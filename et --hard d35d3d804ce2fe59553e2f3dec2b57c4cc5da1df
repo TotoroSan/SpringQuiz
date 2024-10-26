@@ -1,0 +1,125 @@
+[33mcommit 219d2bad3a046a0d351ff7f00cb1bfd481f2b378[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Sat Oct 26 22:15:01 2024 +0200
+
+    ok
+
+[33mcommit 098340dbdf5361ce364295a5a7a29f3031189c53[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Sat Oct 26 22:14:59 2024 +0200
+
+    ok
+
+[33mcommit c5d6939cbed4a948808ba44b4d6150dc141a1d3c[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Sat Oct 26 22:14:30 2024 +0200
+
+    ok
+
+[33mcommit e1cc49d23df2585e3e84c09d08774a4ae5368667[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Sat Oct 26 22:14:20 2024 +0200
+
+    ok
+
+[33mcommit b10c8544e4772fc7ec77cfa789bfbd4bf8befae0[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Sat Oct 26 22:12:52 2024 +0200
+
+    reverting
+
+[33mcommit 605aca1ed71dd4c1e97e95f46846a7e7c36f4393[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Sat Oct 26 22:01:25 2024 +0200
+
+    reverting
+
+[33mcommit f6fd0ea396cfd47232506fff85996aa4d82db047[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Sat Oct 26 21:58:15 2024 +0200
+
+    update
+
+[33mcommit ea8f5a34f00ac0db04ec62d04a42dba128523aa2[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Sat Oct 26 21:07:31 2024 +0200
+
+    Update
+
+[33mcommit ae8f15a819589b763ef58123e50edeb0c868d905[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Sat Oct 26 21:07:01 2024 +0200
+
+    Update
+
+[33mcommit 1a2ebc3cbdec2cf98b2a30ad17182f05481a7a47[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Sat Oct 26 21:06:34 2024 +0200
+
+    Update
+
+[33mcommit d35d3d804ce2fe59553e2f3dec2b57c4cc5da1df[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Sat Oct 26 15:15:31 2024 +0200
+
+    Bug fixes
+
+[33mcommit f090eb0f999f03ab5d3f061ea67360a3391fcefa[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Sun Sep 22 00:32:03 2024 +0200
+
+    Adjusted React frontend support
+    
+    Added frontend form support for user login
+
+[33mcommit d1b4186cce5c406a8c5e6640cf2f56291806a3c7[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Sat Sep 21 19:33:47 2024 +0200
+
+    Updated Model
+    
+    Added CorrectAnswer and MockAnswer subclasses
+
+[33mcommit 92d00b5ff4756d8b8e30540fae0af131d78f9c5d[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Fri Sep 20 18:29:55 2024 +0200
+
+    Statefulness + Separation of concerns
+    
+    Split service + controller layer into admin and service version
+    Added statefulness via http session attributes to track quiz state in backend
+
+[33mcommit 77dec546525c37e7df3addbc7645dd924b0f7c36[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Fri Sep 20 14:43:16 2024 +0200
+
+    Update
+    
+    Added Question Methods
+    Added QuizState Model (for Transition to stateful)
+    Added Basic Endpoint Protection
+    Added Data Transfer Objects for Question and Answer
+
+[33mcommit b0872344202f57b5cb199a44a392acca5b69f07c[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Fri Sep 13 14:14:00 2024 +0200
+
+    Added Swagger
+
+[33mcommit f5128aa2d64b8c495d6e02568f545a5b844fa176[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Thu Sep 12 18:08:27 2024 +0200
+
+    completed skeleton
+            added controller
+            added model
+            added repository
+            added service
+            added exception
+            added test classes
+
+[33mcommit 6f7f41aea4e58193f43994fdce4adfe7d96f855a[m
+Author: TotoroSan <philipp.gsell@live.de>
+Date:   Wed Sep 11 17:02:18 2024 +0200
+
+    initial commit
