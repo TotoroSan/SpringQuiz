@@ -1,10 +1,13 @@
 package com.example.quiz.config;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 =======
+=======
+>>>>>>> parent of 1a2ebc3 (Update)
 =======
 >>>>>>> parent of 1a2ebc3 (Update)
 

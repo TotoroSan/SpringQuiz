@@ -25,12 +25,15 @@ public class AdminQuestionController {
     
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 //    // Get a random question with shuffled answers including realAnswer and answers from the mock-answer pool
 //    @GetMapping
 //    public QuestionWithShuffledAnswersDto getRandomQuestionWithShuffledAnswers() {
 //        return adminQuestionService.getQuestionWithShuffledAnswersDto();
 //    }
 
+=======
+>>>>>>> parent of 1a2ebc3 (Update)
 =======
 >>>>>>> parent of 1a2ebc3 (Update)
 =======
