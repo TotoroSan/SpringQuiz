@@ -75,11 +75,11 @@ public class Question {
         this.mockAnswers = answers;
     }
     
-    public Answer getRealAnswer() {
+    public Answer getCorrectAnswer() {
         return correctAnswer;
     }
 
-    public void setRealAnswer(Answer answer) {
+    public void setCorrectAnswer(Answer answer) {
         this.correctAnswer = answer;
     }
     
