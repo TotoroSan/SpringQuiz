@@ -7,7 +7,8 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("MOCK")
 public class MockAnswer extends Answer {
 	
-	public MockAnswer() {	
+	public MockAnswer() {
+		super.setCorrect(false); // TODO keep?
 	}
 	
     // You can add specific behavior for mock answers if needed

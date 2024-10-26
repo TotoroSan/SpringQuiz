@@ -1,8 +1,10 @@
 package com.example.quiz.config;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,7 +13,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -20,57 +23,47 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // Enable CORS and disable CSRF
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))  // Add CORS configuration
-            .csrf(csrf -> csrf.disable())  // Disable CSRF for simplicity in dev
-            
-            // Configure login and other routes
+            // Enable CORS and disable CSRF, explicitly ignore for H2 console
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**").disable())  // Disable CSRF for H2 console
+
+            // Configure authorization for routes
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/h2-console/**").permitAll()  // Allow access to H2 console
-                .requestMatchers("/admin/**").hasRole("ADMIN")  // Admin role for /admin
-                .anyRequest().authenticated()  // All other endpoints require authentication
+                .requestMatchers("/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()  // Allow access to H2 console and Swagger
+                .requestMatchers("/login", "/logout").permitAll()  // Permit access to login/logout
+                .requestMatchers("/admin/**").hasRole("ADMIN")  // Require ADMIN role for /admin
+                .anyRequest().authenticated()  // Authenticate all other routes
             )
-            .formLogin(form -> form
-                .loginPage("/login").permitAll()  // Use Spring Security's default login page
-                .defaultSuccessUrl("/quiz", true)  // Redirect after successful login
+            .headers(headers -> headers
+                .frameOptions().sameOrigin()  // Allow H2 console in frames from the same origin
             )
-            .logout(logout -> logout.permitAll());  // Allow logout for everyone
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+            )
+            .formLogin(form -> form // TODO custom login page and redirection can be added here 
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .permitAll());
 
         return http.build();
     }
 
-    // CORS configuration bean to allow specific origins
+    // CORS configuration to allow requests from the frontend
     @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);  // Allow credentials (cookies, session IDs, etc.)
-        config.addAllowedOrigin("http://localhost:3000");  // Allow this origin only
-        config.addAllowedHeader("*");  // Allow all headers
-        config.addAllowedMethod("*");  // Allow all methods (POST, GET, etc.)
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
-    }
-    
-    // if we had a own security controller and would not use spring security, we would set this configuration 
-    //via annotation in the controllerclass
-    @Bean 
     public CorsConfigurationSource corsConfigurationSource() {
-        // Create a new CorsConfiguration object
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);  // Allow credentials (cookies, etc.)
-        config.addAllowedOrigin("http://localhost:3000");  // Specify allowed origin
+        config.setAllowedOrigins(List.of("http://localhost:3000"));  // Frontend origin
+        config.setAllowCredentials(true);  // Allow cookies and session IDs
         config.addAllowedHeader("*");  // Allow all headers
         config.addAllowedMethod("*");  // Allow all HTTP methods (GET, POST, etc.)
 
-        // Register the configuration for all paths ("/**")
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);  // Apply to all routes
-
+        source.registerCorsConfiguration("/**", config);  // Apply CORS settings globally
         return source;
     }
 
-    // Dummy in-memory user details for testing
+    // In-memory users for testing
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails admin = User.withUsername("admin")

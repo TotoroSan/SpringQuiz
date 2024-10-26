@@ -1,6 +1,7 @@
 package com.example.quiz.service.user;
 
 import com.example.quiz.model.Answer;
+import com.example.quiz.model.CorrectAnswer;
 import com.example.quiz.repository.AnswerRepository;
 import com.example.quiz.service.admin.AdminAnswerService;
 import com.example.quiz.exception.ResourceNotFoundException;
@@ -31,7 +32,7 @@ public class UserAnswerServiceTest {
     @Test
     public void testCreateAnswer() {
         // Arrange
-        Answer answer = new Answer();
+        CorrectAnswer answer = new CorrectAnswer();
         answer.setAnswerText("Sample Answer");
         when(answerRepository.save(any(Answer.class))).thenReturn(answer);
 

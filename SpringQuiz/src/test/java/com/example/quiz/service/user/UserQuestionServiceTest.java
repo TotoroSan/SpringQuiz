@@ -2,6 +2,8 @@ package com.example.quiz.service.user;
 
 import com.example.quiz.exception.ResourceNotFoundException;
 import com.example.quiz.model.Answer;
+import com.example.quiz.model.CorrectAnswer;
+import com.example.quiz.model.MockAnswer;
 import com.example.quiz.model.Question;
 import com.example.quiz.model.QuestionDto;
 import com.example.quiz.model.QuestionWithShuffledAnswersDto;
@@ -43,15 +45,15 @@ class UserQuestionServiceTest {
         questionDto.setMockAnswers(Arrays.asList("London", "Berlin", "Rome"));
 
         Question question = new Question();
-        Answer realAnswer = new Answer("Paris", true, question);
-        List<Answer> mockAnswers = Arrays.asList(
-            new Answer("London", false, question),
-            new Answer("Berlin", false, question),
-            new Answer("Rome", false, question)
+        CorrectAnswer correctAnswer = new CorrectAnswer("Paris", question);
+        List<MockAnswer> mockAnswers = Arrays.asList(
+            new MockAnswer("London", question),
+            new MockAnswer("Berlin", question),
+            new MockAnswer("Rome", question)
         );
 
         question.setQuestionText("What is the capital of France?");
-        question.setCorrectAnswer(realAnswer);
+        question.setCorrectAnswer(correctAnswer);
         question.setMockAnswers(mockAnswers);
 
         when(questionRepository.save(any(Question.class))).thenReturn(question);
@@ -71,12 +73,12 @@ class UserQuestionServiceTest {
         // Arrange
         Question question = new Question();
         question.setQuestionText("What is the capital of France?");
-        question.setCorrectAnswer(new Answer("Paris", true, question));
-        question.setMockAnswers(Arrays.asList(
-            new Answer("London", false, question),
-            new Answer("Berlin", false, question),
-            new Answer("Rome", false, question)
-        ));
+        CorrectAnswer correctAnswer = new CorrectAnswer("Paris", question);
+        List<MockAnswer> mockAnswers = Arrays.asList(
+            new MockAnswer("London", question),
+            new MockAnswer("Berlin", question),
+            new MockAnswer("Rome", question)
+        );
 
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question));
 
@@ -103,12 +105,12 @@ class UserQuestionServiceTest {
         // Arrange
         Question question = new Question();
         question.setQuestionText("What is the capital of France?");
-        question.setCorrectAnswer(new Answer("Paris", true, question));
-        question.setMockAnswers(Arrays.asList(
-            new Answer("London", false, question),
-            new Answer("Berlin", false, question),
-            new Answer("Rome", false, question)
-        ));
+        CorrectAnswer correctAnswer = new CorrectAnswer("Paris", question);
+        List<MockAnswer> mockAnswers = Arrays.asList(
+            new MockAnswer("London", question),
+            new MockAnswer("Berlin", question),
+            new MockAnswer("Rome", question)
+        );
 
         // Act
         QuestionDto result = adminQuestionService.convertToDto(question);

@@ -2,6 +2,7 @@ package com.example.quiz.controller.user;
 
 import com.example.quiz.controller.admin.AdminAnswerController;
 import com.example.quiz.model.Answer;
+import com.example.quiz.model.CorrectAnswer;
 import com.example.quiz.service.admin.AdminAnswerService;
 
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ public class UserAnswerControllerTest {
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void testGetAnswerById() throws Exception {
         // Arrange
-        Answer answer = new Answer();
+    	CorrectAnswer answer = new CorrectAnswer();
         answer.setAnswerText("Sample Answer");
         when(adminAnswerService.getAnswerById(1L)).thenReturn(Optional.of(answer));
 
@@ -50,9 +51,9 @@ public class UserAnswerControllerTest {
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void testCreateAnswer() throws Exception {
         // Arrange
-        Answer answer = new Answer();
+    	CorrectAnswer answer = new CorrectAnswer();
         answer.setAnswerText("New Answer");
-        when(adminAnswerService.createAnswer(any(Answer.class))).thenReturn(answer);
+        when(adminAnswerService.createAnswer(any(CorrectAnswer.class))).thenReturn(answer);
 
         // Act & Assert
         mockMvc.perform(post("/api/answers")
@@ -62,6 +63,6 @@ public class UserAnswerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.answerText").value("New Answer"));
 
-        verify(adminAnswerService, times(1)).createAnswer(any(Answer.class));
+        verify(adminAnswerService, times(1)).createAnswer(any(CorrectAnswer.class));
     }
 }

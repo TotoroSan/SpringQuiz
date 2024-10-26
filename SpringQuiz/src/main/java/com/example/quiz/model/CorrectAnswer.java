@@ -7,7 +7,8 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("CORRECT")
 public class CorrectAnswer extends Answer {
 	
-	public CorrectAnswer() {	
+	public CorrectAnswer() {
+		super.setCorrect(true); // TODO keep?
 	};
 	
     // You can add specific behavior for correct answers if needed
