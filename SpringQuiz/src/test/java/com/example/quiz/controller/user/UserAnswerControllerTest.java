@@ -1,4 +1,4 @@
-package com.example.quiz.controller;
+package com.example.quiz.controller.user;
 
 import com.example.quiz.controller.admin.AdminAnswerController;
 import com.example.quiz.model.Answer;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AdminAnswerController.class)
-public class AnswerControllerTest {
+public class UserAnswerControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

@@ -1,4 +1,4 @@
-package com.example.quiz.controller;
+package com.example.quiz.controller.user;
 
 import com.example.quiz.controller.admin.AdminQuizController;
 import com.example.quiz.model.Quiz;
@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AdminQuizController.class)
-public class QuizControllerTest {
+public class UserQuizControllerTest {
 	
 	// MockMvc is used to simulate HTTP requests to the controller
     @Autowired
