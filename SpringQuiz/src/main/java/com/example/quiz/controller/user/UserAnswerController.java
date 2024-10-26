@@ -36,8 +36,11 @@ public class UserAnswerController {
 
         if (!isCorrect) {
 <<<<<<< HEAD
+<<<<<<< HEAD
             // TODO: decrease lives / handle quiz failure
 =======
+=======
+>>>>>>> parent of 1a2ebc3 (Update)
         	// TODO: decrease lifes / quiz failed -> restart / etc.
 >>>>>>> parent of 1a2ebc3 (Update)
             return ResponseEntity.ok(false);

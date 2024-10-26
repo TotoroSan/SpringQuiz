@@ -1,14 +1,20 @@
 package com.example.quiz.config;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 =======
+=======
+>>>>>>> parent of 1a2ebc3 (Update)
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+<<<<<<< HEAD
+>>>>>>> parent of 1a2ebc3 (Update)
+=======
 >>>>>>> parent of 1a2ebc3 (Update)
 import com.example.quiz.model.Answer;
 import com.example.quiz.model.CorrectAnswer;
@@ -16,7 +22,13 @@ import com.example.quiz.model.MockAnswer;
 import com.example.quiz.model.Question;
 import com.example.quiz.repository.QuestionRepository;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import java.util.Arrays;
+=======
+
+import java.util.Arrays;
+
+>>>>>>> parent of 1a2ebc3 (Update)
 =======
 
 import java.util.Arrays;
@@ -40,6 +52,10 @@ public class DataLoader {
                     new MockAnswer("Rome", question1)
             ));
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 1a2ebc3 (Update)
 =======
 
 >>>>>>> parent of 1a2ebc3 (Update)
@@ -53,6 +69,10 @@ public class DataLoader {
                     new MockAnswer("Galileo", question2)
             ));
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 1a2ebc3 (Update)
 =======
 
 >>>>>>> parent of 1a2ebc3 (Update)
@@ -62,7 +82,11 @@ public class DataLoader {
         };
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> parent of 1a2ebc3 (Update)
 =======
 }
 >>>>>>> parent of 1a2ebc3 (Update)
