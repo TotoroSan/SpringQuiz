@@ -35,7 +35,11 @@ public class UserAnswerController {
         boolean isCorrect = userAnswerService.isCorrectAnswer(answerDto, currentQuestion);
 
         if (!isCorrect) {
+<<<<<<< HEAD
             // TODO: decrease lives / handle quiz failure
+=======
+        	// TODO: decrease lifes / quiz failed -> restart / etc.
+>>>>>>> parent of 1a2ebc3 (Update)
             return ResponseEntity.ok(false);
         }
 

@@ -85,7 +85,10 @@ public class Question {
         this.mockAnswers = mockAnswers;
     }
     
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 1a2ebc3 (Update)
     public CorrectAnswer getCorrectAnswer() {
         return correctAnswer;
     }
