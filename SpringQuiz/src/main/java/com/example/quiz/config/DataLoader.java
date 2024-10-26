@@ -13,6 +13,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 1a2ebc3 (Update)
+=======
 >>>>>>> parent of 1a2ebc3 (Update)
 =======
 >>>>>>> parent of 1a2ebc3 (Update)
@@ -23,7 +26,13 @@ import com.example.quiz.model.Question;
 import com.example.quiz.repository.QuestionRepository;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import java.util.Arrays;
+=======
+
+import java.util.Arrays;
+
+>>>>>>> parent of 1a2ebc3 (Update)
 =======
 
 import java.util.Arrays;
@@ -53,6 +62,10 @@ public class DataLoader {
             ));
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 1a2ebc3 (Update)
 =======
 
 >>>>>>> parent of 1a2ebc3 (Update)
@@ -70,6 +83,10 @@ public class DataLoader {
             ));
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 1a2ebc3 (Update)
 =======
 
 >>>>>>> parent of 1a2ebc3 (Update)
@@ -83,7 +100,11 @@ public class DataLoader {
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> parent of 1a2ebc3 (Update)
 =======
 }
 >>>>>>> parent of 1a2ebc3 (Update)
