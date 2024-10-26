@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/service/admin/AdminQuestionServiceTest.java
 //package com.example.quiz.service.admin;
 //
@@ -127,6 +128,8 @@
 //
 //}
 =======
+=======
+>>>>>>> parent of d1b4186 (Updated Model)
 =======
 >>>>>>> parent of d1b4186 (Updated Model)
 package com.example.quiz.service;
@@ -275,6 +278,9 @@ class QuestionServiceTest {
     }
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> parent of d1b4186 (Updated Model):SpringQuiz/src/test/java/com/example/quiz/service/QuestionServiceTest.java
+=======
+>>>>>>> parent of d1b4186 (Updated Model)
 =======
 >>>>>>> parent of d1b4186 (Updated Model)
