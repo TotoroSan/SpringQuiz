@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/service/admin/AdminQuestionServiceTest.java
 //package com.example.quiz.service.admin;
 //
@@ -126,6 +127,8 @@
 //
 //}
 =======
+=======
+>>>>>>> parent of d1b4186 (Updated Model)
 package com.example.quiz.service;
 
 import com.example.quiz.exception.ResourceNotFoundException;
@@ -271,4 +274,7 @@ class QuestionServiceTest {
         assertEquals(4, result.getShuffledAnswers().size());  // 1 real answer + 3 mock answers
     }
 }
+<<<<<<< HEAD
 >>>>>>> parent of d1b4186 (Updated Model):SpringQuiz/src/test/java/com/example/quiz/service/QuestionServiceTest.java
+=======
+>>>>>>> parent of d1b4186 (Updated Model)

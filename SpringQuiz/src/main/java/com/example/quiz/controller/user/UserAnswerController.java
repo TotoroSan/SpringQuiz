@@ -44,6 +44,7 @@ public class UserAnswerController {
 
         if (!isCorrect) {
 <<<<<<< HEAD
+<<<<<<< HEAD
         	// TODO: decrease lifes / quiz failed -> restart / etc.
             return ResponseEntity.ok(false);
         }
@@ -59,6 +60,11 @@ public class UserAnswerController {
             return ResponseEntity.ok("Incorrect answer!");
         }
         
+=======
+            return ResponseEntity.ok("Incorrect answer!");
+        }
+        
+>>>>>>> parent of d1b4186 (Updated Model)
         return ResponseEntity.ok("Correct answer!");
 >>>>>>> parent of d1b4186 (Updated Model)
     }
