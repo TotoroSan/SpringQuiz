@@ -22,6 +22,6 @@ public class UserAnswerService {
     // check if answer is true 
 	public Boolean isCorrectAnswer(AnswerDto answerDto, Question question) {
 		// check answerId against the corresponding question
-		return answerDto.getId() == question.getCorrectAnswer().getId(); 	
+		return answerDto.getId().equals(question.getCorrectAnswer().getId()); 	
 	}
 }

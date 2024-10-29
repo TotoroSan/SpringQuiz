@@ -2,6 +2,9 @@ package com.example.quiz.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,6 +27,7 @@ public class Question {
 
     @ManyToOne
     @JoinColumn(name = "quiz_id")
+    @JsonBackReference // To avoid looping between Question and Quiz
     private Quiz quiz;
     
    
@@ -31,6 +35,7 @@ public class Question {
     // Cascade the save operation to the real answer (i.e. if a question object is saved, the associated real answer object is also saved)
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
     @JoinColumn(name = "correct_answer_id", referencedColumnName = "id")  // Separate column for correct answer
+    @JsonManagedReference // To avoid looping between Question and Answer
     private CorrectAnswer correctAnswer;
     
     // Reminder: we need this mock_answer_question_id because JPA otherwise throws correct answer and mock answer 

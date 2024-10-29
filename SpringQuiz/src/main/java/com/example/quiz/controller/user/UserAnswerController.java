@@ -31,6 +31,7 @@ public class UserAnswerController {
         QuizState quizState = (QuizState) session.getAttribute("quizState");
 
         if (quizState == null) {
+        	System.out.println("Quiz State is null"); 
             return ResponseEntity.badRequest().body(null);
         }
         

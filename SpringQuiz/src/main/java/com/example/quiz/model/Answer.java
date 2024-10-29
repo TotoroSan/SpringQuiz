@@ -1,5 +1,7 @@
 package com.example.quiz.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,9 +23,10 @@ public abstract class Answer {
 
     private String answerText;
     private boolean isCorrect; // this flags if it is a mock answer or not 
-
+    
     @ManyToOne
     @JoinColumn(name = "question_id") // Foreign key in Answer table
+    @JsonBackReference // To avoid looping between Answer and Question TODO switch this qith JsonIdentityInfo approach to only incorporate the id of question into answer. currently nothing is incorporated.
     private Question question;
 
     // Constructors
