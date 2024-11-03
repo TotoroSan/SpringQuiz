@@ -1,3 +1,4 @@
 - separation of concerns 
-- controllers handle interaction with session objects and their attributes
+- controllers handle interaction with session objects and their attributes. Session objects are never propagated
 - frontend layer only consumes and produces data transfer objects (dto)
+- only services interact with the model classes and the repository 

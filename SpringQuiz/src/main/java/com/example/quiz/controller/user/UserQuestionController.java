@@ -6,6 +6,7 @@ import com.example.quiz.model.QuestionWithShuffledAnswersDto;
 import com.example.quiz.model.QuizState;
 import com.example.quiz.service.admin.AdminQuestionService;
 import com.example.quiz.service.user.UserQuestionService;
+import com.example.quiz.service.user.UserQuizStateService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -21,7 +22,9 @@ public class UserQuestionController {
 
     @Autowired
     private UserQuestionService userQuestionService;
-
+    
+    @Autowired
+    private UserQuizStateService userQuizStateService;
     // TODO how does a user interact with questions?
 
     // Get a random question with shuffled answers including realAnswer and answers from the mock-answer pool
@@ -31,8 +34,8 @@ public class UserQuestionController {
     	
     	// add next question to session
     	Question currentQuestion = userQuestionService.getRandomQuestion();
-    	quizState.addQuestion(currentQuestion);
-    	quizState.incrementQuestionIndex();
+    	userQuizStateService.addQuestion(quizState, currentQuestion);
+    	userQuizStateService.incrementCurrentQuestionIndex(quizState);
     	
     	System.out.println("Mock answers before shuffle after load" + currentQuestion.getMockAnswers());
     	

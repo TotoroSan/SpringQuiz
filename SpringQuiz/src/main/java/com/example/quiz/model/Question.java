@@ -38,6 +38,11 @@ public class Question {
     @JsonManagedReference // To avoid looping between Question and Answer
     private CorrectAnswer correctAnswer;
     
+    // question difficulty 1 (easiest) to 10
+    private int difficulty;
+    
+    private String topic;  
+    
     // Reminder: we need this mock_answer_question_id because JPA otherwise throws correct answer and mock answer 
     // together since they are both associated with the same question id and are both the same data type.
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -97,6 +102,22 @@ public class Question {
     public void setCorrectAnswer(CorrectAnswer correctAnswer) {
         this.correctAnswer = correctAnswer;
     }
+
+	public int getDifficulty() {
+		return difficulty;
+	}
+
+	public void setDifficulty(int difficulty) {
+		this.difficulty = difficulty;
+	}
+
+	public String getTopic() {
+		return topic;
+	}
+
+	public void setTopic(String topic) {
+		this.topic = topic;
+	}
     
   
     

@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AdminQuizController.class)
-public class UserQuizControllerTest {
+public class UserQuizStateControllerTest {
 	
 	// MockMvc is used to simulate HTTP requests to the controller
     @Autowired

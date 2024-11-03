@@ -1,5 +1,5 @@
 package com.example.quiz.repository;
 
-public class QuizRepositoryTest {
+public class QuizStateRepositoryTest {
 
 }

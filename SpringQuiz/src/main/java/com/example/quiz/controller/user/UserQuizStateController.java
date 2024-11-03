@@ -7,7 +7,7 @@ import com.example.quiz.model.Quiz;
 import com.example.quiz.model.QuizState;
 import com.example.quiz.service.admin.AdminQuizService;
 import com.example.quiz.service.user.UserQuestionService;
-import com.example.quiz.service.user.UserQuizService;
+import com.example.quiz.service.user.UserQuizStateService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -21,8 +21,8 @@ import java.util.Optional;
 // having the same URI for different actions (like create, update, and delete) but distinguishing them by the HTTP method (POST, PUT, DELETE, etc.) is indeed the best practice in RESTful API design.
 
 @RestController
-@RequestMapping("user/api/quizzes")
-public class UserQuizController {
+@RequestMapping("user/api/quiz")
+public class UserQuizStateController {
 	// this is the controller for quiz management and users accessing session data
 	
 	// we will route requests to different controllers to keep separation of concern.
@@ -30,7 +30,7 @@ public class UserQuizController {
 	// for later: (its possible to first confirm question correctness and then update with second requesst to have centralized place for session)
 	
     @Autowired
-    private UserQuizService userQuizService;
+    private UserQuizStateService userQuizStateService;
 
     // TODO how does a user interact with quizzes?
     
@@ -39,10 +39,25 @@ public class UserQuizController {
     @GetMapping("/start")
     public ResponseEntity<String> startQuiz(HttpSession session) {
         // Initialize a new quiz and store the state in the session
-        QuizState quizState = userQuizService.startNewQuiz();
+        QuizState quizState = userQuizStateService.startNewQuiz();
         session.setAttribute("quizState", quizState);
         return ResponseEntity.ok("Quiz started!");
     }
+    
+    // TODO change to DTO if needed
+    @GetMapping("/state")
+    public ResponseEntity<QuizState> getQuizState(HttpSession session) {
+        QuizState quizState = (QuizState) session.getAttribute("quizState");
+
+        if (quizState == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        
+        System.out.println("Quiz State was fetched"); // debug 
+        return ResponseEntity.ok(quizState);
+    }
+    
+    
 
 //    @GetMapping("/question")
 //    public ResponseEntity<QuestionDto> getNextQuestion(HttpSession session) {
