@@ -1,4 +1,3 @@
-
 package com.example.quiz.config;
 
 import io.swagger.v3.oas.models.Components;
@@ -6,11 +5,10 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-// this is not necessary if we use standard.
+// // Swagger is awesome for automated documentation and integration testing. all controller classes are automatically documented.
 @Configuration
 public class SwaggerConfig {
 
@@ -21,11 +19,9 @@ public class SwaggerConfig {
                 .title("Quiz API")
                 .version("0.1")
                 .description("This is a sample Quiz API documentation using Swagger with Spring Boot"))
-            .addSecurityItem(new SecurityRequirement().addList("basicScheme"))
-            		.components(new Components().addSecuritySchemes("basicScheme",
-                    new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("basic")));
+            .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+            .components(new Components().addSecuritySchemes("bearerAuth",
+                    new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
     }
 }
 
-
-// Swagger is awesome for automated documentation and integration testing. all controller classes are automatically documented.

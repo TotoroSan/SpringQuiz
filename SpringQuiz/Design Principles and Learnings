@@ -2,3 +2,4 @@
 - controllers handle interaction with session objects and their attributes. Session objects are never propagated
 - frontend layer only consumes and produces data transfer objects (dto)
 - only services interact with the model classes and the repository 
+- JWT-Token for user authentication + session cookie for saving the UserQuizState (currently not persisted) 
