@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.quiz.model.User;
+import com.example.quiz.model.entity.User;
 import com.example.quiz.repository.UserRepository;
 
 // breaks with the naming convention (UserXyService) since we might switch this service to some other package

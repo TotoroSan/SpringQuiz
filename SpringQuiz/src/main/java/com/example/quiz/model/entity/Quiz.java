@@ -1,4 +1,4 @@
-package com.example.quiz.model;
+package com.example.quiz.model.entity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

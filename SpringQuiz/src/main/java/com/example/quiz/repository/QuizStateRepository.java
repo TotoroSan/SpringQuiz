@@ -1,10 +1,16 @@
 package com.example.quiz.repository;
 
-import com.example.quiz.model.Quiz;
+import com.example.quiz.model.entity.Quiz;
+import com.example.quiz.model.entity.QuizState;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
+import java.util.Optional;
 
-public interface QuizStateRepository extends JpaRepository<Quiz, Long> {
-    // Custom method to find quizzes by title
-    List<Quiz> findByTitleContaining(String title);
+public interface QuizStateRepository extends JpaRepository<QuizState, Long> {
+    // Custom query to find latest quiz states by userId
+	Optional<QuizState> findFirstByUserIdOrderByIdDesc(Long userId);
+
+    // Custom query to find all quiz states by userId
+    Optional<QuizState> findByUserId(Long userId);
 }

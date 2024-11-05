@@ -1,16 +1,12 @@
 package com.example.quiz.service.user;
 
-import com.example.quiz.model.Quiz;
+import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.repository.QuizStateRepository;
-import com.example.quiz.service.admin.AdminQuizService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -18,10 +14,10 @@ import static org.mockito.Mockito.*;
 public class UserQuizStateServiceTest {
 
     @Mock
-    private QuizStateRepository quizStateRepository; // object which should be mocked (i.e. instead of actually calling the function a mock object will be returned)
+    private QuizStateRepository quizStateRepository; // Mock the repository for testing purposes
 
     @InjectMocks
-    private AdminQuizService adminQuizService; // use the mock objects for testing the service 
+    private UserQuizStateService userQuizStateService; // Service that is being tested, using the mock repository
 
     @BeforeEach
     public void setup() {
@@ -30,46 +26,49 @@ public class UserQuizStateServiceTest {
     }
 
     @Test
-    public void testCreateQuiz() {
+    public void testStartNewQuiz() {
         // Arrange
-        Quiz quiz = new Quiz();
-        quiz.setTitle("Sample Quiz");
+        Long userId = 1L;
+        QuizState quizState = new QuizState(userId);
 
-        // Mock the save method => this basically means: if someone calls save on the mock repository, then return quiz (our "mock" data) this way save is not really called but instead a mock object is returned 
-        // this way we can really test create quiz in an isolated manner 
-        when(quizStateRepository.save(any(Quiz.class))).thenReturn(quiz);
+        // Mock the save method: when save is called on the repository, return the quizState
+        when(quizStateRepository.save(any(QuizState.class))).thenReturn(quizState);
 
         // Act
-        Quiz createdQuiz = adminQuizService.createQuiz(quiz);
+        QuizState createdQuizState = userQuizStateService.startNewQuiz(userId);
 
         // Assert
-        assertEquals("Sample Quiz", createdQuiz.getTitle());
-        verify(quizStateRepository, times(1)).save(quiz);
+        assertEquals(userId, createdQuizState.getUserId());
+        verify(quizStateRepository, times(1)).save(quizState);
     }
 
     @Test
-    public void testGetAllQuizzes() {
+    public void testGetQuizStateByUserId_Found() {
         // Arrange
-        List<Quiz> quizzes = Arrays.asList(new Quiz("Sample Quiz 1"), new Quiz("Sample Quiz 2"));
-        when(quizStateRepository.findAll()).thenReturn(quizzes);
+        Long userId = 1L;
+        QuizState quizState = new QuizState(userId);
+        when(quizStateRepository.findByUserId(userId)).thenReturn(Optional.of(quizState));
 
         // Act
-        List<Quiz> result = adminQuizService.getAllQuizzes();
+        Optional<QuizState> result = userQuizStateService.getLatestQuizStateByUserId(userId);
 
         // Assert
-        assertEquals(2, result.size());
-        assertEquals("Sample Quiz 1", result.get(0).getTitle());
-        verify(quizStateRepository, times(1)).findAll();
+        assertTrue(result.isPresent());
+        assertEquals(userId, result.get().getUserId());
+        verify(quizStateRepository, times(1)).findByUserId(userId);
     }
 
-//    @Test // todo this function doesnt exist yet
-//    public void testGetQuizById_NotFound() {
-//        // Arrange
-//        when(quizRepository.findById(1L)).thenReturn(Optional.empty());
-//
-//        // Act & Assert
-//        assertThrows(RuntimeException.class, () -> {
-//            quizService.getQuizById(1L);
-//        });
-//    }
+    @Test
+    public void testGetQuizStateByUserId_NotFound() {
+        // Arrange
+        Long userId = 1L;
+        when(quizStateRepository.findByUserId(userId)).thenReturn(Optional.empty());
+
+        // Act
+        Optional<QuizState> result = userQuizStateService.getLatestQuizStateByUserId(userId);
+
+        // Assert
+        assertFalse(result.isPresent());
+        verify(quizStateRepository, times(1)).findByUserId(userId);
+    }
 }

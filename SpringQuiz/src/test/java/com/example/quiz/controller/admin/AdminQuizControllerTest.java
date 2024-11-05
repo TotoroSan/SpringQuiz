@@ -1,7 +1,7 @@
 package com.example.quiz.controller.admin;
 
 import com.example.quiz.controller.admin.AdminQuizController;
-import com.example.quiz.model.Quiz;
+import com.example.quiz.model.entity.Quiz;
 import com.example.quiz.service.admin.AdminQuizService;
 
 import org.junit.jupiter.api.Test;

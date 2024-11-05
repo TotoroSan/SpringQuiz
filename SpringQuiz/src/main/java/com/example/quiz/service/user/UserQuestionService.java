@@ -4,18 +4,22 @@ package com.example.quiz.service.user;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.quiz.exception.ResourceNotFoundException;
-import com.example.quiz.model.Answer;
-import com.example.quiz.model.AnswerDto;
-import com.example.quiz.model.MockAnswer;
-import com.example.quiz.model.Question;
-import com.example.quiz.model.QuestionDto;
-import com.example.quiz.model.QuestionWithShuffledAnswersDto;
+import com.example.quiz.model.dto.AnswerDto;
+import com.example.quiz.model.dto.QuestionDto;
+import com.example.quiz.model.dto.QuestionWithShuffledAnswersDto;
+import com.example.quiz.model.entity.Answer;
+import com.example.quiz.model.entity.MockAnswer;
+import com.example.quiz.model.entity.Question;
 import com.example.quiz.repository.QuestionRepository;
 
 @Service
@@ -50,6 +54,24 @@ public class UserQuestionService {
         // Return the question
         return question; 
 	}
+	
+    // Get a random question exluding the ones that have already been answered
+	public Question getRandomQuestionExcludingCompleted(Set<Long> completedQuestionIds) {
+		Pageable pageable = PageRequest.of(0, 1);
+		
+		// get random question from repository that hasn't been answered
+		// this means we get a page with 0 to 1 objects
+		Page<Question> page = questionRepository.findRandomQuestionExcludingCompleted(completedQuestionIds, pageable);
+		
+		if (page.hasContent()) {
+			// Use the retrieved question object
+		    Question question = page.getContent().get(0);
+		    return question;		   
+		} else {
+			throw new ResourceNotFoundException("No more available questions");
+		}
+	}
+	
 	
     // Get a Question with Shuffled Answers
 	public QuestionWithShuffledAnswersDto createQuestionWithShuffledAnswersDto(Question question) {

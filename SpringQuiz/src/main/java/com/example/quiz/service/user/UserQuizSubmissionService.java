@@ -2,7 +2,7 @@ package com.example.quiz.service.user;
 
 
 import com.example.quiz.exception.ResourceNotFoundException;
-import com.example.quiz.model.QuizSubmission;
+import com.example.quiz.model.entity.QuizSubmission;
 import com.example.quiz.repository.QuizSubmissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

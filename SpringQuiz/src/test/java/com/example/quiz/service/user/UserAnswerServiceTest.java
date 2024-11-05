@@ -1,10 +1,11 @@
 package com.example.quiz.service.user;
 
-import com.example.quiz.model.Answer;
-import com.example.quiz.model.CorrectAnswer;
 import com.example.quiz.repository.AnswerRepository;
 import com.example.quiz.service.admin.AdminAnswerService;
 import com.example.quiz.exception.ResourceNotFoundException;
+import com.example.quiz.model.entity.Answer;
+import com.example.quiz.model.entity.CorrectAnswer;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

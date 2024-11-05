@@ -1,7 +1,7 @@
 package com.example.quiz.controller.admin;
 
 
-import com.example.quiz.model.Answer;
+import com.example.quiz.model.entity.Answer;
 import com.example.quiz.service.admin.AdminAnswerService;
 
 import org.springframework.beans.factory.annotation.Autowired;

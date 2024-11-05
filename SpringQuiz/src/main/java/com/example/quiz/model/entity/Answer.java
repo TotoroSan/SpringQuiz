@@ -1,4 +1,4 @@
-package com.example.quiz.model;
+package com.example.quiz.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 

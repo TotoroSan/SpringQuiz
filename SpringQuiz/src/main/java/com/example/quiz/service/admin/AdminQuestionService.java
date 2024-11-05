@@ -10,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.quiz.exception.ResourceNotFoundException;
-import com.example.quiz.model.Answer;
-import com.example.quiz.model.AnswerDto;
-import com.example.quiz.model.CorrectAnswer;
-import com.example.quiz.model.MockAnswer;
-import com.example.quiz.model.Question;
-import com.example.quiz.model.QuestionDto;
-import com.example.quiz.model.QuestionWithShuffledAnswersDto;
+import com.example.quiz.model.dto.AnswerDto;
+import com.example.quiz.model.dto.QuestionDto;
+import com.example.quiz.model.dto.QuestionWithShuffledAnswersDto;
+import com.example.quiz.model.entity.Answer;
+import com.example.quiz.model.entity.CorrectAnswer;
+import com.example.quiz.model.entity.MockAnswer;
+import com.example.quiz.model.entity.Question;
 import com.example.quiz.repository.QuestionRepository;
 
 @Service

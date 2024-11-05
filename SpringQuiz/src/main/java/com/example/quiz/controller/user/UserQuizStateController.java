@@ -1,10 +1,12 @@
 package com.example.quiz.controller.user;
 
 
-import com.example.quiz.model.AnswerDto;
-import com.example.quiz.model.Question;
-import com.example.quiz.model.Quiz;
-import com.example.quiz.model.QuizState;
+import com.example.quiz.model.dto.AnswerDto;
+import com.example.quiz.model.dto.QuizStateDto;
+import com.example.quiz.model.entity.Question;
+import com.example.quiz.model.entity.Quiz;
+import com.example.quiz.model.entity.QuizState;
+import com.example.quiz.model.entity.User;
 import com.example.quiz.service.admin.AdminQuizService;
 import com.example.quiz.service.user.UserQuestionService;
 import com.example.quiz.service.user.UserQuizStateService;
@@ -13,6 +15,7 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,25 +39,41 @@ public class UserQuizStateController {
     
     // start quiz (start session)
         
+    // Start a new quiz
     @GetMapping("/start")
-    public ResponseEntity<String> startQuiz(HttpSession session) {
-        // Initialize a new quiz and store the state in the session
-        QuizState quizState = userQuizStateService.startNewQuiz();
-        session.setAttribute("quizState", quizState);
+    public ResponseEntity<String> startQuiz(HttpSession session, @AuthenticationPrincipal User user) {
+        Long userId = user.getId();
+        QuizState quizState = userQuizStateService.startNewQuiz(userId);
+        session.setAttribute("quizState", quizState); // we use session as a "hot storage" for QuizState
         return ResponseEntity.ok("Quiz started!");
     }
     
-    // TODO change to DTO if needed
+    // Get QuizState
+    /* 
+     * @AuthenticationPrincipal annotation is used to directly inject the currently authenticated user into a method parameter.
+     * Specifically, it extracts the user details from the authentication token, which means the authenticated user's information
+     * is available for use without the need to manually parse the JWT or session. 
+     * */
     @GetMapping("/state")
-    public ResponseEntity<QuizState> getQuizState(HttpSession session) {
-        QuizState quizState = (QuizState) session.getAttribute("quizState");
+    public ResponseEntity<QuizStateDto> getQuizState(HttpSession session, @AuthenticationPrincipal User user) {
+        Long userId = user.getId();
+        Optional<QuizState> optionalQuizState = userQuizStateService.getLatestQuizStateByUserId(userId);
 
-        if (quizState == null) {
+        if (optionalQuizState.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        
-        System.out.println("Quiz State was fetched"); // debug 
-        return ResponseEntity.ok(quizState);
+
+        QuizState quizState = optionalQuizState.get();
+        session.setAttribute("quizState", quizState);
+
+        // Convert to DTO to return to the user
+        QuizStateDto quizStateDto = new QuizStateDto(
+            quizState.getScore(),
+            quizState.getCurrentRound(),
+            quizState.getAllQuestions().isEmpty() ? null : quizState.getAllQuestions().get(quizState.getCurrentQuestionIndex()).getQuestionText()
+        );
+
+        return ResponseEntity.ok(quizStateDto);
     }
     
     

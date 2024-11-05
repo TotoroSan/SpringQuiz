@@ -1,9 +1,10 @@
 package com.example.quiz.controller.user;
 
-import com.example.quiz.model.Question;
-import com.example.quiz.model.QuestionDto;
-import com.example.quiz.model.QuestionWithShuffledAnswersDto;
-import com.example.quiz.model.QuizState;
+import com.example.quiz.model.dto.QuestionDto;
+import com.example.quiz.model.dto.QuestionWithShuffledAnswersDto;
+import com.example.quiz.model.entity.Question;
+import com.example.quiz.model.entity.QuizState;
+import com.example.quiz.model.entity.User;
 import com.example.quiz.service.admin.AdminQuestionService;
 import com.example.quiz.service.user.UserQuestionService;
 import com.example.quiz.service.user.UserQuizStateService;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -29,13 +31,32 @@ public class UserQuestionController {
 
     // Get a random question with shuffled answers including realAnswer and answers from the mock-answer pool
     @GetMapping
-    public ResponseEntity<QuestionWithShuffledAnswersDto> getRandomQuestionWithShuffledAnswers(HttpSession session) {
-    	QuizState quizState = (QuizState) session.getAttribute("quizState");
+    public ResponseEntity<QuestionWithShuffledAnswersDto> getRandomQuestionWithShuffledAnswers(HttpSession session, @AuthenticationPrincipal User user) {
     	
-    	// add next question to session
-    	Question currentQuestion = userQuestionService.getRandomQuestion();
+        // Fetch the current user ID
+        Long userId = user.getId();
+
+        // Retrieve the QuizState from the database using the userId
+        Optional<QuizState> optionalQuizState = userQuizStateService.getLatestQuizStateByUserId(userId);
+
+        if (optionalQuizState.isEmpty()) {
+            System.out.println("Quiz State is null");
+            return ResponseEntity.badRequest().build();
+        }
+
+        // Get the QuizState from Optional
+        QuizState quizState = optionalQuizState.get();
+    	
+    	// Add next question to QuizState
+    	Question currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds());
     	userQuizStateService.addQuestion(quizState, currentQuestion);
     	userQuizStateService.incrementCurrentQuestionIndex(quizState);
+    	
+        // Persist the updated QuizState back to the database
+        userQuizStateService.saveQuizState(quizState);
+
+        // Update the session with the modified QuizState for quick access
+        session.setAttribute("quizState", quizState);
     	
     	System.out.println("Mock answers before shuffle after load" + currentQuestion.getMockAnswers());
     	

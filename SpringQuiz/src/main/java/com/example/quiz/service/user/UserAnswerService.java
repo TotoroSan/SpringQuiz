@@ -2,9 +2,9 @@ package com.example.quiz.service.user;
 
 
 import com.example.quiz.exception.ResourceNotFoundException;
-import com.example.quiz.model.Answer;
-import com.example.quiz.model.AnswerDto;
-import com.example.quiz.model.Question;
+import com.example.quiz.model.dto.AnswerDto;
+import com.example.quiz.model.entity.Answer;
+import com.example.quiz.model.entity.Question;
 import com.example.quiz.repository.AnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

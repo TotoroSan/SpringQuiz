@@ -1,8 +1,8 @@
 package com.example.quiz.controller.admin;
 
 import com.example.quiz.controller.admin.AdminQuestionController;
-import com.example.quiz.model.Question;
-import com.example.quiz.model.QuestionDto;
+import com.example.quiz.model.dto.QuestionDto;
+import com.example.quiz.model.entity.Question;
 import com.example.quiz.service.admin.AdminQuestionService;
 
 import org.junit.jupiter.api.Test;

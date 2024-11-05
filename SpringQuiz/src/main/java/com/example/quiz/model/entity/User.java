@@ -1,4 +1,4 @@
-package com.example.quiz.model;
+package com.example.quiz.model.entity;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,12 +15,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 // this is a custom UserDetails class. It is also possible to use default UserDetails for in memory testing etc.
+// it basically defines what UserDetails are contained in the JWT token
 @Entity
 public class User implements UserDetails {
 
-    /**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 5L;
 
 	@Id

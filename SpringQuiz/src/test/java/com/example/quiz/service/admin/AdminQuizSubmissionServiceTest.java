@@ -1,9 +1,10 @@
 package com.example.quiz.service.admin;
 
-import com.example.quiz.model.QuizSubmission;
 import com.example.quiz.repository.QuizSubmissionRepository;
 import com.example.quiz.service.admin.AdminQuizSubmissionService;
 import com.example.quiz.exception.ResourceNotFoundException;
+import com.example.quiz.model.entity.QuizSubmission;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

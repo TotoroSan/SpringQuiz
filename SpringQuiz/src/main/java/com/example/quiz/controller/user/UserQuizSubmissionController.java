@@ -1,6 +1,6 @@
 package com.example.quiz.controller.user;
 
-import com.example.quiz.model.QuizSubmission;
+import com.example.quiz.model.entity.QuizSubmission;
 import com.example.quiz.service.admin.AdminQuizSubmissionService;
 import com.example.quiz.service.user.UserQuizSubmissionService;
 
