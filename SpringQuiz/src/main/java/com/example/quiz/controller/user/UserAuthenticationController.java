@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.quiz.model.dto.LoginRequest;
 import com.example.quiz.model.entity.JwtResponse;
-import com.example.quiz.model.entity.LoginRequest;
 import com.example.quiz.security.JwtTokenProvider;
 import com.example.quiz.service.user.UserService;
 

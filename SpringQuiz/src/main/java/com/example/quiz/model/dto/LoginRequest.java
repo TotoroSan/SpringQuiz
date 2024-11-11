@@ -1,8 +1,17 @@
-package com.example.quiz.model.entity;
+package com.example.quiz.model.dto;
 
 public class LoginRequest {
     private String username;
     private String password;
+
+    // Default constructor
+    public LoginRequest() {}
+
+    // Parameterized constructor (for testing currently)
+    public LoginRequest(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     // Getters and setters
     public String getUsername() {

@@ -2,13 +2,14 @@ package com.example.quiz.controller.user;
 
 
 import com.example.quiz.model.dto.AnswerDto;
+import com.example.quiz.model.dto.QuizModifierEffectDto;
 import com.example.quiz.model.dto.QuizStateDto;
 import com.example.quiz.model.entity.Question;
 import com.example.quiz.model.entity.Quiz;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.model.entity.User;
-import com.example.quiz.service.admin.AdminQuizService;
 import com.example.quiz.service.user.UserQuestionService;
+import com.example.quiz.service.user.UserQuizModifierService;
 import com.example.quiz.service.user.UserQuizStateService;
 
 import jakarta.servlet.http.HttpSession;
@@ -34,6 +35,9 @@ public class UserQuizStateController {
 	
     @Autowired
     private UserQuizStateService userQuizStateService;
+    
+    @Autowired
+    private UserQuizModifierService userQuizModifierService;
 
     // TODO how does a user interact with quizzes?
     
@@ -77,26 +81,32 @@ public class UserQuizStateController {
     }
     
     
+    // Endpoint to get random QuizModifierEffects to present to the user
+    @GetMapping("/modifiers")
+    public ResponseEntity<List<QuizModifierEffectDto>> getRandomModifiers() {
+        List<QuizModifierEffectDto> randomQuizModifierEffects = userQuizModifierService.pickRandomModifierDtos();
+        return ResponseEntity.ok(randomQuizModifierEffects);
+    }
 
-//    @GetMapping("/question")
-//    public ResponseEntity<QuestionDto> getNextQuestion(HttpSession session) {
-//        QuizState quizState = (QuizState) session.getAttribute("quizState");
-//
-//        if (quizState == null || !quizState.hasMoreQuestions()) {
-//            return ResponseEntity.badRequest().body(null);  // No quiz or no more questions
-//        }
-//
-//        // Get the next question
-//        Question nextQuestion = quizService.getNextQuestion(quizState);
-//        return ResponseEntity.ok(new QuestionDto(nextQuestion));
-//    }
+    // Endpoint to apply the chosen modifier
+    @PostMapping("/modifiers/apply")
+    public ResponseEntity<String> applyModifier(@RequestParam String quizModifierEffectId, @AuthenticationPrincipal User user) {
+        Long userId = user.getId();
+        Optional<QuizState> optionalQuizState = userQuizStateService.getLatestQuizStateByUserId(userId);
 
+        if (optionalQuizState.isEmpty()) {
+            return ResponseEntity.badRequest().body("Quiz state not found");
+        }
 
-  
-    // restart
-    
-    // show session data  
-    
-    // end / save quiz
+        QuizState quizState = optionalQuizState.get();
+        boolean success = userQuizModifierService.applyModifierById(quizState, quizModifierEffectId);
 
+        if (success) {
+            userQuizStateService.saveQuizState(quizState);
+            return ResponseEntity.ok("Modifier applied successfully");
+        } else {
+            return ResponseEntity.badRequest().body("Failed to apply modifier");
+        }
+    }
+   
 }

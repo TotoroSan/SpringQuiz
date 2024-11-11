@@ -17,9 +17,7 @@ public class QuizSubmission {
     private Long userId;  // To be replaced with actual User when authentication is added
     private int score;
 
-    @ManyToOne
-    @JoinColumn(name = "quiz_id")
-    private Quiz quiz;
+    //private Quiz quiz;
 
     // Constructors
     public QuizSubmission() {}
@@ -27,7 +25,7 @@ public class QuizSubmission {
     public QuizSubmission(Long userId, int score, Quiz quiz) {
         this.userId = userId;
         this.score = score;
-        this.quiz = quiz;
+        //this.quiz = quiz;
     }
 
     // Getters and Setters
@@ -55,11 +53,11 @@ public class QuizSubmission {
         this.score = score;
     }
 
-    public Quiz getQuiz() {
-        return quiz;
-    }
-
-    public void setQuiz(Quiz quiz) {
-        this.quiz = quiz;
-    }
+//    public Quiz getQuiz() {
+//        return quiz;
+//    }
+//
+//    public void setQuiz(Quiz quiz) {
+//        this.quiz = quiz;
+//    }
 }

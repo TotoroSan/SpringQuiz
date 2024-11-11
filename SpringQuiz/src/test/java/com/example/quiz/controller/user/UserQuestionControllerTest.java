@@ -1,69 +1,88 @@
 package com.example.quiz.controller.user;
 
-import com.example.quiz.controller.admin.AdminQuestionController;
-import com.example.quiz.model.dto.QuestionDto;
+import com.example.quiz.model.dto.QuestionWithShuffledAnswersDto;
 import com.example.quiz.model.entity.Question;
-import com.example.quiz.service.admin.AdminQuestionService;
-
+import com.example.quiz.model.entity.QuizState;
+import com.example.quiz.model.entity.User;
+import com.example.quiz.service.user.UserQuestionService;
+import com.example.quiz.service.user.UserQuizStateService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
+import jakarta.servlet.http.HttpSession;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(AdminQuestionController.class)
 public class UserQuestionControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+    @Mock
+    private UserQuestionService userQuestionService;
 
-    @MockBean
-    private AdminQuestionService adminQuestionService;
-    // TODO IMPLEMENT
-    @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    public void testGetQuestionById() throws Exception {
-        // Arrange
-        QuestionDto question = new QuestionDto();
-        question.setQuestionText("Sample Question");
-        when(adminQuestionService.getQuestionById(1L)).thenReturn(question);
+    @Mock
+    private UserQuizStateService userQuizStateService;
 
-        // Act & Assert
-        mockMvc.perform(get("/api/questions/1")
-        		.with(csrf())  // Add CSRF toke
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.questionText").value("Sample Question"));
+    @Mock
+    private HttpSession session;
 
-        verify(adminQuestionService, times(1)).getQuestionById(1L);
+    @Mock
+    private User user;
+
+    @InjectMocks
+    private UserQuestionController userQuestionController;
+
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    public void testCreateQuestion() throws Exception {
+    public void testGetRandomQuestionWithShuffledAnswers_Success() {
         // Arrange
-        QuestionDto question = new QuestionDto();
-        question.setQuestionText("New Question");
-        when(adminQuestionService.createQuestionFromDto(any(QuestionDto.class))).thenReturn(question);
+        Long userId = 1L;
+        QuizState quizState = new QuizState(userId);
+        Question question = new Question();
+        QuestionWithShuffledAnswersDto questionWithShuffledAnswersDto = new QuestionWithShuffledAnswersDto();
 
-        // Act & Assert
-        mockMvc.perform(post("/api/questions")
-        		.with(csrf())  // Add CSRF toke
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"questionText\": \"New Question\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.questionText").value("New Question"));
+        when(user.getId()).thenReturn(userId);
+        when(userQuizStateService.getLatestQuizStateByUserId(userId)).thenReturn(Optional.of(quizState));
+        when(userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds())).thenReturn(question);
+        when(userQuestionService.createQuestionWithShuffledAnswersDto(question)).thenReturn(questionWithShuffledAnswersDto);
 
-        verify(adminQuestionService, times(1)).createQuestionFromDto(any(QuestionDto.class));
+        // Act
+        ResponseEntity<QuestionWithShuffledAnswersDto> response = userQuestionController.getRandomQuestionWithShuffledAnswers(session, user);
+
+        // Assert
+        assertEquals(ResponseEntity.ok(questionWithShuffledAnswersDto), response);
+        verify(userQuizStateService, times(1)).getLatestQuizStateByUserId(userId);
+        verify(userQuestionService, times(1)).getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds());
+        verify(userQuizStateService, times(1)).saveQuizState(quizState);
+        verify(session, times(1)).setAttribute("quizState", quizState);
+    }
+
+    @Test
+    public void testGetRandomQuestionWithShuffledAnswers_QuizStateNotFound() {
+        // Arrange
+        Long userId = 1L;
+
+        when(user.getId()).thenReturn(userId);
+        when(userQuizStateService.getLatestQuizStateByUserId(userId)).thenReturn(Optional.empty());
+
+        // Act
+        ResponseEntity<QuestionWithShuffledAnswersDto> response = userQuestionController.getRandomQuestionWithShuffledAnswers(session, user);
+
+        // Assert
+        assertEquals(ResponseEntity.badRequest().build(), response);
+        verify(userQuizStateService, times(1)).getLatestQuizStateByUserId(userId);
+        verify(userQuestionService, never()).getRandomQuestionExcludingCompleted(any());
+        verify(userQuizStateService, never()).saveQuizState(any());
+        verify(session, never()).setAttribute(anyString(), any());
     }
 }

@@ -25,10 +25,11 @@ public class Question {
 
     private String questionText;
 
-    @ManyToOne
-    @JoinColumn(name = "quiz_id")
-    @JsonBackReference // To avoid looping between Question and Quiz
-    private Quiz quiz;
+    // Quiz is currently not used 
+//    @ManyToOne
+//    @JoinColumn(name = "quiz_id")
+//    @JsonBackReference // To avoid looping between Question and Quiz
+//    private Quiz quiz;
     
    
     
@@ -51,10 +52,13 @@ public class Question {
     
     // Constructors
     public Question() {}
+    
+    // Constructors
+    public Question(String questionText) {}
 
     public Question(String questionText, Quiz quiz) {
         this.questionText = questionText;
-        this.quiz = quiz;
+        //this.quiz = quiz;
     }
     
     @Override
@@ -79,13 +83,13 @@ public class Question {
         this.questionText = questionText;
     }
 
-    public Quiz getQuiz() {
-        return quiz;
-    }
-
-    public void setQuiz(Quiz quiz) {
-        this.quiz = quiz;
-    }
+//    public Quiz getQuiz() {
+//        return quiz;
+//    }
+//
+//    public void setQuiz(Quiz quiz) {
+//        this.quiz = quiz;
+//    }
 
     public List<MockAnswer> getMockAnswers() {
         return mockAnswers;

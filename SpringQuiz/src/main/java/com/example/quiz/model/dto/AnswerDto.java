@@ -9,6 +9,9 @@ public class AnswerDto {
 	
     private Long id;        // Unique ID for the answer
     private String text;    // The text of the answer
+    
+    // No-argument constructor for testing and framework purposes
+    public AnswerDto() {}
 
     public AnswerDto(Long id, String text) {
         this.id = id;

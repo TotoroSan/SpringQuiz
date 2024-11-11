@@ -1,71 +1,96 @@
 package com.example.quiz.controller.user;
 
-import com.example.quiz.controller.admin.AdminQuizController;
-import com.example.quiz.model.entity.Quiz;
-import com.example.quiz.service.admin.AdminQuizService;
-
+import com.example.quiz.model.dto.QuizStateDto;
+import com.example.quiz.model.entity.Question;
+import com.example.quiz.model.entity.QuizState;
+import com.example.quiz.model.entity.User;
+import com.example.quiz.service.user.UserQuizStateService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-import java.util.Arrays;
-import java.util.List;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
+import jakarta.servlet.http.HttpSession;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(AdminQuizController.class)
 public class UserQuizStateControllerTest {
-	
-	// MockMvc is used to simulate HTTP requests to the controller
-    @Autowired
-    private MockMvc mockMvc;
-    
-    // @MockBean is used to mock the service layer that the controller depends on. 
-    // This ensures that the controller interacts with the service as expected, 
-    // but without relying on the actual business logic in the QuizService.
-    @MockBean
-    private AdminQuizService adminQuizService;
 
-    @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    public void testGetAllQuizzes() throws Exception {
-        // Arrange
-        List<Quiz> quizzes = Arrays.asList(new Quiz("Quiz 1"), new Quiz("Quiz 2"));
-        when(adminQuizService.getAllQuizzes()).thenReturn(quizzes);
+    @Mock
+    private UserQuizStateService userQuizStateService;
 
-        // Act & Assert
-        mockMvc.perform(get("/api/quizzes")
-        		.with(csrf())  // Add CSRF toke
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].title").value("Quiz 1"))
-                .andExpect(jsonPath("$[1].title").value("Quiz 2"));
+    @Mock
+    private HttpSession session;
 
-        verify(adminQuizService, times(1)).getAllQuizzes();
+    @Mock
+    private User user;
+
+    @InjectMocks
+    private UserQuizStateController userQuizStateController;
+
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    public void testCreateQuiz() throws Exception {
+    public void testStartQuiz_Success() {
         // Arrange
-        Quiz quiz = new Quiz();
-        quiz.setTitle("New Quiz");
-        when(adminQuizService.createQuiz(any(Quiz.class))).thenReturn(quiz);
+        Long userId = 1L;
+        QuizState quizState = new QuizState(userId);
 
-        // Act & Assert
-        mockMvc.perform(post("/api/quizzes")
-        		.with(csrf())  // Add CSRF toke
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"title\": \"New Quiz\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("New Quiz"));
+        when(user.getId()).thenReturn(userId);
+        when(userQuizStateService.startNewQuiz(userId)).thenReturn(quizState);
 
-        verify(adminQuizService, times(1)).createQuiz(any(Quiz.class));
+        // Act
+        ResponseEntity<String> response = userQuizStateController.startQuiz(session, user);
+
+        // Assert
+        assertEquals(ResponseEntity.ok("Quiz started!"), response);
+        verify(userQuizStateService, times(1)).startNewQuiz(userId);
+        verify(session, times(1)).setAttribute("quizState", quizState);
+    }
+
+    @Test
+    public void testGetQuizState_Success() {
+        // Arrange
+        Long userId = 1L;
+        QuizState quizState = new QuizState(userId);
+        quizState.setCurrentQuestionIndex(0);
+        quizState.getAllQuestions().add(new Question("Sample Question"));
+
+        when(user.getId()).thenReturn(userId);
+        when(userQuizStateService.getLatestQuizStateByUserId(userId)).thenReturn(Optional.of(quizState));
+
+        // Act
+        ResponseEntity<QuizStateDto> response = userQuizStateController.getQuizState(session, user);
+
+        // Assert
+        assertNotNull(response.getBody());
+        assertEquals(quizState.getScore(), response.getBody().getScore());
+        assertEquals(quizState.getCurrentRound(), response.getBody().getCurrentRound());
+        assertEquals(quizState.getAllQuestions().get(0).getQuestionText(), response.getBody().getCurrentQuestionText());
+        verify(session, times(1)).setAttribute("quizState", quizState);
+    }
+
+    @Test
+    public void testGetQuizState_QuizStateNotFound() {
+        // Arrange
+        Long userId = 1L;
+
+        when(user.getId()).thenReturn(userId);
+        when(userQuizStateService.getLatestQuizStateByUserId(userId)).thenReturn(Optional.empty());
+
+        // Act
+        ResponseEntity<QuizStateDto> response = userQuizStateController.getQuizState(session, user);
+
+        // Assert
+        assertEquals(ResponseEntity.badRequest().build(), response);
+        verify(userQuizStateService, times(1)).getLatestQuizStateByUserId(userId);
+        verify(session, never()).setAttribute(anyString(), any());
     }
 }

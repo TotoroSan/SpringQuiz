@@ -14,8 +14,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.OrderColumn;
 
 import java.util.HashSet;
@@ -55,6 +57,10 @@ public class QuizState implements Serializable {
     
     private int currentRound;
     
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "quiz_modifier_id", referencedColumnName = "id")
+    private QuizModifier quizModifier;
+    
     // TODO think about this. i want to be able to flexibly change out questions for a given degree of diffuclty via a joker.
     // So either load spare question set or retrieve the questions "live" and do not make premade quiz set.
     
@@ -71,6 +77,7 @@ public class QuizState implements Serializable {
         this.completedQuestionIds = new HashSet<>();
         this.score = 0;  // Initialize score to 0
         this.currentRound = 1; 
+        this.quizModifier = new QuizModifier(); // initialize with standard quiz modifier
     }
     
     // Constructor to initialize a new quiz with a list of questions
@@ -81,6 +88,7 @@ public class QuizState implements Serializable {
         this.completedQuestionIds = new HashSet<>();
         this.score = 0;  // Initialize score to 0
         this.currentRound = 1;
+        this.quizModifier = new QuizModifier(); // initialize with standard quiz modifier
     }
     
     
@@ -140,6 +148,16 @@ public class QuizState implements Serializable {
 
 	public void setCurrentRound(int currentRound) {
 		this.currentRound = currentRound;
+	}
+
+
+	public QuizModifier getQuizModifier() {
+		return quizModifier;
+	}
+
+
+	public void setQuizModifier(QuizModifier quizModifier) {
+		this.quizModifier = quizModifier;
 	}
 }
 

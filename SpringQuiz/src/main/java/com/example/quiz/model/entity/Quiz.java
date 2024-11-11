@@ -5,11 +5,15 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+// this will be the class with "premade" quizzes. 
 @Entity
 public class Quiz {
     
@@ -19,10 +23,12 @@ public class Quiz {
 
     private String title;
 
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference // to prevent infinite (question -> quiz -> questions -> quiz ) loop in answer json 
-    private List<Question> questions;
+//    @ManyToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JsonManagedReference // to prevent infinite (question -> quiz -> questions -> quiz ) loop in answer json 
+//    private List<Question> questions;
+    
 
+    
     // Constructors
     public Quiz() {}
 
@@ -47,11 +53,11 @@ public class Quiz {
         this.title = title;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-    }
+//    public List<Question> getQuestions() {
+//        return questions;
+//    }
+//
+//    public void setQuestions(List<Question> questions) {
+//        this.questions = questions;
+//    }
 }

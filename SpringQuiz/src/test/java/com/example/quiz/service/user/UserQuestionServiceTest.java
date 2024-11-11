@@ -1,147 +1,125 @@
 package com.example.quiz.service.user;
 
 import com.example.quiz.exception.ResourceNotFoundException;
-import com.example.quiz.model.dto.QuestionDto;
+import com.example.quiz.model.dto.AnswerDto;
 import com.example.quiz.model.dto.QuestionWithShuffledAnswersDto;
-import com.example.quiz.model.entity.Answer;
 import com.example.quiz.model.entity.CorrectAnswer;
 import com.example.quiz.model.entity.MockAnswer;
 import com.example.quiz.model.entity.Question;
 import com.example.quiz.repository.QuestionRepository;
-import com.example.quiz.service.admin.AdminQuestionService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-class UserQuestionServiceTest {
+public class UserQuestionServiceTest {
 
     @Mock
     private QuestionRepository questionRepository;
 
     @InjectMocks
-    private AdminQuestionService adminQuestionService;
+    private UserQuestionService userQuestionService;
 
     @BeforeEach
-    void setUp() {
+    public void setup() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void testCreateQuestionFromDto() {
-        // Arrange
-        QuestionDto questionDto = new QuestionDto();
-        questionDto.setQuestionText("What is the capital of France?");
-        questionDto.setRealAnswer("Paris");
-        questionDto.setMockAnswers(Arrays.asList("London", "Berlin", "Rome"));
-
-        Question question = new Question();
-        CorrectAnswer correctAnswer = new CorrectAnswer("Paris", question);
-        List<MockAnswer> mockAnswers = Arrays.asList(
-            new MockAnswer("London", question),
-            new MockAnswer("Berlin", question),
-            new MockAnswer("Rome", question)
-        );
-
-        question.setQuestionText("What is the capital of France?");
-        question.setCorrectAnswer(correctAnswer);
-        question.setMockAnswers(mockAnswers);
-
-        when(questionRepository.save(any(Question.class))).thenReturn(question);
-
-        // Act
-        QuestionDto result = adminQuestionService.createQuestionFromDto(questionDto);
-
-        // Assert
-        assertEquals("What is the capital of France?", result.getQuestionText());
-        assertEquals("Paris", result.getRealAnswer());
-        assertEquals(3, result.getMockAnswers().size());
-        verify(questionRepository, times(1)).save(any(Question.class));
-    }
-
-    @Test
-    void testGetQuestionById() {
+    public void testGetRandomQuestion() {
         // Arrange
         Question question = new Question();
-        question.setQuestionText("What is the capital of France?");
-        CorrectAnswer correctAnswer = new CorrectAnswer("Paris", question);
-        List<MockAnswer> mockAnswers = Arrays.asList(
-            new MockAnswer("London", question),
-            new MockAnswer("Berlin", question),
-            new MockAnswer("Rome", question)
-        );
-
-        when(questionRepository.findById(1L)).thenReturn(Optional.of(question));
+        question.setId(1L);
+        question.setQuestionText("Sample Question");
+        when(questionRepository.findRandomQuestion()).thenReturn(question);
 
         // Act
-        QuestionDto result = adminQuestionService.getQuestionById(1L);
+        Question result = userQuestionService.getRandomQuestion();
 
         // Assert
         assertNotNull(result);
-        assertEquals("What is the capital of France?", result.getQuestionText());
-        assertEquals("Paris", result.getRealAnswer());
+        assertEquals(1L, result.getId());
+        assertEquals("Sample Question", result.getQuestionText());
     }
 
     @Test
-    void testGetQuestionById_NotFound() {
+    public void testGetRandomQuestionExcludingCompleted_Success() {
         // Arrange
-        when(questionRepository.findById(anyLong())).thenReturn(Optional.empty());
+        Set<Long> completedQuestionIds = new HashSet<>(Arrays.asList(1L, 2L));
+        Question question = new Question();
+        question.setId(3L);
+        question.setQuestionText("New Question");
+        Pageable pageable = PageRequest.of(0, 1);
+        Page<Question> page = new PageImpl<>(Collections.singletonList(question), pageable, 1);
+
+        when(questionRepository.findRandomQuestionExcludingCompleted(completedQuestionIds, pageable)).thenReturn(page);
+
+        // Act
+        Question result = userQuestionService.getRandomQuestionExcludingCompleted(completedQuestionIds);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(3L, result.getId());
+        assertEquals("New Question", result.getQuestionText());
+    }
+
+    @Test
+    public void testGetRandomQuestionExcludingCompleted_NotFound() {
+        // Arrange
+        Set<Long> completedQuestionIds = new HashSet<>(Arrays.asList(1L, 2L));
+        Pageable pageable = PageRequest.of(0, 1);
+        Page<Question> page = Page.empty();
+
+        when(questionRepository.findRandomQuestionExcludingCompleted(completedQuestionIds, pageable)).thenReturn(page);
 
         // Act & Assert
-        assertThrows(ResourceNotFoundException.class, () -> adminQuestionService.getQuestionById(1L));
+        assertThrows(ResourceNotFoundException.class, () -> {
+            userQuestionService.getRandomQuestionExcludingCompleted(completedQuestionIds);
+        });
     }
 
     @Test
-    void testConvertToDto() {
+    public void testCreateQuestionWithShuffledAnswersDto() {
         // Arrange
         Question question = new Question();
-        question.setQuestionText("What is the capital of France?");
-        CorrectAnswer correctAnswer = new CorrectAnswer("Paris", question);
-        List<MockAnswer> mockAnswers = Arrays.asList(
-            new MockAnswer("London", question),
-            new MockAnswer("Berlin", question),
-            new MockAnswer("Rome", question)
-        );
+        question.setId(1L);
+        question.setQuestionText("Sample Question");
+
+        MockAnswer mockAnswer1 = new MockAnswer();
+        mockAnswer1.setId(2L);
+        mockAnswer1.setAnswerText("Mock Answer 1");
+
+        MockAnswer mockAnswer2 = new MockAnswer();
+        mockAnswer2.setId(3L);
+        mockAnswer2.setAnswerText("Mock Answer 2");
+
+        MockAnswer mockAnswer3 = new MockAnswer();
+        mockAnswer3.setId(4L);
+        mockAnswer3.setAnswerText("Mock Answer 3");
+
+        question.setMockAnswers(Arrays.asList(mockAnswer1, mockAnswer2, mockAnswer3));
+
+        AnswerDto correctAnswerDto = new AnswerDto(1L, "Correct Answer");
+        question.setCorrectAnswer(new CorrectAnswer(correctAnswerDto.getText(), question));
 
         // Act
-        QuestionDto result = adminQuestionService.convertToDto(question);
+        QuestionWithShuffledAnswersDto result = userQuestionService.createQuestionWithShuffledAnswersDto(question);
 
         // Assert
         assertNotNull(result);
-        assertEquals("What is the capital of France?", result.getQuestionText());
-        assertEquals("Paris", result.getRealAnswer());
-        assertEquals(3, result.getMockAnswers().size());
+        assertEquals("Sample Question", result.getQuestionText());
+        assertEquals(1L, result.getQuestionId());
+        assertEquals(4, result.getShuffledAnswers().size());
     }
-
-//    @Test
-//    void testGetRandomQuestionWithShuffledAnswers() {
-//        // Arrange
-//        Question question = new Question();
-//        question.setQuestionText("What is the capital of France?");
-//        question.setCorrectAnswer(new Answer("Paris", true, question));
-//        question.setMockAnswers(Arrays.asList(
-//            new Answer("London", false, question),
-//            new Answer("Berlin", false, question),
-//            new Answer("Rome", false, question)
-//        ));
-//
-//        when(questionRepository.findRandomQuestion()).thenReturn(question);
-//
-//        // Act
-//        QuestionWithShuffledAnswersDto result = adminQuestionService.getRandomQuestionWithShuffledAnswers();
-//
-//        // Assert
-//        assertNotNull(result);
-//        assertEquals("What is the capital of France?", result.getQuestionText());
-//        assertEquals(4, result.getShuffledAnswers().size());  // 1 real answer + 3 mock answers
-//    }
 }
