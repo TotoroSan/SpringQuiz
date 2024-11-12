@@ -93,7 +93,7 @@ public class UserQuizStateServiceTest {
     public void testIncrementScore() {
         // Arrange
         QuizState quizState = new QuizState(1L);
-        int initialScore = quizState.getScore();
+        double initialScore = quizState.getScore();
 
         // Act
         userQuizStateService.incrementScore(quizState);

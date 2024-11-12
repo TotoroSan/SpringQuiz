@@ -2,10 +2,7 @@ package com.example.quiz.controller.user;
 
 
 import com.example.quiz.model.dto.*;
-import com.example.quiz.model.entity.Question;
-import com.example.quiz.model.entity.Quiz;
-import com.example.quiz.model.entity.QuizState;
-import com.example.quiz.model.entity.User;
+import com.example.quiz.model.entity.*;
 import com.example.quiz.service.user.UserQuestionService;
 import com.example.quiz.service.user.UserQuizModifierService;
 import com.example.quiz.service.user.UserQuizStateService;
@@ -90,13 +87,19 @@ public class UserQuizStateController {
 
         // Check if the current round is divisible by 5 to provide modifier effects
         // TODO 5 is arbitrary value for testing.
-        if (quizState.getCurrentRound() % 5 == 0) {
+        if (quizState.getAnsweredQuestionsInSegment() % 5 == 0) {
             List<QuizModifierEffectDto> randomQuizModifierEffects = userQuizModifierService.pickRandomModifierDtos();
             GameEventDto modifierEvent = new GameEventDto(randomQuizModifierEffects);
             return ResponseEntity.ok(modifierEvent);
         } else {
-            // Return the next question
-            Question currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds());
+            // Return the next question with the given difficulty
+            int currentDiffculty = 1 * quizState.getQuizModifier().getDifficultyModifier();
+
+            // Debug
+            System.out.println("Retreiving Question with difficulty of: " + currentDiffculty);
+
+            // TODO adjust if any difficulty is wanted. just remove currentDifficulty as paramter
+            Question currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), currentDiffculty);
             userQuizStateService.addQuestion(quizState, currentQuestion);
 ;
             QuestionWithShuffledAnswersDto questionWithShuffledAnswersDto = userQuestionService.createQuestionWithShuffledAnswersDto(currentQuestion);
@@ -116,7 +119,7 @@ public class UserQuizStateController {
         return ResponseEntity.ok(randomQuizModifierEffects);
     }
 
-    // Endpoint to apply the chosen modifier
+    // Endpoint to apply the chosen modifier effect to the modifier of the gamestate
     @PostMapping("/modifiers/apply")
     public ResponseEntity<String> applyModifier(@RequestBody QuizModifierEffectDto quizModifierEffectDto, @AuthenticationPrincipal User user) {
         Long userId = user.getId();
@@ -127,10 +130,12 @@ public class UserQuizStateController {
         }
 
         QuizState quizState = optionalQuizState.get();
-        boolean success = userQuizModifierService.applyModifierById(quizState, quizModifierEffectDto.getId());
+        QuizModifier quizModifier = quizState.getQuizModifier();
+        boolean success = userQuizModifierService.applyModifierById(quizModifier, quizModifierEffectDto.getId());
+
 
         if (success) {
-            userQuizStateService.saveQuizState(quizState);
+            userQuizStateService.moveToNextSegment(quizState);
             return ResponseEntity.ok("Modifier applied successfully");
         } else {
             return ResponseEntity.badRequest().body("Failed to apply modifier");

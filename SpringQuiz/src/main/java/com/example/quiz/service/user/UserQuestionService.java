@@ -57,22 +57,33 @@ public class UserQuestionService {
 	
     // Get a random question exluding the ones that have already been answered
 	public Question getRandomQuestionExcludingCompleted(Set<Long> completedQuestionIds) {
-		Pageable pageable = PageRequest.of(0, 1);
-		
-		// get random question from repository that hasn't been answered
-		// this means we get a page with 0 to 1 objects
-		Page<Question> page = questionRepository.findRandomQuestionExcludingCompleted(completedQuestionIds, pageable);
-		
-		if (page.hasContent()) {
-			// Use the retrieved question object
-		    Question question = page.getContent().get(0);
-		    return question;		   
-		} else {
-			throw new ResourceNotFoundException("No more available questions");
-		}
+        // call overloaded method without diffculty parameter
+        return getRandomQuestionExcludingCompleted(completedQuestionIds, null);
 	}
-	
-	
+
+    public Question getRandomQuestionExcludingCompleted(Set<Long> completedQuestionIds, Integer difficulty) {
+        Pageable pageable = PageRequest.of(0, 1);
+
+        Page<Question> questionsPage;
+
+        // get random question from repository that hasn't been answered
+        // this means we get a page with 0 to 1 objects
+        // if no difficulty is given, we just get any random question
+        if (difficulty != null) {
+            questionsPage = questionRepository.findRandomQuestionExcludingCompletedAndDifficulty(completedQuestionIds, difficulty, pageable);
+        } else {
+            questionsPage = questionRepository.findRandomQuestionExcludingCompleted(completedQuestionIds, pageable);
+        }
+
+        if (questionsPage.isEmpty()) {
+            throw new RuntimeException("No available question found.");
+        }
+
+        return questionsPage.getContent().get(0);
+    }
+
+
+
     // Get a Question with Shuffled Answers
 	public QuestionWithShuffledAnswersDto createQuestionWithShuffledAnswersDto(Question question) {
 		// TODO check where to add exception for findRandomQuestion (e.g. there are no questions left)

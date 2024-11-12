@@ -1,4 +1,6 @@
-- separation of concerns 
+Applied Principles
+---------------------
+- separation of concerns
 - controllers handle interaction with session objects and their attributes. Session objects are never propagated
 - frontend layer only consumes and produces data transfer objects (dto)
 - only services interact with the model classes and the repository 
@@ -6,3 +8,19 @@
 - QuizState is persisted via JWT-Token User-Id to dedicated database
 
 - new effects need to be added to the registry in QuizModifierEffectFactory
+
+Learnings
+------------------
+- Rich Domain Model (model methods can manipulate model data) vs. Anemic Domain Model (only getters and setters in model classes)
+    - with Rich Domain Model we allow methods in the model class that manipulate model data directly (e.g. incrementing an int field)
+    - for methods that do need to call different components / are more complex, we still put them in the service
+    - Anemic Domain Model actually violates Single Responsibility Principle, since services now implement business logic AND basic object manipulation
+    - the border between a method that belongs in a service and that belongs in a model class can be fluent with Rich Domain Model and often needs to be decided case by case
+
+- The controller’s responsibility should be limited to handling HTTP requests, validating inputs, and delegating the business logic to services,
+whereas services perform the business operations including data retrieval and persistence through repositories.
+
+
+
+Tech Stack
+-------------------

@@ -6,21 +6,13 @@ import com.example.quiz.model.entity.QuizModifier;
 import com.example.quiz.model.entity.QuizModifierEffect;
 import com.example.quiz.model.entity.QuizModifierEffectFactory;
 import com.example.quiz.model.entity.QuizState;
-import com.example.quiz.repository.QuizModifierEffectRepository;
 import com.example.quiz.repository.QuizModifierRepository;
-
-import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +23,7 @@ public class UserQuizModifierService {
     private QuizModifierRepository quizModifierRepository;
 
     @Autowired
-    private UserQuizStateService quizStateService;
+    private UserQuizStateService userQuizStateService;
     
 
     public void applyModifier(QuizModifier quizModifier, QuizModifierEffect quizModifierEffect) {
@@ -54,25 +46,53 @@ public class UserQuizModifierService {
     }
 
     //@Transactional
-    public boolean applyModifierById(QuizState quizState, String idString) {
+    public boolean applyModifierById(QuizModifier quizModifier, String idString) {
         // TODO: 5 is only placeholder here, overload to also have function with custom duration
-        QuizModifierEffect quizModifierEffect = QuizModifierEffectFactory.createEffect(idString, 5);
+        QuizModifierEffect quizModifierEffect = QuizModifierEffectFactory.createEffect(idString, 2);
 
         if (quizModifierEffect != null) {
-            quizModifierEffect.apply(quizState.getQuizModifier());
-            addModifierEffect(quizState.getQuizModifier(), quizModifierEffect);
+            quizModifierEffect.apply(quizModifier);
+            addModifierEffect(quizModifier, quizModifierEffect);
 
-            // Increment the current round
-            quizStateService.incrementCurrentRound(quizState);
+
 
             // Persist the change to the database
-            quizModifierRepository.save(quizState.getQuizModifier());
+            quizModifierRepository.save(quizModifier);
             return true;
         }
         return false;
     }
-    
 
+    public void processModifierEffectsForNewRound(QuizModifier quizModifier) {
+        List<QuizModifierEffect> activeQuizModifierEffects = getActiveModifierEffects(quizModifier);
+
+        // Create a list of effects to be removed after iteration to avoid ConcurrentModificationException
+        List<QuizModifierEffect> effectsToRemove = new ArrayList<>();
+
+        // Iterate over all active effects
+        for (QuizModifierEffect quizModifierEffect : activeQuizModifierEffects) {
+            // Reduce the duration by 1
+            quizModifierEffect.decrementDuration();
+            System.out.println("Decrementing effect duration of: " + quizModifierEffect.getIdString());
+
+            // If the effect duration has ended, add to remove list
+            if (quizModifierEffect.getDuration() <= 0) {
+                quizModifierEffect.reverse(quizModifier);  // Reverse the effect before removing
+                effectsToRemove.add(quizModifierEffect);
+
+                // Debug
+                System.out.println("Effect: " + quizModifierEffect.getIdString() + " removed because duration is 0");
+            }
+        }
+
+        // Remove expired effects from the list after iteration
+        activeQuizModifierEffects.removeAll(effectsToRemove);
+
+        // Persist the updated state
+        quizModifierRepository.save(quizModifier);
+    }
+
+    // currently not in use (check for removal)
     public void removeExpiredModifierEffectIds(QuizModifier quizModifier) {
         // if modifier duration is <= 0 remove the modifier and reverse it's effect
         quizModifier.getActiveQuizModifierEffects().removeIf(effect -> {

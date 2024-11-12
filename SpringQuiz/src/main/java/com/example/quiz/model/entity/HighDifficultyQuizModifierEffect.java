@@ -18,11 +18,11 @@ public class HighDifficultyQuizModifierEffect extends QuizModifierEffect {
 
     @Override
     public void apply(QuizModifier quizModifier) {
-        quizModifier.setDifficultyModifier(quizModifier.getDifficultyModifier() + 5);
+        quizModifier.setDifficultyModifier(quizModifier.getDifficultyModifier() + 1);
     }
 
 	@Override
 	public void reverse(QuizModifier quizModifier) {
-		quizModifier.setDifficultyModifier(quizModifier.getDifficultyModifier() - 5);		
+		quizModifier.setDifficultyModifier(quizModifier.getDifficultyModifier() - 1);
 	}
 }

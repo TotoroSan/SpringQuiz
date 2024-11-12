@@ -1,17 +1,13 @@
 package com.example.quiz.service.user;
 
-import com.example.quiz.exception.ResourceNotFoundException;
-import com.example.quiz.model.dto.AnswerDto;
 import com.example.quiz.model.dto.QuizStateDto;
 import com.example.quiz.model.entity.Question;
-import com.example.quiz.model.entity.Quiz;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.repository.QuizStateRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -80,17 +76,13 @@ public class UserQuizStateService {
      
     // Move to the next question
     public void incrementCurrentQuestionIndex(QuizState quizState) {
-        //if (hasMoreQuestions(quizState)) {
-            quizState.setCurrentQuestionIndex(quizState.getCurrentQuestionIndex() + 1); // Move to the next question
-        //} else {
-            //System.out.println("No more questions available.");
-        //}
-            saveQuizState(quizState);
+        quizState.setCurrentQuestionIndex(quizState.getCurrentQuestionIndex() + 1); // Move to the next question
+        saveQuizState(quizState);
     }
 
-    // Increment the score
+    // Increment the score by 1 (* multiplicator)
     public void incrementScore(QuizState quizState) {
-        quizState.setScore(quizState.getScore() + 1);
+        quizState.setScore(quizState.getScore() + (quizState.getQuizModifier().getScoreMultiplier() * 1));
         saveQuizState(quizState);
     }
     
@@ -122,6 +114,18 @@ public class UserQuizStateService {
     // Check if quiz has more questions 
     public boolean hasMoreQuestions(QuizState quizState) {
         return quizState.getCurrentQuestionIndex() < quizState.getAllQuestions().size();
+    }
+
+    // Move to the next segment (i.e. reset question count in segment)
+    public void moveToNextSegment(QuizState quizState){
+        quizState.setCurrentSegment(quizState.getCurrentSegment() + 1);
+        quizState.setAnsweredQuestionsInSegment(1);
+        saveQuizState(quizState);
+    }
+
+    // Todo methods like this should be moved to the model class itself
+    public void IncrementAnsweredQuestionsInSegment(QuizState quizState) {
+        quizState.setAnsweredQuestionsInSegment(quizState.getAnsweredQuestionsInSegment() + 1);
     }
 
 }

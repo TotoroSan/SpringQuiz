@@ -3,7 +3,6 @@ package com.example.quiz.model.entity;
 import java.util.List;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -16,7 +15,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.OrderColumn;
 
@@ -53,10 +51,16 @@ public class QuizState implements Serializable {
     private Set<Long> completedQuestionIds;
 
 	// Current score of the quiz
-    private int score;
+    private double score;
     
     private int currentRound;
-    
+
+	// a segment is a series of questions (an effect choice constitutes the end of a segment)
+	private int currentSegment;
+
+	// number of (correctly) answered questions in the current segment
+	private int answeredQuestionsInSegment;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "quiz_modifier_id", referencedColumnName = "id")
     private QuizModifier quizModifier;
@@ -76,7 +80,9 @@ public class QuizState implements Serializable {
         this.currentQuestionIndex = -1; //TODO  as long as there is no question we keep this -1 because we increase everytime we generate a new question. so this always points to the current question.
         this.completedQuestionIds = new HashSet<>();
         this.score = 0;  // Initialize score to 0
-        this.currentRound = 1; 
+        this.currentRound = 1;
+		this.currentSegment = 1;
+		this.answeredQuestionsInSegment = 1;
         this.quizModifier = new QuizModifier(); // initialize with standard quiz modifier
     }
     
@@ -88,6 +94,8 @@ public class QuizState implements Serializable {
         this.completedQuestionIds = new HashSet<>();
         this.score = 0;  // Initialize score to 0
         this.currentRound = 1;
+		this.currentSegment = 1;
+		this.answeredQuestionsInSegment = 0;
         this.quizModifier = new QuizModifier(); // initialize with standard quiz modifier
     }
     
@@ -115,8 +123,7 @@ public class QuizState implements Serializable {
 	public void setAllQuestions(List<Question> allQuestions) {
 		this.allQuestions = allQuestions;
 	}
-    
-    
+
     public int getCurrentQuestionIndex() {
 		return currentQuestionIndex;
 	}
@@ -126,11 +133,11 @@ public class QuizState implements Serializable {
 	}
 	    
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
     
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score; 
     }
     
@@ -155,6 +162,22 @@ public class QuizState implements Serializable {
 		return quizModifier;
 	}
 
+	public int getAnsweredQuestionsInSegment() {
+		return answeredQuestionsInSegment;
+	}
+
+	public void setAnsweredQuestionsInSegment(int answeredQuestionsInSegment) {
+		this.answeredQuestionsInSegment = answeredQuestionsInSegment;
+	}
+
+
+	public int getCurrentSegment() {
+		return currentSegment;
+	}
+
+	public void setCurrentSegment(int currentSegment) {
+		this.currentSegment = currentSegment;
+	}
 
 	public void setQuizModifier(QuizModifier quizModifier) {
 		this.quizModifier = quizModifier;

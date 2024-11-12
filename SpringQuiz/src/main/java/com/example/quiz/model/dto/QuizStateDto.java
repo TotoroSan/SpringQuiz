@@ -1,25 +1,25 @@
 package com.example.quiz.model.dto;
 
 public class QuizStateDto {
-    private int score;
+    private double score;
     private int currentRound;
     private String currentQuestionText;
 
     // Constructors
     public QuizStateDto() {}
 
-    public QuizStateDto(int score, int currentRound, String currentQuestionText) {
+    public QuizStateDto(double score, int currentRound, String currentQuestionText) {
         this.score = score;
         this.currentRound = currentRound;
         this.currentQuestionText = currentQuestionText;
     }
 
     // Getters and Setters
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 

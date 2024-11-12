@@ -8,6 +8,7 @@ import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.model.entity.User;
 import com.example.quiz.service.admin.AdminAnswerService;
 import com.example.quiz.service.user.UserAnswerService;
+import com.example.quiz.service.user.UserQuizModifierService;
 import com.example.quiz.service.user.UserQuizStateService;
 
 import jakarta.servlet.http.HttpSession;
@@ -29,6 +30,9 @@ public class UserAnswerController {
     @Autowired
     private UserQuizStateService userQuizStateService;
 
+    @Autowired
+    private UserQuizModifierService userQuizModifierService;
+
     @PostMapping("/answer")
     public ResponseEntity<Boolean> submitAnswer(@RequestBody AnswerDto answerDto,  @AuthenticationPrincipal User user, 
     		HttpSession session) {
@@ -44,8 +48,6 @@ public class UserAnswerController {
         
         QuizState quizState = optionalQuizState.get(); 
        
-        
-        // TODO BUGFIX currentQuestion is null 
         // Get the current question from state object
         Question currentQuestion = userQuizStateService.getCurrentQuestion(quizState);
         System.out.println("Loaded Quiz State: " + quizState);
@@ -65,9 +67,15 @@ public class UserAnswerController {
         }
         
         // If answer is correct, update the quiz state using the quiz state service
+        // Todo consolidate this
         userQuizStateService.markQuestionAsCompleted(quizState, currentQuestion.getId());
         userQuizStateService.incrementScore(quizState);
         userQuizStateService.incrementCurrentRound(quizState);
+        userQuizStateService.IncrementAnsweredQuestionsInSegment(quizState);
+
+        // TODO move (maybe to UserStateService -> each time we fetch the state we clean the modifiers?)
+        // reduce ModifierEffect duration and remove invalid ModifierEffects
+        userQuizModifierService.processModifierEffectsForNewRound(quizState.getQuizModifier());
         
     	System.out.println("Answer is right"); // debug 
             

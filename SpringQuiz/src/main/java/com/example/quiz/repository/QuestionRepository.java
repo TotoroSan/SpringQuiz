@@ -22,5 +22,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query("SELECT q FROM Question q WHERE q.id NOT IN :completedQuestionIds ORDER BY FUNCTION('RAND')")
     Page<Question> findRandomQuestionExcludingCompleted(@Param("completedQuestionIds") Set<Long> completedQuestionIds, Pageable pageable);
 
+    @Query("SELECT q FROM Question q WHERE q.id NOT IN :completedQuestionIds AND q.difficulty = :difficulty ORDER BY FUNCTION('RAND')")
+    Page<Question> findRandomQuestionExcludingCompletedAndDifficulty(@Param("completedQuestionIds") Set<Long> completedQuestionIds, @Param("difficulty") Integer difficulty, Pageable pageable);
 
 }

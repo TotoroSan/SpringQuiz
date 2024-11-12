@@ -66,10 +66,15 @@ public abstract class QuizModifierEffect {
         this.quizModifier = quizModifier;
     }
 
+
     public void decrementDuration() {
         if (duration > 0) {
             duration--;
         }
+    }
+
+    public void incrementDuration() {
+        duration++;
     }
 
 

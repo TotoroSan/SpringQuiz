@@ -24,7 +24,7 @@ public class QuizModifier {
     private Long id;
 
     private double scoreMultiplier = 1.0;
-    private int difficultyModifier = 0;
+    private int difficultyModifier = 1;
     
     // TODO here is the problem currently -
     // we only persist the effect id
