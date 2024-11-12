@@ -89,6 +89,8 @@ public class UserQuizStateController {
     }
 
     // Endpoint to apply the chosen modifier
+    // TODO think about this. maybe we should send premade objects for the effects, otherwise i would need to instantiate an object afterwards according to input 
+    // TODO (question: can i infer the object class via a map or would i need to make cases to instatiate the right subclass? 
     @PostMapping("/modifiers/apply")
     public ResponseEntity<String> applyModifier(@RequestParam String quizModifierEffectId, @AuthenticationPrincipal User user) {
         Long userId = user.getId();

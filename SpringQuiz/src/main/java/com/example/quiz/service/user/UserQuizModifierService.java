@@ -4,6 +4,7 @@ package com.example.quiz.service.user;
 import com.example.quiz.model.dto.QuizModifierEffectDto;
 import com.example.quiz.model.entity.QuizModifier;
 import com.example.quiz.model.entity.QuizModifierEffect;
+import com.example.quiz.model.entity.QuizModifierEffectFactory;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.repository.QuizModifierEffectRepository;
 import com.example.quiz.repository.QuizModifierRepository;
@@ -24,52 +25,39 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserQuizModifierService {
-	
-	
-    private final Map<String, QuizModifierEffect> quizModifierEffectMap = new HashMap<>();
-    
-    @Autowired
-    private QuizModifierEffectRepository quizModifierEffectRepository;
+
+
     @Autowired
     private QuizModifierRepository quizModifierRepository;
     
-    @Autowired
-    public UserQuizModifierService(QuizModifierEffectRepository repository) {
-        this.quizModifierEffectRepository = repository;
-        System.out.println("UserQuizModifierService initialized");
-        populateQuizModifierEffectMap();
-    }
-
-    //@Transactional
-    public void populateQuizModifierEffectMap() {
-        List<QuizModifierEffect> allQuizModifierEffects = quizModifierEffectRepository.findAll();
-        allQuizModifierEffects.forEach(effect -> quizModifierEffectMap.put(effect.getIdString(), effect));
-        
-        // debugging 
-        for (QuizModifierEffect eff : allQuizModifierEffects) {
-        	System.out.println("effect " + eff.getIdString());
-        }
-    }
-
 
     public void applyModifier(QuizModifier quizModifier, QuizModifierEffect quizModifierEffect) {
         quizModifierEffect.apply(quizModifier);
     }
 
     public List<QuizModifierEffectDto> pickRandomModifierDtos() {
-        return new ArrayList<>(quizModifierEffectMap.values()).stream()
+        return new ArrayList<>(QuizModifierEffectFactory.getEffectRegistry().keySet()).stream()
                 .limit(3)
-                .map(quizModifierEffect -> new QuizModifierEffectDto(quizModifierEffect.getIdString(), quizModifierEffect.getName(), quizModifierEffect.getDuration(), "Description for " + quizModifierEffect.getName()))
+                .map(effectId -> {
+                    Class<? extends QuizModifierEffect> effectClass = QuizModifierEffectFactory.getEffectRegistry().get(effectId);
+                    try {
+                        QuizModifierEffect effect = effectClass.getDeclaredConstructor().newInstance();
+                        return new QuizModifierEffectDto(effect.getIdString(), effect.getName(), effect.getDuration(), "Description for " + effect.getName());
+                    } catch (Exception e) {
+                        throw new RuntimeException("Failed to create effect instance for DTO", e);
+                    }
+                })
                 .collect(Collectors.toList());
     }
 
+    //@Transactional
     public boolean applyModifierById(QuizState quizState, String idString) {
-        QuizModifierEffect quizModifierEffect = quizModifierEffectMap.get(idString);
+        // TODO: 5 is only placeholder here, overload to also have function with custom duration
+        QuizModifierEffect quizModifierEffect = QuizModifierEffectFactory.createEffect(idString, 5);
 
         if (quizModifierEffect != null) {
             quizModifierEffect.apply(quizState.getQuizModifier());
             addModifierEffect(quizState.getQuizModifier(), quizModifierEffect);
-            
             // Persist the change to the database
             quizModifierRepository.save(quizState.getQuizModifier());
             return true;
@@ -77,9 +65,19 @@ public class UserQuizModifierService {
         return false;
     }
     
-    // todo how do i get a effect by id 
+
     public void removeExpiredModifierEffectIds(QuizModifier quizModifier) {
-        quizModifier.getActiveQuizModifierEffects().removeIf(effect -> quizModifierEffectMap.get(effect).getDuration() <= 0);
+        // if modifier duration is <= 0 remove the modifier and reverse it's effect
+        quizModifier.getActiveQuizModifierEffects().removeIf(effect -> {
+            if (effect.getDuration() <= 0) {
+                effect.reverse(quizModifier);
+                return true;
+            }
+            return false;
+        });
+
+        // Save changes to the database
+        quizModifierRepository.save(quizModifier);
     }
     
     public void addModifierEffect(QuizModifier quizModifier, QuizModifierEffect quizModifierEffect) {
@@ -87,15 +85,7 @@ public class UserQuizModifierService {
     }
     
     public List<QuizModifierEffect> getActiveModifierEffects(QuizModifier quizModifier) {
-        List<QuizModifierEffect> activeModifierEffectIds = quizModifier.getActiveQuizModifierEffects();
-        List<QuizModifierEffect> activeModifierEffects = activeModifierEffectIds.stream()
-                .map(quizModifierEffectMap::get)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-        
-        return activeModifierEffects;
+        return quizModifier.getActiveQuizModifierEffects();
     }
-
-
 }
 
