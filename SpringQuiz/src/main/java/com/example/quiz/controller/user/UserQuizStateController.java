@@ -141,5 +141,7 @@ public class UserQuizStateController {
             return ResponseEntity.badRequest().body("Failed to apply modifier");
         }
     }
+
+    // TODO endpoint to get List of active modifierEffects (best via dto)
    
 }
