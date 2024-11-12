@@ -1,9 +1,7 @@
 package com.example.quiz.controller.user;
 
 
-import com.example.quiz.model.dto.AnswerDto;
-import com.example.quiz.model.dto.QuizModifierEffectDto;
-import com.example.quiz.model.dto.QuizStateDto;
+import com.example.quiz.model.dto.*;
 import com.example.quiz.model.entity.Question;
 import com.example.quiz.model.entity.Quiz;
 import com.example.quiz.model.entity.QuizState;
@@ -39,10 +37,11 @@ public class UserQuizStateController {
     @Autowired
     private UserQuizModifierService userQuizModifierService;
 
+    @Autowired
+    private UserQuestionService userQuestionService;
+
     // TODO how does a user interact with quizzes?
-    
-    // start quiz (start session)
-        
+
     // Start a new quiz
     @GetMapping("/start")
     public ResponseEntity<String> startQuiz(HttpSession session, @AuthenticationPrincipal User user) {
@@ -70,15 +69,44 @@ public class UserQuizStateController {
         QuizState quizState = optionalQuizState.get();
         session.setAttribute("quizState", quizState);
 
-        // Convert to DTO to return to the user
-        QuizStateDto quizStateDto = new QuizStateDto(
-            quizState.getScore(),
-            quizState.getCurrentRound(),
-            quizState.getAllQuestions().isEmpty() ? null : quizState.getAllQuestions().get(quizState.getCurrentQuestionIndex()).getQuestionText()
-        );
+        QuizStateDto quizStateDto = userQuizStateService.createQuizStateDto(quizState);
 
         return ResponseEntity.ok(quizStateDto);
     }
+
+    // Endpoint to handle next game event (either a question or modifier effects)
+    // TODO maybe create new wrapper class for the game events so that we do not have to return <?>
+    @GetMapping("/nextGameEvent")
+    public ResponseEntity<GameEventDto> getNextGameEvent(HttpSession session, @AuthenticationPrincipal User user) {
+        Long userId = user.getId();
+        Optional<QuizState> optionalQuizState = userQuizStateService.getLatestQuizStateByUserId(userId);
+
+        if (optionalQuizState.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        QuizState quizState = optionalQuizState.get();
+        session.setAttribute("quizState", quizState);
+
+        // Check if the current round is divisible by 5 to provide modifier effects
+        // TODO 5 is arbitrary value for testing.
+        if (quizState.getCurrentRound() % 5 == 0) {
+            List<QuizModifierEffectDto> randomQuizModifierEffects = userQuizModifierService.pickRandomModifierDtos();
+            GameEventDto modifierEvent = new GameEventDto(randomQuizModifierEffects);
+            return ResponseEntity.ok(modifierEvent);
+        } else {
+            // Return the next question
+            Question currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds());
+            userQuizStateService.addQuestion(quizState, currentQuestion);
+;
+            QuestionWithShuffledAnswersDto questionWithShuffledAnswersDto = userQuestionService.createQuestionWithShuffledAnswersDto(currentQuestion);
+            GameEventDto questionEvent = new GameEventDto(questionWithShuffledAnswersDto);
+
+            return ResponseEntity.ok(questionEvent);
+        }
+    }
+
+
     
     
     // Endpoint to get random QuizModifierEffects to present to the user
@@ -89,10 +117,8 @@ public class UserQuizStateController {
     }
 
     // Endpoint to apply the chosen modifier
-    // TODO think about this. maybe we should send premade objects for the effects, otherwise i would need to instantiate an object afterwards according to input 
-    // TODO (question: can i infer the object class via a map or would i need to make cases to instatiate the right subclass? 
     @PostMapping("/modifiers/apply")
-    public ResponseEntity<String> applyModifier(@RequestParam String quizModifierEffectId, @AuthenticationPrincipal User user) {
+    public ResponseEntity<String> applyModifier(@RequestBody QuizModifierEffectDto quizModifierEffectDto, @AuthenticationPrincipal User user) {
         Long userId = user.getId();
         Optional<QuizState> optionalQuizState = userQuizStateService.getLatestQuizStateByUserId(userId);
 
@@ -101,7 +127,7 @@ public class UserQuizStateController {
         }
 
         QuizState quizState = optionalQuizState.get();
-        boolean success = userQuizModifierService.applyModifierById(quizState, quizModifierEffectId);
+        boolean success = userQuizModifierService.applyModifierById(quizState, quizModifierEffectDto.getId());
 
         if (success) {
             userQuizStateService.saveQuizState(quizState);

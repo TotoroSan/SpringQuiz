@@ -30,6 +30,7 @@ public class UserQuestionController {
     // TODO how does a user interact with questions?
 
     // Get a random question with shuffled answers including realAnswer and answers from the mock-answer pool
+    // TODO currently not in use. QuizStateController handles quiz logic.
     @GetMapping
     public ResponseEntity<QuestionWithShuffledAnswersDto> getRandomQuestionWithShuffledAnswers(HttpSession session, @AuthenticationPrincipal User user) {
     	
@@ -50,10 +51,7 @@ public class UserQuestionController {
     	// Add next question to QuizState
     	Question currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds());
     	userQuizStateService.addQuestion(quizState, currentQuestion);
-    	userQuizStateService.incrementCurrentQuestionIndex(quizState);
-    	
-        // Persist the updated QuizState back to the database
-        userQuizStateService.saveQuizState(quizState);
+
 
         // Update the session with the modified QuizState for quick access
         session.setAttribute("quizState", quizState);

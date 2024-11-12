@@ -2,6 +2,7 @@ package com.example.quiz.service.user;
 
 import com.example.quiz.exception.ResourceNotFoundException;
 import com.example.quiz.model.dto.AnswerDto;
+import com.example.quiz.model.dto.QuizStateDto;
 import com.example.quiz.model.entity.Question;
 import com.example.quiz.model.entity.Quiz;
 import com.example.quiz.model.entity.QuizState;
@@ -61,7 +62,19 @@ public class UserQuizStateService {
     
     public void addQuestion(QuizState quizState, Question question) {
     	quizState.getAllQuestions().add(question);
+        incrementCurrentQuestionIndex(quizState);
     	saveQuizState(quizState);
+    }
+    
+    public QuizStateDto createQuizStateDto(QuizState quizState){
+        // Convert to DTO to return to the user
+        QuizStateDto quizStateDto = new QuizStateDto(
+                quizState.getScore(),
+                quizState.getCurrentRound(),
+                quizState.getAllQuestions().isEmpty() ? null : quizState.getAllQuestions().get(quizState.getCurrentQuestionIndex()).getQuestionText()
+        );
+        
+        return quizStateDto;
     }
     
      

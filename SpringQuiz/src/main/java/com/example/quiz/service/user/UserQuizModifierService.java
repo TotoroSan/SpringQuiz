@@ -29,6 +29,9 @@ public class UserQuizModifierService {
 
     @Autowired
     private QuizModifierRepository quizModifierRepository;
+
+    @Autowired
+    private UserQuizStateService quizStateService;
     
 
     public void applyModifier(QuizModifier quizModifier, QuizModifierEffect quizModifierEffect) {
@@ -58,6 +61,10 @@ public class UserQuizModifierService {
         if (quizModifierEffect != null) {
             quizModifierEffect.apply(quizState.getQuizModifier());
             addModifierEffect(quizState.getQuizModifier(), quizModifierEffect);
+
+            // Increment the current round
+            quizStateService.incrementCurrentRound(quizState);
+
             // Persist the change to the database
             quizModifierRepository.save(quizState.getQuizModifier());
             return true;
