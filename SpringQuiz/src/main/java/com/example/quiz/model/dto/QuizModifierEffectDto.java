@@ -1,6 +1,5 @@
 package com.example.quiz.model.dto;
 
-
 public class QuizModifierEffectDto {
     private String id; // this is is set by the subclasses and serves as identifier of the class
     private String name;

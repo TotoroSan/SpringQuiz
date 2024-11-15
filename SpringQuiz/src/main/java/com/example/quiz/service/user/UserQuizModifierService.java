@@ -1,13 +1,15 @@
 // QuizModifierService.java
 package com.example.quiz.service.user;
 
+import com.example.quiz.model.dto.QuizModifierDto;
 import com.example.quiz.model.dto.QuizModifierEffectDto;
 import com.example.quiz.model.entity.QuizModifier;
 import com.example.quiz.model.entity.QuizModifierEffect;
 import com.example.quiz.model.entity.QuizModifierEffectFactory;
-import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.repository.QuizModifierRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,63 +19,66 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserQuizModifierService {
+    private static final Logger logger = LoggerFactory.getLogger(UserQuizModifierService.class);
 
 
     @Autowired
     private QuizModifierRepository quizModifierRepository;
 
-    @Autowired
-    private UserQuizStateService userQuizStateService;
-    
+    // todo check if randomness requirement is met
+    // Returns a list of X (currently 3) random QuizModifierEffectDtos
+    // Todo if we want to display more modifiers, change here (either introduce parameter or change in code)
+    public List<QuizModifierEffectDto> pickRandomModifierEffectDtos() {
+        logger.info("Picking random modifier effects to present to the user");
 
-    public void applyModifier(QuizModifier quizModifier, QuizModifierEffect quizModifierEffect) {
-        quizModifierEffect.apply(quizModifier);
-    }
-
-    public List<QuizModifierEffectDto> pickRandomModifierDtos() {
-        return new ArrayList<>(QuizModifierEffectFactory.getEffectRegistry().keySet()).stream()
+        List<QuizModifierEffectDto> quizModifierEffectDtos =  QuizModifierEffectFactory.getQuizModifierEffectMetadataRegistry().values().stream()
                 .limit(3)
-                .map(effectId -> {
-                    Class<? extends QuizModifierEffect> effectClass = QuizModifierEffectFactory.getEffectRegistry().get(effectId);
-                    try {
-                        QuizModifierEffect effect = effectClass.getDeclaredConstructor().newInstance();
-                        return new QuizModifierEffectDto(effect.getIdString(), effect.getName(), effect.getDuration(), "Description for " + effect.getName());
-                    } catch (Exception e) {
-                        throw new RuntimeException("Failed to create effect instance for DTO", e);
-                    }
-                })
+                .map(metadata -> new QuizModifierEffectDto(
+                        metadata.getIdString(),
+                        metadata.getName(),
+                        metadata.getDuration(), // Setting duration to 0 as it’s just for selection
+                        metadata.getDescription())
+                )
                 .collect(Collectors.toList());
+
+        logger.debug("Picked modifier effects: {}", quizModifierEffectDtos);
+
+        return quizModifierEffectDtos;
     }
 
     //@Transactional
-    public boolean applyModifierById(QuizModifier quizModifier, String idString) {
-        // TODO: 5 is only placeholder here, overload to also have function with custom duration
-        QuizModifierEffect quizModifierEffect = QuizModifierEffectFactory.createEffect(idString, 2);
+    public boolean applyModifierEffectById(QuizModifier quizModifier, String idString) {
+        // TODO: 2 is only placeholder here, overload to also have function with custom duration
+        logger.info("Instantiating and Applying quizModifierEffect with id ", idString);
+        QuizModifierEffect quizModifierEffect = QuizModifierEffectFactory.createEffect(idString, 2, quizModifier);
 
         if (quizModifierEffect != null) {
             quizModifierEffect.apply(quizModifier);
-            addModifierEffect(quizModifier, quizModifierEffect);
+            quizModifier.addActiveQuizModifierEffect(quizModifierEffect);
 
-
-
-            // Persist the change to the database
-            quizModifierRepository.save(quizModifier);
+            // debug
+            logger.debug("quizModifierEffect successfully applied and added to activeModifiers", quizModifierEffect.getIdString());
             return true;
         }
+
+        // debug
+        logger.debug("No quizModifierEffect could be instantiated");
         return false;
     }
 
-    public void processModifierEffectsForNewRound(QuizModifier quizModifier) {
-        List<QuizModifierEffect> activeQuizModifierEffects = getActiveModifierEffects(quizModifier);
+    public void processActiveQuizModifierEffectsForNewRound(QuizModifier quizModifier) {
+        logger.info("Processing ActiveQuizModifierEffects for new round for quizModifier: ", quizModifier);
 
+        List<QuizModifierEffect> activeQuizModifierEffects = quizModifier.getActiveQuizModifierEffects();
+        // todo this can be done more efficiently, if we jkust copy over non deleted entries and then set activeQuizModifierEffects = active list
         // Create a list of effects to be removed after iteration to avoid ConcurrentModificationException
         List<QuizModifierEffect> effectsToRemove = new ArrayList<>();
 
         // Iterate over all active effects
         for (QuizModifierEffect quizModifierEffect : activeQuizModifierEffects) {
+            logger.debug("Processing ", quizModifierEffect.getIdString());
             // Reduce the duration by 1
             quizModifierEffect.decrementDuration();
-            System.out.println("Decrementing effect duration of: " + quizModifierEffect.getIdString());
 
             // If the effect duration has ended, add to remove list
             if (quizModifierEffect.getDuration() <= 0) {
@@ -81,15 +86,18 @@ public class UserQuizModifierService {
                 effectsToRemove.add(quizModifierEffect);
 
                 // Debug
-                System.out.println("Effect: " + quizModifierEffect.getIdString() + " removed because duration is 0");
+                // debug
+                logger.debug("Effect: ", quizModifierEffect.getIdString(), " added to removal list because duration is 0");
             }
         }
 
         // Remove expired effects from the list after iteration
         activeQuizModifierEffects.removeAll(effectsToRemove);
+        logger.debug("All expired effects removed");
 
-        // Persist the updated state
+        // Persist the updated state TODO remove?
         quizModifierRepository.save(quizModifier);
+
     }
 
     // currently not in use (check for removal)
@@ -106,13 +114,40 @@ public class UserQuizModifierService {
         // Save changes to the database
         quizModifierRepository.save(quizModifier);
     }
-    
-    public void addModifierEffect(QuizModifier quizModifier, QuizModifierEffect quizModifierEffect) {
-        quizModifier.getActiveQuizModifierEffects().add(quizModifierEffect);
+
+
+    // convert QuizModifier to QuizModifierDto (data transfer object)
+    // This is called during creating quizStateDto
+    public QuizModifierDto convertToDto(QuizModifier quizModifier) {
+        logger.info("Converting QuizModifier to QuizModifierDto");
+
+        QuizModifierDto quizModifierDto = new QuizModifierDto(quizModifier.getId(),
+                quizModifier.getScoreMultiplier(), quizModifier.getDifficultyModifier(),
+                 getActiveModifierEffectDtos(quizModifier));
+
+        logger.debug("QuizModifierDto successfully created");
+        return quizModifierDto;
     }
-    
-    public List<QuizModifierEffect> getActiveModifierEffects(QuizModifier quizModifier) {
-        return quizModifier.getActiveQuizModifierEffects();
+
+    // Get all active modifier effects for a given quiz state.
+    // This is called from within convertToDto to handle the conversion of effects to dto.
+    // TODO this is actually the convertToDto function of the ModifierEffect class.
+    //  relocate if dedicated modifierEffectsService is used
+    public List<QuizModifierEffectDto> getActiveModifierEffectDtos(QuizModifier quizModifier) {
+        logger.info("Getting QuizModifierEffectDtos for active modifierEffects");
+
+        List<QuizModifierEffectDto>  quizModifierEffectDtos =  quizModifier.getActiveQuizModifierEffects().stream()
+                .map(quizModifierEffect -> new QuizModifierEffectDto(
+                        quizModifierEffect.getIdString(),
+                        quizModifierEffect.getName(),
+                        quizModifierEffect.getDuration(),
+                        "Description for " + quizModifierEffect.getName())
+                ).collect(Collectors.toList());
+
+
+        logger.debug("Retreived ModifierEffectDtos for active modifiers: {}", quizModifierEffectDtos);
+
+        return quizModifierEffectDtos;
     }
 }
 

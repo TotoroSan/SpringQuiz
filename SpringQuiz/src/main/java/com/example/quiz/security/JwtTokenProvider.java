@@ -22,7 +22,6 @@ public class JwtTokenProvider {
 
     // Generates a JWT Token
     public String generateToken(Authentication authentication) {
-    	System.out.println("Secret when generate" + jwtSecret);
     	UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
@@ -34,7 +33,6 @@ public class JwtTokenProvider {
 
     // Validates the JWT Token
     public boolean validateToken(String token) {
-    	System.out.println("Secret when validate" + jwtSecret);
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
             return true;

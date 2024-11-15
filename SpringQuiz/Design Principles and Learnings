@@ -9,6 +9,7 @@ Applied Principles
 
 - new effects need to be added to the registry in QuizModifierEffectFactory
 
+
 Learnings
 ------------------
 - Rich Domain Model (model methods can manipulate model data) vs. Anemic Domain Model (only getters and setters in model classes)

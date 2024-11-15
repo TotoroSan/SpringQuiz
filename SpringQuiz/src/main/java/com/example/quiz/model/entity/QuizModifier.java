@@ -3,6 +3,7 @@ package com.example.quiz.model.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.quiz.model.dto.QuizModifierDto;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -73,4 +74,9 @@ public class QuizModifier {
     public void setActiveQuizModifierEffects(List<QuizModifierEffect> activeQuizModifierEffects) {
         this.activeQuizModifierEffects = activeQuizModifierEffects;
     }
+
+    public void addActiveQuizModifierEffect(QuizModifierEffect quizModifierEffect){
+        this.activeQuizModifierEffects.add(quizModifierEffect);
+    }
+
 }

@@ -29,14 +29,27 @@ public abstract class QuizModifierEffect {
     
     private String name;
     private int duration;  // The number of questions for which this modifier is active
-    
+
     @ManyToOne
+    @JoinColumn(name = "quiz_modifier_id")
     private QuizModifier quizModifier;
 
+    // Default constructor (required by JPA)
+    protected QuizModifierEffect() {
+    }
+
+    // TODO this exists because we want to send a quizModifierDto that is  unrelated
     public QuizModifierEffect(String idString, String name, int duration) {
         this.idString = idString;
         this.name = name;
         this.duration = duration;
+    }
+
+    public QuizModifierEffect(String idString, String name, int duration, QuizModifier quizModifier) {
+        this.idString = idString;
+        this.name = name;
+        this.duration = duration;
+        this.quizModifier = quizModifier;
     }
 
     public abstract void apply(QuizModifier quizModifier);

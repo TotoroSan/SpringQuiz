@@ -2,17 +2,17 @@ package com.example.quiz.controller.user;
 
 
 import com.example.quiz.model.dto.AnswerDto;
-import com.example.quiz.model.entity.Answer;
 import com.example.quiz.model.entity.Question;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.model.entity.User;
-import com.example.quiz.service.admin.AdminAnswerService;
 import com.example.quiz.service.user.UserAnswerService;
 import com.example.quiz.service.user.UserQuizModifierService;
 import com.example.quiz.service.user.UserQuizStateService;
 
 import jakarta.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,6 +23,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("user/api/answers")
 public class UserAnswerController {
+    private static final Logger logger = LoggerFactory.getLogger(UserAnswerController.class);
 
     @Autowired
     private UserAnswerService userAnswerService;
@@ -36,13 +37,15 @@ public class UserAnswerController {
     @PostMapping("/answer")
     public ResponseEntity<Boolean> submitAnswer(@RequestBody AnswerDto answerDto,  @AuthenticationPrincipal User user, 
     		HttpSession session) {
-    	
+
+        logger.info("Received request to evaluate submitted answer", answerDto.getText());
+
         // Retrieve the current quiz state from the database
         Long userId = user.getId();
         Optional<QuizState> optionalQuizState = userQuizStateService.getLatestQuizStateByUserId(userId);
         
         if (optionalQuizState.isEmpty()) {
-            System.out.println("Quiz State is null");
+            logger.warn("Quiz state not found for user ID: {}", userId);
             return ResponseEntity.badRequest().body(null);
         }
         
@@ -50,18 +53,12 @@ public class UserAnswerController {
        
         // Get the current question from state object
         Question currentQuestion = userQuizStateService.getCurrentQuestion(quizState);
-        System.out.println("Loaded Quiz State: " + quizState);
-        System.out.println("Current Question Index: " + quizState.getCurrentQuestionIndex());
-        System.out.println("Current Question text: " + quizState.getAllQuestions().get(quizState.getCurrentQuestionIndex()));
-        System.out.println("All Question IDs: " + quizState.getAllQuestions());
-        System.out.println("Completed Question IDs: " + quizState.getCompletedQuestionIds());
-        
-        
+
         // Validate the answer correctness using the answer service
         boolean isCorrect = userAnswerService.isCorrectAnswer(answerDto, currentQuestion);
 
         if (!isCorrect) {
-        	System.out.println("Answer is wrong"); // debug 
+            logger.debug("Submitted answer is incorrect");
             // Handle incorrect answer (e.g., decrease lives)	
             return ResponseEntity.ok(false);
         }
@@ -73,18 +70,15 @@ public class UserAnswerController {
         userQuizStateService.incrementCurrentRound(quizState);
         userQuizStateService.IncrementAnsweredQuestionsInSegment(quizState);
 
-        // TODO move (maybe to UserStateService -> each time we fetch the state we clean the modifiers?)
-        // reduce ModifierEffect duration and remove invalid ModifierEffects
-        userQuizModifierService.processModifierEffectsForNewRound(quizState.getQuizModifier());
-        
-    	System.out.println("Answer is right"); // debug 
-            
+        userQuizModifierService.processActiveQuizModifierEffectsForNewRound(quizState.getQuizModifier());
+
         // Persist the updated quiz state
         userQuizStateService.saveQuizState(quizState);
     	
         // Update the session with the updated QuizState
         session.setAttribute("quizState", quizState);
 
+        logger.debug("Submitted answer is correct");
         return ResponseEntity.ok(true);
     }
 }

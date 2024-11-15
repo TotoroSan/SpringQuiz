@@ -9,6 +9,8 @@ import com.example.quiz.service.user.UserQuizStateService;
 
 import jakarta.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,7 +24,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("user/api/quiz")
 public class UserQuizStateController {
-	// this is the controller for quiz management and users accessing session data
+    private static final Logger logger = LoggerFactory.getLogger(UserQuizStateController.class);
+
+    // this is the controller for quiz management and users accessing session data
 	
 	// we will route requests to different controllers to keep separation of concern.
 	// we will update the session data from different controllers, so we can update in one go.
@@ -56,29 +60,38 @@ public class UserQuizStateController {
      * */
     @GetMapping("/state")
     public ResponseEntity<QuizStateDto> getQuizState(HttpSession session, @AuthenticationPrincipal User user) {
+        logger.info("Received request to get QuizState for user: {}", user.getId());
+
         Long userId = user.getId();
         Optional<QuizState> optionalQuizState = userQuizStateService.getLatestQuizStateByUserId(userId);
 
         if (optionalQuizState.isEmpty()) {
+            logger.warn("Quiz state not found for user ID: {}", userId);
             return ResponseEntity.badRequest().build();
         }
 
         QuizState quizState = optionalQuizState.get();
         session.setAttribute("quizState", quizState);
 
-        QuizStateDto quizStateDto = userQuizStateService.createQuizStateDto(quizState);
 
+        QuizStateDto quizStateDto = userQuizStateService.convertToDto(quizState);
+
+        logger.debug("Successfully retreived QuizState");
         return ResponseEntity.ok(quizStateDto);
     }
 
     // Endpoint to handle next game event (either a question or modifier effects)
-    // TODO maybe create new wrapper class for the game events so that we do not have to return <?>
     @GetMapping("/nextGameEvent")
     public ResponseEntity<GameEventDto> getNextGameEvent(HttpSession session, @AuthenticationPrincipal User user) {
+        logger.info("Received request to get next game event for user ID: {}", user.getId());
+
+
         Long userId = user.getId();
         Optional<QuizState> optionalQuizState = userQuizStateService.getLatestQuizStateByUserId(userId);
 
+        // todo should this raise an exception?
         if (optionalQuizState.isEmpty()) {
+            logger.warn("Quiz state not found for user ID: {}", userId);
             return ResponseEntity.badRequest().build();
         }
 
@@ -88,23 +101,23 @@ public class UserQuizStateController {
         // Check if the current round is divisible by 5 to provide modifier effects
         // TODO 5 is arbitrary value for testing.
         if (quizState.getAnsweredQuestionsInSegment() % 5 == 0) {
-            List<QuizModifierEffectDto> randomQuizModifierEffects = userQuizModifierService.pickRandomModifierDtos();
+            logger.info("Returning random modifier effects for user ID: {}", userId);
+            List<QuizModifierEffectDto> randomQuizModifierEffects = userQuizModifierService.pickRandomModifierEffectDtos();
             GameEventDto modifierEvent = new GameEventDto(randomQuizModifierEffects);
+            logger.debug("Successfully returned random modifier effects");
             return ResponseEntity.ok(modifierEvent);
         } else {
+            logger.info("Returning next question for user ID: {}", userId);
+
             // Return the next question with the given difficulty
             int currentDiffculty = 1 * quizState.getQuizModifier().getDifficultyModifier();
-
-            // Debug
-            System.out.println("Retreiving Question with difficulty of: " + currentDiffculty);
-
             // TODO adjust if any difficulty is wanted. just remove currentDifficulty as paramter
             Question currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), currentDiffculty);
             userQuizStateService.addQuestion(quizState, currentQuestion);
-;
             QuestionWithShuffledAnswersDto questionWithShuffledAnswersDto = userQuestionService.createQuestionWithShuffledAnswersDto(currentQuestion);
             GameEventDto questionEvent = new GameEventDto(questionWithShuffledAnswersDto);
 
+            logger.debug("Successfully returned QuestionWithShuffledAnswers");
             return ResponseEntity.ok(questionEvent);
         }
     }
@@ -113,35 +126,61 @@ public class UserQuizStateController {
     
     
     // Endpoint to get random QuizModifierEffects to present to the user
-    @GetMapping("/modifiers")
+    // TODO currently not in use
+    @GetMapping("/modifiers/getrandom")
     public ResponseEntity<List<QuizModifierEffectDto>> getRandomModifiers() {
-        List<QuizModifierEffectDto> randomQuizModifierEffects = userQuizModifierService.pickRandomModifierDtos();
+        List<QuizModifierEffectDto> randomQuizModifierEffects = userQuizModifierService.pickRandomModifierEffectDtos();
         return ResponseEntity.ok(randomQuizModifierEffects);
     }
 
     // Endpoint to apply the chosen modifier effect to the modifier of the gamestate
     @PostMapping("/modifiers/apply")
-    public ResponseEntity<String> applyModifier(@RequestBody QuizModifierEffectDto quizModifierEffectDto, @AuthenticationPrincipal User user) {
+    public ResponseEntity<String> applyModifier(HttpSession session, @RequestBody QuizModifierEffectDto quizModifierEffectDto, @AuthenticationPrincipal User user) {
+        logger.info("Received request to apply chosen QuizModifierEffect for user ID: {}", user.getId());
+
         Long userId = user.getId();
         Optional<QuizState> optionalQuizState = userQuizStateService.getLatestQuizStateByUserId(userId);
 
         if (optionalQuizState.isEmpty()) {
+            logger.warn("Quiz state not found for user ID: {}", userId);
             return ResponseEntity.badRequest().body("Quiz state not found");
         }
 
         QuizState quizState = optionalQuizState.get();
         QuizModifier quizModifier = quizState.getQuizModifier();
-        boolean success = userQuizModifierService.applyModifierById(quizModifier, quizModifierEffectDto.getId());
+        boolean success = userQuizModifierService.applyModifierEffectById(quizModifier, quizModifierEffectDto.getId());
 
 
         if (success) {
             userQuizStateService.moveToNextSegment(quizState);
+            session.setAttribute("quizState", quizState);
+            userQuizStateService.saveQuizState(quizState); // TODO move saving logic to service (?)
+            logger.info("Successfully applied chosen QuizModifierEffect");
             return ResponseEntity.ok("Modifier applied successfully");
         } else {
+            logger.error("Failed to apply chosen QuizModifierEffect");
             return ResponseEntity.badRequest().body("Failed to apply modifier");
         }
     }
 
-    // TODO endpoint to get List of active modifierEffects (best via dto)
-   
+
+    @GetMapping("/modifiers/getactive")
+    public ResponseEntity<List<QuizModifierEffectDto>> getActiveQuizModifierDtos(@AuthenticationPrincipal User user) {
+        logger.info("Received request to get ActiveQuizModifierDtos for user: {}", user.getId());
+
+        Long userId = user.getId();
+        Optional<QuizState> optionalQuizState = userQuizStateService.getLatestQuizStateByUserId(userId);
+
+        if (optionalQuizState.isEmpty()) {
+            logger.warn("Quiz state not found for user ID: {}", userId);
+            return ResponseEntity.badRequest().build();
+        }
+
+        QuizState quizState = optionalQuizState.get();
+        List<QuizModifierEffectDto> activeQuizModifierEffects = userQuizModifierService.getActiveModifierEffectDtos(quizState.getQuizModifier());
+
+        logger.info("Successfully retreived ActiveQuizModifierDtos for user: {}", user.getId());
+
+        return ResponseEntity.ok(activeQuizModifierEffects);
+    }
 }

@@ -11,6 +11,8 @@ import com.example.quiz.service.user.UserQuizStateService;
 
 import jakarta.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,6 +23,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("user/api/questions")
 public class UserQuestionController {
+    private static final Logger logger = LoggerFactory.getLogger(UserQuestionController.class);
 
     @Autowired
     private UserQuestionService userQuestionService;
@@ -33,7 +36,7 @@ public class UserQuestionController {
     // TODO currently not in use. QuizStateController handles quiz logic.
     @GetMapping
     public ResponseEntity<QuestionWithShuffledAnswersDto> getRandomQuestionWithShuffledAnswers(HttpSession session, @AuthenticationPrincipal User user) {
-    	
+    	logger.info("Received request to get QuestionWithShuffledAnswers for user ID: {}", user.getId());
         // Fetch the current user ID
         Long userId = user.getId();
 
@@ -41,7 +44,7 @@ public class UserQuestionController {
         Optional<QuizState> optionalQuizState = userQuizStateService.getLatestQuizStateByUserId(userId);
 
         if (optionalQuizState.isEmpty()) {
-            System.out.println("Quiz State is null");
+            logger.warn("Quiz state not found for user ID: {}", userId);
             return ResponseEntity.badRequest().build();
         }
 
@@ -52,15 +55,12 @@ public class UserQuestionController {
     	Question currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds());
     	userQuizStateService.addQuestion(quizState, currentQuestion);
 
-
         // Update the session with the modified QuizState for quick access
         session.setAttribute("quizState", quizState);
-    	
-    	System.out.println("Mock answers before shuffle after load" + currentQuestion.getMockAnswers());
-    	
+
         QuestionWithShuffledAnswersDto questionWithShuffledAnswersDto = userQuestionService.createQuestionWithShuffledAnswersDto(currentQuestion);
-        
-         
+
+        logger.info("Successfully retreived a QuestionWithShuffledAnswers");
         return ResponseEntity.ok(questionWithShuffledAnswersDto); 
         // set new question as active 
     }

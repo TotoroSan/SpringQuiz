@@ -9,14 +9,18 @@ import jakarta.persistence.Entity;
 @Entity
 @DiscriminatorValue("QUADRUPLE_SCORE")
 public class QuadrupleScoreQuizModifierEffect extends QuizModifierEffect {
-    public QuadrupleScoreQuizModifierEffect() {
-        super("QUADRUPLE_SCORE", "Quadruple Score", 3);
+    // Default constructor (required by JPA)
+    protected QuadrupleScoreQuizModifierEffect() {
+
+    }
+
+    public QuadrupleScoreQuizModifierEffect(QuizModifier quizModifier) {
+        super("QUADRUPLE_SCORE", "Quadruple Score", 3, quizModifier);
     }
     
-    public QuadrupleScoreQuizModifierEffect(int duration) {
-        super("QUADRUPLE_SCORE", "Quadruple Score", duration);
+    public QuadrupleScoreQuizModifierEffect(int duration, QuizModifier quizModifier) {
+        super("QUADRUPLE_SCORE", "Quadruple Score", duration, quizModifier);
     }
-    
 
     @Override
     public void apply(QuizModifier quizModifier) {

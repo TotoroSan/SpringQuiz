@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +26,7 @@ import com.example.quiz.repository.QuestionRepository;
 
 @Service
 public class UserQuestionService {
+    private static final Logger logger = LoggerFactory.getLogger(UserQuestionService.class);
 
     @Autowired
     private QuestionRepository questionRepository;
@@ -62,8 +65,9 @@ public class UserQuestionService {
 	}
 
     public Question getRandomQuestionExcludingCompleted(Set<Long> completedQuestionIds, Integer difficulty) {
-        Pageable pageable = PageRequest.of(0, 1);
+        logger.info("Picking random uncompleted question");
 
+        Pageable pageable = PageRequest.of(0, 1);
         Page<Question> questionsPage;
 
         // get random question from repository that hasn't been answered
@@ -76,10 +80,13 @@ public class UserQuestionService {
         }
 
         if (questionsPage.isEmpty()) {
+            logger.error("No available question found");
             throw new RuntimeException("No available question found.");
         }
 
-        return questionsPage.getContent().get(0);
+        Question uncompletedQuestion = questionsPage.getContent().get(0);
+        logger.debug("Successfully picked random uncompleted questio: ", uncompletedQuestion.getId());
+        return uncompletedQuestion;
     }
 
 
@@ -89,25 +96,18 @@ public class UserQuestionService {
 		// TODO check where to add exception for findRandomQuestion (e.g. there are no questions left)
 		// we use this datatype and not questionDto because we do not want to reveal real true answer to the client
 
+        logger.info("Creating QuestionWithShuffledAnswersDto for question: ", question.getId());
+
 		// Prepare a list to hold the final answers (including the real one)
         List<AnswerDto> finalAnswers = new ArrayList<>();
 
         // Add the correct answer
         finalAnswers.add(new AnswerDto(question.getCorrectAnswer().getId(), question.getCorrectAnswer().getAnswerText()));
-        // Debug
-        System.out.println("Non copy before shuffle: " + question.getMockAnswers());
+
         // Create a copy of the mock answers list to shuffle
         List<MockAnswer> mockAnswersCopy = new ArrayList<>(question.getMockAnswers());
-        
-        
 
-        // Debug
-        System.out.println("Mock answers before shuffle: " + mockAnswersCopy);
-        
         Collections.shuffle(mockAnswersCopy);  // Shuffle the copied list
-        
-        // Debug
-        System.out.println("Mock answers after shuffle: " + mockAnswersCopy);
 
         // Add up to 3 mock answers from the shuffled copy
         for (int i = 0; i < Math.min(3, mockAnswersCopy.size()); i++) {
@@ -116,6 +116,8 @@ public class UserQuestionService {
 
         // Shuffle the final list of answers (real + selected mock answers)
         Collections.shuffle(finalAnswers);
+
+        logger.info("Created QuestionWithShuffledAnswersDto for question: ", question.getId(), "with answers {}", finalAnswers);
 
         // Return the question with the shuffled answers
         return new QuestionWithShuffledAnswersDto(question.getQuestionText(), question.getId(), finalAnswers);
