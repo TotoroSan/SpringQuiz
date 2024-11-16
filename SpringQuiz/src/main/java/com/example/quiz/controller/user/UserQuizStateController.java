@@ -98,13 +98,22 @@ public class UserQuizStateController {
         QuizState quizState = optionalQuizState.get();
         session.setAttribute("quizState", quizState);
 
+        // prevent providing GameEvents if game has ended
+        if (!quizState.isActive()) {
+            logger.warn("Quiz state is not active! This Quiz has ended");
+            return ResponseEntity.badRequest().build();
+        }
+
         // Check if the current round is divisible by 5 to provide modifier effects
         // TODO 5 is arbitrary value for testing.
         if (quizState.getAnsweredQuestionsInSegment() % 5 == 0) {
             logger.info("Returning random modifier effects for user ID: {}", userId);
+
             List<QuizModifierEffectDto> randomQuizModifierEffects = userQuizModifierService.pickRandomModifierEffectDtos();
             GameEventDto modifierEvent = new GameEventDto(randomQuizModifierEffects);
+
             logger.debug("Successfully returned random modifier effects");
+
             return ResponseEntity.ok(modifierEvent);
         } else {
             logger.info("Returning next question for user ID: {}", userId);
@@ -118,6 +127,7 @@ public class UserQuizStateController {
             GameEventDto questionEvent = new GameEventDto(questionWithShuffledAnswersDto);
 
             logger.debug("Successfully returned QuestionWithShuffledAnswers");
+
             return ResponseEntity.ok(questionEvent);
         }
     }

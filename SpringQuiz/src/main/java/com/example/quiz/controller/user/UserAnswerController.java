@@ -58,27 +58,19 @@ public class UserAnswerController {
         boolean isCorrect = userAnswerService.isCorrectAnswer(answerDto, currentQuestion);
 
         if (!isCorrect) {
-            logger.debug("Submitted answer is incorrect");
-            // Handle incorrect answer (e.g., decrease lives)	
+            // Handle incorrect answer response (e.g., decrease lives)
+            logger.info("Submitted answer is incorrect");
+            userQuizStateService.processQuizEnd(quizState);
+
             return ResponseEntity.ok(false);
         }
         
         // If answer is correct, update the quiz state using the quiz state service
-        // Todo consolidate this
-        userQuizStateService.markQuestionAsCompleted(quizState, currentQuestion.getId());
-        userQuizStateService.incrementScore(quizState);
-        userQuizStateService.incrementCurrentRound(quizState);
-        userQuizStateService.IncrementAnsweredQuestionsInSegment(quizState);
+        logger.info("Submitted answer is correct");
+        userQuizStateService.processCorrectAnswerSubmission(quizState);
 
-        userQuizModifierService.processActiveQuizModifierEffectsForNewRound(quizState.getQuizModifier());
 
-        // Persist the updated quiz state
-        userQuizStateService.saveQuizState(quizState);
-    	
-        // Update the session with the updated QuizState
-        session.setAttribute("quizState", quizState);
-
-        logger.debug("Submitted answer is correct");
+        logger.debug("Successfully processed submitAnswer request");
         return ResponseEntity.ok(true);
     }
 }

@@ -61,18 +61,26 @@ public class QuizState implements Serializable {
 	// number of (correctly) answered questions in the current segment
 	private int answeredQuestionsInSegment;
 
+
+
+	// flag that indicates if the GameState is active (meaning the game hasnt ended)
+	private boolean isActive;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "quiz_modifier_id", referencedColumnName = "id")
     private QuizModifier quizModifier;
-    
+
+
+
     // TODO think about this. i want to be able to flexibly change out questions for a given degree of diffuclty via a joker.
     // So either load spare question set or retrieve the questions "live" and do not make premade quiz set.
     
     // Standard Constructor for JPA reflection
     public QuizState() {
     }
-    
-    
+
+
+	// Todo consolidate constructors (builder or factory?)
     // Constructor to initialize a new quiz
     public QuizState(Long userId) {
     	this.userId = userId;
@@ -83,12 +91,13 @@ public class QuizState implements Serializable {
         this.currentRound = 1;
 		this.currentSegment = 1;
 		this.answeredQuestionsInSegment = 1;
-        this.quizModifier = new QuizModifier(); // initialize with standard quiz modifier
+		this.isActive = true;
+        this.quizModifier = new QuizModifier(this); // initialize with standard quiz modifier
     }
     
     // Constructor to initialize a new quiz with a list of questions
     public QuizState(Long userId, List<Question> questions) {
-    	this.userId = userId; 
+    	this.userId = userId;
         this.allQuestions = questions;
         this.currentQuestionIndex = 0;
         this.completedQuestionIds = new HashSet<>();
@@ -96,10 +105,26 @@ public class QuizState implements Serializable {
         this.currentRound = 1;
 		this.currentSegment = 1;
 		this.answeredQuestionsInSegment = 0;
-        this.quizModifier = new QuizModifier(); // initialize with standard quiz modifier
+		this.isActive = true;
+        this.quizModifier = new QuizModifier(this); // initialize with standard quiz modifier
     }
-    
-    
+
+	// Constructor to initialize a new quiz with a list of questions and existing a custom modifier
+	public QuizState(Long userId, List<Question> questions, QuizModifier quizModifier) {
+		this.userId = userId;
+		this.allQuestions = questions;
+		this.currentQuestionIndex = 0;
+		this.completedQuestionIds = new HashSet<>();
+		this.score = 0;  // Initialize score to 0
+		this.currentRound = 1;
+		this.currentSegment = 1;
+		this.answeredQuestionsInSegment = 0;
+		this.isActive = true;
+		this.quizModifier = quizModifier; // initialize with standard quiz modifier
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}
@@ -158,9 +183,7 @@ public class QuizState implements Serializable {
 	}
 
 
-	public QuizModifier getQuizModifier() {
-		return quizModifier;
-	}
+
 
 	public int getAnsweredQuestionsInSegment() {
 		return answeredQuestionsInSegment;
@@ -179,6 +202,17 @@ public class QuizState implements Serializable {
 		this.currentSegment = currentSegment;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean active) {
+		isActive = active;
+	}
+
+	public QuizModifier getQuizModifier() {
+		return quizModifier;
+	}
 	public void setQuizModifier(QuizModifier quizModifier) {
 		this.quizModifier = quizModifier;
 	}

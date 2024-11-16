@@ -27,14 +27,21 @@ public class QuizModifier {
     private double scoreMultiplier = 1.0;
     private int difficultyModifier = 1;
     
-    // TODO here is the problem currently -
-    // we only persist the effect id
+    // orphanRemoval = true because if a effect is no longer active (= expired), it can be deleted
     @OneToMany(mappedBy = "quizModifier", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuizModifierEffect> activeQuizModifierEffects = new ArrayList<>();
-    
+
     @OneToOne
     private QuizState quizState;
-    
+
+    // Default Constructor
+    QuizModifier(){}
+
+    // Each QuizModifier belongs to one QuizsState (Jpa needs this to set both sides of OneToOne relationship in table)
+    QuizModifier(QuizState quizState){
+        this.quizState = quizState;
+    }
+
     public Long getId() {
 		return id;
 	}

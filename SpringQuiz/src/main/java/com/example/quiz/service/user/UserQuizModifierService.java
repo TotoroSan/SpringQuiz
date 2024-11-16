@@ -70,7 +70,7 @@ public class UserQuizModifierService {
         logger.info("Processing ActiveQuizModifierEffects for new round for quizModifier: ", quizModifier);
 
         List<QuizModifierEffect> activeQuizModifierEffects = quizModifier.getActiveQuizModifierEffects();
-        // todo this can be done more efficiently, if we jkust copy over non deleted entries and then set activeQuizModifierEffects = active list
+
         // Create a list of effects to be removed after iteration to avoid ConcurrentModificationException
         List<QuizModifierEffect> effectsToRemove = new ArrayList<>();
 
@@ -94,10 +94,6 @@ public class UserQuizModifierService {
         // Remove expired effects from the list after iteration
         activeQuizModifierEffects.removeAll(effectsToRemove);
         logger.debug("All expired effects removed");
-
-        // Persist the updated state TODO remove?
-        quizModifierRepository.save(quizModifier);
-
     }
 
     // currently not in use (check for removal)

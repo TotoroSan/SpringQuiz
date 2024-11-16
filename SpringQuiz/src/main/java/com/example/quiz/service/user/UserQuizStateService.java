@@ -1,7 +1,5 @@
 package com.example.quiz.service.user;
 
-import com.example.quiz.model.dto.QuizModifierDto;
-import com.example.quiz.model.dto.QuizModifierEffectDto;
 import com.example.quiz.model.dto.QuizStateDto;
 import com.example.quiz.model.entity.Question;
 import com.example.quiz.model.entity.QuizState;
@@ -21,9 +19,9 @@ public class UserQuizStateService {
     // responsible for actions that modify the state, like incrementing the question index.
 
 
-	// by stating autowired the object creation gets handed over to spring.
-	// it is an "automatic" connection to another class that is needed and has a connection to our class. we basically "wire" the classes -> if we create a quizservice we always reate a quizrepository via that wire
-	// without spring i would need to create the repository in the constructor and delete it after the operation or on end of connection
+    // by stating autowired the object creation gets handed over to spring.
+    // it is an "automatic" connection to another class that is needed and has a connection to our class. we basically "wire" the classes -> if we create a quizservice we always reate a quizrepository via that wire
+    // without spring i would need to create the repository in the constructor and delete it after the operation or on end of connection
 
     @Autowired
     private QuizStateRepository quizStateRepository;
@@ -71,12 +69,12 @@ public class UserQuizStateService {
 
         quizState.getAllQuestions().add(question);
         incrementCurrentQuestionIndex(quizState);
-    	saveQuizState(quizState);
+        saveQuizState(quizState);
 
         logger.debug("Added question ", question.getId(), "successfully");
     }
 
-    public QuizStateDto convertToDto(QuizState quizState){
+    public QuizStateDto convertToDto(QuizState quizState) {
         logger.info("Converting quizState to quizStateDto");
         // Convert to DTO to return to the user
         QuizStateDto quizStateDto = new QuizStateDto(
@@ -93,7 +91,6 @@ public class UserQuizStateService {
     // Move to the next question
     public void incrementCurrentQuestionIndex(QuizState quizState) {
         quizState.setCurrentQuestionIndex(quizState.getCurrentQuestionIndex() + 1); // Move to the next question
-        saveQuizState(quizState);
     }
 
     // Increment the score by 1 (* multiplicator)
@@ -105,13 +102,11 @@ public class UserQuizStateService {
     // Increment the round
     public void incrementCurrentRound(QuizState quizState) {
         quizState.setCurrentRound(quizState.getCurrentRound() + 1);
-        saveQuizState(quizState);
     }
 
     // Mark a question as completed
     public void markQuestionAsCompleted(QuizState quizState, Long questionId) {
-    	quizState.getCompletedQuestionIds().add(questionId);
-    	saveQuizState(quizState);
+        quizState.getCompletedQuestionIds().add(questionId);
     }
 
     // Get the current question
@@ -136,15 +131,48 @@ public class UserQuizStateService {
     }
 
     // Move to the next segment (i.e. reset question count in segment)
-    public void moveToNextSegment(QuizState quizState){
+    public void moveToNextSegment(QuizState quizState) {
         quizState.setCurrentSegment(quizState.getCurrentSegment() + 1);
         quizState.setAnsweredQuestionsInSegment(1);
         saveQuizState(quizState);
     }
 
     // Todo methods like this should be moved to the model class itself
-    public void IncrementAnsweredQuestionsInSegment(QuizState quizState) {
+    public void incrementAnsweredQuestionsInSegment(QuizState quizState) {
         quizState.setAnsweredQuestionsInSegment(quizState.getAnsweredQuestionsInSegment() + 1);
     }
 
+    // Update the game state after a correct answer was submitted
+    public void processCorrectAnswerSubmission(QuizState quizState) {
+        logger.info("Processing correct answer submission for", quizState);
+
+        // update quizState
+        markQuestionAsCompleted(quizState, getCurrentQuestion(quizState).getId());
+        incrementScore(quizState);
+        incrementCurrentRound(quizState);
+        incrementAnsweredQuestionsInSegment(quizState);
+        // update ActiveQuizModifierEffects
+        userQuizModifierService.processActiveQuizModifierEffectsForNewRound(quizState.getQuizModifier());
+        // Persist the updated quiz state
+        saveQuizState(quizState);
+
+        logger.debug("Successfully processed correct answer submission for", quizState);
+    }
+
+    // Update the game state after a incorrect answer was submitted
+    // todo add logic here if we want to continue the quiz after wrong answer submission. for the now the quiz ends on incorrect submission
+    public void processIncorrectAnswerSubmission(QuizState quizState) {
+
+    }
+
+    // Update the game state after a correct answer was submitted
+    public void processQuizEnd(QuizState quizState) {
+        logger.info("Processing quiz end for QuizState", quizState);
+
+        quizState.setActive(false);  // set game as inactive on wrong answer
+        quizState.getQuizModifier().getActiveQuizModifierEffects().clear(); // clear active effects when the game ends
+        saveQuizState(quizState);
+
+        logger.debug("Successfully processed quiz end");
+    }
 }

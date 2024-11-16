@@ -8,7 +8,7 @@ Applied Principles
 - QuizState is persisted via JWT-Token User-Id to dedicated database
 
 - new effects need to be added to the registry in QuizModifierEffectFactory
-
+- Rich Domain Model
 
 Learnings
 ------------------
