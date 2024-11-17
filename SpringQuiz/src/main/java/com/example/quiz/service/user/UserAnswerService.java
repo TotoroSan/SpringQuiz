@@ -1,16 +1,11 @@
 package com.example.quiz.service.user;
 
 
-import com.example.quiz.exception.ResourceNotFoundException;
 import com.example.quiz.model.dto.AnswerDto;
-import com.example.quiz.model.entity.Answer;
 import com.example.quiz.model.entity.Question;
 import com.example.quiz.repository.AnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserAnswerService {

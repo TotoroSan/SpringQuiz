@@ -5,9 +5,9 @@ package com.example.quiz.model.entity;
 // but this would maintanability worse
 public class QuizModifierEffectMetaData {
 
-    private String idString;
-    private String name;
-    private String description;
+    private final String idString;
+    private final String name;
+    private final String description;
     private int duration;
 
     public QuizModifierEffectMetaData(String idString, String name, String description, int duration) {

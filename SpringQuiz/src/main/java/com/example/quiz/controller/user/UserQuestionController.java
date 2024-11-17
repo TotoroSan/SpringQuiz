@@ -1,22 +1,20 @@
 package com.example.quiz.controller.user;
 
-import com.example.quiz.model.dto.QuestionDto;
 import com.example.quiz.model.dto.QuestionWithShuffledAnswersDto;
 import com.example.quiz.model.entity.Question;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.model.entity.User;
-import com.example.quiz.service.admin.AdminQuestionService;
 import com.example.quiz.service.user.UserQuestionService;
 import com.example.quiz.service.user.UserQuizStateService;
-
 import jakarta.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 

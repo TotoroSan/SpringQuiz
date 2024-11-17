@@ -1,18 +1,6 @@
 package com.example.quiz.model.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 // this class represents a "Power-up" - some dynamic change to the QuizModifier
 // it is not a "classic" jpa entity. specific rule subclasses just define a manipulation of the GameModifier.

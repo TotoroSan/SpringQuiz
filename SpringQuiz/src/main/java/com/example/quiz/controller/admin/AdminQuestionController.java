@@ -1,14 +1,9 @@
 package com.example.quiz.controller.admin;
 
 import com.example.quiz.model.dto.QuestionDto;
-import com.example.quiz.model.dto.QuestionWithShuffledAnswersDto;
-import com.example.quiz.model.entity.Question;
 import com.example.quiz.service.admin.AdminQuestionService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("admin/api/questions")

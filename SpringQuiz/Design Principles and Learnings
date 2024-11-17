@@ -25,3 +25,24 @@ whereas services perform the business operations including data retrieval and pe
 
 Tech Stack
 -------------------
+Spring Suite, Maven
+- Testing
+    - JUnit
+    - Swagger
+- Authentication
+    - Spring Security
+    - JWT
+- Protocols
+    - Https
+- Persistence
+    - JPA (Hibernate)
+    - mysql8
+
+...
+
+ Setup info
+------------------------------------
+- When running in docker container make sure frontend backend and database are in the same network
+    - used container ports: mysql8 3306:3306, frontend 3000:80, backend 8443:8843
+- Using https with self sign certificate for testing (!UNSAFE FOR PRODUCTION!)
+- Example dataset provided in .csv

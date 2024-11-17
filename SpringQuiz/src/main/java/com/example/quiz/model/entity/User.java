@@ -1,18 +1,13 @@
 package com.example.quiz.model.entity;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.stream.Collectors;
-
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 // this is a custom UserDetails class. It is also possible to use default UserDetails for in memory testing etc.
 // it basically defines what UserDetails are contained in the JWT token

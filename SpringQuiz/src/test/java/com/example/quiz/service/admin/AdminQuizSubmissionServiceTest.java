@@ -1,10 +1,8 @@
 package com.example.quiz.service.admin;
 
-import com.example.quiz.repository.QuizSubmissionRepository;
-import com.example.quiz.service.admin.AdminQuizSubmissionService;
 import com.example.quiz.exception.ResourceNotFoundException;
 import com.example.quiz.model.entity.QuizSubmission;
-
+import com.example.quiz.repository.QuizSubmissionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,7 +13,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class AdminQuizSubmissionServiceTest {

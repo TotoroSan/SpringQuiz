@@ -1,10 +1,8 @@
 package com.example.quiz.repository;
 
-import com.example.quiz.model.entity.Quiz;
 import com.example.quiz.model.entity.QuizState;
-
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
+
 import java.util.Optional;
 
 public interface QuizStateRepository extends JpaRepository<QuizState, Long> {

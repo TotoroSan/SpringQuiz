@@ -1,5 +1,7 @@
 package com.example.quiz.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,11 +22,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.example.quiz.service.user.UserService;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 
 @Configuration
@@ -33,37 +30,39 @@ public class SecurityConfig {
     
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     @Autowired
-   
-    
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         logger.info("Configuring Security Filter Chain");
-        
-        http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS configuration
-            .csrf(csrf -> csrf.disable())  // Disable CSRF for development
 
-            .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                .requestMatchers("/api/auth/login", "/login", "/logout").permitAll()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-            )
-            .headers(headers -> headers.frameOptions().sameOrigin()) // Allow H2 Console
-            .logout(logout -> logout.permitAll())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // JWT-Filter hinzufügen
+        http
+                .requiresChannel(channel -> channel
+                        .anyRequest().requiresSecure()  // Force all requests to be served over HTTPS
+                )
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS configuration
+                .csrf(csrf -> csrf.disable())  // Disable CSRF for development
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/auth/login", "/login", "/logout").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
+                )
+                .headers(headers -> headers.frameOptions().sameOrigin()) // Allow H2 Console
+                .logout(logout -> logout.permitAll())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter
 
         logger.info("JWT Authentication Filter added before UsernamePasswordAuthenticationFilter");
         logger.info("Building Security Filter Chain");
-        
+
         return http.build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:3000"));
+        config.setAllowedOrigins(List.of("http://localhost:3000", "http://quiz-frontend-container:80")); // port for container not necessary because backend and frontend are in same network
         config.setAllowCredentials(true);
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");

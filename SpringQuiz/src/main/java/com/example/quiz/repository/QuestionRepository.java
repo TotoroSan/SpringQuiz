@@ -1,14 +1,13 @@
 package com.example.quiz.repository;
 
-import java.util.Set;
-
+import com.example.quiz.model.entity.Question;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.example.quiz.model.entity.Question;
+import java.util.Set;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
     // You can add custom methods here for specific queries if needed

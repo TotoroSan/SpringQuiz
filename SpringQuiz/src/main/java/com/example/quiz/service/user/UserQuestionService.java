@@ -1,12 +1,13 @@
 package com.example.quiz.service.user;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import com.example.quiz.model.dto.AnswerDto;
+import com.example.quiz.model.dto.QuestionDto;
+import com.example.quiz.model.dto.QuestionWithShuffledAnswersDto;
+import com.example.quiz.model.entity.Answer;
+import com.example.quiz.model.entity.MockAnswer;
+import com.example.quiz.model.entity.Question;
+import com.example.quiz.repository.QuestionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +16,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.example.quiz.exception.ResourceNotFoundException;
-import com.example.quiz.model.dto.AnswerDto;
-import com.example.quiz.model.dto.QuestionDto;
-import com.example.quiz.model.dto.QuestionWithShuffledAnswersDto;
-import com.example.quiz.model.entity.Answer;
-import com.example.quiz.model.entity.MockAnswer;
-import com.example.quiz.model.entity.Question;
-import com.example.quiz.repository.QuestionRepository;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserQuestionService {

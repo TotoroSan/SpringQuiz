@@ -6,7 +6,7 @@ import java.util.List;
 // the frontend uses eventType to dynamically choose the correct components
 // for simplicitys sake and because its "only" a dto we instantiate it like this isntead of using proper parentclass - subclass structure
 public class GameEventDto {
-    private String eventType;
+    private final String eventType;
     private QuestionWithShuffledAnswersDto question;
     private List<QuizModifierEffectDto> quizModifierEffects;
 

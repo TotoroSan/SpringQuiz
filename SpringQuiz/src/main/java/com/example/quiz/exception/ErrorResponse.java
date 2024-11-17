@@ -6,7 +6,7 @@ public class ErrorResponse {
     private int statusCode;
     private String message;
     private String path;
-    private LocalDateTime timestamp;
+    private final LocalDateTime timestamp;
 
     public ErrorResponse(int statusCode, String message, String path) {
         this.statusCode = statusCode;

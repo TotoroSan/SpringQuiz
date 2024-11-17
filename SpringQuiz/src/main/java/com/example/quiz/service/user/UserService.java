@@ -1,13 +1,12 @@
 package com.example.quiz.service.user;
 
-import java.util.Optional;
-
+import com.example.quiz.model.entity.User;
+import com.example.quiz.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.quiz.model.entity.User;
-import com.example.quiz.repository.UserRepository;
+import java.util.Optional;
 
 // breaks with the naming convention (UserXyService) since we might switch this service to some other package
 // TODO review if we should keep this service here

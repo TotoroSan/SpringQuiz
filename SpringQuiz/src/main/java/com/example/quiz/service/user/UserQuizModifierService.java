@@ -7,7 +7,6 @@ import com.example.quiz.model.entity.QuizModifier;
 import com.example.quiz.model.entity.QuizModifierEffect;
 import com.example.quiz.model.entity.QuizModifierEffectFactory;
 import com.example.quiz.repository.QuizModifierRepository;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

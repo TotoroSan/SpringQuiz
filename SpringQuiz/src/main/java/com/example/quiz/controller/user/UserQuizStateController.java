@@ -1,14 +1,18 @@
 package com.example.quiz.controller.user;
 
 
-import com.example.quiz.model.dto.*;
-import com.example.quiz.model.entity.*;
+import com.example.quiz.model.dto.GameEventDto;
+import com.example.quiz.model.dto.QuestionWithShuffledAnswersDto;
+import com.example.quiz.model.dto.QuizModifierEffectDto;
+import com.example.quiz.model.dto.QuizStateDto;
+import com.example.quiz.model.entity.Question;
+import com.example.quiz.model.entity.QuizModifier;
+import com.example.quiz.model.entity.QuizState;
+import com.example.quiz.model.entity.User;
 import com.example.quiz.service.user.UserQuestionService;
 import com.example.quiz.service.user.UserQuizModifierService;
 import com.example.quiz.service.user.UserQuizStateService;
-
 import jakarta.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,7 +123,7 @@ public class UserQuizStateController {
             logger.info("Returning next question for user ID: {}", userId);
 
             // Return the next question with the given difficulty
-            int currentDiffculty = 1 * quizState.getQuizModifier().getDifficultyModifier();
+            int currentDiffculty = quizState.getQuizModifier().getDifficultyModifier();
             // TODO adjust if any difficulty is wanted. just remove currentDifficulty as paramter
             Question currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), currentDiffculty);
             userQuizStateService.addQuestion(quizState, currentQuestion);

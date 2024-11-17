@@ -1,7 +1,6 @@
 package com.example.quiz.service.user;
 
 import com.example.quiz.model.dto.AnswerDto;
-import com.example.quiz.model.entity.Answer;
 import com.example.quiz.model.entity.CorrectAnswer;
 import com.example.quiz.model.entity.Question;
 import com.example.quiz.repository.AnswerRepository;
@@ -11,8 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UserAnswerServiceTest {
 

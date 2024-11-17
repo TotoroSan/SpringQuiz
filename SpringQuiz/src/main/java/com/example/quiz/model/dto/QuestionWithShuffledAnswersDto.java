@@ -14,7 +14,7 @@ public class QuestionWithShuffledAnswersDto {
     private List<AnswerDto> shuffledAnswers;  // The shuffled list of answers
     
     // Empty constructor for testing and framework purposes
-    public QuestionWithShuffledAnswersDto() {};
+    public QuestionWithShuffledAnswersDto() {}
 
     // Constructor
     public QuestionWithShuffledAnswersDto(String questionText, Long questionId, List<AnswerDto> shuffledAnswers) {

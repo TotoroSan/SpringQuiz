@@ -1,7 +1,5 @@
 package com.example.quiz.model.entity;
 
-import org.springframework.stereotype.Component;
-
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 

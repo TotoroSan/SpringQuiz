@@ -4,8 +4,6 @@ package com.example.quiz.model.entity;
 // It is needed, because the effects are instantiated after user request, so that only the chosen effect will be instantiated and subsequently saved.
 // An alternative would be to have a "static" table with all effects in the database.
 
-import jakarta.persistence.Entity;
-
 import java.util.HashMap;
 import java.util.Map;
 
