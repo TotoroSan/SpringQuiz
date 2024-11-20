@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,22 +30,36 @@ import java.util.List;
 public class SecurityConfig {
     
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
-    @Autowired
 
+    private final Environment environment;
+
+    public SecurityConfig(Environment environment) {
+        this.environment = environment;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
-        logger.info("Configuring Security Filter Chain");
+        // Determine the active profile
+        String activeProfile = environment.getProperty("spring.profiles.active", "default");
+
+
+        logger.info("Configuring Security Filter Chain for active profile: ", activeProfile);
 
         http
-                .requiresChannel(channel -> channel
-                        .anyRequest().requiresSecure()  // Force all requests to be served over HTTPS
-                )
+                // Dynamically enforce or disable HTTPS based on the active profile
+                .requiresChannel(channel -> {
+                    if ("production".equals(activeProfile)) {
+                        channel.anyRequest().requiresInsecure(); // Allow HTTP for production (Heroku) TODO change if we host ourselves (then we need https)
+                    } else {
+                        channel.anyRequest().requiresSecure(); // Enforce HTTPS for other environments
+                    }
+                })
+
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS configuration
                 .csrf(csrf -> csrf.disable())  // Disable CSRF for development
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/api/auth/login", "/login", "/logout").permitAll()
+                        .requestMatchers("user/api/auth/login", "/login", "/logout").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
@@ -62,7 +77,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:3000", "http://quiz-frontend-container:80")); // port for container not necessary because backend and frontend are in same network
+        config.setAllowedOrigins(List.of("https://localhost:3000", "https://localhost:443", "https://quiz-frontend-container:443", "https://quiz-frontend-local-container:443")); // port for container not necessary because backend and frontend are in same network
         config.setAllowCredentials(true);
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");

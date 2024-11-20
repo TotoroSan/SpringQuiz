@@ -15,7 +15,7 @@ public class DoubleScoreQuizModifierEffect extends QuizModifierEffect {
         super("DOUBLE_SCORE", "Double Score", 3, quizModifier);
     }
     
-    public DoubleScoreQuizModifierEffect(int duration, QuizModifier quizModifier) {
+    public DoubleScoreQuizModifierEffect(QuizModifier quizModifier, int duration) {
         super("DOUBLE_SCORE", "Double Score", duration, quizModifier);
     }
     

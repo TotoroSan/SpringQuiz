@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+// contains all modifiable quiz parameters
 @Entity
 public class QuizModifier {
     @Id
@@ -13,7 +14,8 @@ public class QuizModifier {
 
     private double scoreMultiplier = 1.0;
     private int difficultyModifier = 1;
-    
+    private String topicModifier = null; // null meaning all topics are possible // todo conver to a list for multiple topics possible
+
     // orphanRemoval = true because if a effect is no longer active (= expired), it can be deleted
     @OneToMany(mappedBy = "quizModifier", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuizModifierEffect> activeQuizModifierEffects = new ArrayList<>();
@@ -60,6 +62,14 @@ public class QuizModifier {
 
     public void setDifficultyModifier(int difficultyModifier) {
         this.difficultyModifier = difficultyModifier;
+    }
+
+    public String getTopicModifier() {
+        return topicModifier;
+    }
+
+    public void setTopicModifier(String topicModifier) {
+        this.topicModifier = topicModifier;
     }
 
     public List<QuizModifierEffect> getActiveQuizModifierEffects() {

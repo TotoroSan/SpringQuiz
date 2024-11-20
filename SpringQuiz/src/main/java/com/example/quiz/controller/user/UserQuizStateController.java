@@ -124,8 +124,12 @@ public class UserQuizStateController {
 
             // Return the next question with the given difficulty
             int currentDiffculty = quizState.getQuizModifier().getDifficultyModifier();
-            // TODO adjust if any difficulty is wanted. just remove currentDifficulty as paramter
-            Question currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), currentDiffculty);
+            // get topic modifier, if topic is set pass topic
+            String currentTopic = quizState.getQuizModifier().getTopicModifier();
+
+
+
+            Question currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), currentDiffculty, currentTopic);
             userQuizStateService.addQuestion(quizState, currentQuestion);
             QuestionWithShuffledAnswersDto questionWithShuffledAnswersDto = userQuestionService.createQuestionWithShuffledAnswersDto(currentQuestion);
             GameEventDto questionEvent = new GameEventDto(questionWithShuffledAnswersDto);

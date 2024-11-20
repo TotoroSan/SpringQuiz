@@ -26,7 +26,7 @@ public abstract class QuizModifierEffect {
     protected QuizModifierEffect() {
     }
 
-    // TODO this exists because we want to send a quizModifierDto that is  unrelated
+    // TODO this exists because we want to send a quizModifierDto that is  unrelated to a modifier
     public QuizModifierEffect(String idString, String name, int duration) {
         this.idString = idString;
         this.name = name;

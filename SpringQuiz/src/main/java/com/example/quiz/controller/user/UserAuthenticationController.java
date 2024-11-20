@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("user/api/auth")
 public class UserAuthenticationController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserAuthenticationController.class);

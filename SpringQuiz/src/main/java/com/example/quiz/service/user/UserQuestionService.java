@@ -50,19 +50,39 @@ public class UserQuestionService {
     // Get a random question
 	public Question getRandomQuestion() {
 		// get random question from repository
-		Question question = questionRepository.findRandomQuestion();
-
-        // Return the question
-        return question; 
+		return getRandomQuestion(null);
 	}
+
+    // Get a random question by topic
+    public Question getRandomQuestion(String topic) {
+
+        // get random question from repository
+        Question question;
+        if (topic != null) {
+            logger.info("Retreiving random question with topic", topic);
+             question = questionRepository.findRandomQuestion(topic);
+        } else {
+            logger.info("Retreiving random question");
+             question = questionRepository.findRandomQuestion();
+        }
+
+        logger.debug("Successfully retreived random question");
+        // Return the question
+        return question;
+    }
+
 	
     // Get a random question exluding the ones that have already been answered
 	public Question getRandomQuestionExcludingCompleted(Set<Long> completedQuestionIds) {
         // call overloaded method without diffculty parameter
-        return getRandomQuestionExcludingCompleted(completedQuestionIds, null);
+        return getRandomQuestionExcludingCompleted(completedQuestionIds, null, null);
 	}
 
     public Question getRandomQuestionExcludingCompleted(Set<Long> completedQuestionIds, Integer difficulty) {
+        return getRandomQuestionExcludingCompleted(completedQuestionIds, difficulty, null);
+    }
+
+    public Question getRandomQuestionExcludingCompleted(Set<Long> completedQuestionIds, Integer difficulty, String topic) {
         logger.info("Picking random uncompleted question");
 
         Pageable pageable = PageRequest.of(0, 1);
@@ -71,9 +91,14 @@ public class UserQuestionService {
         // get random question from repository that hasn't been answered
         // this means we get a page with 0 to 1 objects
         // if no difficulty is given, we just get any random question
-        if (difficulty != null) {
-            questionsPage = questionRepository.findRandomQuestionExcludingCompletedAndDifficulty(completedQuestionIds, difficulty, pageable);
-        } else {
+        if (difficulty != null && topic != null) {
+            questionsPage = questionRepository.findRandomQuestionExcludingCompleted(completedQuestionIds, topic, difficulty, pageable);
+        } else if (difficulty != null) {
+            questionsPage = questionRepository.findRandomQuestionExcludingCompleted(completedQuestionIds, difficulty, pageable);
+        } else if (topic != null) {
+            questionsPage = questionRepository.findRandomQuestionExcludingCompleted(completedQuestionIds, topic, pageable);
+        }
+        else {
             questionsPage = questionRepository.findRandomQuestionExcludingCompleted(completedQuestionIds, pageable);
         }
 

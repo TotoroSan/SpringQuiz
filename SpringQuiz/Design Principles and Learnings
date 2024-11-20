@@ -6,9 +6,14 @@ Applied Principles
 - only services interact with the model classes and the repository 
 - JWT-Token for user authentication + session cookie 
 - QuizState is persisted via JWT-Token User-Id to dedicated database
-
 - new effects need to be added to the registry in QuizModifierEffectFactory
 - Rich Domain Model
+
+
+Business logic notes
+---------------------------
+- Randomization logic is currently handled by the database.
+    - eventually we could initialize a registry of all questions at startup or use a in memory database / cache.
 
 Learnings
 ------------------
