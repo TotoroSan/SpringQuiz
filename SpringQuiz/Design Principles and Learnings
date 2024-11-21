@@ -3,8 +3,8 @@ Applied Principles
 - separation of concerns
 - controllers handle interaction with session objects and their attributes. Session objects are never propagated
 - frontend layer only consumes and produces data transfer objects (dto)
-- only services interact with the model classes and the repository 
-- JWT-Token for user authentication + session cookie 
+- only services interact with the model classes and the repository
+- JWT-Token for user authentication + session cookie
 - QuizState is persisted via JWT-Token User-Id to dedicated database
 - new effects need to be added to the registry in QuizModifierEffectFactory
 - Rich Domain Model
@@ -24,7 +24,20 @@ Learnings
     - the border between a method that belongs in a service and that belongs in a model class can be fluent with Rich Domain Model and often needs to be decided case by case
 
 - The controller’s responsibility should be limited to handling HTTP requests, validating inputs, and delegating the business logic to services,
-whereas services perform the business operations including data retrieval and persistence through repositories.
+   whereas services perform the business operations including data retrieval and persistence through repositories.
+
+- when using specific spring profiles (with SPRING_PROFILES_ACTIVE=PRODUCTION) it will automatically apply the
+  corresponding application properties (application-production.properties) and the standard application.properties
+
+- Heroku can only run one container per app (one dyno per app).
+    - To deploy both frontend and backend as containers, you need two separate Heroku apps: one for the frontend and one for the backend.
+    - Both apps will communicate using public Heroku URLs (e.g., your-backend-app.herokuapp.com) via HTTP(S).
+    - Heroku uses its own dyno containers if we just push the jar. To use docker we would push a docker image.
+      - The frontend needs to run as docker container because it also includes a nginx server that acts as reverse proxy.
+      - The backend on the other hand could also run in dyno container because it is no "multi stage" build
+      - It is still beneficial to have a docker setup for the backend to maintain flexibility in hosting options
+
+
 
 
 
@@ -51,3 +64,22 @@ Spring Suite, Maven
     - used container ports: mysql8 3306:3306, frontend 3000:80, backend 8443:8843
 - Using https with self sign certificate for testing (!UNSAFE FOR PRODUCTION!)
 - Example dataset provided in .csv
+- the heroku production version does not work locally because of heroku handling the database
+- heroku only allows one container per app, meaning i cannot deploy frontend and backend together
+    - this means that for backend communication from frontend to backend i need the heroku address of the backend for the frontend
+- for heroku deployment we have to disable https
+    - (dynamically enabling https depending on environment does not work because there are some requests in preflight that get misinterpreted as https.
+    - since preflights are not allowed to be redirected by the client browser this is a problem)
+
+
+-------------------
+// Dynamically enforce or disable HTTPS based on the active profile (doesn't work if we use heroku because of preflight forwarding)
+.requiresChannel(channel -> {
+    if ("production".equals(activeProfile)) {
+        logger.info("Https not required because heroku handles it.");
+        channel.anyRequest().requiresInsecure(); // Allow HTTP for production (Heroku) TODO change if we host ourselves (then we need https)
+    } else {
+        logger.info("Requiring https");
+        channel.anyRequest().requiresSecure(); // Enforce HTTPS for other environments
+    }
+})sorr

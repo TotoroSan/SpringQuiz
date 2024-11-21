@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,18 +47,17 @@ public class SecurityConfig {
         logger.info("Configuring Security Filter Chain for active profile: ", activeProfile);
 
         http
-                // Dynamically enforce or disable HTTPS based on the active profile
-                .requiresChannel(channel -> {
-                    if ("production".equals(activeProfile)) {
-                        channel.anyRequest().requiresInsecure(); // Allow HTTP for production (Heroku) TODO change if we host ourselves (then we need https)
-                    } else {
-                        channel.anyRequest().requiresSecure(); // Enforce HTTPS for other environments
-                    }
-                })
+
+                // todo uncomment this snippet to enforce https (disable for heroku hosting)
+                // .requiresChannel(channel -> {
+               //     logger.info("Requiring https");
+                //channel.anyRequest().requiresSecure();
+               // })
 
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS configuration
                 .csrf(csrf -> csrf.disable())  // Disable CSRF for development
                 .authorizeHttpRequests(authz -> authz
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow all OPTIONS requests TODO temporary for debugging
                         .requestMatchers("/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("user/api/auth/login", "/login", "/logout").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
@@ -77,7 +77,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("https://localhost:3000", "https://localhost:443", "https://quiz-frontend-container:443", "https://quiz-frontend-local-container:443")); // port for container not necessary because backend and frontend are in same network
+        config.setAllowedOrigins(List.of("https://localhost:3000", "https://localhost:443", "https://quiz-frontend-container:443", "https://quiz-frontend-local-container:443", "https://quiz-frontend-heroku-4c3a678b7289.herokuapp.com", "https://quiz-backend-heroku-e8403919253f.herokuapp.com")); // port for container not necessary because backend and frontend are in same network
         config.setAllowCredentials(true);
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");

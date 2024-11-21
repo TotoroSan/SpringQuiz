@@ -10,8 +10,8 @@ COPY target/SpringQuiz-0.0.1-SNAPSHOT.jar app.jar
 
 # TODO For running on heroku: Port=8080 Profile=production  /  For local usage: Port=8443 Profile=docker
 # Allow the port and profile to be dynamically set
-ARG PORT=8443
-ARG PROFILE=docker
+ARG PORT=8080
+ARG PROFILE=production
 
 # Expose the dynamic port
 EXPOSE ${PORT}
