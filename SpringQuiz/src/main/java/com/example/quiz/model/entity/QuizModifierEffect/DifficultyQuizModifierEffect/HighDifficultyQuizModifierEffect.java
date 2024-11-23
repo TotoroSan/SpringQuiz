@@ -1,5 +1,7 @@
-package com.example.quiz.model.entity;
+package com.example.quiz.model.entity.QuizModifierEffect.DifficultyQuizModifierEffect;
 
+import com.example.quiz.model.entity.QuizModifier;
+import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffect;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
@@ -16,7 +18,7 @@ public class HighDifficultyQuizModifierEffect extends QuizModifierEffect {
         super("HIGH_DIFFICULTY", "High Difficulty", 3, quizModifier);
     }
     
-    public HighDifficultyQuizModifierEffect(int duration, QuizModifier quizModifier) {
+    public HighDifficultyQuizModifierEffect(QuizModifier quizModifier, int duration) {
         super("HIGH_DIFFICULTY", "High Difficulty", duration, quizModifier);
     }
 

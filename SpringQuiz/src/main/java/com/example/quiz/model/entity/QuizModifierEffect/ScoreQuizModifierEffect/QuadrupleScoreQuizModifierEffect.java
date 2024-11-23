@@ -1,5 +1,7 @@
-package com.example.quiz.model.entity;
+package com.example.quiz.model.entity.QuizModifierEffect.ScoreQuizModifierEffect;
 
+import com.example.quiz.model.entity.QuizModifier;
+import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffect;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
@@ -16,7 +18,7 @@ public class QuadrupleScoreQuizModifierEffect extends QuizModifierEffect {
         super("QUADRUPLE_SCORE", "Quadruple Score", 3, quizModifier);
     }
     
-    public QuadrupleScoreQuizModifierEffect(int duration, QuizModifier quizModifier) {
+    public QuadrupleScoreQuizModifierEffect(QuizModifier quizModifier, int duration) {
         super("QUADRUPLE_SCORE", "Quadruple Score", duration, quizModifier);
     }
 

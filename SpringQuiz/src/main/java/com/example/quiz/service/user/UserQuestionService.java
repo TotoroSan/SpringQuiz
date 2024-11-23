@@ -71,7 +71,8 @@ public class UserQuestionService {
         return question;
     }
 
-	
+
+
     // Get a random question exluding the ones that have already been answered
 	public Question getRandomQuestionExcludingCompleted(Set<Long> completedQuestionIds) {
         // call overloaded method without diffculty parameter
@@ -104,6 +105,37 @@ public class UserQuestionService {
 
         if (questionsPage.isEmpty()) {
             logger.error("No available question found");
+            return null; // todo temporary
+            //throw new RuntimeException("No available question found.");
+        }
+
+        Question uncompletedQuestion = questionsPage.getContent().get(0);
+        logger.debug("Successfully picked random uncompleted questio: ", uncompletedQuestion.getId());
+        return uncompletedQuestion;
+    }
+
+    public Question getRandomQuestionExcludingCompletedWithMaxDifficultyLimit(Set<Long> completedQuestionIds, Integer difficulty) {
+        return getRandomQuestionExcludingCompletedWithMaxDifficultyLimit(completedQuestionIds, difficulty, null);
+    }
+
+    public Question getRandomQuestionExcludingCompletedWithMaxDifficultyLimit(Set<Long> completedQuestionIds, Integer difficulty, String topic) {
+        logger.info("Picking random uncompleted question with maximum difficulty limit of: ", difficulty, " for topic: ", topic);
+
+        Pageable pageable = PageRequest.of(0, 1);
+        Page<Question> questionsPage;
+
+        // get random question from repository that hasn't been answered and has a given maximum difficulty
+        // this means we get a page with 0 to 1 objects
+        // if no topic is given, we just seach for any topic
+        if (topic != null) {
+            questionsPage = questionRepository.findRandomQuestionExcludingCompletedWithMaxDifficultyLimit(completedQuestionIds, topic, difficulty, pageable);
+
+        } else {
+            questionsPage = questionRepository.findRandomQuestionExcludingCompletedWithMaxDifficultyLimit(completedQuestionIds, difficulty, pageable);
+        }
+
+        if (questionsPage.isEmpty()) {
+            logger.error("No available question found");
             throw new RuntimeException("No available question found.");
         }
 
@@ -112,7 +144,35 @@ public class UserQuestionService {
         return uncompletedQuestion;
     }
 
+    public Question getRandomQuestionExcludingCompletedWithMinDifficultyLimit(Set<Long> completedQuestionIds, Integer difficulty) {
+        return getRandomQuestionExcludingCompletedWithMinDifficultyLimit(completedQuestionIds, difficulty, null);
+    }
 
+    public Question getRandomQuestionExcludingCompletedWithMinDifficultyLimit(Set<Long> completedQuestionIds, Integer difficulty, String topic) {
+        logger.info("Picking random uncompleted question with maximum difficulty limit of: ", difficulty, " for topic: ", topic);
+
+        Pageable pageable = PageRequest.of(0, 1);
+        Page<Question> questionsPage;
+
+        // get random question from repository that hasn't been answered and has a given maximum difficulty
+        // this means we get a page with 0 to 1 objects
+        // if no topic is given, we just seach for any topic
+        if (topic != null) {
+            questionsPage = questionRepository.findRandomQuestionExcludingCompletedWithMinDifficultyLimit(completedQuestionIds, topic, difficulty, pageable);
+
+        } else {
+            questionsPage = questionRepository.findRandomQuestionExcludingCompletedWithMinDifficultyLimit(completedQuestionIds, difficulty, pageable);
+        }
+
+        if (questionsPage.isEmpty()) {
+            logger.error("No available question found");
+            throw new RuntimeException("No available question found.");
+        }
+
+        Question uncompletedQuestion = questionsPage.getContent().get(0);
+        logger.debug("Successfully picked random uncompleted questio: ", uncompletedQuestion.getId());
+        return uncompletedQuestion;
+    }
 
     // Get a Question with Shuffled Answers
 	public QuestionWithShuffledAnswersDto createQuestionWithShuffledAnswersDto(Question question) {

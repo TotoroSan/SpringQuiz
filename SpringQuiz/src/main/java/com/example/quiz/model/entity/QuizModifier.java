@@ -1,5 +1,6 @@
 package com.example.quiz.model.entity;
 
+import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffect;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -13,7 +14,12 @@ public class QuizModifier {
     private Long id;
 
     private double scoreMultiplier = 1.0;
-    private int difficultyModifier = 1;
+    private int difficultyModifier = 1; // default difficulty that is applied there is no min or max multiplier
+
+    //TODO only one of either minDifficultyModifier or maximumDifficulty modifier can be in effect currently
+    private Integer minDifficultyModifier = null; // min difficulty multiplier that is applied when set via effect
+    private Integer maxDifficultyModifier = null;  // max difficulty multiplier that is applied when set via effect
+
     private String topicModifier = null; // null meaning all topics are possible // todo conver to a list for multiple topics possible
 
     // orphanRemoval = true because if a effect is no longer active (= expired), it can be deleted
@@ -62,6 +68,22 @@ public class QuizModifier {
 
     public void setDifficultyModifier(int difficultyModifier) {
         this.difficultyModifier = difficultyModifier;
+    }
+
+    public Integer getMinDifficultyModifier() {
+        return minDifficultyModifier;
+    }
+
+    public void setMinDifficultyModifier(Integer minDifficultyModifier) {
+        this.minDifficultyModifier = minDifficultyModifier;
+    }
+
+    public Integer getMaxDifficultyModifier() {
+        return maxDifficultyModifier;
+    }
+
+    public void setMaxDifficultyModifier(Integer maxDifficultyModifier) {
+        this.maxDifficultyModifier = maxDifficultyModifier;
     }
 
     public String getTopicModifier() {

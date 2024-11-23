@@ -4,8 +4,8 @@ package com.example.quiz.service.user;
 import com.example.quiz.model.dto.QuizModifierDto;
 import com.example.quiz.model.dto.QuizModifierEffectDto;
 import com.example.quiz.model.entity.QuizModifier;
-import com.example.quiz.model.entity.QuizModifierEffect;
-import com.example.quiz.model.entity.QuizModifierEffectFactory;
+import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffect;
+import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffectFactory;
 import com.example.quiz.repository.QuizModifierRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,11 +28,11 @@ public class UserQuizModifierService {
     // todo check if randomness requirement is met
     // Returns a list of X (currently 3) random QuizModifierEffectDtos
     // Todo if we want to display more modifiers, change here (either introduce parameter or change in code)
+    // todo can be done more efficiently
     public List<QuizModifierEffectDto> pickRandomModifierEffectDtos() {
         logger.info("Picking random modifier effects to present to the user");
 
-        List<QuizModifierEffectDto> quizModifierEffectDtos =  QuizModifierEffectFactory.getQuizModifierEffectMetadataRegistry().values().stream()
-                .limit(3)
+        List<QuizModifierEffectDto> quizModifierEffectDtos = QuizModifierEffectFactory.getQuizModifierEffectMetadataRegistry().values().stream()
                 .map(metadata -> new QuizModifierEffectDto(
                         metadata.getIdString(),
                         metadata.getName(),
@@ -40,9 +41,17 @@ public class UserQuizModifierService {
                 )
                 .collect(Collectors.toList());
 
-        logger.debug("Picked modifier effects: {}", quizModifierEffectDtos);
+        // Shuffle the list to pick random elements
+        Collections.shuffle(quizModifierEffectDtos);
 
-        return quizModifierEffectDtos;
+        // Limit the list to 3 random elements
+        List<QuizModifierEffectDto> randomQuizModifierEffectDtos = quizModifierEffectDtos.stream()
+                .limit(3)
+                .collect(Collectors.toList());
+
+        logger.debug("Picked modifier effects: {}", randomQuizModifierEffectDtos);
+
+        return randomQuizModifierEffectDtos;
     }
 
     //@Transactional

@@ -92,11 +92,19 @@ public class UserQuizStateService {
         quizState.setCurrentQuestionIndex(quizState.getCurrentQuestionIndex() + 1); // Move to the next question
     }
 
-    // Increment the score by 1 (* multiplicator)
+    // Increment the score by 1 (* multiplicator) // todo consolidate with overloaded function (?)
     public void incrementScore(QuizState quizState) {
         quizState.setScore(quizState.getScore() + (quizState.getQuizModifier().getScoreMultiplier() * 1));
         saveQuizState(quizState);
     }
+
+    // Increment the score by increments ( * multiplicator)
+    public void incrementScore(QuizState quizState, int increments) {
+        quizState.setScore(quizState.getScore() + (quizState.getQuizModifier().getScoreMultiplier() * increments));
+        saveQuizState(quizState);
+    }
+
+
 
     // Increment the round
     public void incrementCurrentRound(QuizState quizState) {
@@ -147,7 +155,7 @@ public class UserQuizStateService {
 
         // update quizState
         markQuestionAsCompleted(quizState, getCurrentQuestion(quizState).getId());
-        incrementScore(quizState);
+        incrementScore(quizState, getCurrentQuestion(quizState).getDifficulty()); // todo change here if we want every question to have same score (currently score of a question = difficulty)
         incrementCurrentRound(quizState);
         incrementAnsweredQuestionsInSegment(quizState);
         // update ActiveQuizModifierEffects

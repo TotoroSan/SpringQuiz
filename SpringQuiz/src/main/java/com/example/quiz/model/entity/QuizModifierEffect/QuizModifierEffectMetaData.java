@@ -1,4 +1,4 @@
-package com.example.quiz.model.entity;
+package com.example.quiz.model.entity.QuizModifierEffect;
 
 // Metadata holder class
 // Note: instead of using a class like this, we could've also stored the information static in the QUizModifierEffect classes
@@ -9,8 +9,9 @@ public class QuizModifierEffectMetaData {
     private final String name;
     private final String description;
     private int duration;
+    private String type;
 
-    public QuizModifierEffectMetaData(String idString, String name, String description, int duration) {
+    public QuizModifierEffectMetaData(String idString, String name, String description, int duration, String type) {
         this.idString = idString;
         this.name = name;
         this.description = description;

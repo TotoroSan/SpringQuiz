@@ -50,6 +50,27 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query("SELECT q FROM Question q WHERE q.id NOT IN :completedQuestionIds AND q.topic = :topic AND q.difficulty = :difficulty ORDER BY FUNCTION('RAND')")
     Page<Question> findRandomQuestionExcludingCompleted(@Param("completedQuestionIds") Set<Long> completedQuestionIds, @Param("topic") String topic, @Param("difficulty") Integer difficulty, Pageable pageable);
 
+
+
+
+    // method to find a random question by excluding completed questions, matching topic and difficulty maximum. meaning it will draw a question with difficulty <= difficulty
+    @Query("SELECT q FROM Question q WHERE q.id NOT IN :completedQuestionIds AND q.difficulty <= :difficulty ORDER BY FUNCTION('RAND')")
+    Page<Question> findRandomQuestionExcludingCompletedWithMaxDifficultyLimit(@Param("completedQuestionIds") Set<Long> completedQuestionIds, @Param("difficulty") Integer difficulty, Pageable pageable);
+
+    // method to find a random question by excluding completed questions, matching topic and difficulty maximum. meaning it will draw a question with difficulty <= difficulty
+    @Query("SELECT q FROM Question q WHERE q.id NOT IN :completedQuestionIds AND q.topic = :topic AND q.difficulty <= :difficulty ORDER BY FUNCTION('RAND')")
+    Page<Question> findRandomQuestionExcludingCompletedWithMaxDifficultyLimit(@Param("completedQuestionIds") Set<Long> completedQuestionIds, @Param("topic") String topic, @Param("difficulty") Integer difficulty, Pageable pageable);
+
+
+
+    // method to find a random question by excluding completed questions, matching topic and difficulty minimum. meaning it will draw a question with difficulty >= difficulty
+    @Query("SELECT q FROM Question q WHERE q.id NOT IN :completedQuestionIds AND q.difficulty >= :difficulty ORDER BY FUNCTION('RAND')")
+    Page<Question> findRandomQuestionExcludingCompletedWithMinDifficultyLimit(@Param("completedQuestionIds") Set<Long> completedQuestionIds, @Param("difficulty") Integer difficulty, Pageable pageable);
+
+    // method to find a random question by excluding completed questions, matching topic and difficulty minimum. meaning it will draw a question with difficulty >= difficulty
+    @Query("SELECT q FROM Question q WHERE q.id NOT IN :completedQuestionIds AND q.topic = :topic AND q.difficulty >= :difficulty ORDER BY FUNCTION('RAND')")
+    Page<Question> findRandomQuestionExcludingCompletedWithMinDifficultyLimit(@Param("completedQuestionIds") Set<Long> completedQuestionIds, @Param("topic") String topic, @Param("difficulty") Integer difficulty, Pageable pageable);
+
 }
 
 

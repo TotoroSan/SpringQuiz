@@ -123,13 +123,31 @@ public class UserQuizStateController {
             logger.info("Returning next question for user ID: {}", userId);
 
             // Return the next question with the given difficulty
-            int currentDiffculty = quizState.getQuizModifier().getDifficultyModifier();
+            int difficultyModifier = quizState.getQuizModifier().getDifficultyModifier();
+            Integer maxDifficultyModifier = quizState.getQuizModifier().getMaxDifficultyModifier();
+            Integer minDifficultyModifier = quizState.getQuizModifier().getMinDifficultyModifier();
             // get topic modifier, if topic is set pass topic
             String currentTopic = quizState.getQuizModifier().getTopicModifier();
 
+            Question currentQuestion = null;
 
+            // todo move this as function into question service? but then questionservice would need to be passed the quizmodifier which is not optimal in terms of separation of concerns
 
-            Question currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), currentDiffculty, currentTopic);
+            // if there is a max difficulty modifier use it, else if there is a min modifier use this and if there is no min or max use the default difficulty modifier
+            if (maxDifficultyModifier != null) {
+                 currentQuestion = userQuestionService.getRandomQuestionExcludingCompletedWithMaxDifficultyLimit(quizState.getCompletedQuestionIds(), maxDifficultyModifier, currentTopic);
+            } else if (minDifficultyModifier != null) {
+                 currentQuestion = userQuestionService.getRandomQuestionExcludingCompletedWithMinDifficultyLimit(quizState.getCompletedQuestionIds(), minDifficultyModifier, currentTopic);
+            } else {
+                // todo this if solution is a temporary workaround
+                 currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), difficultyModifier, currentTopic);
+                 // if we dont find question for given difficulty, use any difficulty
+                 if (currentQuestion == null) {
+                     logger.info("Used fallback to find question with any difficulty, because no question for topic: ", currentTopic, " with difficulty: ", difficultyModifier, " found.");
+                     currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), null, currentTopic);
+                 }
+            }
+
             userQuizStateService.addQuestion(quizState, currentQuestion);
             QuestionWithShuffledAnswersDto questionWithShuffledAnswersDto = userQuestionService.createQuestionWithShuffledAnswersDto(currentQuestion);
             GameEventDto questionEvent = new GameEventDto(questionWithShuffledAnswersDto);

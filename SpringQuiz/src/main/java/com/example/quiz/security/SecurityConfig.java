@@ -77,7 +77,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("https://localhost:3000", "https://localhost:443", "https://quiz-frontend-container:443", "https://quiz-frontend-local-container:443", "https://quiz-frontend-heroku-4c3a678b7289.herokuapp.com", "https://quiz-backend-heroku-e8403919253f.herokuapp.com")); // port for container not necessary because backend and frontend are in same network
+        config.setAllowedOrigins(List.of("http://localhost:3000", "https://localhost:3000", "https://localhost:443",
+                "https://quiz-frontend-container:443", "https://quiz-frontend-local-container:443",
+                "https://quiz-frontend-heroku-4f689e167461.herokuapp.com",
+                "https://quiz-backend-heroku-e8403919253f.herokuapp.com")); // port for container not necessary because backend and frontend are in same network
         config.setAllowCredentials(true);
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");

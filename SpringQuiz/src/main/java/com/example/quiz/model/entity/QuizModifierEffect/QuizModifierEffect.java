@@ -1,5 +1,6 @@
-package com.example.quiz.model.entity;
+package com.example.quiz.model.entity.QuizModifierEffect;
 
+import com.example.quiz.model.entity.QuizModifier;
 import jakarta.persistence.*;
 
 // this class represents a "Power-up" - some dynamic change to the QuizModifier

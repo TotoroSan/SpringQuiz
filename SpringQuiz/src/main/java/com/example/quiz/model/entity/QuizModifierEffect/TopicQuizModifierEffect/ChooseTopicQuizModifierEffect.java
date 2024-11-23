@@ -1,8 +1,11 @@
-package com.example.quiz.model.entity;
+package com.example.quiz.model.entity.QuizModifierEffect.TopicQuizModifierEffect;
 
+import com.example.quiz.model.entity.QuizModifier;
+import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffect;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
+// todo currently not in use - would be an effect that lets the user from a list of topics
 @Entity
 @DiscriminatorValue("CHOOSE_TOPIC")
 public class ChooseTopicQuizModifierEffect extends QuizModifierEffect {

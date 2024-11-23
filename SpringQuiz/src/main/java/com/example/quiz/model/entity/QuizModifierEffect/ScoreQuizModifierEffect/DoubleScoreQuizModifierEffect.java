@@ -1,5 +1,7 @@
-package com.example.quiz.model.entity;
+package com.example.quiz.model.entity.QuizModifierEffect.ScoreQuizModifierEffect;
 
+import com.example.quiz.model.entity.QuizModifier;
+import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffect;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
