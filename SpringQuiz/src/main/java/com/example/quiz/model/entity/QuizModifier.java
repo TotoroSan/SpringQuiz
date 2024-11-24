@@ -22,6 +22,7 @@ public class QuizModifier {
 
     private String topicModifier = null; // null meaning all topics are possible // todo conver to a list for multiple topics possible
 
+    private Integer lifeCounter = 3;
     // orphanRemoval = true because if a effect is no longer active (= expired), it can be deleted
     @OneToMany(mappedBy = "quizModifier", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuizModifierEffect> activeQuizModifierEffects = new ArrayList<>();
@@ -104,5 +105,14 @@ public class QuizModifier {
     public void addActiveQuizModifierEffect(QuizModifierEffect quizModifierEffect){
         this.activeQuizModifierEffects.add(quizModifierEffect);
     }
+
+    public Integer getLifeCounter() {
+        return lifeCounter;
+    }
+
+    public void setLifeCounter(Integer lifeCounter) {
+        this.lifeCounter = lifeCounter;
+    }
+
 
 }

@@ -1,0 +1,3998 @@
+answer_type,id,answer_text,is_correct,question_id
+"CORRECT",1,"Paris",1,1
+"MOCK",2,"Berlin",0,1
+"MOCK",3,"Madrid",0,1
+"MOCK",4,"Rome",0,1
+
+"CORRECT",5,"Albert Einstein",1,2
+"MOCK",6,"Isaac Newton",0,2
+"MOCK",7,"Nikola Tesla",0,2
+"MOCK",8,"Galileo Galilei",0,2
+
+"CORRECT",9,"Jupiter",1,3
+"MOCK",10,"Saturn",0,3
+"MOCK",11,"Neptune",0,3
+"MOCK",12,"Earth",0,3
+
+"CORRECT",13,"William Shakespeare",1,4
+"MOCK",14,"Christopher Marlowe",0,4
+"MOCK",15,"Ben Jonson",0,4
+"MOCK",16,"Thomas Kyd",0,4
+
+"CORRECT",17,"H2O",1,5
+"MOCK",18,"CO2",0,5
+"MOCK",19,"O2",0,5
+"MOCK",20,"NaCl",0,5
+
+"CORRECT",21,"Brazil",1,6
+"MOCK",22,"China",0,6
+"MOCK",23,"United Kingdom",0,6
+"MOCK",24,"Russia",0,6
+
+"CORRECT",25,"Diamond",1,7
+"MOCK",26,"Graphite",0,7
+"MOCK",27,"Quartz",0,7
+"MOCK",28,"Topaz",0,7
+
+"CORRECT",29,"Leonardo da Vinci",1,8
+"MOCK",30,"Michelangelo",0,8
+"MOCK",31,"Raphael",0,8
+"MOCK",32,"Botticelli",0,8
+
+"CORRECT",33,"Photosynthesis",1,9
+"MOCK",34,"Respiration",0,9
+"MOCK",35,"Transpiration",0,9
+"MOCK",36,"Glycolysis",0,9
+
+"CORRECT",37,"Tokyo",1,10
+"MOCK",38,"Osaka",0,10
+"MOCK",39,"Kyoto",0,10
+"MOCK",40,"Hiroshima",0,10
+
+"CORRECT",41,"Charles Babbage",1,11
+"MOCK",42,"Alan Turing",0,11
+"MOCK",43,"Steve Jobs",0,11
+"MOCK",44,"Bill Gates",0,11
+
+"CORRECT",45,"1945",1,12
+"MOCK",46,"1939",0,12
+"MOCK",47,"1918",0,12
+"MOCK",48,"1950",0,12
+
+"CORRECT",49,"2",1,13
+"MOCK",50,"1",0,13
+"MOCK",51,"3",0,13
+"MOCK",52,"5",0,13
+
+"CORRECT",53,"Carbon",1,14
+"MOCK",54,"Oxygen",0,14
+"MOCK",55,"Nitrogen",0,14
+"MOCK",56,"Hydrogen",0,14
+
+"CORRECT",57,"Jane Austen",1,15
+"MOCK",58,"Charlotte Brontë",0,15
+"MOCK",59,"Emily Brontë",0,15
+"MOCK",60,"Mary Shelley",0,15
+
+"CORRECT",61,"Pound Sterling",1,16
+"MOCK",62,"Euro",0,16
+"MOCK",63,"Dollar",0,16
+"MOCK",64,"Franc",0,16
+
+"CORRECT",65,"Alexander Fleming",1,17
+"MOCK",66,"Louis Pasteur",0,17
+"MOCK",67,"Marie Curie",0,17
+"MOCK",68,"Edward Jenner",0,17
+
+"CORRECT",69,"Pacific Ocean",1,18
+"MOCK",70,"Atlantic Ocean",0,18
+"MOCK",71,"Indian Ocean",0,18
+"MOCK",72,"Arctic Ocean",0,18
+
+"CORRECT",73,"Mars",1,19
+"MOCK",74,"Venus",0,19
+"MOCK",75,"Jupiter",0,19
+"MOCK",76,"Mercury",0,19
+
+"CORRECT",77,"Antonio Vivaldi",1,20
+"MOCK",78,"Johann Sebastian Bach",0,20
+"MOCK",79,"Ludwig van Beethoven",0,20
+"MOCK",80,"Wolfgang Amadeus Mozart",0,20
+
+"CORRECT",81,"Mount Everest",1,21
+"MOCK",82,"K2",0,21
+"MOCK",83,"Kangchenjunga",0,21
+"MOCK",84,"Lhotse",0,21
+
+"CORRECT",85,"Isaac Newton",1,22
+"MOCK",86,"Albert Einstein",0,22
+"MOCK",87,"Galileo Galilei",0,22
+"MOCK",88,"Johannes Kepler",0,22
+
+"CORRECT",89,"Nitrogen",1,23
+"MOCK",90,"Oxygen",0,23
+"MOCK",91,"Carbon Dioxide",0,23
+"MOCK",92,"Argon",0,23
+
+"CORRECT",93,"George Orwell",1,24
+"MOCK",94,"Aldous Huxley",0,24
+"MOCK",95,"J.D. Salinger",0,24
+"MOCK",96,"F. Scott Fitzgerald",0,24
+
+"CORRECT",97,"Blue Whale",1,25
+"MOCK",98,"Elephant",0,25
+"MOCK",99,"Giraffe",0,25
+"MOCK",100,"Hippopotamus",0,25
+
+"CORRECT",101,"Canberra",1,26
+"MOCK",102,"Sydney",0,26
+"MOCK",103,"Melbourne",0,26
+"MOCK",104,"Brisbane",0,26
+
+"CORRECT",105,"Vincent van Gogh",1,27
+"MOCK",106,"Pablo Picasso",0,27
+"MOCK",107,"Claude Monet",0,27
+"MOCK",108,"Leonardo da Vinci",0,27
+
+"CORRECT",109,"Mercury",1,28
+"MOCK",110,"Venus",0,28
+"MOCK",111,"Mars",0,28
+"MOCK",112,"Pluto",0,28
+
+"CORRECT",113,"Euclid",1,29
+"MOCK",114,"Pythagoras",0,29
+"MOCK",115,"Archimedes",0,29
+"MOCK",116,"Aristotle",0,29
+
+"CORRECT",117,"Fe",1,30
+"MOCK",118,"Ir",0,30
+"MOCK",119,"In",0,30
+"MOCK",120,"I",0,30
+
+"CORRECT",121,"Australia",1,31
+"MOCK",122,"USA",0,31
+"MOCK",123,"Brazil",0,31
+"MOCK",124,"South Africa",0,31
+
+"CORRECT",125,"F. Scott Fitzgerald",1,32
+"MOCK",126,"Ernest Hemingway",0,32
+"MOCK",127,"Mark Twain",0,32
+"MOCK",128,"John Steinbeck",0,32
+
+"CORRECT",129,"African Elephant",1,33
+"MOCK",130,"White Rhinoceros",0,33
+"MOCK",131,"Hippopotamus",0,33
+"MOCK",132,"Giraffe",0,33
+
+"CORRECT",133,"Benjamin Franklin",1,34
+"MOCK",134,"Thomas Edison",0,34
+"MOCK",135,"Nikola Tesla",0,34
+"MOCK",136,"Alexander Graham Bell",0,34
+
+"CORRECT",137,"New Delhi",1,35
+"MOCK",138,"Mumbai",0,35
+"MOCK",139,"Kolkata",0,35
+"MOCK",140,"Chennai",0,35
+
+"CORRECT",141,"Hydrogen",1,36
+"MOCK",142,"Helium",0,36
+"MOCK",143,"Lithium",0,36
+"MOCK",144,"Oxygen",0,36
+
+"CORRECT",145,"Charles Darwin",1,37
+"MOCK",146,"Gregor Mendel",0,37
+"MOCK",147,"Alfred Wallace",0,37
+"MOCK",148,"Thomas Huxley",0,37
+
+"CORRECT",149,"Asia",1,38
+"MOCK",150,"Africa",0,38
+"MOCK",151,"North America",0,38
+"MOCK",152,"Antarctica",0,38
+
+"CORRECT",153,"William Shakespeare",1,39
+"MOCK",154,"Christopher Marlowe",0,39
+"MOCK",155,"Ben Jonson",0,39
+"MOCK",156,"John Donne",0,39
+
+"CORRECT",157,"100",1,40
+"MOCK",158,"0",0,40
+"MOCK",159,"50",0,40
+"MOCK",160,"212",0,40
+
+"CORRECT",161,"Saturn",1,41
+"MOCK",162,"Jupiter",0,41
+"MOCK",163,"Uranus",0,41
+"MOCK",164,"Neptune",0,41
+
+"CORRECT",165,"George Washington",1,42
+"MOCK",166,"John Adams",0,42
+"MOCK",167,"Thomas Jefferson",0,42
+"MOCK",168,"James Madison",0,42
+
+"CORRECT",169,"Mandarin Chinese",1,43
+"MOCK",170,"English",0,43
+"MOCK",171,"Spanish",0,43
+"MOCK",172,"Hindi",0,43
+
+"CORRECT",173,"Kidneys",1,44
+"MOCK",174,"Liver",0,44
+"MOCK",175,"Heart",0,44
+"MOCK",176,"Lungs",0,44
+
+"CORRECT",177,"Leonardo da Vinci",1,45
+"MOCK",178,"Michelangelo",0,45
+"MOCK",179,"Raphael",0,45
+"MOCK",180,"Donatello",0,45
+
+"CORRECT",181,"Burj Khalifa",1,46
+"MOCK",182,"Shanghai Tower",0,46
+"MOCK",183,"Abraj Al-Bait Clock Tower",0,46
+"MOCK",184,"Ping An Finance Centre",0,46
+
+"CORRECT",185,"Isaac Newton",1,47
+"MOCK",186,"Albert Einstein",0,47
+"MOCK",187,"Galileo Galilei",0,47
+"MOCK",188,"Johannes Kepler",0,47
+
+"CORRECT",189,"Cairo",1,48
+"MOCK",190,"Alexandria",0,48
+"MOCK",191,"Giza",0,48
+"MOCK",192,"Luxor",0,48
+
+"CORRECT",193,"Homer",1,49
+"MOCK",194,"Virgil",0,49
+"MOCK",195,"Sophocles",0,49
+"MOCK",196,"Euripides",0,49
+
+"CORRECT",197,"Diamond",1,50
+"MOCK",198,"Gold",0,50
+"MOCK",199,"Iron",0,50
+"MOCK",200,"Quartz",0,50
+
+"CORRECT",201,"Ottawa",1,51
+"MOCK",202,"Toronto",0,51
+"MOCK",203,"Montreal",0,51
+"MOCK",204,"Vancouver",0,51
+
+"CORRECT",205,"Michael Jackson",1,52
+"MOCK",206,"Elvis Presley",0,52
+"MOCK",207,"Prince",0,52
+"MOCK",208,"Freddie Mercury",0,52
+
+"CORRECT",209,"Sahara Desert",1,53
+"MOCK",210,"Gobi Desert",0,53
+"MOCK",211,"Kalahari Desert",0,53
+"MOCK",212,"Arctic Desert",0,53
+
+"CORRECT",213,"Harper Lee",1,54
+"MOCK",214,"Truman Capote",0,54
+"MOCK",215,"Mark Twain",0,54
+"MOCK",216,"Ernest Hemingway",0,54
+
+"CORRECT",217,"Na",1,55
+"MOCK",218,"S",0,55
+"MOCK",219,"Sn",0,55
+"MOCK",220,"N",0,55
+
+"CORRECT",221,"Venus",1,56
+"MOCK",222,"Mars",0,56
+"MOCK",223,"Mercury",0,56
+"MOCK",224,"Jupiter",0,56
+
+"CORRECT",225,"Tim Berners-Lee",1,57
+"MOCK",226,"Bill Gates",0,57
+"MOCK",227,"Steve Jobs",0,57
+"MOCK",228,"Mark Zuckerberg",0,57
+
+"CORRECT",229,"Femur",1,58
+"MOCK",230,"Tibia",0,58
+"MOCK",231,"Humerus",0,58
+"MOCK",232,"Radius",0,58
+
+"CORRECT",233,"Johannes Vermeer",1,59
+"MOCK",234,"Rembrandt",0,59
+"MOCK",235,"Vincent van Gogh",0,59
+"MOCK",236,"Pieter de Hooch",0,59
+
+"CORRECT",237,"Yen",1,60
+"MOCK",238,"Won",0,60
+"MOCK",239,"Yuan",0,60
+"MOCK",240,"Baht",0,60
+
+"CORRECT",241,"France",1,61
+"MOCK",242,"Croatia",0,61
+"MOCK",243,"Germany",0,61
+"MOCK",244,"Brazil",0,61
+
+"CORRECT",245,"Marie Curie",1,62
+"MOCK",246,"Henri Becquerel",0,62
+"MOCK",247,"Ernest Rutherford",0,62
+"MOCK",248,"Niels Bohr",0,62
+
+"CORRECT",249,"Seoul",1,63
+"MOCK",250,"Busan",0,63
+"MOCK",251,"Incheon",0,63
+"MOCK",252,"Daegu",0,63
+
+"CORRECT",253,"Herman Melville",1,64
+"MOCK",254,"Nathaniel Hawthorne",0,64
+"MOCK",255,"Edgar Allan Poe",0,64
+"MOCK",256,"Mark Twain",0,64
+
+"CORRECT",257,"Diamond",1,65
+"MOCK",258,"Granite",0,65
+"MOCK",259,"Marble",0,65
+"MOCK",260,"Slate",0,65
+
+"CORRECT",261,"Poseidon",1,66
+"MOCK",262,"Zeus",0,66
+"MOCK",263,"Hades",0,66
+"MOCK",264,"Apollo",0,66
+
+"CORRECT",265,"Angel Falls",1,67
+"MOCK",266,"Niagara Falls",0,67
+"MOCK",267,"Victoria Falls",0,67
+"MOCK",268,"Iguazu Falls",0,67
+
+"CORRECT",269,"Jonas Salk",1,68
+"MOCK",270,"Alexander Fleming",0,68
+"MOCK",271,"Louis Pasteur",0,68
+"MOCK",272,"Edward Jenner",0,68
+
+"CORRECT",273,"Cell",1,69
+"MOCK",274,"Atom",0,69
+"MOCK",275,"Molecule",0,69
+"MOCK",276,"Organ",0,69
+
+"CORRECT",277,"Potassium",1,70
+"MOCK",278,"Phosphorus",0,70
+"MOCK",279,"Krypton",0,70
+"MOCK",280,"Calcium",0,70
+
+"CORRECT",281,"Wolfgang Amadeus Mozart",1,71
+"MOCK",282,"Ludwig van Beethoven",0,71
+"MOCK",283,"Johann Sebastian Bach",0,71
+"MOCK",284,"Franz Schubert",0,71
+
+"CORRECT",285,"Moscow",1,72
+"MOCK",286,"Saint Petersburg",0,72
+"MOCK",287,"Kazan",0,72
+"MOCK",288,"Sochi",0,72
+
+"CORRECT",289,"Johannes Kepler",1,73
+"MOCK",290,"Galileo Galilei",0,73
+"MOCK",291,"Nicolaus Copernicus",0,73
+"MOCK",292,"Tycho Brahe",0,73
+
+"CORRECT",293,"Blue Whale",1,74
+"MOCK",294,"Humpback Whale",0,74
+"MOCK",295,"Sperm Whale",0,74
+"MOCK",296,"Fin Whale",0,74
+
+"CORRECT",297,"J.D. Salinger",1,75
+"MOCK",298,"F. Scott Fitzgerald",0,75
+"MOCK",299,"Ernest Hemingway",0,75
+"MOCK",300,"John Steinbeck",0,75
+
+"CORRECT",301,"Berlin",1,76
+"MOCK",302,"Munich",0,76
+"MOCK",303,"Frankfurt",0,76
+"MOCK",304,"Hamburg",0,76
+
+"CORRECT",305,"Albert Einstein",1,77
+"MOCK",306,"Isaac Newton",0,77
+"MOCK",307,"Nikola Tesla",0,77
+"MOCK",308,"Galileo Galilei",0,77
+
+"CORRECT",309,"Vatican City",1,78
+"MOCK",310,"Monaco",0,78
+"MOCK",311,"San Marino",0,78
+"MOCK",312,"Liechtenstein",0,78
+
+"CORRECT",313,"Galileo Galilei",1,79
+"MOCK",314,"Isaac Newton",0,79
+"MOCK",315,"Albert Einstein",0,79
+"MOCK",316,"Niels Bohr",0,79
+
+"CORRECT",317,"Au",1,80
+"MOCK",318,"Ag",0,80
+"MOCK",319,"Pt",0,80
+"MOCK",320,"Pb",0,80
+
+"CORRECT",321,"Venus",1,81
+"MOCK",322,"Mercury",0,81
+"MOCK",323,"Mars",0,81
+"MOCK",324,"Jupiter",0,81
+
+"CORRECT",325,"J.R.R. Tolkien",1,82
+"MOCK",326,"C.S. Lewis",0,82
+"MOCK",327,"George R.R. Martin",0,82
+"MOCK",328,"J.K. Rowling",0,82
+
+"CORRECT",329,"Liver",1,83
+"MOCK",330,"Lungs",0,83
+"MOCK",331,"Heart",0,83
+"MOCK",332,"Kidneys",0,83
+
+"CORRECT",333,"Salvador Dalí",1,84
+"MOCK",334,"Pablo Picasso",0,84
+"MOCK",335,"Henri Matisse",0,84
+"MOCK",336,"Joan Miró",0,84
+
+"CORRECT",337,"Portuguese",1,85
+"MOCK",338,"Spanish",0,85
+"MOCK",339,"French",0,85
+"MOCK",340,"English",0,85
+
+"CORRECT",341,"Germany",1,86
+"MOCK",342,"Argentina",0,86
+"MOCK",343,"Brazil",0,86
+"MOCK",344,"Netherlands",0,86
+
+"CORRECT",345,"Isaac Newton",1,87
+"MOCK",346,"Albert Einstein",0,87
+"MOCK",347,"Galileo Galilei",0,87
+"MOCK",348,"Johannes Kepler",0,87
+
+"CORRECT",349,"Madrid",1,88
+"MOCK",350,"Barcelona",0,88
+"MOCK",351,"Seville",0,88
+"MOCK",352,"Valencia",0,88
+
+"CORRECT",353,"Dante Alighieri",1,89
+"MOCK",354,"Giovanni Boccaccio",0,89
+"MOCK",355,"Francesco Petrarch",0,89
+"MOCK",356,"Niccolò Machiavelli",0,89
+
+"CORRECT",357,"Diamond",1,90
+"MOCK",358,"Ruby",0,90
+"MOCK",359,"Sapphire",0,90
+"MOCK",360,"Emerald",0,90
+
+"CORRECT",361,"Mars",1,91
+"MOCK",362,"Jupiter",0,91
+"MOCK",363,"Saturn",0,91
+"MOCK",364,"Apollo",0,91
+
+"CORRECT",365,"Mount Kilimanjaro",1,92
+"MOCK",366,"Mount Kenya",0,92
+"MOCK",367,"Mount Stanley",0,92
+"MOCK",368,"Mount Meru",0,92
+
+"CORRECT",369,"Jonas Salk",1,93
+"MOCK",370,"Alexander Fleming",0,93
+"MOCK",371,"Louis Pasteur",0,93
+"MOCK",372,"Edward Jenner",0,93
+
+"CORRECT",373,"Mitochondria",1,94
+"MOCK",374,"Nucleus",0,94
+"MOCK",375,"Ribosome",0,94
+"MOCK",376,"Chloroplast",0,94
+
+"CORRECT",377,"Oxygen",1,95
+"MOCK",378,"Gold",0,95
+"MOCK",379,"Silver",0,95
+"MOCK",380,"Iron",0,95
+
+"CORRECT",381,"Ludwig van Beethoven",1,96
+"MOCK",382,"Wolfgang Amadeus Mozart",0,96
+"MOCK",383,"Johann Sebastian Bach",0,96
+"MOCK",384,"Franz Schubert",0,96
+
+"CORRECT",385,"Beijing",1,97
+"MOCK",386,"Shanghai",0,97
+"MOCK",387,"Hong Kong",0,97
+"MOCK",388,"Guangzhou",0,97
+
+"CORRECT",389,"Nicolaus Copernicus",1,98
+"MOCK",390,"Galileo Galilei",0,98
+"MOCK",391,"Johannes Kepler",0,98
+"MOCK",392,"Tycho Brahe",0,98
+
+"CORRECT",393,"Pacific Ocean",1,99
+"MOCK",394,"Atlantic Ocean",0,99
+"MOCK",395,"Indian Ocean",0,99
+"MOCK",396,"Arctic Ocean",0,99
+
+"CORRECT",397,"Jane Austen",1,100
+"MOCK",398,"Emily Brontë",0,100
+"MOCK",399,"Charlotte Brontë",0,100
+"MOCK",400,"Mary Shelley",0,100
+
+"CORRECT",401,"Pb",1,101
+"MOCK",402,"P",0,101
+"MOCK",403,"Li",0,101
+"MOCK",404,"Pt",0,101
+
+"CORRECT",405,"Greenland",1,102
+"MOCK",406,"Australia",0,102
+"MOCK",407,"Madagascar",0,102
+"MOCK",408,"Borneo",0,102
+
+"CORRECT",409,"Australia",1,103
+"MOCK",410,"Europe",0,103
+"MOCK",411,"Antarctica",0,103
+"MOCK",412,"South America",0,103
+
+"CORRECT",413,"Aluminum",1,104
+"MOCK",414,"Iron",0,104
+"MOCK",415,"Copper",0,104
+"MOCK",416,"Gold",0,104
+
+"CORRECT",417,"Stapes",1,105
+"MOCK",418,"Femur",0,105
+"MOCK",419,"Ulna",0,105
+"MOCK",420,"Tibia",0,105
+
+"CORRECT",421,"Oslo",1,106
+"MOCK",422,"Stockholm",0,106
+"MOCK",423,"Copenhagen",0,106
+"MOCK",424,"Helsinki",0,106
+
+"CORRECT",425,"Russia",1,107
+"MOCK",426,"Canada",0,107
+"MOCK",427,"China",0,107
+"MOCK",428,"United States",0,107
+
+"CORRECT",429,"Stockholm",1,108
+"MOCK",430,"Oslo",0,108
+"MOCK",431,"Copenhagen",0,108
+"MOCK",432,"Helsinki",0,108
+
+"CORRECT",433,"Carbon",1,109
+"MOCK",434,"Calcium",0,109
+"MOCK",435,"Chlorine",0,109
+"MOCK",436,"Copper",0,109
+
+"CORRECT",437,"Lisbon",1,110
+"MOCK",438,"Madrid",0,110
+"MOCK",439,"Porto",0,110
+"MOCK",440,"Seville",0,110
+
+"CORRECT",441,"Spanish",1,111
+"MOCK",442,"Portuguese",0,111
+"MOCK",443,"French",0,111
+"MOCK",444,"English",0,111
+
+"CORRECT",445,"Ludwig van Beethoven",1,112
+"MOCK",446,"Wolfgang Amadeus Mozart",0,112
+"MOCK",447,"Johann Sebastian Bach",0,112
+"MOCK",448,"Frédéric Chopin",0,112
+
+"CORRECT",449,"Nile",1,113
+"MOCK",450,"Congo",0,113
+"MOCK",451,"Zambezi",0,113
+"MOCK",452,"Niger",0,113
+
+"CORRECT",453,"Hg",1,114
+"MOCK",454,"Mg",0,114
+"MOCK",455,"Mn",0,114
+"MOCK",456,"Mo",0,114
+
+"CORRECT",457,"Edgar Allan Poe",1,115
+"MOCK",458,"Mark Twain",0,115
+"MOCK",459,"Nathaniel Hawthorne",0,115
+"MOCK",460,"Herman Melville",0,115
+
+"CORRECT",461,"Ganymede",1,116
+"MOCK",462,"Europa",0,116
+"MOCK",463,"Callisto",0,116
+"MOCK",464,"Io",0,116
+
+"CORRECT",465,"Japan",1,117
+"MOCK",466,"China",0,117
+"MOCK",467,"South Korea",0,117
+"MOCK",468,"Thailand",0,117
+
+"CORRECT",469,"C.S. Lewis",1,118
+"MOCK",470,"J.R.R. Tolkien",0,118
+"MOCK",471,"Philip Pullman",0,118
+"MOCK",472,"J.K. Rowling",0,118
+
+"CORRECT",473,"Dollar",1,119
+"MOCK",474,"Euro",0,119
+"MOCK",475,"Pound",0,119
+"MOCK",476,"Yen",0,119
+
+"CORRECT",477,"Jupiter",1,120
+"MOCK",478,"Saturn",0,120
+"MOCK",479,"Neptune",0,120
+"MOCK",480,"Mars",0,120
+
+"CORRECT",481,"Lake Baikal",1,121
+"MOCK",482,"Lake Superior",0,121
+"MOCK",483,"Lake Victoria",0,121
+"MOCK",484,"Caspian Sea",0,121
+
+"CORRECT",485,"Raphael",1,122
+"MOCK",486,"Leonardo da Vinci",0,122
+"MOCK",487,"Michelangelo",0,122
+"MOCK",488,"Donatello",0,122
+
+"CORRECT",489,"Charlotte Brontë",1,123
+"MOCK",490,"Emily Brontë",0,123
+"MOCK",491,"Jane Austen",0,123
+"MOCK",492,"Mary Shelley",0,123
+
+"CORRECT",493,"Russian",1,124
+"MOCK",494,"English",0,124
+"MOCK",495,"German",0,124
+"MOCK",496,"French",0,124
+
+"CORRECT",497,"Newton",1,125
+"MOCK",498,"Joule",0,125
+"MOCK",499,"Watt",0,125
+"MOCK",500,"Pascal",0,125
+
+"CORRECT",501,"Ag",1,126
+"MOCK",502,"Au",0,126
+"MOCK",503,"Al",0,126
+"MOCK",504,"Si",0,126
+
+"CORRECT",505,"Burj Khalifa",1,127
+"MOCK",506,"Shanghai Tower",0,127
+"MOCK",507,"One World Trade Center",0,127
+"MOCK",508,"Taipei 101",0,127
+
+"CORRECT",509,"J.D. Salinger",1,128
+"MOCK",510,"F. Scott Fitzgerald",0,128
+"MOCK",511,"Ernest Hemingway",0,128
+"MOCK",512,"Mark Twain",0,128
+
+"CORRECT",513,"Pacific Ocean",1,129
+"MOCK",514,"Atlantic Ocean",0,129
+"MOCK",515,"Indian Ocean",0,129
+"MOCK",516,"Arctic Ocean",0,129
+
+"CORRECT",517,"Edvard Munch",1,130
+"MOCK",518,"Pablo Picasso",0,130
+"MOCK",519,"Vincent van Gogh",0,130
+"MOCK",520,"Claude Monet",0,130
+
+"CORRECT",521,"Athens",1,131
+"MOCK",522,"Rome",0,131
+"MOCK",523,"Istanbul",0,131
+"MOCK",524,"Thessaloniki",0,131
+
+"CORRECT",525,"Hippocrates",1,132
+"MOCK",526,"Galen",0,132
+"MOCK",527,"Aristotle",0,132
+"MOCK",528,"Socrates",0,132
+
+"CORRECT",529,"Nitrogen",1,133
+"MOCK",530,"Oxygen",0,133
+"MOCK",531,"Carbon Dioxide",0,133
+"MOCK",532,"Hydrogen",0,133
+
+"CORRECT",533,"Earth",1,134
+"MOCK",534,"Neptune",0,134
+"MOCK",535,"Uranus",0,134
+"MOCK",536,"Saturn",0,134
+
+"CORRECT",537,"Charles Darwin",1,135
+"MOCK",538,"Gregor Mendel",0,135
+"MOCK",539,"Alfred Wallace",0,135
+"MOCK",540,"Louis Pasteur",0,135
+
+"CORRECT",541,"Rupee",1,136
+"MOCK",542,"Dollar",0,136
+"MOCK",543,"Pound",0,136
+"MOCK",544,"Yen",0,136
+
+"CORRECT",545,"Oscar Wilde",1,137
+"MOCK",546,"George Bernard Shaw",0,137
+"MOCK",547,"James Joyce",0,137
+"MOCK",548,"William Butler Yeats",0,137
+
+"CORRECT",549,"Diamond",1,138
+"MOCK",550,"Graphite",0,138
+"MOCK",551,"Quartz",0,138
+"MOCK",552,"Topaz",0,138
+
+"CORRECT",553,"Athena",1,139
+"MOCK",554,"Aphrodite",0,139
+"MOCK",555,"Hera",0,139
+"MOCK",556,"Artemis",0,139
+
+"CORRECT",557,"Skin",1,140
+"MOCK",558,"Liver",0,140
+"MOCK",559,"Lungs",0,140
+"MOCK",560,"Heart",0,140
+
+"CORRECT",561,"Vincent van Gogh",1,141
+"MOCK",562,"Pablo Picasso",0,141
+"MOCK",563,"Claude Monet",0,141
+"MOCK",564,"Paul Cézanne",0,141
+
+"CORRECT",565,"Bangkok",1,142
+"MOCK",566,"Phnom Penh",0,142
+"MOCK",567,"Hanoi",0,142
+"MOCK",568,"Yangon",0,142
+
+"CORRECT",569,"Leo Tolstoy",1,143
+"MOCK",570,"Fyodor Dostoevsky",0,143
+"MOCK",571,"Anton Chekhov",0,143
+"MOCK",572,"Ivan Turgenev",0,143
+
+"CORRECT",573,"K",1,144
+"MOCK",574,"P",0,144
+"MOCK",575,"Pt",0,144
+"MOCK",576,"Kr",0,144
+
+"CORRECT",577,"Alexander Fleming",1,145
+"MOCK",578,"Louis Pasteur",0,145
+"MOCK",579,"Marie Curie",0,145
+"MOCK",580,"Edward Jenner",0,145
+
+"CORRECT",581,"Jupiter",1,146
+"MOCK",582,"Saturn",0,146
+"MOCK",583,"Neptune",0,146
+"MOCK",584,"Uranus",0,146
+
+"CORRECT",585,"William Shakespeare",1,147
+"MOCK",586,"Christopher Marlowe",0,147
+"MOCK",587,"Ben Jonson",0,147
+"MOCK",588,"Thomas Kyd",0,147
+
+"CORRECT",589,"Photosynthesis",1,148
+"MOCK",590,"Respiration",0,148
+"MOCK",591,"Transpiration",0,148
+"MOCK",592,"Fermentation",0,148
+
+"CORRECT",593,"Nairobi",1,149
+"MOCK",594,"Lagos",0,149
+"MOCK",595,"Cairo",0,149
+"MOCK",596,"Addis Ababa",0,149
+
+"CORRECT",597,"William Shakespeare",1,150
+"MOCK",598,"Geoffrey Chaucer",0,150
+"MOCK",599,"John Milton",0,150
+"MOCK",600,"Edmund Spenser",0,150
+
+"CORRECT",601,"Sn",1,151
+"MOCK",602,"Ti",0,151
+"MOCK",603,"Si",0,151
+"MOCK",604,"Te",0,151
+
+"CORRECT",605,"J.R.R. Tolkien",1,152
+"MOCK",606,"C.S. Lewis",0,152
+"MOCK",607,"George R.R. Martin",0,152
+"MOCK",608,"J.K. Rowling",0,152
+
+"CORRECT",609,"Antarctic Desert",1,153
+"MOCK",610,"Sahara Desert",0,153
+"MOCK",611,"Gobi Desert",0,153
+"MOCK",612,"Arabian Desert",0,153
+
+"CORRECT",613,"Euclid",1,154
+"MOCK",614,"Pythagoras",0,154
+"MOCK",615,"Archimedes",0,154
+"MOCK",616,"Aristotle",0,154
+
+"CORRECT",617,"Mexico City",1,155
+"MOCK",618,"Guadalajara",0,155
+"MOCK",619,"Monterrey",0,155
+"MOCK",620,"Tijuana",0,155
+
+"CORRECT",621,"Gluteus Maximus",1,156
+"MOCK",622,"Biceps",0,156
+"MOCK",623,"Quadriceps",0,156
+"MOCK",624,"Deltoid",0,156
+
+"CORRECT",625,"Pablo Picasso",1,157
+"MOCK",626,"Salvador Dalí",0,157
+"MOCK",627,"Henri Matisse",0,157
+"MOCK",628,"Joan Miró",0,157
+
+"CORRECT",629,"Tooth Enamel",1,158
+"MOCK",630,"Bone",0,158
+"MOCK",631,"Cartilage",0,158
+"MOCK",632,"Keratin",0,158
+
+"CORRECT",633,"William Harvey",1,159
+"MOCK",634,"Andreas Vesalius",0,159
+"MOCK",635,"Edward Jenner",0,159
+"MOCK",636,"Louis Pasteur",0,159
+
+"CORRECT",637,"Atom",1,160
+"MOCK",638,"Molecule",0,160
+"MOCK",639,"Electron",0,160
+"MOCK",640,"Proton",0,160
+
+"CORRECT",641,"Vienna",1,161
+"MOCK",642,"Salzburg",0,161
+"MOCK",643,"Innsbruck",0,161
+"MOCK",644,"Graz",0,161
+
+"CORRECT",645,"Mark Twain",1,162
+"MOCK",646,"Ernest Hemingway",0,162
+"MOCK",647,"F. Scott Fitzgerald",0,162
+"MOCK",648,"John Steinbeck",0,162
+
+"CORRECT",649,"Ca",1,163
+"MOCK",650,"Cl",0,163
+"MOCK",651,"C",0,163
+"MOCK",652,"Cs",0,163
+
+"CORRECT",653,"Saturn",1,164
+"MOCK",654,"Jupiter",0,164
+"MOCK",655,"Neptune",0,164
+"MOCK",656,"Uranus",0,164
+
+"CORRECT",657,"Neptune",1,165
+"MOCK",658,"Poseidon",0,165
+"MOCK",659,"Mars",0,165
+"MOCK",660,"Jupiter",0,165
+
+"CORRECT",661,"Hydrogen",1,166
+"MOCK",662,"Helium",0,166
+"MOCK",663,"Oxygen",0,166
+"MOCK",664,"Carbon",0,166
+
+"CORRECT",665,"Georges Bizet",1,167
+"MOCK",666,"Giuseppe Verdi",0,167
+"MOCK",667,"Wolfgang Amadeus Mozart",0,167
+"MOCK",668,"Richard Wagner",0,167
+
+"CORRECT",669,"Aorta",1,168
+"MOCK",670,"Carotid Artery",0,168
+"MOCK",671,"Femoral Artery",0,168
+"MOCK",672,"Pulmonary Artery",0,168
+
+"CORRECT",673,"Amsterdam",1,169
+"MOCK",674,"Rotterdam",0,169
+"MOCK",675,"The Hague",0,169
+"MOCK",676,"Utrecht",0,169
+
+"CORRECT",677,"Herodotus",1,170
+"MOCK",678,"Thucydides",0,170
+"MOCK",679,"Plutarch",0,170
+"MOCK",680,"Tacitus",0,170
+
+"CORRECT",681,"Ne",1,171
+"MOCK",682,"Na",0,171
+"MOCK",683,"Ni",0,171
+"MOCK",684,"No",0,171
+
+"CORRECT",685,"Miguel de Cervantes",1,172
+"MOCK",686,"Gabriel García Márquez",0,172
+"MOCK",687,"Jorge Luis Borges",0,172
+"MOCK",688,"Pablo Neruda",0,172
+
+"CORRECT",689,"Titan",1,173
+"MOCK",690,"Europa",0,173
+"MOCK",691,"Ganymede",0,173
+"MOCK",692,"Callisto",0,173
+
+"CORRECT",693,"Mitosis",1,174
+"MOCK",694,"Meiosis",0,174
+"MOCK",695,"Cytokinesis",0,174
+"MOCK",696,"Binary Fission",0,174
+
+"CORRECT",697,"Ankara",1,175
+"MOCK",698,"Istanbul",0,175
+"MOCK",699,"Izmir",0,175
+"MOCK",700,"Antalya",0,175
+
+"CORRECT",701,"Nile River",1,176
+"MOCK",702,"Amazon River",0,176
+"MOCK",703,"Yangtze River",0,176
+"MOCK",704,"Mississippi River",0,176
+
+"CORRECT",705,"Albert Einstein",1,177
+"MOCK",706,"Isaac Newton",0,177
+"MOCK",707,"Nikola Tesla",0,177
+"MOCK",708,"Galileo Galilei",0,177
+
+"CORRECT",709,"Liver",1,178
+"MOCK",710,"Kidneys",0,178
+"MOCK",711,"Lungs",0,178
+"MOCK",712,"Spleen",0,178
+
+"CORRECT",713,"Leonardo da Vinci",1,179
+"MOCK",714,"Michelangelo",0,179
+"MOCK",715,"Raphael",0,179
+"MOCK",716,"Donatello",0,179
+
+"CORRECT",717,"Blue Whale",1,180
+"MOCK",718,"Elephant",0,180
+"MOCK",719,"Giraffe",0,180
+"MOCK",720,"Hippopotamus",0,180
+
+"CORRECT",721,"Charles Babbage",1,181
+"MOCK",722,"Alan Turing",0,181
+"MOCK",723,"Steve Jobs",0,181
+"MOCK",724,"Bill Gates",0,181
+
+"CORRECT",725,"Photosynthesis",1,182
+"MOCK",726,"Respiration",0,182
+"MOCK",727,"Transpiration",0,182
+"MOCK",728,"Fermentation",0,182
+
+"CORRECT",729,"George Orwell",1,183
+"MOCK",730,"Aldous Huxley",0,183
+"MOCK",731,"J.D. Salinger",0,183
+"MOCK",732,"F. Scott Fitzgerald",0,183
+
+"CORRECT",733,"Diamond",1,184
+"MOCK",734,"Graphite",0,184
+"MOCK",735,"Quartz",0,184
+"MOCK",736,"Topaz",0,184
+
+"CORRECT",737,"Alexander Fleming",1,185
+"MOCK",738,"Louis Pasteur",0,185
+"MOCK",739,"Marie Curie",0,185
+"MOCK",740,"Edward Jenner",0,185
+
+"CORRECT",741,"Cell",1,186
+"MOCK",742,"Atom",0,186
+"MOCK",743,"Molecule",0,186
+"MOCK",744,"Organ",0,186
+
+"CORRECT",745,"Ludwig van Beethoven",1,187
+"MOCK",746,"Wolfgang Amadeus Mozart",0,187
+"MOCK",747,"Johann Sebastian Bach",0,187
+"MOCK",748,"Franz Schubert",0,187
+
+"CORRECT",749,"Carbon Dioxide",1,188
+"MOCK",750,"Oxygen",0,188
+"MOCK",751,"Nitrogen",0,188
+"MOCK",752,"Hydrogen",0,188
+
+"CORRECT",753,"Hades",1,189
+"MOCK",754,"Zeus",0,189
+"MOCK",755,"Poseidon",0,189
+"MOCK",756,"Apollo",0,189
+
+"CORRECT",757,"Meteorology",1,190
+"MOCK",758,"Geology",0,190
+"MOCK",759,"Oceanography",0,190
+"MOCK",760,"Astronomy",0,190
+
+"CORRECT",761,"Alexander Graham Bell",1,191
+"MOCK",762,"Thomas Edison",0,191
+"MOCK",763,"Nikola Tesla",0,191
+"MOCK",764,"Guglielmo Marconi",0,191
+
+"CORRECT",765,"Jupiter",1,192
+"MOCK",766,"Saturn",0,192
+"MOCK",767,"Neptune",0,192
+"MOCK",768,"Uranus",0,192
+
+"CORRECT",769,"Jane Austen",1,193
+"MOCK",770,"Emily Brontë",0,193
+"MOCK",771,"Charlotte Brontë",0,193
+"MOCK",772,"Mary Shelley",0,193
+
+"CORRECT",773,"Meiosis",1,194
+"MOCK",774,"Mitosis",0,194
+"MOCK",775,"Cytokinesis",0,194
+"MOCK",776,"Binary Fission",0,194
+
+"CORRECT",777,"Vincent van Gogh",1,195
+"MOCK",778,"Pablo Picasso",0,195
+"MOCK",779,"Claude Monet",0,195
+"MOCK",780,"Paul Cézanne",0,195
+
+"CORRECT",781,"Cellular Respiration",1,196
+"MOCK",782,"Photosynthesis",0,196
+"MOCK",783,"Fermentation",0,196
+"MOCK",784,"Glycolysis",0,196
+
+"CORRECT",785,"Albert Einstein",1,197
+"MOCK",786,"Isaac Newton",0,197
+"MOCK",787,"Galileo Galilei",0,197
+"MOCK",788,"Niels Bohr",0,197
+
+"CORRECT",789,"Heart",1,198
+"MOCK",790,"Lungs",0,198
+"MOCK",791,"Brain",0,198
+"MOCK",792,"Liver",0,198
+
+"CORRECT",793,"Harper Lee",1,199
+"MOCK",794,"Truman Capote",0,199
+"MOCK",795,"Mark Twain",0,199
+"MOCK",796,"Ernest Hemingway",0,199
+
+"CORRECT",797,"History",1,200
+"MOCK",798,"Geography",0,200
+"MOCK",799,"Anthropology",0,200
+"MOCK",800,"Archaeology",0,200
+
+"CORRECT",801,"Adam Smith",1,201
+"MOCK",802,"John Maynard Keynes",0,201
+"MOCK",803,"Karl Marx",0,201
+"MOCK",804,"Milton Friedman",0,201
+
+"CORRECT",805,"Gross Domestic Product",1,202
+"MOCK",806,"Gross Domestic Profit",0,202
+"MOCK",807,"Global Development Plan",0,202
+"MOCK",808,"General Debt Payment",0,202
+
+"CORRECT",809,"Capitalism",1,203
+"MOCK",810,"Socialism",0,203
+"MOCK",811,"Communism",0,203
+"MOCK",812,"Feudalism",0,203
+
+"CORRECT",813,"Inflation",1,204
+"MOCK",814,"Deflation",0,204
+"MOCK",815,"Stagflation",0,204
+"MOCK",816,"Recession",0,204
+
+"CORRECT",817,"Adam Smith",1,205
+"MOCK",818,"David Ricardo",0,205
+"MOCK",819,"John Maynard Keynes",0,205
+"MOCK",820,"Thomas Malthus",0,205
+
+"CORRECT",821,"Monopoly",1,206
+"MOCK",822,"Oligopoly",0,206
+"MOCK",823,"Perfect Competition",0,206
+"MOCK",824,"Monopsony",0,206
+
+"CORRECT",825,"Equilibrium",1,207
+"MOCK",826,"Inflation",0,207
+"MOCK",827,"Surplus",0,207
+"MOCK",828,"Deficit",0,207
+
+"CORRECT",829,"John Maynard Keynes",1,208
+"MOCK",830,"Milton Friedman",0,208
+"MOCK",831,"Karl Marx",0,208
+"MOCK",832,"Adam Smith",0,208
+
+"CORRECT",833,"Microeconomics",1,209
+"MOCK",834,"Macroeconomics",0,209
+"MOCK",835,"Econometrics",0,209
+"MOCK",836,"Development Economics",0,209
+
+"CORRECT",837,"Opportunity Cost",1,210
+"MOCK",838,"Marginal Cost",0,210
+"MOCK",839,"Fixed Cost",0,210
+"MOCK",840,"Variable Cost",0,210
+
+"CORRECT",841,"Consumer Price Index",1,211
+"MOCK",842,"Producer Price Index",0,211
+"MOCK",843,"Gross Domestic Product",0,211
+"MOCK",844,"Unemployment Rate",0,211
+
+"CORRECT",845,"Depression",1,212
+"MOCK",846,"Recession",0,212
+"MOCK",847,"Inflation",0,212
+"MOCK",848,"Deflation",0,212
+
+"CORRECT",849,"Federal Reserve",1,213
+"MOCK",850,"Bank of America",0,213
+"MOCK",851,"World Bank",0,213
+"MOCK",852,"International Monetary Fund",0,213
+
+"CORRECT",853,"Recession",1,214
+"MOCK",854,"Inflation",0,214
+"MOCK",855,"Boom",0,214
+"MOCK",856,"Depression",0,214
+
+"CORRECT",857,"Classical Economics",1,215
+"MOCK",858,"Keynesian Economics",0,215
+"MOCK",859,"Monetarism",0,215
+"MOCK",860,"Marxist Economics",0,215
+
+"CORRECT",861,"Phillips Curve",1,216
+"MOCK",862,"Laffer Curve",0,216
+"MOCK",863,"IS-LM Curve",0,216
+"MOCK",864,"Supply Curve",0,216
+
+"CORRECT",865,"Reserve Requirement",1,217
+"MOCK",866,"Liquidity Ratio",0,217
+"MOCK",867,"Capital Adequacy",0,217
+"MOCK",868,"Interest Rate",0,217
+
+"CORRECT",869,"Thomas Malthus",1,218
+"MOCK",870,"David Ricardo",0,218
+"MOCK",871,"John Stuart Mill",0,218
+"MOCK",872,"Adam Smith",0,218
+
+"CORRECT",873,"Normal Good",1,219
+"MOCK",874,"Inferior Good",0,219
+"MOCK",875,"Giffen Good",0,219
+"MOCK",876,"Luxury Good",0,219
+
+"CORRECT",877,"Karl Marx",1,220
+"MOCK",878,"Vladimir Lenin",0,220
+"MOCK",879,"Friedrich Engels",0,220
+"MOCK",880,"Joseph Stalin",0,220
+
+"CORRECT",881,"Keynesian Economics",1,221
+"MOCK",882,"Classical Economics",0,221
+"MOCK",883,"Monetarism",0,221
+"MOCK",884,"Supply-side Economics",0,221
+
+"CORRECT",885,"Deregulation",1,222
+"MOCK",886,"Nationalization",0,222
+"MOCK",887,"Privatization",0,222
+"MOCK",888,"Monetization",0,222
+
+"CORRECT",889,"Oligopoly",1,223
+"MOCK",890,"Monopoly",0,223
+"MOCK",891,"Perfect Competition",0,223
+"MOCK",892,"Monopsony",0,223
+
+"CORRECT",893,"David Ricardo",1,224
+"MOCK",894,"Adam Smith",0,224
+"MOCK",895,"John Maynard Keynes",0,224
+"MOCK",896,"Milton Friedman",0,224
+
+"CORRECT",897,"Stagflation",1,225
+"MOCK",898,"Inflation",0,225
+"MOCK",899,"Deflation",0,225
+"MOCK",900,"Recession",0,225
+
+"CORRECT",901,"Augustus Caesar",1,226
+"MOCK",902,"Julius Caesar",0,226
+"MOCK",903,"Nero",0,226
+"MOCK",904,"Caligula",0,226
+
+"CORRECT",905,"1989",1,227
+"MOCK",906,"1991",0,227
+"MOCK",907,"1987",0,227
+"MOCK",908,"1990",0,227
+
+"CORRECT",909,"Winston Churchill",1,228
+"MOCK",910,"Neville Chamberlain",0,228
+"MOCK",911,"Clement Attlee",0,228
+"MOCK",912,"Margaret Thatcher",0,228
+
+"CORRECT",913,"Inca Civilization",1,229
+"MOCK",914,"Maya Civilization",0,229
+"MOCK",915,"Aztec Civilization",0,229
+"MOCK",916,"Olmec Civilization",0,229
+
+"CORRECT",917,"Joan of Arc",1,230
+"MOCK",918,"Marie Antoinette",0,230
+"MOCK",919,"Catherine the Great",0,230
+"MOCK",920,"Queen Victoria",0,230
+
+"CORRECT",921,"The American Civil War",1,231
+"MOCK",922,"World War I",0,231
+"MOCK",923,"The Revolutionary War",0,231
+"MOCK",924,"The War of 1812",0,231
+
+"CORRECT",925,"Joseph Stalin",1,232
+"MOCK",926,"Vladimir Lenin",0,232
+"MOCK",927,"Nikita Khrushchev",0,232
+"MOCK",928,"Mikhail Gorbachev",0,232
+
+"CORRECT",929,"Mayflower",1,233
+"MOCK",930,"Santa Maria",0,233
+"MOCK",931,"HMS Beagle",0,233
+"MOCK",932,"Endeavour",0,233
+
+"CORRECT",933,"Amelia Earhart",1,234
+"MOCK",934,"Harriet Quimby",0,234
+"MOCK",935,"Bessie Coleman",0,234
+"MOCK",936,"Sally Ride",0,234
+
+"CORRECT",937,"The Mongol Empire",1,235
+"MOCK",938,"The Ottoman Empire",0,235
+"MOCK",939,"The Persian Empire",0,235
+"MOCK",940,"The Byzantine Empire",0,235
+
+"CORRECT",941,"The Stock Market Crash",1,236
+"MOCK",942,"The Great Depression",0,236
+"MOCK",943,"Black Monday",0,236
+"MOCK",944,"The Dust Bowl",0,236
+
+"CORRECT",945,"Ramses II",1,237
+"MOCK",946,"Tutankhamun",0,237
+"MOCK",947,"Akhenaten",0,237
+"MOCK",948,"Cleopatra",0,237
+
+"CORRECT",949,"Treaty of Versailles",1,238
+"MOCK",950,"Treaty of Paris",0,238
+"MOCK",951,"Treaty of Tordesillas",0,238
+"MOCK",952,"Treaty of Utrecht",0,238
+
+"CORRECT",953,"Nelson Mandela",1,239
+"MOCK",954,"Desmond Tutu",0,239
+"MOCK",955,"Jacob Zuma",0,239
+"MOCK",956,"Thabo Mbeki",0,239
+
+"CORRECT",957,"World War I",1,240
+"MOCK",958,"World War II",0,240
+"MOCK",959,"The Cold War",0,240
+"MOCK",960,"The Napoleonic Wars",0,240
+
+"CORRECT",961,"Vasco da Gama",1,241
+"MOCK",962,"Christopher Columbus",0,241
+"MOCK",963,"Ferdinand Magellan",0,241
+"MOCK",964,"Bartolomeu Dias",0,241
+
+"CORRECT",965,"Inca Empire",1,242
+"MOCK",966,"Aztec Empire",0,242
+"MOCK",967,"Maya Empire",0,242
+"MOCK",968,"Olmec Empire",0,242
+
+"CORRECT",969,"Nicholas II",1,243
+"MOCK",970,"Alexander III",0,243
+"MOCK",971,"Peter the Great",0,243
+"MOCK",972,"Ivan the Terrible",0,243
+
+"CORRECT",973,"Civil Rights Movement",1,244
+"MOCK",974,"Abolitionist Movement",0,244
+"MOCK",975,"Women's Suffrage Movement",0,244
+"MOCK",976,"Temperance Movement",0,244
+
+"CORRECT",977,"Martin Luther",1,245
+"MOCK",978,"John Calvin",0,245
+"MOCK",979,"Ulrich Zwingli",0,245
+"MOCK",980,"Jan Hus",0,245
+
+"CORRECT",981,"Ancient Egyptians",1,246
+"MOCK",982,"Babylonians",0,246
+"MOCK",983,"Romans",0,246
+"MOCK",984,"Greeks",0,246
+
+"CORRECT",985,"Florence Nightingale",1,247
+"MOCK",986,"Clara Barton",0,247
+"MOCK",987,"Mary Seacole",0,247
+"MOCK",988,"Edith Cavell",0,247
+
+"CORRECT",989,"Babylonian Civilization",1,248
+"MOCK",990,"Assyrian Civilization",0,248
+"MOCK",991,"Sumerian Civilization",0,248
+"MOCK",992,"Persian Civilization",0,248
+
+"CORRECT",993,"Ferdinand Magellan",1,249
+"MOCK",994,"Christopher Columbus",0,249
+"MOCK",995,"Vasco da Gama",0,249
+"MOCK",996,"James Cook",0,249
+
+"CORRECT",997,"Latin",1,250
+"MOCK",998,"Greek",0,250
+"MOCK",999,"Italian",0,250
+"MOCK",1000,"Hebrew",0,250
+
+"CORRECT",1001,"Gene",1,251
+"MOCK",1002,"Chromosome",0,251
+"MOCK",1003,"Cell",0,251
+"MOCK",1004,"Nucleus",0,251
+
+"CORRECT",1005,"Ovum",1,252
+"MOCK",1006,"Neuron",0,252
+"MOCK",1007,"Red blood cell",0,252
+"MOCK",1008,"Sperm cell",0,252
+
+"CORRECT",1009,"Nucleus",1,253
+"MOCK",1010,"Mitochondria",0,253
+"MOCK",1011,"Ribosome",0,253
+"MOCK",1012,"Golgi apparatus",0,253
+
+"CORRECT",1013,"Glucose",1,254
+"MOCK",1014,"Fructose",0,254
+"MOCK",1015,"Sucrose",0,254
+"MOCK",1016,"Lactose",0,254
+
+"CORRECT",1017,"Chlorophyll",1,255
+"MOCK",1018,"Carotene",0,255
+"MOCK",1019,"Xanthophyll",0,255
+"MOCK",1020,"Melanin",0,255
+
+"CORRECT",1021,"O negative",1,256
+"MOCK",1022,"AB positive",0,256
+"MOCK",1023,"A positive",0,256
+"MOCK",1024,"B negative",0,256
+
+"CORRECT",1025,"Mitosis",1,257
+"MOCK",1026,"Meiosis",0,257
+"MOCK",1027,"Binary fission",0,257
+"MOCK",1028,"Cytokinesis",0,257
+
+"CORRECT",1029,"Entomology",1,258
+"MOCK",1030,"Ornithology",0,258
+"MOCK",1031,"Herpetology",0,258
+"MOCK",1032,"Ichthyology",0,258
+
+"CORRECT",1033,"DNA",1,259
+"MOCK",1034,"RNA",0,259
+"MOCK",1035,"Protein",0,259
+"MOCK",1036,"Lipids",0,259
+
+"CORRECT",1037,"Vacuole",1,260
+"MOCK",1038,"Chloroplast",0,260
+"MOCK",1039,"Nucleus",0,260
+"MOCK",1040,"Mitochondria",0,260
+
+"CORRECT",1041,"Alveoli",1,261
+"MOCK",1042,"Bronchi",0,261
+"MOCK",1043,"Capillaries",0,261
+"MOCK",1044,"Trachea",0,261
+
+"CORRECT",1045,"Femur",1,262
+"MOCK",1046,"Tibia",0,262
+"MOCK",1047,"Humerus",0,262
+"MOCK",1048,"Radius",0,262
+
+"CORRECT",1049,"Anaerobic respiration",1,263
+"MOCK",1050,"Photosynthesis",0,263
+"MOCK",1051,"Aerobic respiration",0,263
+"MOCK",1052,"Fermentation",0,263
+
+"CORRECT",1053,"Mycology",1,264
+"MOCK",1054,"Bacteriology",0,264
+"MOCK",1055,"Virology",0,264
+"MOCK",1056,"Phycology",0,264
+
+"CORRECT",1057,"Cerebellum",1,265
+"MOCK",1058,"Cerebrum",0,265
+"MOCK",1059,"Medulla oblongata",0,265
+"MOCK",1060,"Hypothalamus",0,265
+
+"CORRECT",1061,"Arteries",1,266
+"MOCK",1062,"Veins",0,266
+"MOCK",1063,"Capillaries",0,266
+"MOCK",1064,"Venules",0,266
+
+"CORRECT",1065,"Lactase",1,267
+"MOCK",1066,"Amylase",0,267
+"MOCK",1067,"Protease",0,267
+"MOCK",1068,"Lipase",0,267
+
+"CORRECT",1069,"Exoskeleton",1,268
+"MOCK",1070,"Endoskeleton",0,268
+"MOCK",1071,"Shell",0,268
+"MOCK",1072,"Carapace",0,268
+
+"CORRECT",1073,"Transpiration",1,269
+"MOCK",1074,"Evaporation",0,269
+"MOCK",1075,"Photosynthesis",0,269
+"MOCK",1076,"Respiration",0,269
+
+"CORRECT",1077,"Ecology",1,270
+"MOCK",1078,"Biology",0,270
+"MOCK",1079,"Sociology",0,270
+"MOCK",1080,"Geology",0,270
+
+"CORRECT",1081,"Autotroph",1,271
+"MOCK",1082,"Heterotroph",0,271
+"MOCK",1083,"Saprotroph",0,271
+"MOCK",1084,"Parasite",0,271
+
+"CORRECT",1085,"Natural Selection",1,272
+"MOCK",1086,"Genetic Drift",0,272
+"MOCK",1087,"Mutation",0,272
+"MOCK",1088,"Speciation",0,272
+
+"CORRECT",1089,"ATP",1,273
+"MOCK",1090,"DNA",0,273
+"MOCK",1091,"RNA",0,273
+"MOCK",1092,"NADH",0,273
+
+"CORRECT",1093,"White blood cells",1,274
+"MOCK",1094,"Red blood cells",0,274
+"MOCK",1095,"Platelets",0,274
+"MOCK",1096,"Plasma cells",0,274
+
+"CORRECT",1097,"Molting",1,275
+"MOCK",1098,"Shedding",0,275
+"MOCK",1099,"Metamorphosis",0,275
+"MOCK",1100,"Regeneration",0,275
+
+"CORRECT",1101,"Central Processing Unit",1,276
+"MOCK",1102,"Computer Power Unit",0,276
+"MOCK",1103,"Central Performance Unit",0,276
+"MOCK",1104,"Control Processing Unit",0,276
+
+"CORRECT",1105,"Apple Inc.",1,277
+"MOCK",1106,"Microsoft",0,277
+"MOCK",1107,"Samsung",0,277
+"MOCK",1108,"Google",0,277
+
+"CORRECT",1109,"Java",1,278
+"MOCK",1110,"Python",0,278
+"MOCK",1111,"C#",0,278
+"MOCK",1112,"Swift",0,278
+
+"CORRECT",1113,"Bill Gates",1,279
+"MOCK",1114,"Steve Jobs",0,279
+"MOCK",1115,"Mark Zuckerberg",0,279
+"MOCK",1116,"Larry Page",0,279
+
+"CORRECT",1117,"HyperText Transfer Protocol",1,280
+"MOCK",1118,"HyperText Transmission Protocol",0,280
+"MOCK",1119,"Hyperlink Transfer Protocol",0,280
+"MOCK",1120,"Hyperlink Transmission Platform",0,280
+
+"CORRECT",1121,"VoIP",1,281
+"MOCK",1122,"VPN",0,281
+"MOCK",1123,"LAN",0,281
+"MOCK",1124,"HTTP",0,281
+
+"CORRECT",1125,"Random Access Memory",1,282
+"MOCK",1126,"Readily Available Memory",0,282
+"MOCK",1127,"Run Access Memory",0,282
+"MOCK",1128,"Read-Only Memory",0,282
+
+"CORRECT",1129,"Steve Wozniak",1,283
+"MOCK",1130,"Tim Cook",0,283
+"MOCK",1131,"Jonathan Ive",0,283
+"MOCK",1132,"Bill Gates",0,283
+
+"CORRECT",1133,"ENIAC",1,284
+"MOCK",1134,"UNIVAC",0,284
+"MOCK",1135,"Colossus",0,284
+"MOCK",1136,"IBM PC",0,284
+
+"CORRECT",1137,"Microsoft Windows",1,285
+"MOCK",1138,"macOS",0,285
+"MOCK",1139,"Linux",0,285
+"MOCK",1140,"Chrome OS",0,285
+
+"CORRECT",1141,"Graphics Processing Unit",1,286
+"MOCK",1142,"General Processing Unit",0,286
+"MOCK",1143,"Gigabyte Processing Unit",0,286
+"MOCK",1144,"Global Processing Unit",0,286
+
+"CORRECT",1145,"Google",1,287
+"MOCK",1146,"Apple Inc.",0,287
+"MOCK",1147,"Microsoft",0,287
+"MOCK",1148,"Amazon",0,287
+
+"CORRECT",1149,"Universal Serial Bus",1,288
+"MOCK",1150,"Universal Service Bus",0,288
+"MOCK",1151,"United Serial Bus",0,288
+"MOCK",1152,"Universal Serial Board",0,288
+
+"CORRECT",1153,"John McCarthy",1,289
+"MOCK",1154,"Alan Turing",0,289
+"MOCK",1155,"Marvin Minsky",0,289
+"MOCK",1156,"Herbert Simon",0,289
+
+"CORRECT",1157,"Malware",1,290
+"MOCK",1158,"Virus",0,290
+"MOCK",1159,"Spyware",0,290
+"MOCK",1160,"Adware",0,290
+
+"CORRECT",1161,"Local Area Network",1,291
+"MOCK",1162,"Large Area Network",0,291
+"MOCK",1163,"Logical Access Network",0,291
+"MOCK",1164,"Long Area Network",0,291
+
+"CORRECT",1165,"MySQL",1,292
+"MOCK",1166,"Microsoft SQL Server",0,292
+"MOCK",1167,"Oracle Database",0,292
+"MOCK",1168,"PostgreSQL",0,292
+
+"CORRECT",1169,"Cloud Computing",1,293
+"MOCK",1170,"Grid Computing",0,293
+"MOCK",1171,"Quantum Computing",0,293
+"MOCK",1172,"Edge Computing",0,293
+
+"CORRECT",1173,"Linus Torvalds",1,294
+"MOCK",1174,"Richard Stallman",0,294
+"MOCK",1175,"Bill Gates",0,294
+"MOCK",1176,"Steve Jobs",0,294
+
+"CORRECT",1177,"ARPANET",1,295
+"MOCK",1178,"NSFNET",0,295
+"MOCK",1179,"MILNET",0,295
+"MOCK",1180,"DARPA",0,295
+
+"CORRECT",1181,"Solid State Drive",1,296
+"MOCK",1182,"Secure Storage Device",0,296
+"MOCK",1183,"System Storage Disk",0,296
+"MOCK",1184,"Super Speed Drive",0,296
+
+"CORRECT",1185,"Network Interface Card",1,297
+"MOCK",1186,"Network Internal Component",0,297
+"MOCK",1187,"Network Input Connector",0,297
+"MOCK",1188,"Network Integrated Circuit",0,297
+
+"CORRECT",1189,"Sony",1,298
+"MOCK",1190,"Nintendo",0,298
+"MOCK",1191,"Microsoft",0,298
+"MOCK",1192,"Sega",0,298
+
+"CORRECT",1193,"Firewall",1,299
+"MOCK",1194,"Router",0,299
+"MOCK",1195,"Modem",0,299
+"MOCK",1196,"Switch",0,299
+
+"CORRECT",1197,"Python",1,300
+"MOCK",1198,"Ruby",0,300
+"MOCK",1199,"Perl",0,300
+"MOCK",1200,"JavaScript",0,300
+"CORRECT",1201,"Helium",1,301
+"MOCK",1202,"Hydrogen",0,301
+"MOCK",1203,"Hafnium",0,301
+"MOCK",1204,"Holmium",0,301
+
+"CORRECT",1205,"Albert Einstein",1,302
+"MOCK",1206,"Isaac Newton",0,302
+"MOCK",1207,"Galileo Galilei",0,302
+"MOCK",1208,"Nikola Tesla",0,302
+
+"CORRECT",1209,"Nitrogen",1,303
+"MOCK",1210,"Oxygen",0,303
+"MOCK",1211,"Carbon Dioxide",0,303
+"MOCK",1212,"Argon",0,303
+
+"CORRECT",1213,"Ohm",1,304
+"MOCK",1214,"Volt",0,304
+"MOCK",1215,"Ampere",0,304
+"MOCK",1216,"Watt",0,304
+
+"CORRECT",1217,"Galileo Galilei",1,305
+"MOCK",1218,"Albert Einstein",0,305
+"MOCK",1219,"Isaac Newton",0,305
+"MOCK",1220,"Niels Bohr",0,305
+
+"CORRECT",1221,"Physics",1,306
+"MOCK",1222,"Chemistry",0,306
+"MOCK",1223,"Biology",0,306
+"MOCK",1224,"Geology",0,306
+
+"CORRECT",1225,"Saturn",1,307
+"MOCK",1226,"Jupiter",0,307
+"MOCK",1227,"Mars",0,307
+"MOCK",1228,"Uranus",0,307
+
+"CORRECT",1229,"Gravity",1,308
+"MOCK",1230,"Magnetism",0,308
+"MOCK",1231,"Friction",0,308
+"MOCK",1232,"Inertia",0,308
+
+"CORRECT",1233,"Isaac Newton",1,309
+"MOCK",1234,"Albert Einstein",0,309
+"MOCK",1235,"Galileo Galilei",0,309
+"MOCK",1236,"Johannes Kepler",0,309
+
+"CORRECT",1237,"Mitochondria",1,310
+"MOCK",1238,"Nucleus",0,310
+"MOCK",1239,"Ribosome",0,310
+"MOCK",1240,"Chloroplast",0,310
+
+"CORRECT",1241,"299,792,458 meters per second",1,311
+"MOCK",1242,"150,000,000 meters per second",0,311
+"MOCK",1243,"3,000,000 meters per second",0,311
+"MOCK",1244,"30,000,000 meters per second",0,311
+
+"CORRECT",1245,"Kidneys",1,312
+"MOCK",1246,"Liver",0,312
+"MOCK",1247,"Spleen",0,312
+"MOCK",1248,"Pancreas",0,312
+
+"CORRECT",1249,"Diamond",1,313
+"MOCK",1250,"Graphite",0,313
+"MOCK",1251,"Quartz",0,313
+"MOCK",1252,"Topaz",0,313
+
+"CORRECT",1253,"NaCl",1,314
+"MOCK",1254,"KCl",0,314
+"MOCK",1255,"NaF",0,314
+"MOCK",1256,"MgCl2",0,314
+
+"CORRECT",1257,"Alexander Fleming",1,315
+"MOCK",1258,"Louis Pasteur",0,315
+"MOCK",1259,"Marie Curie",0,315
+"MOCK",1260,"Robert Koch",0,315
+
+"CORRECT",1261,"Elastic Potential Energy",1,316
+"MOCK",1262,"Kinetic Energy",0,316
+"MOCK",1263,"Chemical Energy",0,316
+"MOCK",1264,"Thermal Energy",0,316
+
+"CORRECT",1265,"Cerebrum",1,317
+"MOCK",1266,"Cerebellum",0,317
+"MOCK",1267,"Brainstem",0,317
+"MOCK",1268,"Hypothalamus",0,317
+
+"CORRECT",1269,"7",1,318
+"MOCK",1270,"0",0,318
+"MOCK",1271,"14",0,318
+"MOCK",1272,"Neutral",0,318
+
+"CORRECT",1273,"Albert Einstein",1,319
+"MOCK",1274,"Isaac Newton",0,319
+"MOCK",1275,"James Clerk Maxwell",0,319
+"MOCK",1276,"Enrico Fermi",0,319
+
+"CORRECT",1277,"Nitrogen",1,320
+"MOCK",1278,"Oxygen",0,320
+"MOCK",1279,"Carbon Dioxide",0,320
+"MOCK",1280,"Hydrogen",0,320
+
+"CORRECT",1281,"K",1,321
+"MOCK",1282,"P",0,321
+"MOCK",1283,"Pt",0,321
+"MOCK",1284,"Kr",0,321
+
+"CORRECT",1285,"Barometer",1,322
+"MOCK",1286,"Thermometer",0,322
+"MOCK",1287,"Anemometer",0,322
+"MOCK",1288,"Hygrometer",0,322
+
+"CORRECT",1289,"Refraction",1,323
+"MOCK",1290,"Reflection",0,323
+"MOCK",1291,"Diffraction",0,323
+"MOCK",1292,"Interference",0,323
+
+"CORRECT",1293,"AB positive",1,324
+"MOCK",1294,"O negative",0,324
+"MOCK",1295,"A positive",0,324
+"MOCK",1296,"B negative",0,324
+
+"CORRECT",1297,"Ampere",1,325
+"MOCK",1298,"Volt",0,325
+"MOCK",1299,"Ohm",0,325
+"MOCK",1300,"Watt",0,325
+"CORRECT",1301,"Michael Jackson",1,326
+"MOCK",1302,"Elvis Presley",0,326
+"MOCK",1303,"Prince",0,326
+"MOCK",1304,"Freddie Mercury",0,326
+
+"CORRECT",1305,"Ludwig van Beethoven",1,327
+"MOCK",1306,"Wolfgang Amadeus Mozart",0,327
+"MOCK",1307,"Johann Sebastian Bach",0,327
+"MOCK",1308,"Franz Schubert",0,327
+
+"CORRECT",1309,"Tenor",1,328
+"MOCK",1310,"Baritone",0,328
+"MOCK",1311,"Bass",0,328
+"MOCK",1312,"Countertenor",0,328
+
+"CORRECT",1313,"Pink Floyd",1,329
+"MOCK",1314,"Led Zeppelin",0,329
+"MOCK",1315,"The Beatles",0,329
+"MOCK",1316,"Queen",0,329
+
+"CORRECT",1317,"Bono",1,330
+"MOCK",1318,"The Edge",0,330
+"MOCK",1319,"Chris Martin",0,330
+"MOCK",1320,"Dave Grohl",0,330
+
+"CORRECT",1321,"Piano",1,331
+"MOCK",1322,"Guitar",0,331
+"MOCK",1323,"Organ",0,331
+"MOCK",1324,"Harp",0,331
+
+"CORRECT",1325,"Wolfgang Amadeus Mozart",1,332
+"MOCK",1326,"Giuseppe Verdi",0,332
+"MOCK",1327,"Richard Wagner",0,332
+"MOCK",1328,"Giacomo Puccini",0,332
+
+"CORRECT",1329,"Prince",1,333
+"MOCK",1330,"Stevie Wonder",0,333
+"MOCK",1331,"Jimi Hendrix",0,333
+"MOCK",1332,"David Bowie",0,333
+
+"CORRECT",1333,"Octet",1,334
+"MOCK",1334,"Quartet",0,334
+"MOCK",1335,"Sextet",0,334
+"MOCK",1336,"Trio",0,334
+
+"CORRECT",1337,"Antonio Vivaldi",1,335
+"MOCK",1338,"Johann Pachelbel",0,335
+"MOCK",1339,"George Frideric Handel",0,335
+"MOCK",1340,"Johann Sebastian Bach",0,335
+
+"CORRECT",1341,"Aretha Franklin",1,336
+"MOCK",1342,"Whitney Houston",0,336
+"MOCK",1343,"Tina Turner",0,336
+"MOCK",1344,"Diana Ross",0,336
+
+"CORRECT",1345,"Loud",1,337
+"MOCK",1346,"Soft",0,337
+"MOCK",1347,"Fast",0,337
+"MOCK",1348,"Slow",0,337
+
+"CORRECT",1349,"Ringo Starr",1,338
+"MOCK",1350,"Paul McCartney",0,338
+"MOCK",1351,"George Harrison",0,338
+"MOCK",1352,"John Lennon",0,338
+
+"CORRECT",1353,"Ludwig van Beethoven",1,339
+"MOCK",1354,"Wolfgang Amadeus Mozart",0,339
+"MOCK",1355,"Johann Sebastian Bach",0,339
+"MOCK",1356,"Frédéric Chopin",0,339
+
+"CORRECT",1357,"Pentatonic Scale",1,340
+"MOCK",1358,"Chromatic Scale",0,340
+"MOCK",1359,"Diatonic Scale",0,340
+"MOCK",1360,"Whole Tone Scale",0,340
+
+"CORRECT",1361,"Queen",1,341
+"MOCK",1362,"The Rolling Stones",0,341
+"MOCK",1363,"The Beatles",0,341
+"MOCK",1364,"Pink Floyd",0,341
+
+"CORRECT",1365,"Harmonica",1,342
+"MOCK",1366,"Oboe",0,342
+"MOCK",1367,"Clarinet",0,342
+"MOCK",1368,"Bassoon",0,342
+
+"CORRECT",1369,"Richard Wagner",1,343
+"MOCK",1370,"Ludwig van Beethoven",0,343
+"MOCK",1371,"Johannes Brahms",0,343
+"MOCK",1372,"Franz Schubert",0,343
+
+"CORRECT",1373,"Soprano",1,344
+"MOCK",1374,"Mezzo-soprano",0,344
+"MOCK",1375,"Alto",0,344
+"MOCK",1376,"Contralto",0,344
+
+"CORRECT",1377,"Chris Martin",1,345
+"MOCK",1378,"Matt Bellamy",0,345
+"MOCK",1379,"Brandon Flowers",0,345
+"MOCK",1380,"Alex Turner",0,345
+
+"CORRECT",1381,"Pyotr Ilyich Tchaikovsky",1,346
+"MOCK",1382,"Igor Stravinsky",0,346
+"MOCK",1383,"Sergei Prokofiev",0,346
+"MOCK",1384,"Nikolai Rimsky-Korsakov",0,346
+
+"CORRECT",1385,"Speed of the music",1,347
+"MOCK",1386,"Volume of the music",0,347
+"MOCK",1387,"Pitch of the music",0,347
+"MOCK",1388,"Mood of the music",0,347
+
+"CORRECT",1389,"James Brown",1,348
+"MOCK",1390,"Ray Charles",0,348
+"MOCK",1391,"Marvin Gaye",0,348
+"MOCK",1392,"Otis Redding",0,348
+
+"CORRECT",1393,"The Beatles",1,349
+"MOCK",1394,"Pink Floyd",0,349
+"MOCK",1395,"Led Zeppelin",0,349
+"MOCK",1396,"The Rolling Stones",0,349
+
+"CORRECT",1397,"Johann Pachelbel",1,350
+"MOCK",1398,"Antonio Vivaldi",0,350
+"MOCK",1399,"George Frideric Handel",0,350
+"MOCK",1400,"Johann Sebastian Bach",0,350
+
+"CORRECT",1401,"Barry Bonds",1,351
+"MOCK",1402,"Mark McGwire",0,351
+"MOCK",1403,"Babe Ruth",0,351
+"MOCK",1404,"Sammy Sosa",0,351
+
+"CORRECT",1405,"Brazil",1,352
+"MOCK",1406,"Germany",0,352
+"MOCK",1407,"Italy",0,352
+"MOCK",1408,"Argentina",0,352
+
+"CORRECT",1409,"Usain Bolt",1,353
+"MOCK",1410,"Carl Lewis",0,353
+"MOCK",1411,"Justin Gatlin",0,353
+"MOCK",1412,"Tyson Gay",0,353
+
+"CORRECT",1413,"Basketball",1,354
+"MOCK",1414,"Volleyball",0,354
+"MOCK",1415,"Handball",0,354
+"MOCK",1416,"Badminton",0,354
+
+"CORRECT",1417,"Golf",1,355
+"MOCK",1418,"Cricket",0,355
+"MOCK",1419,"Baseball",0,355
+"MOCK",1420,"Tennis",0,355
+
+"CORRECT",1421,"Bill Russell",1,356
+"MOCK",1422,"Michael Jordan",0,356
+"MOCK",1423,"Kobe Bryant",0,356
+"MOCK",1424,"LeBron James",0,356
+
+"CORRECT",1425,"Greece",1,357
+"MOCK",1426,"France",0,357
+"MOCK",1427,"United Kingdom",0,357
+"MOCK",1428,"United States",0,357
+
+"CORRECT",1429,"Lacrosse",1,358
+"MOCK",1430,"Ice Hockey",0,358
+"MOCK",1431,"Basketball",0,358
+"MOCK",1432,"Baseball",0,358
+
+"CORRECT",1433,"Novak Djokovic",1,359
+"MOCK",1434,"Roger Federer",0,359
+"MOCK",1435,"Rafael Nadal",0,359
+"MOCK",1436,"Pete Sampras",0,359
+
+"CORRECT",1437,"Rugby",1,360
+"MOCK",1438,"American Football",0,360
+"MOCK",1439,"Soccer",0,360
+"MOCK",1440,"Cricket",0,360
+
+"CORRECT",1441,"Wayne Gretzky",1,361
+"MOCK",1442,"Mario Lemieux",0,361
+"MOCK",1443,"Gordie Howe",0,361
+"MOCK",1444,"Sidney Crosby",0,361
+
+"CORRECT",1445,"United States",1,362
+"MOCK",1446,"Russia",0,362
+"MOCK",1447,"China",0,362
+"MOCK",1448,"Germany",0,362
+
+"CORRECT",1449,"Golf",1,363
+"MOCK",1450,"Tennis",0,363
+"MOCK",1451,"Cricket",0,363
+"MOCK",1452,"Sailing",0,363
+
+"CORRECT",1453,"Muhammad Ali",1,364
+"MOCK",1454,"Mike Tyson",0,364
+"MOCK",1455,"Joe Frazier",0,364
+"MOCK",1456,"George Foreman",0,364
+
+"CORRECT",1457,"30",1,365
+"MOCK",1458,"10",0,365
+"MOCK",1459,"20",0,365
+"MOCK",1460,"40",0,365
+
+"CORRECT",1461,"Sam Groth",1,366
+"MOCK",1462,"Andy Roddick",0,366
+"MOCK",1463,"John Isner",0,366
+"MOCK",1464,"Milos Raonic",0,366
+
+"CORRECT",1465,"Ice Hockey",1,367
+"MOCK",1466,"Field Hockey",0,367
+"MOCK",1467,"Lacrosse",0,367
+"MOCK",1468,"Curling",0,367
+
+"CORRECT",1469,"South Africa",1,368
+"MOCK",1470,"England",0,368
+"MOCK",1471,"New Zealand",0,368
+"MOCK",1472,"Australia",0,368
+
+"CORRECT",1473,"Miami Dolphins",1,369
+"MOCK",1474,"New England Patriots",0,369
+"MOCK",1475,"Pittsburgh Steelers",0,369
+"MOCK",1476,"San Francisco 49ers",0,369
+
+"CORRECT",1477,"Andy Murray",1,370
+"MOCK",1478,"Novak Djokovic",0,370
+"MOCK",1479,"Roger Federer",0,370
+"MOCK",1480,"Rafael Nadal",0,370
+
+"CORRECT",1481,"Figure Skating",1,371
+"MOCK",1482,"Gymnastics",0,371
+"MOCK",1483,"Diving",0,371
+"MOCK",1484,"Snowboarding",0,371
+
+"CORRECT",1485,"Sachin Tendulkar",1,372
+"MOCK",1486,"Ricky Ponting",0,372
+"MOCK",1487,"Brian Lara",0,372
+"MOCK",1488,"Virat Kohli",0,372
+
+"CORRECT",1489,"LeBron James",1,373
+"MOCK",1490,"Michael Jordan",0,373
+"MOCK",1491,"Kobe Bryant",0,373
+"MOCK",1492,"Kevin Durant",0,373
+
+"CORRECT",1493,"United States",1,374
+"MOCK",1494,"Germany",0,374
+"MOCK",1495,"Norway",0,374
+"MOCK",1496,"China",0,374
+
+"CORRECT",1497,"Michael Phelps",1,375
+"MOCK",1498,"Usain Bolt",0,375
+"MOCK",1499,"Larisa Latynina",0,375
+"MOCK",1500,"Mark Spitz",0,375
+
+"CORRECT",1501,"Michelangelo",1,376
+"MOCK",1502,"Leonardo da Vinci",0,376
+"MOCK",1503,"Raphael",0,376
+"MOCK",1504,"Sandro Botticelli",0,376
+
+"CORRECT",1505,"Auguste Rodin",1,377
+"MOCK",1506,"Henry Moore",0,377
+"MOCK",1507,"Donatello",0,377
+"MOCK",1508,"Gian Lorenzo Bernini",0,377
+
+"CORRECT",1509,"Rembrandt van Rijn",1,378
+"MOCK",1510,"Johannes Vermeer",0,378
+"MOCK",1511,"Frans Hals",0,378
+"MOCK",1512,"Vincent van Gogh",0,378
+
+"CORRECT",1513,"Vincent van Gogh",1,379
+"MOCK",1514,"Paul Gauguin",0,379
+"MOCK",1515,"Henri de Toulouse-Lautrec",0,379
+"MOCK",1516,"Claude Monet",0,379
+
+"CORRECT",1517,"Pablo Picasso",1,380
+"MOCK",1518,"Salvador Dalí",0,380
+"MOCK",1519,"Joan Miró",0,380
+"MOCK",1520,"Georges Braque",0,380
+
+"CORRECT",1521,"Andy Warhol",1,381
+"MOCK",1522,"Roy Lichtenstein",0,381
+"MOCK",1523,"Keith Haring",0,381
+"MOCK",1524,"Jasper Johns",0,381
+
+"CORRECT",1525,"Michelangelo",1,382
+"MOCK",1526,"Donatello",0,382
+"MOCK",1527,"Gian Lorenzo Bernini",0,382
+"MOCK",1528,"Auguste Rodin",0,382
+
+"CORRECT",1529,"Pablo Picasso",1,383
+"MOCK",1530,"Henri Matisse",0,383
+"MOCK",1531,"Paul Cézanne",0,383
+"MOCK",1532,"Edgar Degas",0,383
+
+"CORRECT",1533,"Sandro Botticelli",1,384
+"MOCK",1534,"Leonardo da Vinci",0,384
+"MOCK",1535,"Raphael",0,384
+"MOCK",1536,"Titian",0,384
+
+"CORRECT",1537,"Jackson Pollock",1,385
+"MOCK",1538,"Mark Rothko",0,385
+"MOCK",1539,"Willem de Kooning",0,385
+"MOCK",1540,"Barnett Newman",0,385
+
+"CORRECT",1541,"Edvard Munch",1,386
+"MOCK",1542,"Gustav Klimt",0,386
+"MOCK",1543,"Paul Klee",0,386
+"MOCK",1544,"Henri Rousseau",0,386
+
+"CORRECT",1545,"Pablo Picasso",1,387
+"MOCK",1546,"Vincent van Gogh",0,387
+"MOCK",1547,"Henri Matisse",0,387
+"MOCK",1548,"Claude Monet",0,387
+
+"CORRECT",1549,"Grant Wood",1,388
+"MOCK",1550,"Edward Hopper",0,388
+"MOCK",1551,"Georgia O'Keeffe",0,388
+"MOCK",1552,"Norman Rockwell",0,388
+
+"CORRECT",1553,"Alexander Calder",1,389
+"MOCK",1554,"Henry Moore",0,389
+"MOCK",1555,"Jean Tinguely",0,389
+"MOCK",1556,"Naum Gabo",0,389
+
+"CORRECT",1557,"Gustav Klimt",1,390
+"MOCK",1558,"Egon Schiele",0,390
+"MOCK",1559,"Franz Marc",0,390
+"MOCK",1560,"Paul Klee",0,390
+
+"CORRECT",1561,"Marcel Duchamp",1,391
+"MOCK",1562,"Piet Mondrian",0,391
+"MOCK",1563,"Kazimir Malevich",0,391
+"MOCK",1564,"Man Ray",0,391
+
+"CORRECT",1565,"Leonardo da Vinci",1,392
+"MOCK",1566,"Michelangelo",0,392
+"MOCK",1567,"Raphael",0,392
+"MOCK",1568,"Caravaggio",0,392
+
+"CORRECT",1569,"Claude Monet",1,393
+"MOCK",1570,"Pierre-Auguste Renoir",0,393
+"MOCK",1571,"Camille Pissarro",0,393
+"MOCK",1572,"Édouard Manet",0,393
+
+"CORRECT",1573,"Banksy",1,394
+"MOCK",1574,"Damien Hirst",0,394
+"MOCK",1575,"Jeff Koons",0,394
+"MOCK",1576,"Tracey Emin",0,394
+
+"CORRECT",1577,"Salvador Dalí",1,395
+"MOCK",1578,"René Magritte",0,395
+"MOCK",1579,"Max Ernst",0,395
+"MOCK",1580,"Joan Miró",0,395
+
+"CORRECT",1581,"Raphael",1,396
+"MOCK",1582,"Leonardo da Vinci",0,396
+"MOCK",1583,"Michelangelo",0,396
+"MOCK",1584,"Titian",0,396
+
+"CORRECT",1585,"Andy Warhol",1,397
+"MOCK",1586,"Roy Lichtenstein",0,397
+"MOCK",1587,"Robert Rauschenberg",0,397
+"MOCK",1588,"Keith Haring",0,397
+
+"CORRECT",1589,"Auguste Rodin",1,398
+"MOCK",1590,"Michelangelo",0,398
+"MOCK",1591,"Donatello",0,398
+"MOCK",1592,"Gian Lorenzo Bernini",0,398
+
+"CORRECT",1593,"Salvador Dalí",1,399
+"MOCK",1594,"Pablo Picasso",0,399
+"MOCK",1595,"Henri Matisse",0,399
+"MOCK",1596,"Edvard Munch",0,399
+
+"CORRECT",1597,"Claude Monet",1,400
+"MOCK",1598,"Vincent van Gogh",0,400
+"MOCK",1599,"Paul Cézanne",0,400
+"MOCK",1600,"Pierre-Auguste Renoir",0,400
+
+"CORRECT",1601,"Nile River",1,401
+"MOCK",1602,"Amazon River",0,401
+"MOCK",1603,"Yangtze River",0,401
+"MOCK",1604,"Mississippi River",0,401
+
+"CORRECT",1605,"Russia",1,402
+"MOCK",1606,"Canada",0,402
+"MOCK",1607,"China",0,402
+"MOCK",1608,"United States",0,402
+
+"CORRECT",1609,"Canberra",1,403
+"MOCK",1610,"Sydney",0,403
+"MOCK",1611,"Melbourne",0,403
+"MOCK",1612,"Brisbane",0,403
+
+"CORRECT",1613,"Sahara Desert",1,404
+"MOCK",1614,"Gobi Desert",0,404
+"MOCK",1615,"Kalahari Desert",0,404
+"MOCK",1616,"Atacama Desert",0,404
+
+"CORRECT",1617,"Nepal and China",1,405
+"MOCK",1618,"India and China",0,405
+"MOCK",1619,"Nepal and India",0,405
+"MOCK",1620,"Bhutan and China",0,405
+
+"CORRECT",1621,"Vatican City",1,406
+"MOCK",1622,"Monaco",0,406
+"MOCK",1623,"Nauru",0,406
+"MOCK",1624,"San Marino",0,406
+
+"CORRECT",1625,"Pacific Ocean",1,407
+"MOCK",1626,"Atlantic Ocean",0,407
+"MOCK",1627,"Indian Ocean",0,407
+"MOCK",1628,"Arctic Ocean",0,407
+
+"CORRECT",1629,"Ottawa",1,408
+"MOCK",1630,"Toronto",0,408
+"MOCK",1631,"Vancouver",0,408
+"MOCK",1632,"Montreal",0,408
+
+"CORRECT",1633,"Africa",1,409
+"MOCK",1634,"Asia",0,409
+"MOCK",1635,"Europe",0,409
+"MOCK",1636,"North America",0,409
+
+"CORRECT",1637,"Lake Victoria",1,410
+"MOCK",1638,"Lake Tanganyika",0,410
+"MOCK",1639,"Lake Malawi",0,410
+"MOCK",1640,"Lake Chad",0,410
+
+"CORRECT",1641,"Seine River",1,411
+"MOCK",1642,"Thames River",0,411
+"MOCK",1643,"Danube River",0,411
+"MOCK",1644,"Rhine River",0,411
+
+"CORRECT",1645,"Portuguese",1,412
+"MOCK",1646,"Spanish",0,412
+"MOCK",1647,"English",0,412
+"MOCK",1648,"French",0,412
+
+"CORRECT",1649,"Japan",1,413
+"MOCK",1650,"China",0,413
+"MOCK",1651,"South Korea",0,413
+"MOCK",1652,"Thailand",0,413
+
+"CORRECT",1653,"Cairo",1,414
+"MOCK",1654,"Alexandria",0,414
+"MOCK",1655,"Giza",0,414
+"MOCK",1656,"Luxor",0,414
+
+"CORRECT",1657,"Canada",1,415
+"MOCK",1658,"Finland",0,415
+"MOCK",1659,"Russia",0,415
+"MOCK",1660,"United States",0,415
+
+"CORRECT",1661,"Australia",1,416
+"MOCK",1662,"Europe",0,416
+"MOCK",1663,"Antarctica",0,416
+"MOCK",1664,"South America",0,416
+
+"CORRECT",1665,"Ural Mountains",1,417
+"MOCK",1666,"Himalayas",0,417
+"MOCK",1667,"Alps",0,417
+"MOCK",1668,"Caucasus Mountains",0,417
+
+"CORRECT",1669,"Pretoria, Cape Town, and Bloemfontein",1,418
+"MOCK",1670,"Johannesburg",0,418
+"MOCK",1671,"Durban",0,418
+"MOCK",1672,"Port Elizabeth",0,418
+
+"CORRECT",1673,"Arizona",1,419
+"MOCK",1674,"Nevada",0,419
+"MOCK",1675,"Utah",0,419
+"MOCK",1676,"Colorado",0,419
+
+"CORRECT",1677,"Tokyo",1,420
+"MOCK",1678,"Shanghai",0,420
+"MOCK",1679,"Delhi",0,420
+"MOCK",1680,"São Paulo",0,420
+
+"CORRECT",1681,"Australia",1,421
+"MOCK",1682,"Indonesia",0,421
+"MOCK",1683,"Philippines",0,421
+"MOCK",1684,"Malaysia",0,421
+
+"CORRECT",1685,"Andes Mountains",1,422
+"MOCK",1686,"Rocky Mountains",0,422
+"MOCK",1687,"Himalayas",0,422
+"MOCK",1688,"Alps",0,422
+
+"CORRECT",1689,"Volga River",1,423
+"MOCK",1690,"Danube River",0,423
+"MOCK",1691,"Rhine River",0,423
+"MOCK",1692,"Dnieper River",0,423
+
+"CORRECT",1693,"Bangkok",1,424
+"MOCK",1694,"Phuket",0,424
+"MOCK",1695,"Chiang Mai",0,424
+"MOCK",1696,"Pattaya",0,424
+
+"CORRECT",1697,"Lesotho",1,425
+"MOCK",1698,"Swaziland (Eswatini)",0,425
+"MOCK",1699,"Botswana",0,425
+"MOCK",1700,"Namibia",0,425
+
+"CORRECT",1701,"Poseidon",1,426
+"MOCK",1702,"Zeus",0,426
+"MOCK",1703,"Hades",0,426
+"MOCK",1704,"Apollo",0,426
+
+"CORRECT",1705,"Yggdrasil",1,427
+"MOCK",1706,"Asgard",0,427
+"MOCK",1707,"Midgard",0,427
+"MOCK",1708,"Valhalla",0,427
+
+"CORRECT",1709,"Minerva",1,428
+"MOCK",1710,"Venus",0,428
+"MOCK",1711,"Diana",0,428
+"MOCK",1712,"Juno",0,428
+
+"CORRECT",1713,"Minotaur",1,429
+"MOCK",1714,"Centaur",0,429
+"MOCK",1715,"Satyr",0,429
+"MOCK",1716,"Cyclops",0,429
+
+"CORRECT",1717,"Osiris",1,430
+"MOCK",1718,"Anubis",0,430
+"MOCK",1719,"Ra",0,430
+"MOCK",1720,"Set",0,430
+
+"CORRECT",1721,"Cyclops",1,431
+"MOCK",1722,"Minotaur",0,431
+"MOCK",1723,"Hydra",0,431
+"MOCK",1724,"Sphinx",0,431
+
+"CORRECT",1725,"Shiva",1,432
+"MOCK",1726,"Vishnu",0,432
+"MOCK",1727,"Brahma",0,432
+"MOCK",1728,"Indra",0,432
+
+"CORRECT",1729,"Aphrodite",1,433
+"MOCK",1730,"Hera",0,433
+"MOCK",1731,"Artemis",0,433
+"MOCK",1732,"Athena",0,433
+
+"CORRECT",1733,"Asgard",1,434
+"MOCK",1734,"Valhalla",0,434
+"MOCK",1735,"Midgard",0,434
+"MOCK",1736,"Jotunheim",0,434
+
+"CORRECT",1737,"Prometheus",1,435
+"MOCK",1738,"Epimetheus",0,435
+"MOCK",1739,"Hermes",0,435
+"MOCK",1740,"Hephaestus",0,435
+
+"CORRECT",1741,"Jupiter",1,436
+"MOCK",1742,"Mars",0,436
+"MOCK",1743,"Saturn",0,436
+"MOCK",1744,"Neptune",0,436
+
+"CORRECT",1745,"Theseus",1,437
+"MOCK",1746,"Perseus",0,437
+"MOCK",1747,"Heracles",0,437
+"MOCK",1748,"Jason",0,437
+
+"CORRECT",1749,"River Styx",1,438
+"MOCK",1750,"River Lethe",0,438
+"MOCK",1751,"River Acheron",0,438
+"MOCK",1752,"River Cocytus",0,438
+
+"CORRECT",1753,"Hermes",1,439
+"MOCK",1754,"Apollo",0,439
+"MOCK",1755,"Zeus",0,439
+"MOCK",1756,"Ares",0,439
+
+"CORRECT",1757,"Sphinx",1,440
+"MOCK",1758,"Griffin",0,440
+"MOCK",1759,"Manticore",0,440
+"MOCK",1760,"Chimera",0,440
+
+"CORRECT",1761,"Thor",1,441
+"MOCK",1762,"Odin",0,441
+"MOCK",1763,"Loki",0,441
+"MOCK",1764,"Freyr",0,441
+
+"CORRECT",1765,"Juno",1,442
+"MOCK",1766,"Venus",0,442
+"MOCK",1767,"Minerva",0,442
+"MOCK",1768,"Diana",0,442
+
+"CORRECT",1769,"Atlas",1,443
+"MOCK",1770,"Sisyphus",0,443
+"MOCK",1771,"Prometheus",0,443
+"MOCK",1772,"Tantalus",0,443
+
+"CORRECT",1773,"Dionysus",1,444
+"MOCK",1774,"Apollo",0,444
+"MOCK",1775,"Hermes",0,444
+"MOCK",1776,"Hephaestus",0,444
+
+"CORRECT",1777,"Artemis",1,445
+"MOCK",1778,"Hestia",0,445
+"MOCK",1779,"Demeter",0,445
+"MOCK",1780,"Persephone",0,445
+
+"CORRECT",1781,"Manannán mac Lir",1,446
+"MOCK",1782,"Lugh",0,446
+"MOCK",1783,"Dagda",0,446
+"MOCK",1784,"Cú Chulainn",0,446
+
+"CORRECT",1785,"Hades",1,447
+"MOCK",1786,"Zeus",0,447
+"MOCK",1787,"Poseidon",0,447
+"MOCK",1788,"Cronus",0,447
+
+"CORRECT",1789,"Dragon",1,448
+"MOCK",1790,"Griffin",0,448
+"MOCK",1791,"Hydra",0,448
+"MOCK",1792,"Basilisk",0,448
+
+"CORRECT",1793,"Norns",1,449
+"MOCK",1794,"Valkyries",0,449
+"MOCK",1795,"Fates",0,449
+"MOCK",1796,"Muses",0,449
+
+"CORRECT",1797,"Amaterasu",1,450
+"MOCK",1798,"Susanoo",0,450
+"MOCK",1799,"Tsukuyomi",0,450
+"MOCK",1800,"Izanami",0,450
+
+"CORRECT",1801,"Morphology",1,451
+"MOCK",1802,"Phonology",0,451
+"MOCK",1803,"Syntax",0,451
+"MOCK",1804,"Semantics",0,451
+
+"CORRECT",1805,"Germanic",1,452
+"MOCK",1806,"Romance",0,452
+"MOCK",1807,"Slavic",0,452
+"MOCK",1808,"Celtic",0,452
+
+"CORRECT",1809,"Phoneme",1,453
+"MOCK",1810,"Morpheme",0,453
+"MOCK",1811,"Grapheme",0,453
+"MOCK",1812,"Allophone",0,453
+
+"CORRECT",1813,"Noam Chomsky",1,454
+"MOCK",1814,"Ferdinand de Saussure",0,454
+"MOCK",1815,"Leonard Bloomfield",0,454
+"MOCK",1816,"Edward Sapir",0,454
+
+"CORRECT",1817,"Homonym",1,455
+"MOCK",1818,"Homophone",0,455
+"MOCK",1819,"Antonym",0,455
+"MOCK",1820,"Synonym",0,455
+
+"CORRECT",1821,"Syntax",1,456
+"MOCK",1822,"Morphology",0,456
+"MOCK",1823,"Phonetics",0,456
+"MOCK",1824,"Pragmatics",0,456
+
+"CORRECT",1825,"Semantics",1,457
+"MOCK",1826,"Phonology",0,457
+"MOCK",1827,"Syntax",0,457
+"MOCK",1828,"Morphology",0,457
+
+"CORRECT",1829,"Dialect",1,458
+"MOCK",1830,"Idiolect",0,458
+"MOCK",1831,"Register",0,458
+"MOCK",1832,"Accent",0,458
+
+"CORRECT",1833,"Basque",1,459
+"MOCK",1834,"Finnish",0,459
+"MOCK",1835,"Hungarian",0,459
+"MOCK",1836,"Turkish",0,459
+
+"CORRECT",1837,"Portmanteau",1,460
+"MOCK",1838,"Acronym",0,460
+"MOCK",1839,"Blend",0,460
+"MOCK",1840,"Compound",0,460
+
+"CORRECT",1841,"Transcribing speech sounds",1,461
+"MOCK",1842,"Measuring syntax complexity",0,461
+"MOCK",1843,"Analyzing semantics",0,461
+"MOCK",1844,"Mapping language families",0,461
+
+"CORRECT",1845,"Sino-Tibetan",1,462
+"MOCK",1846,"Indo-European",0,462
+"MOCK",1847,"Afro-Asiatic",0,462
+"MOCK",1848,"Altaic",0,462
+
+"CORRECT",1849,"Historical Linguistics",1,463
+"MOCK",1850,"Sociolinguistics",0,463
+"MOCK",1851,"Psycholinguistics",0,463
+"MOCK",1852,"Anthropological Linguistics",0,463
+
+"CORRECT",1853,"Grammar",1,464
+"MOCK",1854,"Lexicon",0,464
+"MOCK",1855,"Phonetics",0,464
+"MOCK",1856,"Discourse",0,464
+
+"CORRECT",1857,"Antonyms",1,465
+"MOCK",1858,"Synonyms",0,465
+"MOCK",1859,"Homophones",0,465
+"MOCK",1860,"Homonyms",0,465
+
+"CORRECT",1861,"Pragmatics",1,466
+"MOCK",1862,"Phonology",0,466
+"MOCK",1863,"Morphology",0,466
+"MOCK",1864,"Syntax",0,466
+
+"CORRECT",1865,"Pidgin",1,467
+"MOCK",1866,"Creole",0,467
+"MOCK",1867,"Dialect",0,467
+"MOCK",1868,"Lingua Franca",0,467
+
+"CORRECT",1869,"Mandarin Chinese",1,468
+"MOCK",1870,"English",0,468
+"MOCK",1871,"Spanish",0,468
+"MOCK",1872,"Hindi",0,468
+
+"CORRECT",1873,"Phonetics",1,469
+"MOCK",1874,"Phonology",0,469
+"MOCK",1875,"Morphology",0,469
+"MOCK",1876,"Semantics",0,469
+
+"CORRECT",1877,"Onomatopoeia",1,470
+"MOCK",1878,"Oxymoron",0,470
+"MOCK",1879,"Anagram",0,470
+"MOCK",1880,"Palindrome",0,470
+
+"CORRECT",1881,"Noam Chomsky",1,471
+"MOCK",1882,"Benjamin Lee Whorf",0,471
+"MOCK",1883,"Ferdinand de Saussure",0,471
+"MOCK",1884,"William Labov",0,471
+
+"CORRECT",1885,"A pair of words differing by only one sound",1,472
+"MOCK",1886,"Two words with opposite meanings",0,472
+"MOCK",1887,"Words that sound the same but have different meanings",0,472
+"MOCK",1888,"Words spelled the same but pronounced differently",0,472
+
+"CORRECT",1889,"Pidgin",1,473
+"MOCK",1890,"Creole",0,473
+"MOCK",1891,"Dialect",0,473
+"MOCK",1892,"Lingua Franca",0,473
+
+"CORRECT",1893,"Psycholinguistics",1,474
+"MOCK",1894,"Neurolinguistics",0,474
+"MOCK",1895,"Sociolinguistics",0,474
+"MOCK",1896,"Anthropological Linguistics",0,474
+
+"CORRECT",1897,"Alternating between languages in conversation",1,475
+"MOCK",1898,"Changing language over time",0,475
+"MOCK",1899,"Using regional slang",0,475
+"MOCK",1900,"Translating text from one language to another",0,475
+
+"CORRECT",1901,"299,792,458 meters per second",1,476
+"MOCK",1902,"150,000,000 meters per second",0,476
+"MOCK",1903,"3,000,000 meters per second",0,476
+"MOCK",1904,"30,000,000 meters per second",0,476
+
+"CORRECT",1905,"Isaac Newton",1,477
+"MOCK",1906,"Albert Einstein",0,477
+"MOCK",1907,"Galileo Galilei",0,477
+"MOCK",1908,"Johannes Kepler",0,477
+
+"CORRECT",1909,"Ampere",1,478
+"MOCK",1910,"Volt",0,478
+"MOCK",1911,"Ohm",0,478
+"MOCK",1912,"Watt",0,478
+
+"CORRECT",1913,"Strong Nuclear Force",1,479
+"MOCK",1914,"Electromagnetic Force",0,479
+"MOCK",1915,"Weak Nuclear Force",0,479
+"MOCK",1916,"Gravitational Force",0,479
+
+"CORRECT",1917,"Quantum Mechanics",1,480
+"MOCK",1918,"Classical Mechanics",0,480
+"MOCK",1919,"Relativity Theory",0,480
+"MOCK",1920,"Thermodynamics",0,480
+
+"CORRECT",1921,"Conservation of Energy",1,481
+"MOCK",1922,"Conservation of Momentum",0,481
+"MOCK",1923,"Conservation of Mass",0,481
+"MOCK",1924,"Conservation of Charge",0,481
+
+"CORRECT",1925,"Electron",1,482
+"MOCK",1926,"Proton",0,482
+"MOCK",1927,"Neutron",0,482
+"MOCK",1928,"Photon",0,482
+
+"CORRECT",1929,"Refraction",1,483
+"MOCK",1930,"Reflection",0,483
+"MOCK",1931,"Diffraction",0,483
+"MOCK",1932,"Interference",0,483
+
+"CORRECT",1933,"Werner Heisenberg",1,484
+"MOCK",1934,"Erwin Schrödinger",0,484
+"MOCK",1935,"Niels Bohr",0,484
+"MOCK",1936,"Max Planck",0,484
+
+"CORRECT",1937,"Doppler Effect",1,485
+"MOCK",1938,"Photoelectric Effect",0,485
+"MOCK",1939,"Compton Effect",0,485
+"MOCK",1940,"Zeeman Effect",0,485
+
+"CORRECT",1941,"Newton",1,486
+"MOCK",1942,"Joule",0,486
+"MOCK",1943,"Pascal",0,486
+"MOCK",1944,"Watt",0,486
+
+"CORRECT",1945,"Dalton's Law of Partial Pressures",1,487
+"MOCK",1946,"Boyle's Law",0,487
+"MOCK",1947,"Charles's Law",0,487
+"MOCK",1948,"Avogadro's Law",0,487
+
+"CORRECT",1949,"Nuclear Fusion",1,488
+"MOCK",1950,"Nuclear Fission",0,488
+"MOCK",1951,"Radioactive Decay",0,488
+"MOCK",1952,"Ionization",0,488
+
+"CORRECT",1953,"Entropy",1,489
+"MOCK",1954,"Enthalpy",0,489
+"MOCK",1955,"Energy",0,489
+"MOCK",1956,"Temperature",0,489
+
+"CORRECT",1957,"Photon",1,490
+"MOCK",1958,"Electron",0,490
+"MOCK",1959,"Neutrino",0,490
+"MOCK",1960,"Gluon",0,490
+
+"CORRECT",1961,"Redshift",1,491
+"MOCK",1962,"Blueshift",0,491
+"MOCK",1963,"Blackbody Radiation",0,491
+"MOCK",1964,"Doppler Effect",0,491
+
+"CORRECT",1965,"Superconductivity",1,492
+"MOCK",1966,"Semiconductivity",0,492
+"MOCK",1967,"Ferromagnetism",0,492
+"MOCK",1968,"Paramagnetism",0,492
+
+"CORRECT",1969,"Albert Einstein",1,493
+"MOCK",1970,"Isaac Newton",0,493
+"MOCK",1971,"Galileo Galilei",0,493
+"MOCK",1972,"Niels Bohr",0,493
+
+"CORRECT",1973,"Gravitons",1,494
+"MOCK",1974,"Photons",0,494
+"MOCK",1975,"Higgs Bosons",0,494
+"MOCK",1976,"Gluons",0,494
+
+"CORRECT",1977,"Pauli Exclusion Principle",1,495
+"MOCK",1978,"Heisenberg Uncertainty Principle",0,495
+"MOCK",1979,"Hund's Rule",0,495
+"MOCK",1980,"Aufbau Principle",0,495
+
+"CORRECT",1981,"Quantum",1,496
+"MOCK",1982,"Photon",0,496
+"MOCK",1983,"Electron Volt",0,496
+"MOCK",1984,"Planck Constant",0,496
+
+"CORRECT",1985,"Particle Accelerator",1,497
+"MOCK",1986,"Transformer",0,497
+"MOCK",1987,"Generator",0,497
+"MOCK",1988,"Capacitor",0,497
+
+"CORRECT",1989,"Diamagnetic Materials",1,498
+"MOCK",1990,"Ferromagnetic Materials",0,498
+"MOCK",1991,"Paramagnetic Materials",0,498
+"MOCK",1992,"Superconductors",0,498
+
+"CORRECT",1993,"Photoelectric Effect",1,499
+"MOCK",1994,"Compton Effect",0,499
+"MOCK",1995,"Hall Effect",0,499
+"MOCK",1996,"Zeeman Effect",0,499
+
+"CORRECT",1997,"Inertia",1,500
+"MOCK",1998,"Momentum",0,500
+"MOCK",1999,"Force",0,500
+"MOCK",2000,"Acceleration",0,500
+
+"CORRECT",2001,"Louis Sullivan",1,501
+"MOCK",2002,"Frank Lloyd Wright",0,501
+"MOCK",2003,"Le Corbusier",0,501
+"MOCK",2004,"Walter Gropius",0,501
+
+"CORRECT",2005,"Burj Khalifa",1,502
+"MOCK",2006,"Shanghai Tower",0,502
+"MOCK",2007,"Taipei 101",0,502
+"MOCK",2008,"Petronas Towers",0,502
+
+"CORRECT",2009,"Gothic",1,503
+"MOCK",2010,"Romanesque",0,503
+"MOCK",2011,"Baroque",0,503
+"MOCK",2012,"Renaissance",0,503
+
+"CORRECT",2013,"Sydney Opera House",1,504
+"MOCK",2014,"La Scala",0,504
+"MOCK",2015,"Royal Albert Hall",0,504
+"MOCK",2016,"Metropolitan Opera House",0,504
+
+"CORRECT",2017,"Frank Gehry",1,505
+"MOCK",2018,"Zaha Hadid",0,505
+"MOCK",2019,"Renzo Piano",0,505
+"MOCK",2020,"Norman Foster",0,505
+
+"CORRECT",2021,"Oculus",1,506
+"MOCK",2022,"Lintel",0,506
+"MOCK",2023,"Architrave",0,506
+"MOCK",2024,"Soffit",0,506
+
+"CORRECT",2025,"Frank Lloyd Wright",1,507
+"MOCK",2026,"Louis Kahn",0,507
+"MOCK",2027,"Le Corbusier",0,507
+"MOCK",2028,"Mies van der Rohe",0,507
+
+"CORRECT",2029,"Ribbed Vaults",1,508
+"MOCK",2030,"Domes",0,508
+"MOCK",2031,"Corbel Arches",0,508
+"MOCK",2032,"Post and Lintel",0,508
+
+"CORRECT",2033,"Notre-Dame Cathedral",1,509
+"MOCK",2034,"Chartres Cathedral",0,509
+"MOCK",2035,"Reims Cathedral",0,509
+"MOCK",2036,"Sainte-Chapelle",0,509
+
+"CORRECT",2037,"Ludwig Mies van der Rohe",1,510
+"MOCK",2038,"Walter Gropius",0,510
+"MOCK",2039,"Le Corbusier",0,510
+"MOCK",2040,"Alvar Aalto",0,510
+
+"CORRECT",2041,"Bauhaus",1,511
+"MOCK",2042,"Art Deco",0,511
+"MOCK",2043,"Expressionism",0,511
+"MOCK",2044,"Postmodernism",0,511
+
+"CORRECT",2045,"Ionic Order",1,512
+"MOCK",2046,"Doric Order",0,512
+"MOCK",2047,"Corinthian Order",0,512
+"MOCK",2048,"Composite Order",0,512
+
+"CORRECT",2049,"Le Corbusier",1,513
+"MOCK",2050,"Frank Lloyd Wright",0,513
+"MOCK",2051,"Walter Gropius",0,513
+"MOCK",2052,"Alvar Aalto",0,513
+
+"CORRECT",2053,"Brutalism",1,514
+"MOCK",2054,"Deconstructivism",0,514
+"MOCK",2055,"Constructivism",0,514
+"MOCK",2056,"Expressionism",0,514
+
+"CORRECT",2057,"Frank Gehry",1,515
+"MOCK",2058,"Zaha Hadid",0,515
+"MOCK",2059,"Norman Foster",0,515
+"MOCK",2060,"Rem Koolhaas",0,515
+
+"CORRECT",2061,"Newel",1,516
+"MOCK",2062,"Baluster",0,516
+"MOCK",2063,"Stringer",0,516
+"MOCK",2064,"Tread",0,516
+
+"CORRECT",2065,"Baroque",1,517
+"MOCK",2066,"Rococo",0,517
+"MOCK",2067,"Renaissance",0,517
+"MOCK",2068,"Neoclassicism",0,517
+
+"CORRECT",2069,"Angkor Wat",1,518
+"MOCK",2070,"Borobudur",0,518
+"MOCK",2071,"Temple of Karnak",0,518
+"MOCK",2072,"Shwedagon Pagoda",0,518
+
+"CORRECT",2073,"I.M. Pei",1,519
+"MOCK",2074,"Philip Johnson",0,519
+"MOCK",2075,"Richard Meier",0,519
+"MOCK",2076,"Renzo Piano",0,519
+
+"CORRECT",2077,"The Gherkin",1,520
+"MOCK",2078,"The Shard",0,520
+"MOCK",2079,"Canary Wharf Tower",0,520
+"MOCK",2080,"One Canada Square",0,520
+
+"CORRECT",2081,"Atrium",1,521
+"MOCK",2082,"Vestibule",0,521
+"MOCK",2083,"Peristyle",0,521
+"MOCK",2084,"Tablinum",0,521
+
+"CORRECT",2085,"Zaha Hadid",1,522
+"MOCK",2086,"Kazuyo Sejima",0,522
+"MOCK",2087,"Norma Merrick Sklarek",0,522
+"MOCK",2088,"Denise Scott Brown",0,522
+
+"CORRECT",2089,"Wabi-Sabi",1,523
+"MOCK",2090,"Deconstructivism",0,523
+"MOCK",2091,"Postmodernism",0,523
+"MOCK",2092,"Brutalism",0,523
+
+"CORRECT",2093,"Organic Architecture",1,524
+"MOCK",2094,"Modernism",0,524
+"MOCK",2095,"Sustainable Architecture",0,524
+"MOCK",2096,"Deconstructivism",0,524
+
+"CORRECT",2097,"Mesopotamian Civilization",1,525
+"MOCK",2098,"Egyptian Civilization",0,525
+"MOCK",2099,"Indus Valley Civilization",0,525
+"MOCK",2100,"Minoan Civilization",0,525
+
+"CORRECT",2101,"Skin",1,526
+"MOCK",2102,"Liver",0,526
+"MOCK",2103,"Lungs",0,526
+"MOCK",2104,"Heart",0,526
+
+"CORRECT",2105,"O negative",1,527
+"MOCK",2106,"AB positive",0,527
+"MOCK",2107,"A positive",0,527
+"MOCK",2108,"B negative",0,527
+
+"CORRECT",2109,"Hemoglobin",1,528
+"MOCK",2110,"Myoglobin",0,528
+"MOCK",2111,"Albumin",0,528
+"MOCK",2112,"Fibrinogen",0,528
+
+"CORRECT",2113,"Vitamin D",1,529
+"MOCK",2114,"Vitamin C",0,529
+"MOCK",2115,"Vitamin A",0,529
+"MOCK",2116,"Vitamin B12",0,529
+
+"CORRECT",2117,"Hypertension",1,530
+"MOCK",2118,"Hypotension",0,530
+"MOCK",2119,"Hyperglycemia",0,530
+"MOCK",2120,"Hypoglycemia",0,530
+
+"CORRECT",2121,"Hippocrates",1,531
+"MOCK",2122,"Galen",0,531
+"MOCK",2123,"Avicenna",0,531
+"MOCK",2124,"William Osler",0,531
+
+"CORRECT",2125,"37 degrees Celsius",1,532
+"MOCK",2126,"36 degrees Celsius",0,532
+"MOCK",2127,"38 degrees Celsius",0,532
+"MOCK",2128,"35 degrees Celsius",0,532
+
+"CORRECT",2129,"Cerebellum",1,533
+"MOCK",2130,"Cerebrum",0,533
+"MOCK",2131,"Brainstem",0,533
+"MOCK",2132,"Hypothalamus",0,533
+
+"CORRECT",2133,"Calcium",1,534
+"MOCK",2134,"Iron",0,534
+"MOCK",2135,"Potassium",0,534
+"MOCK",2136,"Sodium",0,534
+
+"CORRECT",2137,"Endemic",1,535
+"MOCK",2138,"Epidemic",0,535
+"MOCK",2139,"Pandemic",0,535
+"MOCK",2140,"Sporadic",0,535
+
+"CORRECT",2141,"Liver",1,536
+"MOCK",2142,"Kidneys",0,536
+"MOCK",2143,"Pancreas",0,536
+"MOCK",2144,"Heart",0,536
+
+"CORRECT",2145,"Erythrocytes",1,537
+"MOCK",2146,"Leukocytes",0,537
+"MOCK",2147,"Thrombocytes",0,537
+"MOCK",2148,"Lymphocytes",0,537
+
+"CORRECT",2149,"Diabetes Mellitus",1,538
+"MOCK",2150,"Anemia",0,538
+"MOCK",2151,"Hypertension",0,538
+"MOCK",2152,"Asthma",0,538
+
+"CORRECT",2153,"Stapes",1,539
+"MOCK",2154,"Femur",0,539
+"MOCK",2155,"Ulna",0,539
+"MOCK",2156,"Scapula",0,539
+
+"CORRECT",2157,"Mitochondria",1,540
+"MOCK",2158,"Nucleus",0,540
+"MOCK",2159,"Ribosome",0,540
+"MOCK",2160,"Chloroplast",0,540
+
+"CORRECT",2161,"Varicella-zoster virus",1,541
+"MOCK",2162,"Herpes simplex virus",0,541
+"MOCK",2163,"Epstein-Barr virus",0,541
+"MOCK",2164,"Cytomegalovirus",0,541
+
+"CORRECT",2165,"Vitamin K",1,542
+"MOCK",2166,"Vitamin E",0,542
+"MOCK",2167,"Vitamin A",0,542
+"MOCK",2168,"Vitamin D",0,542
+
+"CORRECT",2169,"Arthritis",1,543
+"MOCK",2170,"Osteoporosis",0,543
+"MOCK",2171,"Myalgia",0,543
+"MOCK",2172,"Dermatitis",0,543
+
+"CORRECT",2173,"Kidneys",1,544
+"MOCK",2174,"Lungs",0,544
+"MOCK",2175,"Liver",0,544
+"MOCK",2176,"Spleen",0,544
+
+"CORRECT",2177,"Antipyretic",1,545
+"MOCK",2178,"Analgesic",0,545
+"MOCK",2179,"Antibiotic",0,545
+"MOCK",2180,"Antihistamine",0,545
+
+"CORRECT",2181,"Insulin",1,546
+"MOCK",2182,"Glucagon",0,546
+"MOCK",2183,"Adrenaline",0,546
+"MOCK",2184,"Thyroxine",0,546
+
+"CORRECT",2185,"Fight infections",1,547
+"MOCK",2186,"Carry oxygen",0,547
+"MOCK",2187,"Clot blood",0,547
+"MOCK",2188,"Store fat",0,547
+
+"CORRECT",2189,"Pupil",1,548
+"MOCK",2190,"Cornea",0,548
+"MOCK",2191,"Lens",0,548
+"MOCK",2192,"Retina",0,548
+
+"CORRECT",2193,"Trachea",1,549
+"MOCK",2194,"Esophagus",0,549
+"MOCK",2195,"Bronchi",0,549
+"MOCK",2196,"Larynx",0,549
+
+"CORRECT",2197,"Osteoporosis",1,550
+"MOCK",2198,"Arthritis",0,550
+"MOCK",2199,"Rickets",0,550
+"MOCK",2200,"Scoliosis",0,550
+
+"CORRECT",2201,"Jane Austen",1,551
+"MOCK",2202,"Charlotte Brontë",0,551
+"MOCK",2203,"Mary Shelley",0,551
+"MOCK",2204,"Emily Brontë",0,551
+
+"CORRECT",2205,"Winston Smith",1,552
+"MOCK",2206,"Guy Montag",0,552
+"MOCK",2207,"Holden Caulfield",0,552
+"MOCK",2208,"Jay Gatsby",0,552
+
+"CORRECT",2209,"Hamlet",1,553
+"MOCK",2210,"Macbeth",0,553
+"MOCK",2211,"Othello",0,553
+"MOCK",2212,"King Lear",0,553
+
+"CORRECT",2213,"Herman Melville",1,554
+"MOCK",2214,"Mark Twain",0,554
+"MOCK",2215,"Nathaniel Hawthorne",0,554
+"MOCK",2216,"Edgar Allan Poe",0,554
+
+"CORRECT",2217,"Moby-Dick",1,555
+"MOCK",2218,"The Old Man and the Sea",0,555
+"MOCK",2219,"Heart of Darkness",0,555
+"MOCK",2220,"Treasure Island",0,555
+
+"CORRECT",2221,"F. Scott Fitzgerald",1,556
+"MOCK",2222,"Ernest Hemingway",0,556
+"MOCK",2223,"John Steinbeck",0,556
+"MOCK",2224,"William Faulkner",0,556
+
+"CORRECT",2225,"To Kill a Mockingbird",1,557
+"MOCK",2226,"The Grapes of Wrath",0,557
+"MOCK",2227,"The Catcher in the Rye",0,557
+"MOCK",2228,"Of Mice and Men",0,557
+
+"CORRECT",2229,"Gabriel García Márquez",1,558
+"MOCK",2230,"Jorge Luis Borges",0,558
+"MOCK",2231,"Mario Vargas Llosa",0,558
+"MOCK",2232,"Pablo Neruda",0,558
+
+"CORRECT",2233,"Edgar Allan Poe",1,559
+"MOCK",2234,"Walt Whitman",0,559
+"MOCK",2235,"Robert Frost",0,559
+"MOCK",2236,"Emily Dickinson",0,559
+
+"CORRECT",2237,"Mark Twain",1,560
+"MOCK",2238,"O. Henry",0,560
+"MOCK",2239,"Saki",0,560
+"MOCK",2240,"Lewis Carroll",0,560
+
+"CORRECT",2241,"Arthur Miller",1,561
+"MOCK",2242,"Tennessee Williams",0,561
+"MOCK",2243,"Eugene O'Neill",0,561
+"MOCK",2244,"Edward Albee",0,561
+
+"CORRECT",2245,"1984",1,562
+"MOCK",2246,"Brave New World",0,562
+"MOCK",2247,"Fahrenheit 451",0,562
+"MOCK",2248,"The Handmaid's Tale",0,562
+
+"CORRECT",2249,"J.D. Salinger",1,563
+"MOCK",2250,"Harper Lee",0,563
+"MOCK",2251,"John Steinbeck",0,563
+"MOCK",2252,"Ernest Hemingway",0,563
+
+"CORRECT",2253,"The Iliad",1,564
+"MOCK",2254,"The Odyssey",0,564
+"MOCK",2255,"Aeneid",0,564
+"MOCK",2256,"Beowulf",0,564
+
+"CORRECT",2257,"Fyodor Dostoevsky",1,565
+"MOCK",2258,"Leo Tolstoy",0,565
+"MOCK",2259,"Anton Chekhov",0,565
+"MOCK",2260,"Nikolai Gogol",0,565
+
+"CORRECT",2261,"Tennessee Williams",1,566
+"MOCK",2262,"Arthur Miller",0,566
+"MOCK",2263,"Neil Simon",0,566
+"MOCK",2264,"Edward Albee",0,566
+
+"CORRECT",2265,"Dante Alighieri",1,567
+"MOCK",2266,"Geoffrey Chaucer",0,567
+"MOCK",2267,"John Milton",0,567
+"MOCK",2268,"Virgil",0,567
+
+"CORRECT",2269,"Pride and Prejudice",1,568
+"MOCK",2270,"Jane Eyre",0,568
+"MOCK",2271,"Wuthering Heights",0,568
+"MOCK",2272,"Sense and Sensibility",0,568
+
+"CORRECT",2273,"John Keats",1,569
+"MOCK",2274,"William Wordsworth",0,569
+"MOCK",2275,"Percy Bysshe Shelley",0,569
+"MOCK",2276,"Samuel Taylor Coleridge",0,569
+
+"CORRECT",2277,"Leo Tolstoy",1,570
+"MOCK",2278,"Fyodor Dostoevsky",0,570
+"MOCK",2279,"Alexander Pushkin",0,570
+"MOCK",2280,"Ivan Turgenev",0,570
+
+"CORRECT",2281,"Franz Kafka",1,571
+"MOCK",2282,"Albert Camus",0,571
+"MOCK",2283,"Jean-Paul Sartre",0,571
+"MOCK",2284,"Thomas Mann",0,571
+
+"CORRECT",2285,"Hamlet",1,572
+"MOCK",2286,"Macbeth",0,572
+"MOCK",2287,"Romeo and Juliet",0,572
+"MOCK",2288,"Othello",0,572
+
+"CORRECT",2289,"Aldous Huxley",1,573
+"MOCK",2290,"George Orwell",0,573
+"MOCK",2291,"Ray Bradbury",0,573
+"MOCK",2292,"H.G. Wells",0,573
+
+"CORRECT",2293,"One Hundred Years of Solitude",1,574
+"MOCK",2294,"Love in the Time of Cholera",0,574
+"MOCK",2295,"The House of the Spirits",0,574
+"MOCK",2296,"The Alchemist",0,574
+
+"CORRECT",2297,"Miguel de Cervantes",1,575
+"MOCK",2298,"Lope de Vega",0,575
+"MOCK",2299,"Federico García Lorca",0,575
+"MOCK",2300,"Gabriel García Márquez",0,575
+
+"CORRECT",2301,"The Sun",1,576
+"MOCK",2302,"Proxima Centauri",0,576
+"MOCK",2303,"Alpha Centauri",0,576
+"MOCK",2304,"Barnard's Star",0,576
+
+"CORRECT",2305,"Mars",1,577
+"MOCK",2306,"Venus",0,577
+"MOCK",2307,"Jupiter",0,577
+"MOCK",2308,"Mercury",0,577
+
+"CORRECT",2309,"Jupiter",1,578
+"MOCK",2310,"Saturn",0,578
+"MOCK",2311,"Neptune",0,578
+"MOCK",2312,"Earth",0,578
+
+"CORRECT",2313,"Milky Way",1,579
+"MOCK",2314,"Andromeda",0,579
+"MOCK",2315,"Sombrero Galaxy",0,579
+"MOCK",2316,"Whirlpool Galaxy",0,579
+
+"CORRECT",2317,"Saturn",1,580
+"MOCK",2318,"Jupiter",0,580
+"MOCK",2319,"Mars",0,580
+"MOCK",2320,"Uranus",0,580
+
+"CORRECT",2321,"Nova",1,581
+"MOCK",2322,"Supernova",0,581
+"MOCK",2323,"Quasar",0,581
+"MOCK",2324,"Pulsar",0,581
+
+"CORRECT",2325,"Nicolaus Copernicus",1,582
+"MOCK",2326,"Galileo Galilei",0,582
+"MOCK",2327,"Johannes Kepler",0,582
+"MOCK",2328,"Isaac Newton",0,582
+
+"CORRECT",2329,"Hydrogen",1,583
+"MOCK",2330,"Helium",0,583
+"MOCK",2331,"Oxygen",0,583
+"MOCK",2332,"Carbon",0,583
+
+"CORRECT",2333,"Saturn",1,584
+"MOCK",2334,"Uranus",0,584
+"MOCK",2335,"Jupiter",0,584
+"MOCK",2336,"Neptune",0,584
+
+"CORRECT",2337,"Sputnik 1",1,585
+"MOCK",2338,"Explorer 1",0,585
+"MOCK",2339,"Vostok 1",0,585
+"MOCK",2340,"Telstar",0,585
+
+"CORRECT",2341,"Hubble Space Telescope",1,586
+"MOCK",2342,"James Webb Space Telescope",0,586
+"MOCK",2343,"Kepler Space Telescope",0,586
+"MOCK",2344,"Chandra X-ray Observatory",0,586
+
+"CORRECT",2345,"Parallax",1,587
+"MOCK",2346,"Doppler Effect",0,587
+"MOCK",2347,"Redshift",0,587
+"MOCK",2348,"Aberration",0,587
+
+"CORRECT",2349,"Andromeda Galaxy",1,588
+"MOCK",2350,"Large Magellanic Cloud",0,588
+"MOCK",2351,"Triangulum Galaxy",0,588
+"MOCK",2352,"Whirlpool Galaxy",0,588
+
+"CORRECT",2353,"Venus",1,589
+"MOCK",2354,"Mars",0,589
+"MOCK",2355,"Mercury",0,589
+"MOCK",2356,"Neptune",0,589
+
+"CORRECT",2357,"Solar Eclipse",1,590
+"MOCK",2358,"Lunar Eclipse",0,590
+"MOCK",2359,"Transit",0,590
+"MOCK",2360,"Occultation",0,590
+
+"CORRECT",2361,"Galaxy",1,591
+"MOCK",2362,"Nebula",0,591
+"MOCK",2363,"Cluster",0,591
+"MOCK",2364,"Supernova",0,591
+
+"CORRECT",2365,"Uranus",1,592
+"MOCK",2366,"Neptune",0,592
+"MOCK",2367,"Venus",0,592
+"MOCK",2368,"Mars",0,592
+
+"CORRECT",2369,"Hubble's Law",1,593
+"MOCK",2370,"Kepler's Law",0,593
+"MOCK",2371,"Einstein's Theory",0,593
+"MOCK",2372,"Doppler Effect",0,593
+
+"CORRECT",2373,"Johannes Kepler",1,594
+"MOCK",2374,"Galileo Galilei",0,594
+"MOCK",2375,"Isaac Newton",0,594
+"MOCK",2376,"Tycho Brahe",0,594
+
+"CORRECT",2377,"Mercury",1,595
+"MOCK",2378,"Pluto",0,595
+"MOCK",2379,"Mars",0,595
+"MOCK",2380,"Venus",0,595
+
+"CORRECT",2381,"Event Horizon",1,596
+"MOCK",2382,"Singularity",0,596
+"MOCK",2383,"Schwarzschild Radius",0,596
+"MOCK",2384,"Photon Sphere",0,596
+
+"CORRECT",2385,"Jupiter",1,597
+"MOCK",2386,"Saturn",0,597
+"MOCK",2387,"Mars",0,597
+"MOCK",2388,"Neptune",0,597
+
+"CORRECT",2389,"Barred Spiral Galaxy",1,598
+"MOCK",2390,"Elliptical Galaxy",0,598
+"MOCK",2391,"Irregular Galaxy",0,598
+"MOCK",2392,"Spiral Galaxy",0,598
+
+"CORRECT",2393,"Supernova",1,599
+"MOCK",2394,"Nova",0,599
+"MOCK",2395,"Hypernova",0,599
+"MOCK",2396,"Neutron Star",0,599
+
+"CORRECT",2397,"Galileo Galilei",1,600
+"MOCK",2398,"Johannes Kepler",0,600
+"MOCK",2399,"Nicolaus Copernicus",0,600
+"MOCK",2400,"Tycho Brahe",0,600
+
+"CORRECT",2401,"Feldspar",1,601
+"MOCK",2402,"Quartz",0,601
+"MOCK",2403,"Mica",0,601
+"MOCK",2404,"Calcite",0,601
+
+"CORRECT",2405,"Igneous Rock",1,602
+"MOCK",2406,"Sedimentary Rock",0,602
+"MOCK",2407,"Metamorphic Rock",0,602
+"MOCK",2408,"Organic Rock",0,602
+
+"CORRECT",2409,"Mohs Hardness Scale",1,603
+"MOCK",2410,"Richter Scale",0,603
+"MOCK",2411,"Beaufort Scale",0,603
+"MOCK",2412,"Fujita Scale",0,603
+
+"CORRECT",2413,"Mesozoic Era",1,604
+"MOCK",2414,"Cenozoic Era",0,604
+"MOCK",2415,"Paleozoic Era",0,604
+"MOCK",2416,"Precambrian Era",0,604
+
+"CORRECT",2417,"Lithification",1,605
+"MOCK",2418,"Metamorphism",0,605
+"MOCK",2419,"Weathering",0,605
+"MOCK",2420,"Erosion",0,605
+
+"CORRECT",2421,"Mantle",1,606
+"MOCK",2422,"Outer Core",0,606
+"MOCK",2423,"Inner Core",0,606
+"MOCK",2424,"Lithosphere",0,606
+
+"CORRECT",2425,"Nitrogen",1,607
+"MOCK",2426,"Oxygen",0,607
+"MOCK",2427,"Carbon Dioxide",0,607
+"MOCK",2428,"Argon",0,607
+
+"CORRECT",2429,"James Hutton",1,608
+"MOCK",2430,"Charles Lyell",0,608
+"MOCK",2431,"Alfred Wegener",0,608
+"MOCK",2432,"William Smith",0,608
+
+"CORRECT",2433,"Plate Tectonics",1,609
+"MOCK",2434,"Continental Drift",0,609
+"MOCK",2435,"Seafloor Spreading",0,609
+"MOCK",2436,"Isostasy",0,609
+
+"CORRECT",2437,"Any Rock Type",1,610
+"MOCK",2438,"Only Igneous Rock",0,610
+"MOCK",2439,"Only Sedimentary Rock",0,610
+"MOCK",2440,"Only Metamorphic Rock",0,610
+
+"CORRECT",2441,"Pangaea",1,611
+"MOCK",2442,"Gondwana",0,611
+"MOCK",2443,"Laurasia",0,611
+"MOCK",2444,"Rodinia",0,611
+
+"CORRECT",2445,"Graphite",1,612
+"MOCK",2446,"Diamond",0,612
+"MOCK",2447,"Talc",0,612
+"MOCK",2448,"Gypsum",0,612
+
+"CORRECT",2449,"Paleontology",1,613
+"MOCK",2450,"Petrology",0,613
+"MOCK",2451,"Mineralogy",0,613
+"MOCK",2452,"Seismology",0,613
+
+"CORRECT",2453,"Cenozoic Era",1,614
+"MOCK",2454,"Mesozoic Era",0,614
+"MOCK",2455,"Paleozoic Era",0,614
+"MOCK",2456,"Precambrian Era",0,614
+
+"CORRECT",2457,"Magma",1,615
+"MOCK",2458,"Lava",0,615
+"MOCK",2459,"Basalt",0,615
+"MOCK",2460,"Granite",0,615
+
+"CORRECT",2461,"Iron",1,616
+"MOCK",2462,"Nickel",0,616
+"MOCK",2463,"Silicon",0,616
+"MOCK",2464,"Oxygen",0,616
+
+"CORRECT",2465,"Weathering",1,617
+"MOCK",2466,"Erosion",0,617
+"MOCK",2467,"Deposition",0,617
+"MOCK",2468,"Sedimentation",0,617
+
+"CORRECT",2469,"Transform Boundary",1,618
+"MOCK",2470,"Divergent Boundary",0,618
+"MOCK",2471,"Convergent Boundary",0,618
+"MOCK",2472,"Subduction Zone",0,618
+
+"CORRECT",2473,"Diamond",1,619
+"MOCK",2474,"Ruby",0,619
+"MOCK",2475,"Sapphire",0,619
+"MOCK",2476,"Emerald",0,619
+
+"CORRECT",2477,"Rock",1,620
+"MOCK",2478,"Mineral",0,620
+"MOCK",2479,"Crystal",0,620
+"MOCK",2480,"Sediment",0,620
+
+"CORRECT",2481,"Himalayas",1,621
+"MOCK",2482,"Andes",0,621
+"MOCK",2483,"Rocky Mountains",0,621
+"MOCK",2484,"Alps",0,621
+
+"CORRECT",2485,"Epicenter",1,622
+"MOCK",2486,"Focus",0,622
+"MOCK",2487,"Hypocenter",0,622
+"MOCK",2488,"Seismic Zone",0,622
+
+"CORRECT",2489,"Coal",1,623
+"MOCK",2490,"Limestone",0,623
+"MOCK",2491,"Shale",0,623
+"MOCK",2492,"Sandstone",0,623
+
+"CORRECT",2493,"Stratigraphy",1,624
+"MOCK",2494,"Petrology",0,624
+"MOCK",2495,"Mineralogy",0,624
+"MOCK",2496,"Geomorphology",0,624
+
+"CORRECT",2497,"Shield Volcano",1,625
+"MOCK",2498,"Composite Volcano",0,625
+"MOCK",2499,"Cinder Cone Volcano",0,625
+"MOCK",2500,"Dome Volcano",0,625
+
+"CORRECT",2501,"3.14",1,626
+"MOCK",2502,"3.15",0,626
+"MOCK",2503,"3.13",0,626
+"MOCK",2504,"3.16",0,626
+
+"CORRECT",2505,"16",1,627
+"MOCK",2506,"12",0,627
+"MOCK",2507,"14",0,627
+"MOCK",2508,"18",0,627
+
+"CORRECT",2509,"cos(x)",1,628
+"MOCK",2510,"-cos(x)",0,628
+"MOCK",2511,"sin(x)",0,628
+"MOCK",2512,"-sin(x)",0,628
+
+"CORRECT",2513,"x = 2",1,629
+"MOCK",2514,"x = 1",0,629
+"MOCK",2515,"x = 3",0,629
+"MOCK",2516,"x = 4",0,629
+
+"CORRECT",2517,"Euclid",1,630
+"MOCK",2518,"Pythagoras",0,630
+"MOCK",2519,"Archimedes",0,630
+"MOCK",2520,"Aristotle",0,630
+
+"CORRECT",2521,"πr²",1,631
+"MOCK",2522,"2πr",0,631
+"MOCK",2523,"πd",0,631
+"MOCK",2524,"(πr)/2",0,631
+
+"CORRECT",2525,"11",1,632
+"MOCK",2526,"9",0,632
+"MOCK",2527,"13",0,632
+"MOCK",2528,"15",0,632
+
+"CORRECT",2529,"Approximately 1.618",1,633
+"MOCK",2530,"Approximately 2.718",0,633
+"MOCK",2531,"Approximately 3.142",0,633
+"MOCK",2532,"Approximately 1.414",0,633
+
+"CORRECT",2533,"180 degrees",1,634
+"MOCK",2534,"90 degrees",0,634
+"MOCK",2535,"360 degrees",0,634
+"MOCK",2536,"270 degrees",0,634
+
+"CORRECT",2537,"e^x + C",1,635
+"MOCK",2538,"e^x",0,635
+"MOCK",2539,"ln(x) + C",0,635
+"MOCK",2540,"1/e^x + C",0,635
+
+"CORRECT",2541,"Approximately 2.718",1,636
+"MOCK",2542,"Approximately 3.142",0,636
+"MOCK",2543,"Approximately 1.618",0,636
+"MOCK",2544,"Approximately 1.414",0,636
+
+"CORRECT",2545,"5040",1,637
+"MOCK",2546,"720",0,637
+"MOCK",2547,"40320",0,637
+"MOCK",2548,"120",0,637
+
+"CORRECT",2549,"3",1,638
+"MOCK",2550,"2",0,638
+"MOCK",2551,"4",0,638
+"MOCK",2552,"6",0,638
+
+"CORRECT",2553,"Octagon",1,639
+"MOCK",2554,"Hexagon",0,639
+"MOCK",2555,"Decagon",0,639
+"MOCK",2556,"Heptagon",0,639
+
+"CORRECT",2557,"3",1,640
+"MOCK",2558,"2",0,640
+"MOCK",2559,"4",0,640
+"MOCK",2560,"1",0,640
+
+"CORRECT",2561,"a² + b² = c²",1,641
+"MOCK",2562,"a² - b² = c²",0,641
+"MOCK",2563,"ab = c²",0,641
+"MOCK",2564,"a² + b² + c² = 0",0,641
+
+"CORRECT",2565,"0.5",1,642
+"MOCK",2566,"1",0,642
+"MOCK",2567,"0.25",0,642
+"MOCK",2568,"0.75",0,642
+
+"CORRECT",2569,"e",1,643
+"MOCK",2570,"0",0,643
+"MOCK",2571,"Infinity",0,643
+"MOCK",2572,"1",0,643
+
+"CORRECT",2573,"It measures the spread of data around the mean",1,644
+"MOCK",2574,"It measures the average of data",0,644
+"MOCK",2575,"It measures the correlation between variables",0,644
+"MOCK",2576,"It measures the median of data",0,644
+
+"CORRECT",2577,"Obtuse Angle",1,645
+"MOCK",2578,"Acute Angle",0,645
+"MOCK",2579,"Right Angle",0,645
+"MOCK",2580,"Straight Angle",0,645
+
+"CORRECT",2581,"Pythagorean Theorem",1,646
+"MOCK",2582,"Fundamental Theorem of Algebra",0,646
+"MOCK",2583,"Binomial Theorem",0,646
+"MOCK",2584,"Taylor's Theorem",0,646
+
+"CORRECT",2585,"Kurt Gödel",1,647
+"MOCK",2586,"Alan Turing",0,647
+"MOCK",2587,"Bertrand Russell",0,647
+"MOCK",2588,"David Hilbert",0,647
+
+"CORRECT",2589,"ad - bc",1,648
+"MOCK",2590,"ab + cd",0,648
+"MOCK",2591,"a + d",0,648
+"MOCK",2592,"(ad + bc)/2",0,648
+
+"CORRECT",2593,"2",1,649
+"MOCK",2594,"1",0,649
+"MOCK",2595,"Infinity",0,649
+"MOCK",2596,"0",0,649
+
+"CORRECT",2597,"x = 2 and x = 3",1,650
+"MOCK",2598,"x = -2 and x = -3",0,650
+"MOCK",2599,"x = 1 and x = -6",0,650
+"MOCK",2600,"x = 5 and x = -1",0,650
+
+"CORRECT",2601,"Iron",1,651
+"MOCK",2602,"Copper",0,651
+"MOCK",2603,"Silver",0,651
+"MOCK",2604,"Lead",0,651
+
+"CORRECT",2605,"Nitrogen",1,652
+"MOCK",2606,"Oxygen",0,652
+"MOCK",2607,"Carbon Dioxide",0,652
+"MOCK",2608,"Argon",0,652
+
+"CORRECT",2609,"Covalent bond",1,653
+"MOCK",2610,"Ionic bond",0,653
+"MOCK",2611,"Hydrogen bond",0,653
+"MOCK",2612,"Metallic bond",0,653
+
+"CORRECT",2613,"NaCl",1,654
+"MOCK",2614,"KCl",0,654
+"MOCK",2615,"NaOH",0,654
+"MOCK",2616,"CaCl2",0,654
+
+"CORRECT",2617,"Antoine Lavoisier",1,655
+"MOCK",2618,"Dmitri Mendeleev",0,655
+"MOCK",2619,"John Dalton",0,655
+"MOCK",2620,"Robert Boyle",0,655
+
+"CORRECT",2621,"Catalyst",1,656
+"MOCK",2622,"Reactant",0,656
+"MOCK",2623,"Product",0,656
+"MOCK",2624,"Inhibitor",0,656
+
+"CORRECT",2625,"6.022 x 10^23",1,657
+"MOCK",2626,"3.14 x 10^7",0,657
+"MOCK",2627,"1.60 x 10^-19",0,657
+"MOCK",2628,"9.81 m/s^2",0,657
+
+"CORRECT",2629,"Methane",1,658
+"MOCK",2630,"Ethane",0,658
+"MOCK",2631,"Propane",0,658
+"MOCK",2632,"Butane",0,658
+
+"CORRECT",2633,"Photosynthesis",1,659
+"MOCK",2634,"Respiration",0,659
+"MOCK",2635,"Fermentation",0,659
+"MOCK",2636,"Transpiration",0,659
+
+"CORRECT",2637,"Boyle's Law",1,660
+"MOCK",2638,"Charles's Law",0,660
+"MOCK",2639,"Avogadro's Law",0,660
+"MOCK",2640,"Ideal Gas Law",0,660
+
+"CORRECT",2641,"Buffer",1,661
+"MOCK",2642,"Indicator",0,661
+"MOCK",2643,"Neutralizer",0,661
+"MOCK",2644,"Catalyst",0,661
+
+"CORRECT",2645,"Proton",1,662
+"MOCK",2646,"Electron",0,662
+"MOCK",2647,"Neutron",0,662
+"MOCK",2648,"Photon",0,662
+
+"CORRECT",2649,"Sulfuric acid",1,663
+"MOCK",2650,"Hydrochloric acid",0,663
+"MOCK",2651,"Nitric acid",0,663
+"MOCK",2652,"Phosphoric acid",0,663
+
+"CORRECT",2653,"Endothermic reaction",1,664
+"MOCK",2654,"Exothermic reaction",0,664
+"MOCK",2655,"Combustion reaction",0,664
+"MOCK",2656,"Redox reaction",0,664
+
+"CORRECT",2657,"Acetic acid",1,665
+"MOCK",2658,"Formic acid",0,665
+"MOCK",2659,"Citric acid",0,665
+"MOCK",2660,"Lactic acid",0,665
+
+"CORRECT",2661,"Heterogeneous mixture",1,666
+"MOCK",2662,"Homogeneous mixture",0,666
+"MOCK",2663,"Solution",0,666
+"MOCK",2664,"Compound",0,666
+
+"CORRECT",2665,"Halogens",1,667
+"MOCK",2666,"Noble gases",0,667
+"MOCK",2667,"Alkali metals",0,667
+"MOCK",2668,"Transition metals",0,667
+
+"CORRECT",2669,"Activation energy",1,668
+"MOCK",2670,"Kinetic energy",0,668
+"MOCK",2671,"Potential energy",0,668
+"MOCK",2672,"Free energy",0,668
+
+"CORRECT",2673,"NH3",1,669
+"MOCK",2674,"NO2",0,669
+"MOCK",2675,"N2H4",0,669
+"MOCK",2676,"N2O",0,669
+
+"CORRECT",2677,"Evaporation",1,670
+"MOCK",2678,"Condensation",0,670
+"MOCK",2679,"Sublimation",0,670
+"MOCK",2680,"Deposition",0,670
+
+"CORRECT",2681,"Radioisotopes",1,671
+"MOCK",2682,"Isobars",0,671
+"MOCK",2683,"Isotones",0,671
+"MOCK",2684,"Nuclides",0,671
+
+"CORRECT",2685,"Periods",1,672
+"MOCK",2686,"Groups",0,672
+"MOCK",2687,"Blocks",0,672
+"MOCK",2688,"Families",0,672
+
+"CORRECT",2689,"Concentration",1,673
+"MOCK",2690,"Dilution",0,673
+"MOCK",2691,"Saturation",0,673
+"MOCK",2692,"Molality",0,673
+
+"CORRECT",2693,"C6H12O6",1,674
+"MOCK",2694,"C12H22O11",0,674
+"MOCK",2695,"C6H6",0,674
+"MOCK",2696,"CH3OH",0,674
+
+"CORRECT",2697,"Carbonyl group",1,675
+"MOCK",2698,"Hydroxyl group",0,675
+"MOCK",2699,"Carboxyl group",0,675
+"MOCK",2700,"Amine group",0,675
+
+"CORRECT",2701,"James Madison",1,676
+"MOCK",2702,"Thomas Jefferson",0,676
+"MOCK",2703,"George Washington",0,676
+"MOCK",2704,"Alexander Hamilton",0,676
+
+"CORRECT",2705,"The Supreme Court",1,677
+"MOCK",2706,"Congress",0,677
+"MOCK",2707,"The Senate",0,677
+"MOCK",2708,"The Court of Appeals",0,677
+
+"CORRECT",2709,"Communism",1,678
+"MOCK",2710,"Capitalism",0,678
+"MOCK",2711,"Feudalism",0,678
+"MOCK",2712,"Monarchy",0,678
+
+"CORRECT",2713,"Amendment",1,679
+"MOCK",2714,"Bill",0,679
+"MOCK",2715,"Clause",0,679
+"MOCK",2716,"Article",0,679
+
+"CORRECT",2717,"Niccolò Machiavelli",1,680
+"MOCK",2718,"Thomas Hobbes",0,680
+"MOCK",2719,"John Locke",0,680
+"MOCK",2720,"Jean-Jacques Rousseau",0,680
+
+"CORRECT",2721,"The Electoral College",1,681
+"MOCK",2722,"The House of Representatives",0,681
+"MOCK",2723,"The Senate",0,681
+"MOCK",2724,"The Supreme Court",0,681
+
+"CORRECT",2725,"Totalitarianism",1,682
+"MOCK",2726,"Democracy",0,682
+"MOCK",2727,"Republic",0,682
+"MOCK",2728,"Anarchism",0,682
+
+"CORRECT",2729,"Prime Minister",1,683
+"MOCK",2730,"President",0,683
+"MOCK",2731,"Monarch",0,683
+"MOCK",2732,"Chancellor",0,683
+
+"CORRECT",2733,"The United Nations",1,684
+"MOCK",2734,"The League of Nations",0,684
+"MOCK",2735,"NATO",0,684
+"MOCK",2736,"The European Union",0,684
+
+"CORRECT",2737,"Oligarchy",1,685
+"MOCK",2738,"Democracy",0,685
+"MOCK",2739,"Monarchy",0,685
+"MOCK",2740,"Theocracy",0,685
+
+"CORRECT",2741,"Jean-Jacques Rousseau",1,686
+"MOCK",2742,"Thomas Hobbes",0,686
+"MOCK",2743,"John Locke",0,686
+"MOCK",2744,"Baron de Montesquieu",0,686
+
+"CORRECT",2745,"House of Commons",1,687
+"MOCK",2746,"House of Lords",0,687
+"MOCK",2747,"Parliament House",0,687
+"MOCK",2748,"Senate",0,687
+
+"CORRECT",2749,"First Amendment",1,688
+"MOCK",2750,"Second Amendment",0,688
+"MOCK",2751,"Fifth Amendment",0,688
+"MOCK",2752,"Tenth Amendment",0,688
+
+"CORRECT",2753,"Coalition",1,689
+"MOCK",2754,"Caucus",0,689
+"MOCK",2755,"Faction",0,689
+"MOCK",2756,"Alliance",0,689
+
+"CORRECT",2757,"Margaret Thatcher",1,690
+"MOCK",2758,"Theresa May",0,690
+"MOCK",2759,"Angela Merkel",0,690
+"MOCK",2760,"Indira Gandhi",0,690
+
+"CORRECT",2761,"European Parliament",1,691
+"MOCK",2762,"European Council",0,691
+"MOCK",2763,"European Commission",0,691
+"MOCK",2764,"Council of the European Union",0,691
+
+"CORRECT",2765,"United Kingdom",1,692
+"MOCK",2766,"United States",0,692
+"MOCK",2767,"People's Republic of China",0,692
+"MOCK",2768,"Russian Federation",0,692
+
+"CORRECT",2769,"Suffrage",1,693
+"MOCK",2770,"Citizenship",0,693
+"MOCK",2771,"Franchise",0,693
+"MOCK",2772,"Mandate",0,693
+
+"CORRECT",2773,"Karl Marx",1,694
+"MOCK",2774,"Vladimir Lenin",0,694
+"MOCK",2775,"Joseph Stalin",0,694
+"MOCK",2776,"Leon Trotsky",0,694
+
+"CORRECT",2777,"Truman Doctrine",1,695
+"MOCK",2778,"Monroe Doctrine",0,695
+"MOCK",2779,"Marshall Plan",0,695
+"MOCK",2780,"Eisenhower Doctrine",0,695
+
+"CORRECT",2781,"Liberalism",1,696
+"MOCK",2782,"Conservatism",0,696
+"MOCK",2783,"Socialism",0,696
+"MOCK",2784,"Fascism",0,696
+
+"CORRECT",2785,"Separation of Powers",1,697
+"MOCK",2786,"Checks and Balances",0,697
+"MOCK",2787,"Federalism",0,697
+"MOCK",2788,"Judicial Review",0,697
+
+"CORRECT",2789,"António Guterres",1,698
+"MOCK",2790,"Ban Ki-moon",0,698
+"MOCK",2791,"Kofi Annan",0,698
+"MOCK",2792,"Boutros Boutros-Ghali",0,698
+
+"CORRECT",2793,"Two-party system",1,699
+"MOCK",2794,"Multi-party system",0,699
+"MOCK",2795,"One-party system",0,699
+"MOCK",2796,"Coalition government",0,699
+
+"CORRECT",2797,"Thomas Hobbes",1,700
+"MOCK",2798,"John Locke",0,700
+"MOCK",2799,"Niccolò Machiavelli",0,700
+"MOCK",2800,"Baron de Montesquieu",0,700
+
+"CORRECT",2801,"South Korea",1,701
+"MOCK",2802,"Japan",0,701
+"MOCK",2803,"China",0,701
+"MOCK",2804,"Thailand",0,701
+
+"CORRECT",2805,"Origami",1,702
+"MOCK",2806,"Ikebana",0,702
+"MOCK",2807,"Calligraphy",0,702
+"MOCK",2808,"Kabuki",0,702
+
+"CORRECT",2809,"Italy",1,703
+"MOCK",2810,"France",0,703
+"MOCK",2811,"Germany",0,703
+"MOCK",2812,"Spain",0,703
+
+"CORRECT",2813,"Matryoshka dolls",1,704
+"MOCK",2814,"Babushka dolls",0,704
+"MOCK",2815,"Troika dolls",0,704
+"MOCK",2816,"Samovar dolls",0,704
+
+"CORRECT",2817,"Diwali",1,705
+"MOCK",2818,"Holi",0,705
+"MOCK",2819,"Eid",0,705
+"MOCK",2820,"Vesak",0,705
+
+"CORRECT",2821,"Haka",1,706
+"MOCK",2822,"Poi",0,706
+"MOCK",2823,"Waiata",0,706
+"MOCK",2824,"Kapa Haka",0,706
+
+"CORRECT",2825,"Mandarin Chinese",1,707
+"MOCK",2826,"English",0,707
+"MOCK",2827,"Spanish",0,707
+"MOCK",2828,"Hindi",0,707
+
+"CORRECT",2829,"Paella",1,708
+"MOCK",2830,"Tapas",0,708
+"MOCK",2831,"Gazpacho",0,708
+"MOCK",2832,"Churros",0,708
+
+"CORRECT",2833,"Taoism",1,709
+"MOCK",2834,"Confucianism",0,709
+"MOCK",2835,"Buddhism",0,709
+"MOCK",2836,"Legalism",0,709
+
+"CORRECT",2837,"Kilt",1,710
+"MOCK",2838,"Sari",0,710
+"MOCK",2839,"Kimono",0,710
+"MOCK",2840,"Sarong",0,710
+
+"CORRECT",2841,"Michelangelo",1,711
+"MOCK",2842,"Leonardo da Vinci",0,711
+"MOCK",2843,"Raphael",0,711
+"MOCK",2844,"Donatello",0,711
+
+"CORRECT",2845,"Manga",1,712
+"MOCK",2846,"Anime",0,712
+"MOCK",2847,"Haiku",0,712
+"MOCK",2848,"J-pop",0,712
+
+"CORRECT",2849,"Argentina",1,713
+"MOCK",2850,"Brazil",0,713
+"MOCK",2851,"Colombia",0,713
+"MOCK",2852,"Chile",0,713
+
+"CORRECT",2853,"Lei",1,714
+"MOCK",2854,"Hula",0,714
+"MOCK",2855,"Ukulele",0,714
+"MOCK",2856,"Aloha",0,714
+
+"CORRECT",2857,"Islam",1,715
+"MOCK",2858,"Christianity",0,715
+"MOCK",2859,"Judaism",0,715
+"MOCK",2860,"Hinduism",0,715
+
+"CORRECT",2861,"Oktoberfest",1,716
+"MOCK",2862,"Carnival",0,716
+"MOCK",2863,"La Tomatina",0,716
+"MOCK",2864,"Running of the Bulls",0,716
+
+"CORRECT",2865,"New Orleans",1,717
+"MOCK",2866,"Chicago",0,717
+"MOCK",2867,"New York",0,717
+"MOCK",2868,"Memphis",0,717
+
+"CORRECT",2869,"Croissant",1,718
+"MOCK",2870,"Baguette",0,718
+"MOCK",2871,"Éclair",0,718
+"MOCK",2872,"Macaron",0,718
+
+"CORRECT",2873,"Kenya",1,719
+"MOCK",2874,"Nigeria",0,719
+"MOCK",2875,"South Africa",0,719
+"MOCK",2876,"Egypt",0,719
+
+"CORRECT",2877,"Kathakali",1,720
+"MOCK",2878,"Bharatanatyam",0,720
+"MOCK",2879,"Odissi",0,720
+"MOCK",2880,"Kuchipudi",0,720
+
+"CORRECT",2881,"Lantern Festival",1,721
+"MOCK",2882,"Dragon Boat Festival",0,721
+"MOCK",2883,"Mid-Autumn Festival",0,721
+"MOCK",2884,"Qingming Festival",0,721
+
+"CORRECT",2885,"Ahimsa",1,722
+"MOCK",2886,"Dharma",0,722
+"MOCK",2887,"Karma",0,722
+"MOCK",2888,"Nirvana",0,722
+
+"CORRECT",2889,"Falafel",1,723
+"MOCK",2890,"Hummus",0,723
+"MOCK",2891,"Shawarma",0,723
+"MOCK",2892,"Tabbouleh",0,723
+
+"CORRECT",2893,"Kvass",1,724
+"MOCK",2894,"Vodka",0,724
+"MOCK",2895,"Kefir",0,724
+"MOCK",2896,"Mead",0,724
+
+"CORRECT",2897,"Japanese culture",1,725
+"MOCK",2898,"Chinese culture",0,725
+"MOCK",2899,"Korean culture",0,725
+"MOCK",2900,"Thai culture",0,725
+
+"CORRECT",2901,"Kimchi",1,726
+"MOCK",2902,"Sushi",0,726
+"MOCK",2903,"Pho",0,726
+"MOCK",2904,"Pad Thai",0,726
+
+"CORRECT",2905,"Venice",1,727
+"MOCK",2906,"Rome",0,727
+"MOCK",2907,"Florence",0,727
+"MOCK",2908,"Milan",0,727
+
+"CORRECT",2909,"Tea Ceremony (Chanoyu)",1,728
+"MOCK",2910,"Sushi Making",0,728
+"MOCK",2911,"Calligraphy (Shodo)",0,728
+"MOCK",2912,"Flower Arranging (Ikebana)",0,728
+
+"CORRECT",2913,"Carnival",1,729
+"MOCK",2914,"Mardi Gras",0,729
+"MOCK",2915,"Dia de los Muertos",0,729
+"MOCK",2916,"Oktoberfest",0,729
+
+"CORRECT",2917,"Hieroglyphics",1,730
+"MOCK",2918,"Cuneiform",0,730
+"MOCK",2919,"Runes",0,730
+"MOCK",2920,"Sanskrit",0,730
+
+"CORRECT",2921,"Mexican culture",1,731
+"MOCK",2922,"Spanish culture",0,731
+"MOCK",2923,"Brazilian culture",0,731
+"MOCK",2924,"Peruvian culture",0,731
+
+"CORRECT",2925,"Naan",1,732
+"MOCK",2926,"Pita",0,732
+"MOCK",2927,"Focaccia",0,732
+"MOCK",2928,"Challah",0,732
+
+"CORRECT",2929,"Uluru (Ayers Rock)",1,733
+"MOCK",2930,"Sydney Opera House",0,733
+"MOCK",2931,"Great Barrier Reef",0,733
+"MOCK",2932,"Blue Mountains",0,733
+
+"CORRECT",2933,"Calligraphy",1,734
+"MOCK",2934,"Typography",0,734
+"MOCK",2935,"Graffiti",0,734
+"MOCK",2936,"Origami",0,734
+
+"CORRECT",2937,"Italy",1,735
+"MOCK",2938,"France",0,735
+"MOCK",2939,"Spain",0,735
+"MOCK",2940,"Greece",0,735
+
+"CORRECT",2941,"Kimono",1,736
+"MOCK",2942,"Hanbok",0,736
+"MOCK",2943,"Cheongsam",0,736
+"MOCK",2944,"Sari",0,736
+
+"CORRECT",2945,"Kwanzaa",1,737
+"MOCK",2946,"Juneteenth",0,737
+"MOCK",2947,"Black History Month",0,737
+"MOCK",2948,"Carnival",0,737
+
+"CORRECT",2949,"Pot-au-feu",1,738
+"MOCK",2950,"Bouillabaisse",0,738
+"MOCK",2951,"Coq au vin",0,738
+"MOCK",2952,"Ratatouille",0,738
+
+"CORRECT",2953,"Cambodia",1,739
+"MOCK",2954,"Thailand",0,739
+"MOCK",2955,"Vietnam",0,739
+"MOCK",2956,"Laos",0,739
+
+"CORRECT",2957,"Jianzhi",1,740
+"MOCK",2958,"Origami",0,740
+"MOCK",2959,"Kirigami",0,740
+"MOCK",2960,"Papier-mâché",0,740
+
+"CORRECT",2961,"Sitar",1,741
+"MOCK",2962,"Tabla",0,741
+"MOCK",2963,"Veena",0,741
+"MOCK",2964,"Sarod",0,741
+
+"CORRECT",2965,"Capoeira",1,742
+"MOCK",2966,"Samba",0,742
+"MOCK",2967,"Tango",0,742
+"MOCK",2968,"Jujutsu",0,742
+
+"CORRECT",2969,"Belly Dance",1,743
+"MOCK",2970,"Salsa",0,743
+"MOCK",2971,"Flamenco",0,743
+"MOCK",2972,"Tango",0,743
+
+"CORRECT",2973,"Haiku",1,744
+"MOCK",2974,"Tanka",0,744
+"MOCK",2975,"Sonnet",0,744
+"MOCK",2976,"Limerick",0,744
+
+"CORRECT",2977,"Spain",1,745
+"MOCK",2978,"Portugal",0,745
+"MOCK",2979,"Italy",0,745
+"MOCK",2980,"Greece",0,745
+
+"CORRECT",2981,"Ikebana",1,746
+"MOCK",2982,"Origami",0,746
+"MOCK",2983,"Bonsai",0,746
+"MOCK",2984,"Shodo",0,746
+
+"CORRECT",2985,"Diwali",1,747
+"MOCK",2986,"Holi",0,747
+"MOCK",2987,"Eid al-Fitr",0,747
+"MOCK",2988,"Vesak",0,747
+
+"CORRECT",2989,"Hangul",1,748
+"MOCK",2990,"Kanji",0,748
+"MOCK",2991,"Hiragana",0,748
+"MOCK",2992,"Katakana",0,748
+
+"CORRECT",2993,"Tipi (Tepee)",1,749
+"MOCK",2994,"Igloo",0,749
+"MOCK",2995,"Longhouse",0,749
+"MOCK",2996,"Yurt",0,749
+
+"CORRECT",2997,"The Iliad and The Odyssey",1,750
+"MOCK",2998,"The Aeneid and The Metamorphoses",0,750
+"MOCK",2999,"The Epic of Gilgamesh and Beowulf",0,750
+"MOCK",3000,"The Mahabharata and The Ramayana",0,750
+
+"CORRECT",3001,"Libertarianism",1,751
+"MOCK",3002,"Socialism",0,751
+"MOCK",3003,"Communism",0,751
+"MOCK",3004,"Authoritarianism",0,751
+
+"CORRECT",3005,"Margaret Thatcher",1,752
+"MOCK",3006,"Winston Churchill",0,752
+"MOCK",3007,"Tony Blair",0,752
+"MOCK",3008,"Harold Wilson",0,752
+
+"CORRECT",3009,"Fascism",1,753
+"MOCK",3010,"Communism",0,753
+"MOCK",3011,"Democracy",0,753
+"MOCK",3012,"Liberalism",0,753
+
+"CORRECT",3013,"New Zealand",1,754
+"MOCK",3014,"United States",0,754
+"MOCK",3015,"United Kingdom",0,754
+"MOCK",3016,"Australia",0,754
+
+"CORRECT",3017,"House of Representatives",1,755
+"MOCK",3018,"Senate",0,755
+"MOCK",3019,"Parliament",0,755
+"MOCK",3020,"Congress",0,755
+
+"CORRECT",3021,"John Stuart Mill",1,756
+"MOCK",3022,"Thomas Hobbes",0,756
+"MOCK",3023,"Jean-Jacques Rousseau",0,756
+"MOCK",3024,"John Locke",0,756
+
+"CORRECT",3025,"Marxism",1,757
+"MOCK",3026,"Anarchism",0,757
+"MOCK",3027,"Capitalism",0,757
+"MOCK",3028,"Fascism",0,757
+
+"CORRECT",3029,"Watergate",1,758
+"MOCK",3030,"Iran-Contra Affair",0,758
+"MOCK",3031,"Teapot Dome Scandal",0,758
+"MOCK",3032,"Whitewater Scandal",0,758
+
+"CORRECT",3033,"United Nations Security Council",1,759
+"MOCK",3034,"International Court of Justice",0,759
+"MOCK",3035,"World Trade Organization",0,759
+"MOCK",3036,"International Monetary Fund",0,759
+
+"CORRECT",3037,"Theocracy",1,760
+"MOCK",3038,"Democracy",0,760
+"MOCK",3039,"Oligarchy",0,760
+"MOCK",3040,"Autocracy",0,760
+
+"CORRECT",3041,"Nikita Khrushchev",1,761
+"MOCK",3042,"Joseph Stalin",0,761
+"MOCK",3043,"Leonid Brezhnev",0,761
+"MOCK",3044,"Mikhail Gorbachev",0,761
+
+"CORRECT",3045,"Checks and Balances",1,762
+"MOCK",3046,"Federalism",0,762
+"MOCK",3047,"Separation of Powers",0,762
+"MOCK",3048,"Judicial Review",0,762
+
+"CORRECT",3049,"13th Amendment",1,763
+"MOCK",3050,"14th Amendment",0,763
+"MOCK",3051,"15th Amendment",0,763
+"MOCK",3052,"19th Amendment",0,763
+
+"CORRECT",3053,"Plato",1,764
+"MOCK",3054,"Aristotle",0,764
+"MOCK",3055,"Socrates",0,764
+"MOCK",3056,"Cicero",0,764
+
+"CORRECT",3057,"Monarchy",1,765
+"MOCK",3058,"Republic",0,765
+"MOCK",3059,"Democracy",0,765
+"MOCK",3060,"Oligarchy",0,765
+
+"CORRECT",3061,"Abraham Lincoln",1,766
+"MOCK",3062,"Ulysses S. Grant",0,766
+"MOCK",3063,"Andrew Johnson",0,766
+"MOCK",3064,"Theodore Roosevelt",0,766
+
+"CORRECT",3065,"Gerrymandering",1,767
+"MOCK",3066,"Filibustering",0,767
+"MOCK",3067,"Lobbying",0,767
+"MOCK",3068,"Impeachment",0,767
+
+"CORRECT",3069,"European Union",1,768
+"MOCK",3070,"NATO",0,768
+"MOCK",3071,"Schengen Area",0,768
+"MOCK",3072,"Eurozone",0,768
+
+"CORRECT",3073,"Adam Smith",1,769
+"MOCK",3074,"Karl Marx",0,769
+"MOCK",3075,"John Maynard Keynes",0,769
+"MOCK",3076,"David Ricardo",0,769
+
+"CORRECT",3077,"Socialism",1,770
+"MOCK",3078,"Capitalism",0,770
+"MOCK",3079,"Feudalism",0,770
+"MOCK",3080,"Mercantilism",0,770
+
+"CORRECT",3081,"Canada",1,771
+"MOCK",3082,"Australia",0,771
+"MOCK",3083,"India",0,771
+"MOCK",3084,"Germany",0,771
+
+"CORRECT",3085,"Nelson Mandela",1,772
+"MOCK",3086,"Desmond Tutu",0,772
+"MOCK",3087,"Thabo Mbeki",0,772
+"MOCK",3088,"Jacob Zuma",0,772
+
+"CORRECT",3089,"Monarchy",1,773
+"MOCK",3090,"Democracy",0,773
+"MOCK",3091,"Republic",0,773
+"MOCK",3092,"Anarchy",0,773
+
+"CORRECT",3093,"Marbury v. Madison",1,774
+"MOCK",3094,"Brown v. Board of Education",0,774
+"MOCK",3095,"Roe v. Wade",0,774
+"MOCK",3096,"Dred Scott v. Sandford",0,774
+
+"CORRECT",3097,"Olaf Scholz",1,775
+"MOCK",3098,"Angela Merkel",0,775
+"MOCK",3099,"Frank-Walter Steinmeier",0,775
+"MOCK",3100,"Horst Seehofer",0,775
+
+"CORRECT",3101,"Apartheid",1,776
+"MOCK",3102,"Jim Crow Laws",0,776
+"MOCK",3103,"Segregation",0,776
+"MOCK",3104,"Caste System",0,776
+
+"CORRECT",3105,"Paris Agreement",1,777
+"MOCK",3106,"Kyoto Protocol",0,777
+"MOCK",3107,"Montreal Protocol",0,777
+"MOCK",3108,"Geneva Convention",0,777
+
+"CORRECT",3109,"Monopoly",1,778
+"MOCK",3110,"Oligopoly",0,778
+"MOCK",3111,"Cartel",0,778
+"MOCK",3112,"Trust",0,778
+
+"CORRECT",3113,"Simone de Beauvoir",1,779
+"MOCK",3114,"Virginia Woolf",0,779
+"MOCK",3115,"Betty Friedan",0,779
+"MOCK",3116,"Gloria Steinem",0,779
+
+"CORRECT",3117,"Adam Smith",1,780
+"MOCK",3118,"Karl Marx",0,780
+"MOCK",3119,"John Maynard Keynes",0,780
+"MOCK",3120,"David Ricardo",0,780
+
+"CORRECT",3121,"National Socialism",1,781
+"MOCK",3122,"Communism",0,781
+"MOCK",3123,"Fascism",0,781
+"MOCK",3124,"Liberalism",0,781
+
+"CORRECT",3125,"Nancy Pelosi",1,782
+"MOCK",3126,"Hillary Clinton",0,782
+"MOCK",3127,"Condoleezza Rice",0,782
+"MOCK",3128,"Kamala Harris",0,782
+
+"CORRECT",3129,"Declaration of Independence",1,783
+"MOCK",3130,"U.S. Constitution",0,783
+"MOCK",3131,"Articles of Confederation",0,783
+"MOCK",3132,"Bill of Rights",0,783
+
+"CORRECT",3133,"Israel",1,784
+"MOCK",3134,"Iran",0,784
+"MOCK",3135,"Iraq",0,784
+"MOCK",3136,"Turkey",0,784
+
+"CORRECT",3137,"Bicameralism",1,785
+"MOCK",3138,"Unicameralism",0,785
+"MOCK",3139,"Federalism",0,785
+"MOCK",3140,"Confederalism",0,785
+
+"CORRECT",3141,"Abraham Lincoln",1,786
+"MOCK",3142,"George Washington",0,786
+"MOCK",3143,"Thomas Jefferson",0,786
+"MOCK",3144,"Benjamin Franklin",0,786
+
+"CORRECT",3145,"Conservatism",1,787
+"MOCK",3146,"Liberalism",0,787
+"MOCK",3147,"Socialism",0,787
+"MOCK",3148,"Communism",0,787
+
+"CORRECT",3149,"Treaty",1,788
+"MOCK",3150,"Alliance",0,788
+"MOCK",3151,"Convention",0,788
+"MOCK",3152,"Pact",0,788
+
+"CORRECT",3153,"Mahatma Gandhi",1,789
+"MOCK",3154,"Jawaharlal Nehru",0,789
+"MOCK",3155,"Subhas Chandra Bose",0,789
+"MOCK",3156,"Indira Gandhi",0,789
+
+"CORRECT",3157,"Federation Council",1,790
+"MOCK",3158,"State Duma",0,790
+"MOCK",3159,"Council of Ministers",0,790
+"MOCK",3160,"Supreme Soviet",0,790
+
+"CORRECT",3161,"Franklin D. Roosevelt",1,791
+"MOCK",3162,"Herbert Hoover",0,791
+"MOCK",3163,"Harry S. Truman",0,791
+"MOCK",3164,"Dwight D. Eisenhower",0,791
+
+"CORRECT",3165,"Rule of Law",1,792
+"MOCK",3166,"Judicial Review",0,792
+"MOCK",3167,"Due Process",0,792
+"MOCK",3168,"Habeas Corpus",0,792
+
+"CORRECT",3169,"Karl Marx",1,793
+"MOCK",3170,"Friedrich Engels",0,793
+"MOCK",3171,"Max Weber",0,793
+"MOCK",3172,"Vladimir Lenin",0,793
+
+"CORRECT",3173,"Direct Democracy",1,794
+"MOCK",3174,"Representative Democracy",0,794
+"MOCK",3175,"Republic",0,794
+"MOCK",3176,"Autocracy",0,794
+
+"CORRECT",3177,"Cuba",1,795
+"MOCK",3178,"North Korea",0,795
+"MOCK",3179,"Vietnam",0,795
+"MOCK",3180,"China",0,795
+
+"CORRECT",3181,"Recall Election",1,796
+"MOCK",3182,"Impeachment",0,796
+"MOCK",3183,"Referendum",0,796
+"MOCK",3184,"Initiative",0,796
+
+"CORRECT",3185,"Trygve Lie",1,797
+"MOCK",3186,"Dag Hammarskjöld",0,797
+"MOCK",3187,"U Thant",0,797
+"MOCK",3188,"Boutros Boutros-Ghali",0,797
+
+"CORRECT",3189,"Truman Doctrine",1,798
+"MOCK",3190,"Marshall Plan",0,798
+"MOCK",3191,"Monroe Doctrine",0,798
+"MOCK",3192,"Eisenhower Doctrine",0,798
+
+"CORRECT",3193,"Athens",1,799
+"MOCK",3194,"Sparta",0,799
+"MOCK",3195,"Corinth",0,799
+"MOCK",3196,"Thebes",0,799
+
+"CORRECT",3197,"John Locke",1,800
+"MOCK",3198,"Thomas Hobbes",0,800
+"MOCK",3199,"Jean-Jacques Rousseau",0,800
+"MOCK",3200,"Baron de Montesquieu",0,800

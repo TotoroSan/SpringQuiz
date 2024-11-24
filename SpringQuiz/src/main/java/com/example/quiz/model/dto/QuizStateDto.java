@@ -6,14 +6,19 @@ public class QuizStateDto {
     private String currentQuestionText;
     private QuizModifierDto quizModifierDto;
 
+
+
+    private Boolean isActive;
+
     // Constructors
     public QuizStateDto() {}
 
-    public QuizStateDto(double score, int currentRound, String currentQuestionText, QuizModifierDto quizModifierDto) {
+    public QuizStateDto(double score, int currentRound, String currentQuestionText, QuizModifierDto quizModifierDto, Boolean isActive) {
         this.score = score;
         this.currentRound = currentRound;
         this.currentQuestionText = currentQuestionText;
         this.quizModifierDto = quizModifierDto;
+        this.isActive = isActive;
     }
 
     // Getters and Setters
@@ -40,7 +45,13 @@ public class QuizStateDto {
     public void setCurrentQuestionText(String currentQuestionText) {
         this.currentQuestionText = currentQuestionText;
     }
+    public Boolean getActive() {
+        return isActive;
+    }
 
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
     public QuizModifierDto getQuizModifierDto() {
         return quizModifierDto;
     }

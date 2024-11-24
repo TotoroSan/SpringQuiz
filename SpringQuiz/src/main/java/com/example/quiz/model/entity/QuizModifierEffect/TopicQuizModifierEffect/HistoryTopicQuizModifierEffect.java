@@ -13,10 +13,10 @@ public class HistoryTopicQuizModifierEffect extends QuizModifierEffect {
     }
 
     public HistoryTopicQuizModifierEffect(QuizModifier quizModifier) {
-        super("CHOOSE_TOPIC_HISTORY", "Choose Topic History", 3, quizModifier);
+        super("CHOOSE_TOPIC_HISTORY", "Choose Topic History", 3, quizModifier, "Allows you to choose History as the topic for the next questions.", "topic", false, 1);
     }
     public HistoryTopicQuizModifierEffect(QuizModifier quizModifier, int duration) {
-        super("CHOOSE_TOPIC_HISTORY", "Choose Topic History", duration, quizModifier);
+        super("CHOOSE_TOPIC_HISTORY", "Choose Topic History", duration, quizModifier, "Allows you to choose History as the topic for the next questions.", "topic", false, 1);
     }
 
 

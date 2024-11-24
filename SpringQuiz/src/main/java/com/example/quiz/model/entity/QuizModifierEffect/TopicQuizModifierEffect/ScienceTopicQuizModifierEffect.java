@@ -13,10 +13,10 @@ public class ScienceTopicQuizModifierEffect extends QuizModifierEffect {
     }
 
     public ScienceTopicQuizModifierEffect(QuizModifier quizModifier) {
-        super("CHOOSE_TOPIC_SCIENCE", "Choose Topic Science", 3, quizModifier);
+        super("CHOOSE_TOPIC_SCIENCE", "Choose Topic Science", 3, quizModifier, "Allows you to choose Science as the topic for the next questions.", "topic", false, 1);
     }
     public ScienceTopicQuizModifierEffect(QuizModifier quizModifier, int duration) {
-        super("CHOOSE_TOPIC_SCIENCE", "Choose Topic Science", duration, quizModifier);
+        super("CHOOSE_TOPIC_SCIENCE", "Choose Topic Science", duration, quizModifier, "Allows you to choose Science as the topic for the next questions.", "topic", false, 1);
     }
 
 

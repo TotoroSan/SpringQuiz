@@ -13,11 +13,11 @@ public class MaxDifficultyLimitQuizModifierEffect extends QuizModifierEffect {
     }
 
     public MaxDifficultyLimitQuizModifierEffect(QuizModifier quizModifier) {
-        super("MAX_DIFFICULTY_LIMIT", "Max Difficulty Limit", 3, quizModifier);
+        super("MAX_DIFFICULTY_LIMIT", "Max Difficulty Limit", 3, quizModifier, "The next questions will have a given max difficulty.", "topic", false, 1);
     }
 
     public MaxDifficultyLimitQuizModifierEffect(QuizModifier quizModifier, int duration) {
-        super("MAX_DIFFICULTY_LIMIT", "Max Difficulty Limit", duration, quizModifier);
+        super("MAX_DIFFICULTY_LIMIT", "Max Difficulty Limit", duration, quizModifier, "The next questions will have a given max difficulty.", "topic", false, 1);
     }
 
     @Override

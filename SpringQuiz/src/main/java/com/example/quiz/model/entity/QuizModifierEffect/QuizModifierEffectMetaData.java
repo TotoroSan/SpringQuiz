@@ -8,14 +8,22 @@ public class QuizModifierEffectMetaData {
     private final String idString;
     private final String name;
     private final String description;
-    private int duration;
+    private Integer duration;
     private String type;
+    private Boolean isPermanent;
 
-    public QuizModifierEffectMetaData(String idString, String name, String description, int duration, String type) {
+
+
+    private Integer rarity;
+
+    public QuizModifierEffectMetaData(String idString, String name, String description, Integer duration, String type, Boolean isPermanent, Integer rarity) {
         this.idString = idString;
         this.name = name;
         this.description = description;
         this.duration = duration;
+        this.type = type;
+        this.isPermanent = isPermanent;
+        this.rarity = rarity;
     }
 
     public String getIdString() {
@@ -30,11 +38,35 @@ public class QuizModifierEffectMetaData {
         return description;
     }
 
-    public int getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Boolean getPermanent() {
+        return isPermanent;
+    }
+
+    public void setPermanent(Boolean permanent) {
+        isPermanent = permanent;
+    }
+
+    public Integer getRarity() {
+        return rarity;
+    }
+
+    public void setRarity(Integer rarity) {
+        this.rarity = rarity;
     }
 }

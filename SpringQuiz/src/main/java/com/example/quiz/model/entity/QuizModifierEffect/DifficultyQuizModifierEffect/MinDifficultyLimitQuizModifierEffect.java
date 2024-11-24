@@ -13,11 +13,11 @@ public class MinDifficultyLimitQuizModifierEffect extends QuizModifierEffect {
     }
 
     public MinDifficultyLimitQuizModifierEffect(QuizModifier quizModifier) {
-        super("MIN_DIFFICULTY_LIMIT", "Min Difficulty Limit", 3, quizModifier);
+        super("MIN_DIFFICULTY_LIMIT", "Min Difficulty Limit", 3, quizModifier, "The next questions will have a given min difficulty.", "topic", false, 1);
     }
 
     public MinDifficultyLimitQuizModifierEffect(QuizModifier quizModifier, int duration) {
-        super("MIN_DIFFICULTY_LIMIT", "Min Difficulty Limit", duration, quizModifier);
+        super("MIN_DIFFICULTY_LIMIT", "Min Difficulty Limit", duration, quizModifier, "The next questions will have a given min difficulty.", "topic", false, 1);
     }
 
     @Override

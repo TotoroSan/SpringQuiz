@@ -37,7 +37,10 @@ public class UserQuizModifierService {
                         metadata.getIdString(),
                         metadata.getName(),
                         metadata.getDuration(), // Setting duration to 0 as it’s just for selection
-                        metadata.getDescription())
+                        metadata.getDescription(),
+                        metadata.getType(),
+                        metadata.getPermanent(),
+                        metadata.getRarity())
                 )
                 .collect(Collectors.toList());
 
@@ -85,17 +88,20 @@ public class UserQuizModifierService {
         // Iterate over all active effects
         for (QuizModifierEffect quizModifierEffect : activeQuizModifierEffects) {
             logger.debug("Processing ", quizModifierEffect.getIdString());
-            // Reduce the duration by 1
-            quizModifierEffect.decrementDuration();
 
-            // If the effect duration has ended, add to remove list
-            if (quizModifierEffect.getDuration() <= 0) {
-                quizModifierEffect.reverse(quizModifier);  // Reverse the effect before removing
-                effectsToRemove.add(quizModifierEffect);
+            // if the effect is temporary
+            if (quizModifierEffect.getPermanent() == false) {
+                // Reduce the duration by 1
+                quizModifierEffect.decrementDuration();
 
-                // Debug
-                // debug
-                logger.debug("Effect: ", quizModifierEffect.getIdString(), " added to removal list because duration is 0");
+                // If the effect duration has ended, add to remove list
+                if (quizModifierEffect.getDuration() <= 0) {
+                    quizModifierEffect.reverse(quizModifier);  // Reverse the effect before removing
+                    effectsToRemove.add(quizModifierEffect);
+
+                    // Debug
+                    logger.debug("Effect: ", quizModifierEffect.getIdString(), " added to removal list because duration is 0");
+                }
             }
         }
 
@@ -127,7 +133,7 @@ public class UserQuizModifierService {
 
         QuizModifierDto quizModifierDto = new QuizModifierDto(quizModifier.getId(),
                 quizModifier.getScoreMultiplier(), quizModifier.getDifficultyModifier(),
-                 getActiveModifierEffectDtos(quizModifier));
+                 getActiveModifierEffectDtos(quizModifier), quizModifier.getLifeCounter());
 
         logger.debug("QuizModifierDto successfully created");
         return quizModifierDto;
@@ -145,7 +151,10 @@ public class UserQuizModifierService {
                         quizModifierEffect.getIdString(),
                         quizModifierEffect.getName(),
                         quizModifierEffect.getDuration(),
-                        "Description for " + quizModifierEffect.getName())
+                        quizModifierEffect.getDescription(),
+                        quizModifierEffect.getType(),
+                        quizModifierEffect.getPermanent(),
+                        quizModifierEffect.getRarity())
                 ).collect(Collectors.toList());
 
 
@@ -153,5 +162,23 @@ public class UserQuizModifierService {
 
         return quizModifierEffectDtos;
     }
+
+    public void incrementLifeCounter(QuizModifier quizModifier){
+        incrementLifeCounter(quizModifier, 1);
+    }
+
+    public void incrementLifeCounter(QuizModifier quizModifier, int increments){
+        quizModifier.setLifeCounter(quizModifier.getLifeCounter() + increments);
+    }
+
+    public void decrementLifeCounter(QuizModifier quizModifier){
+        decrementLifeCounter(quizModifier, 1);
+    }
+
+    public void decrementLifeCounter(QuizModifier quizModifier, int decrements){
+        quizModifier.setLifeCounter(quizModifier.getLifeCounter() - decrements);
+    }
+
+
 }
 

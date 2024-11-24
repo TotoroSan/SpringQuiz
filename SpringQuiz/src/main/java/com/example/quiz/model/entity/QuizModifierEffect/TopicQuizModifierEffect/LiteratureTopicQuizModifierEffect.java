@@ -13,10 +13,10 @@ public class LiteratureTopicQuizModifierEffect extends QuizModifierEffect {
     }
 
     public LiteratureTopicQuizModifierEffect(QuizModifier quizModifier) {
-        super("CHOOSE_TOPIC_LITERATURE", "Choose Topic Literature", 3, quizModifier);
+        super("CHOOSE_TOPIC_LITERATURE", "Choose Topic Literature", 3, quizModifier, "Allows you to choose Literature as the topic for the next questions.", "topic", false, 1);
     }
     public LiteratureTopicQuizModifierEffect(QuizModifier quizModifier, int duration) {
-        super("CHOOSE_TOPIC_LITERATURE", "Choose Topic Literature", duration, quizModifier);
+        super("CHOOSE_TOPIC_LITERATURE", "Choose Topic Literature", duration, quizModifier, "Allows you to choose Literature as the topic for the next questions.", "topic", false, 1);
     }
 
 

@@ -13,10 +13,10 @@ public class EconomicsTopicQuizModifierEffect extends QuizModifierEffect {
     }
 
     public EconomicsTopicQuizModifierEffect(QuizModifier quizModifier) {
-        super("CHOOSE_TOPIC_ECONOMICS", "Choose Topic Economics", 3, quizModifier);
+        super("CHOOSE_TOPIC_ECONOMICS", "Choose Topic Economics", 3, quizModifier, "Allows you to choose Economics as the topic for the next questions.", "topic", false, 1);
     }
     public EconomicsTopicQuizModifierEffect(QuizModifier quizModifier, int duration) {
-        super("CHOOSE_TOPIC_ECONOMICS", "Choose Topic Economics", duration, quizModifier);
+        super("CHOOSE_TOPIC_ECONOMICS", "Choose Topic Economics", duration, quizModifier, "Allows you to choose Economics as the topic for the next questions.", "topic", false, 1);
     }
 
 

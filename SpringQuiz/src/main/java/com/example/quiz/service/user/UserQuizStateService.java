@@ -80,7 +80,8 @@ public class UserQuizStateService {
                 quizState.getScore(),
                 quizState.getCurrentRound(),
                 quizState.getAllQuestions().isEmpty() ? null : quizState.getAllQuestions().get(quizState.getCurrentQuestionIndex()).getQuestionText(),
-                userQuizModifierService.convertToDto(quizState.getQuizModifier())); // convert quizModifier to dto as well in this process
+                userQuizModifierService.convertToDto(quizState.getQuizModifier()),
+                quizState.isActive()); // convert quizModifier to dto as well in this process
 
         logger.debug("Successfully converted quizState to quizStateDto");
         return quizStateDto;
@@ -166,11 +167,6 @@ public class UserQuizStateService {
         logger.debug("Successfully processed correct answer submission for", quizState);
     }
 
-    // Update the game state after a incorrect answer was submitted
-    // todo add logic here if we want to continue the quiz after wrong answer submission. for the now the quiz ends on incorrect submission
-    public void processIncorrectAnswerSubmission(QuizState quizState) {
-
-    }
 
     // Update the game state after a correct answer was submitted
     public void processQuizEnd(QuizState quizState) {
@@ -182,4 +178,21 @@ public class UserQuizStateService {
 
         logger.debug("Successfully processed quiz end");
     }
+
+    // Update the game state after a correct answer was submitted
+    public void processIncorrectAnswerSubmission(QuizState quizState) {
+        logger.info("Processing incorrect answer for QuizState", quizState);
+
+        userQuizModifierService.decrementLifeCounter(quizState.getQuizModifier());
+
+        if (quizState.getQuizModifier().getLifeCounter() <= 0) {
+            logger.info("No lifes left, initiating quiz end");
+            processQuizEnd(quizState);
+        }
+
+        saveQuizState(quizState);
+        logger.debug("Successfully processed incorrect answer");
+    }
+
+
 }

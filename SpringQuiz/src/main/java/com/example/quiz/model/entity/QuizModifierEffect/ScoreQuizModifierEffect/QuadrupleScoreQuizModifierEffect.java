@@ -15,11 +15,11 @@ public class QuadrupleScoreQuizModifierEffect extends QuizModifierEffect {
     }
 
     public QuadrupleScoreQuizModifierEffect(QuizModifier quizModifier) {
-        super("QUADRUPLE_SCORE", "Quadruple Score", 3, quizModifier);
+        super("QUADRUPLE_SCORE", "Quadruple Score", 3, quizModifier, "The next questions give quadruple score.", "topic", false, 1);
     }
     
     public QuadrupleScoreQuizModifierEffect(QuizModifier quizModifier, int duration) {
-        super("QUADRUPLE_SCORE", "Quadruple Score", duration, quizModifier);
+        super("QUADRUPLE_SCORE", "Quadruple Score", duration, quizModifier, "The next questions give quadruple score.", "topic", false, 1);
     }
 
     @Override

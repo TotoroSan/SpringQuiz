@@ -13,10 +13,10 @@ public class GeologyTopicQuizModifierEffect extends QuizModifierEffect {
     }
 
     public GeologyTopicQuizModifierEffect(QuizModifier quizModifier) {
-        super("CHOOSE_TOPIC_GEOLOGY", "Choose Topic Geology", 3, quizModifier);
+        super("CHOOSE_TOPIC_GEOLOGY", "Choose Topic Geology", 3, quizModifier, "Allows you to choose Geology as the topic for the next questions.", "topic", false, 1);
     }
     public GeologyTopicQuizModifierEffect(QuizModifier quizModifier, int duration) {
-        super("CHOOSE_TOPIC_GEOLOGY", "Choose Topic Geology", duration, quizModifier);
+        super("CHOOSE_TOPIC_GEOLOGY", "Choose Topic Geology", duration, quizModifier, "Allows you to choose Geology as the topic for the next questions.", "topic", false, 1);
     }
 
 

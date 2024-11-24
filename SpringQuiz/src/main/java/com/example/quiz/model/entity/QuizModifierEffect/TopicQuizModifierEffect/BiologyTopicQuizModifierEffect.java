@@ -13,10 +13,10 @@ public class BiologyTopicQuizModifierEffect extends QuizModifierEffect {
     }
 
     public BiologyTopicQuizModifierEffect(QuizModifier quizModifier) {
-        super("CHOOSE_TOPIC_BIOLOGY", "Choose Topic Biology", 3, quizModifier);
+        super("CHOOSE_TOPIC_BIOLOGY", "Choose Topic Biology", 3, quizModifier, "Allows you to choose Biology as the topic for the next questions.", "topic", false, 1);
     }
     public BiologyTopicQuizModifierEffect(QuizModifier quizModifier, int duration) {
-        super("CHOOSE_TOPIC_BIOLOGY", "Choose Topic Biology", duration, quizModifier);
+        super("CHOOSE_TOPIC_BIOLOGY", "Choose Topic Biology", duration, quizModifier, "Allows you to choose Biology as the topic for the next questions.", "topic", false, 1);
     }
 
 

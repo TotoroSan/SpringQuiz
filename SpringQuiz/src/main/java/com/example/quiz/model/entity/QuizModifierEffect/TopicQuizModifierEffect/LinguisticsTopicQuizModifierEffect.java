@@ -13,10 +13,10 @@ public class LinguisticsTopicQuizModifierEffect extends QuizModifierEffect {
     }
 
     public LinguisticsTopicQuizModifierEffect(QuizModifier quizModifier) {
-        super("CHOOSE_TOPIC_LINGUISTICS", "Choose Topic Linguistics", 3, quizModifier);
+        super("CHOOSE_TOPIC_LINGUISTICS", "Choose Topic Linguistics", 3, quizModifier, "Allows you to choose Linguistics as the topic for the next questions.", "topic", false, 1);
     }
     public LinguisticsTopicQuizModifierEffect(QuizModifier quizModifier, int duration) {
-        super("CHOOSE_TOPIC_LINGUISTICS", "Choose Topic Linguistics", duration, quizModifier);
+        super("CHOOSE_TOPIC_LINGUISTICS", "Choose Topic Linguistics", duration, quizModifier, "Allows you to choose Linguistics as the topic for the next questions.", "topic", false, 1);
     }
 
 

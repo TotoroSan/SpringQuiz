@@ -61,8 +61,7 @@ public class UserAnswerController {
         if (!isCorrect) {
             // Handle incorrect answer response (e.g., decrease lives)
             logger.info("Submitted answer is incorrect");
-            userQuizStateService.processQuizEnd(quizState);
-
+            userQuizStateService.processIncorrectAnswerSubmission(quizState);
             return ResponseEntity.ok(false);
         }
         

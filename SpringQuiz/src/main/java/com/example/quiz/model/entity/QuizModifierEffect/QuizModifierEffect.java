@@ -17,28 +17,40 @@ public abstract class QuizModifierEffect {
     private String idString; // TODO fix -> this is currently used to identy the effect subclass
     
     private String name;
-    private int duration;  // The number of questions for which this modifier is active
+    private Integer duration;  // The number of questions for which this modifier is active  // duration of null means permanent effect
+
+
+
+    private String description;
+    private String type;
+    private Boolean isPermanent;
+    private Integer rarity;
+
+
+
 
     @ManyToOne
     @JoinColumn(name = "quiz_modifier_id")
     private QuizModifier quizModifier;
+
 
     // Default constructor (required by JPA)
     protected QuizModifierEffect() {
     }
 
     // TODO this exists because we want to send a quizModifierDto that is  unrelated to a modifier
-    public QuizModifierEffect(String idString, String name, int duration) {
+    public QuizModifierEffect(String idString, String name, Integer duration) {
         this.idString = idString;
         this.name = name;
         this.duration = duration;
     }
 
-    public QuizModifierEffect(String idString, String name, int duration, QuizModifier quizModifier) {
+    public QuizModifierEffect(String idString, String name, Integer duration, QuizModifier quizModifier, String description, String type, boolean isPermanent, Integer rarity) {
         this.idString = idString;
         this.name = name;
         this.duration = duration;
         this.quizModifier = quizModifier;
+        this.isPermanent = isPermanent;
     }
 
     public abstract void apply(QuizModifier quizModifier);
@@ -56,7 +68,7 @@ public abstract class QuizModifierEffect {
         return name;
     }
 
-    public int getDuration() {
+    public Integer getDuration() {
         return duration;
     }
     
@@ -68,13 +80,42 @@ public abstract class QuizModifierEffect {
         this.quizModifier = quizModifier;
     }
 
+    public Integer getRarity() {
+        return rarity;
+    }
+
+    public void setRarity(Integer rarity) {
+        this.rarity = rarity;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public void decrementDuration() {
         if (duration > 0) {
             duration--;
         }
     }
+    public Boolean getPermanent() {
+        return isPermanent;
+    }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPermanent(Boolean permanent) {
+        isPermanent = permanent;
+    }
     public void incrementDuration() {
         duration++;
     }

@@ -14,11 +14,11 @@ public class DoubleScoreQuizModifierEffect extends QuizModifierEffect {
     }
 
     public DoubleScoreQuizModifierEffect(QuizModifier quizModifier) {
-        super("DOUBLE_SCORE", "Double Score", 3, quizModifier);
+        super("DOUBLE_SCORE", "Double Score", 3, quizModifier, "The next questions give double score.", "topic", false, 1);
     }
     
     public DoubleScoreQuizModifierEffect(QuizModifier quizModifier, int duration) {
-        super("DOUBLE_SCORE", "Double Score", duration, quizModifier);
+        super("DOUBLE_SCORE", "Double Score", duration, quizModifier, "The next questions give double score.", "topic", false, 1);
     }
     
 

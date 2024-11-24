@@ -13,10 +13,10 @@ public class PhysicsTopicQuizModifierEffect extends QuizModifierEffect {
     }
 
     public PhysicsTopicQuizModifierEffect(QuizModifier quizModifier) {
-        super("CHOOSE_TOPIC_PHYSICS", "Choose Topic Phsyics", 3, quizModifier);
+        super("CHOOSE_TOPIC_PHYSICS", "Choose Topic Phsyics", 3, quizModifier, "Allows you to choose Physics as the topic for the next questions.", "topic", false, 1);
     }
     public PhysicsTopicQuizModifierEffect(QuizModifier quizModifier, int duration) {
-        super("CHOOSE_TOPIC_PHYSICS", "Choose Topic Phsyics", duration, quizModifier);
+        super("CHOOSE_TOPIC_PHYSICS", "Choose Topic Phsyics", duration, quizModifier, "Allows you to choose Physics as the topic for the next questions.", "topic", false, 1);
     }
 
 

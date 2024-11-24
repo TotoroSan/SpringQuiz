@@ -8,6 +8,7 @@ import com.example.quiz.model.entity.*;
 import com.example.quiz.model.entity.QuizModifierEffect.DifficultyQuizModifierEffect.HighDifficultyQuizModifierEffect;
 import com.example.quiz.model.entity.QuizModifierEffect.DifficultyQuizModifierEffect.MaxDifficultyLimitQuizModifierEffect;
 import com.example.quiz.model.entity.QuizModifierEffect.DifficultyQuizModifierEffect.MinDifficultyLimitQuizModifierEffect;
+import com.example.quiz.model.entity.QuizModifierEffect.LifeQuizModifierEffect.IncreaseLifeCounterQuizModifierEffect;
 import com.example.quiz.model.entity.QuizModifierEffect.ScoreQuizModifierEffect.DoubleScoreQuizModifierEffect;
 import com.example.quiz.model.entity.QuizModifierEffect.ScoreQuizModifierEffect.QuadrupleScoreQuizModifierEffect;
 import com.example.quiz.model.entity.QuizModifierEffect.TopicQuizModifierEffect.*;
@@ -53,36 +54,47 @@ public class QuizModifierEffectFactory {
         effectRegistry.put("CHOOSE_TOPIC_SCIENCE", ScienceTopicQuizModifierEffect.class);
         effectRegistry.put("CHOOSE_TOPIC_SPORTS", SportsTopicQuizModifierEffect.class);
         effectRegistry.put("CHOOSE_TOPIC_TECHNOLOGY", TechnologyTopicQuizModifierEffect.class);
+        effectRegistry.put("CHOOSE_TOPIC_POLITICS", PoliticsTopicQuizModifierEffect.class);
+        effectRegistry.put("CHOOSE_TOPIC_CULTURE", CultureTopicQuizModifierEffect.class);
+
+        // life counter effects
+        effectRegistry.put("INCREASE_LIFE_COUNTER", IncreaseLifeCounterQuizModifierEffect.class);
 
 
 
-        quizModifierEffectMetadataRegistry.put("DOUBLE_SCORE", new QuizModifierEffectMetaData("DOUBLE_SCORE", "Double Score", "The next questions give double score.", 3, "score"));
-        quizModifierEffectMetadataRegistry.put("QUADRUPLE_SCORE", new QuizModifierEffectMetaData("QUADRUPLE_SCORE", "Quadruple Score", "The next questions give quadruple score.", 3, "score"));
+        quizModifierEffectMetadataRegistry.put("DOUBLE_SCORE", new QuizModifierEffectMetaData("DOUBLE_SCORE", "Double Score", "The next questions give double score.", 3, "score", false, 1));
+        quizModifierEffectMetadataRegistry.put("QUADRUPLE_SCORE", new QuizModifierEffectMetaData("QUADRUPLE_SCORE", "Quadruple Score", "The next questions give quadruple score.", 3, "score", false, 1));
 
-        quizModifierEffectMetadataRegistry.put("HIGH_DIFFICULTY", new QuizModifierEffectMetaData("HIGH_DIFFICULTY", "High Difficulty", "The next questions will be of higher difficulty.", 3, "difficulty"));
-        quizModifierEffectMetadataRegistry.put("MAX_DIFFICULTY_LIMIT", new QuizModifierEffectMetaData("MAX_DIFFICULTY_LIMIT", "Max Difficulty Limit", "The next questions will have a given max difficulty.", 3, "difficulty"));
-        quizModifierEffectMetadataRegistry.put("MIN_DIFFICULTY_LIMIT", new QuizModifierEffectMetaData("MIN_DIFFICULTY_LIMIT", "Min Difficulty Limit", "The next questions will have a given min difficulty.", 3, "difficulty"));
+        quizModifierEffectMetadataRegistry.put("HIGH_DIFFICULTY", new QuizModifierEffectMetaData("HIGH_DIFFICULTY", "High Difficulty", "The next questions will be of higher difficulty.", 3, "difficulty", false, 1));
+        quizModifierEffectMetadataRegistry.put("MAX_DIFFICULTY_LIMIT", new QuizModifierEffectMetaData("MAX_DIFFICULTY_LIMIT", "Max Difficulty Limit", "The next questions will have a given max difficulty.", 3, "difficulty", false, 1));
+        quizModifierEffectMetadataRegistry.put("MIN_DIFFICULTY_LIMIT", new QuizModifierEffectMetaData("MIN_DIFFICULTY_LIMIT", "Min Difficulty Limit", "The next questions will have a given min difficulty.", 3, "difficulty", false, 1));
 
 
         // topic modifier effects
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_ART", new QuizModifierEffectMetaData("CHOOSE_TOPIC_ART", "Choose Topic Art", "Allows you to choose Art as the topic for the next questions.", 3, "topic"));
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_ASTRONOMY", new QuizModifierEffectMetaData("CHOOSE_TOPIC_ASTRONOMY", "Choose Topic Astronomy", "Allows you to choose Astronomy as the topic for the next questions.", 3, "topic"));
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_BIOLOGY", new QuizModifierEffectMetaData("CHOOSE_TOPIC_BIOLOGY", "Choose Topic Biology", "Allows you to choose Biology as the topic for the next questions.", 3, "topic"));
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_CHEMISTRY", new QuizModifierEffectMetaData("CHOOSE_TOPIC_CHEMISTRY", "Choose Topic Chemistry", "Allows you to choose Chemistry as the topic for the next questions.", 3, "topic"));
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_ECONOMICS", new QuizModifierEffectMetaData("CHOOSE_TOPIC_ECONOMICS", "Choose Topic Economics", "Allows you to choose Economics as the topic for the next questions.", 3, "topic"));
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_GEOGRAPHY", new QuizModifierEffectMetaData("CHOOSE_TOPIC_GEOGRAPHY", "Choose Topic Geography", "Allows you to choose Geography as the topic for the next questions.", 3, "topic"));
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_GEOLOGY", new QuizModifierEffectMetaData("CHOOSE_TOPIC_GEOLOGY", "Choose Topic Geology", "Allows you to choose Geology as the topic for the next questions.", 3, "topic"));
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_HISTORY", new QuizModifierEffectMetaData("CHOOSE_TOPIC_HISTORY", "Choose Topic History", "Allows you to choose History as the topic for the next questions.", 3, "topic"));
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_LINGUISTICS", new QuizModifierEffectMetaData("CHOOSE_TOPIC_LINGUISTICS", "Choose Topic Linguistics", "Allows you to choose Linguistics as the topic for the next questions.", 3, "topic"));
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_LITERATURE", new QuizModifierEffectMetaData("CHOOSE_TOPIC_LITERATURE", "Choose Topic Literature", "Allows you to choose Literature as the topic for the next questions.", 3, "topic"));
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_MATHEMATICS", new QuizModifierEffectMetaData("CHOOSE_TOPIC_MATHEMATICS", "Choose Topic Mathematics", "Allows you to choose Mathematics as the topic for the next questions.", 3, "topic"));
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_MEDICINE", new QuizModifierEffectMetaData("CHOOSE_TOPIC_MEDICINE", "Choose Topic Medicine", "Allows you to choose Medicine as the topic for the next questions.", 3, "topic"));
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_MUSIC", new QuizModifierEffectMetaData("CHOOSE_TOPIC_MUSIC", "Choose Topic Music", "Allows you to choose Music as the topic for the next questions.", 3, "topic"));
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_MYTHOLOGY", new QuizModifierEffectMetaData("CHOOSE_TOPIC_MYTHOLOGY", "Choose Topic Mythology", "Allows you to choose Mythology as the topic for the next questions.", 3, "topic"));
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_PHYSICS", new QuizModifierEffectMetaData("CHOOSE_TOPIC_PHYSICS", "Choose Topic Physics", "Allows you to choose Physics as the topic for the next questions.", 3, "topic"));
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_SCIENCE", new QuizModifierEffectMetaData("CHOOSE_TOPIC_SCIENCE", "Choose Topic Science", "Allows you to choose Science as the topic for the next questions.", 3, "topic"));
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_SPORTS", new QuizModifierEffectMetaData("CHOOSE_TOPIC_SPORTS", "Choose Topic Sports", "Allows you to choose Sports as the topic for the next questions.", 3, "topic"));
-        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_TECHNOLOGY", new QuizModifierEffectMetaData("CHOOSE_TOPIC_TECHNOLOGY", "Choose Topic Technology", "Allows you to choose Technology as the topic for the next questions.", 3, "topic"));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_ART", new QuizModifierEffectMetaData("CHOOSE_TOPIC_ART", "Choose Topic Art", "Allows you to choose Art as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_ASTRONOMY", new QuizModifierEffectMetaData("CHOOSE_TOPIC_ASTRONOMY", "Choose Topic Astronomy", "Allows you to choose Astronomy as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_BIOLOGY", new QuizModifierEffectMetaData("CHOOSE_TOPIC_BIOLOGY", "Choose Topic Biology", "Allows you to choose Biology as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_CHEMISTRY", new QuizModifierEffectMetaData("CHOOSE_TOPIC_CHEMISTRY", "Choose Topic Chemistry", "Allows you to choose Chemistry as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_ECONOMICS", new QuizModifierEffectMetaData("CHOOSE_TOPIC_ECONOMICS", "Choose Topic Economics", "Allows you to choose Economics as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_GEOGRAPHY", new QuizModifierEffectMetaData("CHOOSE_TOPIC_GEOGRAPHY", "Choose Topic Geography", "Allows you to choose Geography as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_GEOLOGY", new QuizModifierEffectMetaData("CHOOSE_TOPIC_GEOLOGY", "Choose Topic Geology", "Allows you to choose Geology as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_HISTORY", new QuizModifierEffectMetaData("CHOOSE_TOPIC_HISTORY", "Choose Topic History", "Allows you to choose History as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_LINGUISTICS", new QuizModifierEffectMetaData("CHOOSE_TOPIC_LINGUISTICS", "Choose Topic Linguistics", "Allows you to choose Linguistics as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_LITERATURE", new QuizModifierEffectMetaData("CHOOSE_TOPIC_LITERATURE", "Choose Topic Literature", "Allows you to choose Literature as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_MATHEMATICS", new QuizModifierEffectMetaData("CHOOSE_TOPIC_MATHEMATICS", "Choose Topic Mathematics", "Allows you to choose Mathematics as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_MEDICINE", new QuizModifierEffectMetaData("CHOOSE_TOPIC_MEDICINE", "Choose Topic Medicine", "Allows you to choose Medicine as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_MUSIC", new QuizModifierEffectMetaData("CHOOSE_TOPIC_MUSIC", "Choose Topic Music", "Allows you to choose Music as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_MYTHOLOGY", new QuizModifierEffectMetaData("CHOOSE_TOPIC_MYTHOLOGY", "Choose Topic Mythology", "Allows you to choose Mythology as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_PHYSICS", new QuizModifierEffectMetaData("CHOOSE_TOPIC_PHYSICS", "Choose Topic Physics", "Allows you to choose Physics as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_SCIENCE", new QuizModifierEffectMetaData("CHOOSE_TOPIC_SCIENCE", "Choose Topic Science", "Allows you to choose Science as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_SPORTS", new QuizModifierEffectMetaData("CHOOSE_TOPIC_SPORTS", "Choose Topic Sports", "Allows you to choose Sports as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_TECHNOLOGY", new QuizModifierEffectMetaData("CHOOSE_TOPIC_TECHNOLOGY", "Choose Topic Technology", "Allows you to choose Technology as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_POLITICS", new QuizModifierEffectMetaData("CHOOSE_TOPIC_POLITICS", "Choose Topic Politics", "Allows you to choose Politics as the topic for the next questions.", 3, "topic", false, 1));
+        quizModifierEffectMetadataRegistry.put("CHOOSE_TOPIC_CULTURE", new QuizModifierEffectMetaData("CHOOSE_TOPIC_CULTURE", "Choose Topic Culture", "Allows you to choose Culture as the topic for the next questions.", 3, "topic", false, 1));
+
+
+        // life counter effects this would need to be a permanent effect though
+        quizModifierEffectMetadataRegistry.put("INCREASE_LIFE_COUNTER", new QuizModifierEffectMetaData("INCREASE_LIFE_COUNTER", "Increase Life Counter", "Increases your life count by 1.", null, "life", true, 1));
 
 
     }

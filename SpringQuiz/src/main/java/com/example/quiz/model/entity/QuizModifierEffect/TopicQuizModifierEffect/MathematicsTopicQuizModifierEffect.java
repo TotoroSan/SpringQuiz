@@ -13,10 +13,10 @@ public class MathematicsTopicQuizModifierEffect extends QuizModifierEffect {
     }
 
     public MathematicsTopicQuizModifierEffect(QuizModifier quizModifier) {
-        super("CHOOSE_TOPIC_MATHEMATICS", "Choose Topic Mathematics", 3, quizModifier);
+        super("CHOOSE_TOPIC_MATHEMATICS", "Choose Topic Mathematics", 3, quizModifier, "Allows you to choose Mathematics as the topic for the next questions.", "topic", false, 1);
     }
     public MathematicsTopicQuizModifierEffect(QuizModifier quizModifier, int duration) {
-        super("CHOOSE_TOPIC_MATHEMATICS", "Choose Topic Mathematics", duration, quizModifier);
+        super("CHOOSE_TOPIC_MATHEMATICS", "Choose Topic Mathematics", duration, quizModifier, "Allows you to choose Mathematics as the topic for the next questions.", "topic", false, 1);
     }
 
 

@@ -9,16 +9,19 @@ public class QuizModifierDto {
     private double scoreMultiplier = 1.0;
     private int difficultyModifier = 1;
 
+    private int lifeCounter = 3;
+
     private List<QuizModifierEffectDto> activeQuizModifierEffectDtos = new ArrayList<>();
 
     public QuizModifierDto() {
     }
     public QuizModifierDto(Long id, double scoreMultiplier, int difficultyModifier,
-                           List<QuizModifierEffectDto> activeQuizModifierEffects) {
+                           List<QuizModifierEffectDto> activeQuizModifierEffects, int lifeCounter) {
         this.difficultyModifier = difficultyModifier;
         this.scoreMultiplier = scoreMultiplier;
         this.id = id;
         this.activeQuizModifierEffectDtos = activeQuizModifierEffects;
+        this.lifeCounter = lifeCounter;
     }
 
     public Long getId() {
@@ -51,6 +54,14 @@ public class QuizModifierDto {
 
     public void setActiveQuizModifierEffectDtos(List<QuizModifierEffectDto> activeQuizModifierEffects) {
         this.activeQuizModifierEffectDtos = activeQuizModifierEffects;
+    }
+
+    public int getLifeCounter() {
+        return lifeCounter;
+    }
+
+    public void setLifeCounter(int lifeCounter) {
+        this.lifeCounter = lifeCounter;
     }
 
 

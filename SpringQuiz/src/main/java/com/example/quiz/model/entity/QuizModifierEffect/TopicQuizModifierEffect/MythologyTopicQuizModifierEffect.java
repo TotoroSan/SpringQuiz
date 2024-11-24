@@ -13,10 +13,10 @@ public class MythologyTopicQuizModifierEffect extends QuizModifierEffect {
     }
 
     public MythologyTopicQuizModifierEffect(QuizModifier quizModifier) {
-        super("CHOOSE_TOPIC_MYTHOLOGY", "Choose Topic Mythology", 3, quizModifier);
+        super("CHOOSE_TOPIC_MYTHOLOGY", "Choose Topic Mythology", 3, quizModifier, "Allows you to choose Mythology as the topic for the next questions.", "topic", false, 1);
     }
     public MythologyTopicQuizModifierEffect(QuizModifier quizModifier, int duration) {
-        super("CHOOSE_TOPIC_MYTHOLOGY", "Choose Topic Mythology", duration, quizModifier);
+        super("CHOOSE_TOPIC_MYTHOLOGY", "Choose Topic Mythology", duration, quizModifier, "Allows you to choose Mythology as the topic for the next questions.", "topic", false, 1);
     }
 
 
