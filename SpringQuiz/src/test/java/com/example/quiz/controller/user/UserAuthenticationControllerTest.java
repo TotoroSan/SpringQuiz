@@ -1,7 +1,7 @@
 package com.example.quiz.controller.user;
 
-import com.example.quiz.model.dto.LoginRequest;
-import com.example.quiz.model.entity.JwtResponse;
+import com.example.quiz.model.dto.LoginRequestDto;
+import com.example.quiz.model.dto.JwtResponseDto;
 import com.example.quiz.security.JwtTokenProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ public class UserAuthenticationControllerTest {
     @Test
     public void testAuthenticateUser_Success() {
         // Arrange
-        LoginRequest loginRequest = new LoginRequest("testUser", "password");
+        LoginRequestDto loginRequestDto = new LoginRequestDto("testUser", "test@test", "password");
         Authentication authentication = mock(Authentication.class);
         String jwtToken = "mockJwtToken";
 
@@ -44,10 +44,10 @@ public class UserAuthenticationControllerTest {
         when(jwtTokenProvider.generateToken(authentication)).thenReturn(jwtToken);
 
         // Act
-        ResponseEntity<?> response = userAuthenticationController.authenticateUser(loginRequest);
+        ResponseEntity<?> response = userAuthenticationController.authenticateUser(loginRequestDto);
 
         // Assert
-        assertEquals(ResponseEntity.ok(new JwtResponse(jwtToken)), response);
+        assertEquals(ResponseEntity.ok(new JwtResponseDto(jwtToken)), response);
         verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
         verify(jwtTokenProvider, times(1)).generateToken(authentication);
     }
@@ -55,11 +55,11 @@ public class UserAuthenticationControllerTest {
     @Test
     public void testAuthenticateUser_Failure() {
         // Arrange
-        LoginRequest loginRequest = new LoginRequest("testUser", "wrongPassword");
+        LoginRequestDto loginRequestDto = new LoginRequestDto("testUser", "email@memail", "wrongPassword");
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenThrow(new RuntimeException("Authentication failed"));
 
         // Act
-        ResponseEntity<?> response = userAuthenticationController.authenticateUser(loginRequest);
+        ResponseEntity<?> response = userAuthenticationController.authenticateUser(loginRequestDto);
 
         // Assert
         assertEquals(401, response.getStatusCodeValue());

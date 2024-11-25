@@ -82,4 +82,19 @@ Spring Suite, Maven
         logger.info("Requiring https");
         channel.anyRequest().requiresSecure(); // Enforce HTTPS for other environments
     }
-})sorr
+})
+
+
+    // for in memory user management testing
+    @Bean
+    public UserDetailsService userDetailsService() {
+        UserDetails admin = User.withUsername("admin")
+            .password(passwordEncoder().encode("admin123"))
+            .roles("ADMIN")
+            .build();
+        UserDetails user = User.withUsername("user")
+            .password(passwordEncoder().encode("user123"))
+            .roles("USER")
+            .build();
+        return new InMemoryUserDetailsManager(admin, user);
+    }

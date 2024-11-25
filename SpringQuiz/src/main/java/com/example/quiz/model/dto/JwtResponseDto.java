@@ -1,9 +1,9 @@
-package com.example.quiz.model.entity;
+package com.example.quiz.model.dto;
 
-public class JwtResponse {
+public class JwtResponseDto {
     private String token;
 
-    public JwtResponse(String token) {
+    public JwtResponseDto(String token) {
         this.token = token;
     }
 

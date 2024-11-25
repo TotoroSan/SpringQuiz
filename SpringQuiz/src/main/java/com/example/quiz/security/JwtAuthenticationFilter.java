@@ -39,6 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throw new ServletException("JwtTokenProvider bean is not available. Please ensure it is configured correctly.");
         }
 
+
         String jwt = getJwtFromRequest(request);
         logger.info("JWT received: {}", jwt);
 
@@ -48,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             
             if (isValid) {
                 String username = jwtTokenProvider.getUsernameFromJWT(jwt);
-                UserDetails userDetails = userService.findByUsername(username).orElse(null);
+                UserDetails userDetails = userService.findByUsername(username).orElse(null); // todo come here if we want to use email as login
                 
                 if (userDetails != null) {
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(

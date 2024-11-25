@@ -1,5 +1,6 @@
 package com.example.quiz.security;
 
+import com.example.quiz.service.user.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -34,6 +36,12 @@ public class SecurityConfig {
 
     private final Environment environment;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
     public SecurityConfig(Environment environment) {
         this.environment = environment;
     }
@@ -59,7 +67,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow all OPTIONS requests TODO temporary for debugging
                         .requestMatchers("/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("user/api/auth/login", "/login", "/logout").permitAll()
+                        .requestMatchers("/user/api/auth/login", "/login", "/logout", "/user/api/registration/register").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
@@ -90,23 +98,18 @@ public class SecurityConfig {
         return source;
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails admin = User.withUsername("admin")
-            .password(passwordEncoder().encode("admin123"))
-            .roles("ADMIN")
-            .build();
-        UserDetails user = User.withUsername("user")
-            .password(passwordEncoder().encode("user123"))
-            .roles("USER")
-            .build();
-        return new InMemoryUserDetailsManager(admin, user);
+
+    // this enables us to use our own customUserDetailsService to check user credentials
+    //Because we've provided a custom UserDetailsService and wired it in configureGlobal(),
+    //Spring Security will now check against the database when a user attempts to log in.
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .userDetailsService(customUserDetailsService)
+                .passwordEncoder(passwordEncoder);
     }
     
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
     
     @Bean
     public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authenticationConfiguration) throws Exception {

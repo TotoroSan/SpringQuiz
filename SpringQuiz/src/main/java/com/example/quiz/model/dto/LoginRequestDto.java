@@ -1,15 +1,17 @@
 package com.example.quiz.model.dto;
 
-public class LoginRequest {
+public class LoginRequestDto {
     private String username;
+    private String email;
     private String password;
 
     // Default constructor
-    public LoginRequest() {}
+    public LoginRequestDto() {}
 
     // Parameterized constructor (for testing currently)
-    public LoginRequest(String username, String password) {
+    public LoginRequestDto(String username, String email, String password) {
         this.username = username;
+        this.email = email;
         this.password = password;
     }
 
@@ -28,5 +30,13 @@ public class LoginRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

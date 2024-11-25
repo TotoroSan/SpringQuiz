@@ -1,6 +1,9 @@
 package com.example.quiz.security;
 
+import com.example.quiz.service.user.UserQuizStateService;
 import io.jsonwebtoken.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +13,7 @@ import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
+    private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     @Value("${app.jwtSecret}")
     private String jwtSecret;
@@ -19,7 +23,8 @@ public class JwtTokenProvider {
 
     // Generates a JWT Token
     public String generateToken(Authentication authentication) {
-    	UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        logger.info("Generating token for username: {}", userDetails.getUsername());
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
