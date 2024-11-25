@@ -67,7 +67,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow all OPTIONS requests TODO temporary for debugging
                         .requestMatchers("/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/user/api/auth/login", "/login", "/logout", "/user/api/registration/register").permitAll()
+                        .requestMatchers("/user/api/auth/**", "/login", "/logout", "/register", "/user/api/registration/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
