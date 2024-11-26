@@ -21,6 +21,9 @@ public class UserProfile {
     private String phoneNumber;
 
 
+    private String email;
+
+
 
     // Account Information
     private String profilePictureUrl;
@@ -34,13 +37,14 @@ public class UserProfile {
         this.user = user;
     }
 
-    public UserProfile(User user, String firstName, String lastName, String dateOfBirth, String address, String phoneNumber, String profilePictureUrl, String bio, String socialMediaLinks) {
+    public UserProfile(User user, String firstName, String lastName, String dateOfBirth, String address, String phoneNumber, String email, String profilePictureUrl, String bio, String socialMediaLinks) {
         this.user = user;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.email = email;
         this.profilePictureUrl = profilePictureUrl;
         this.bio = bio;
         this.socialMediaLinks = socialMediaLinks;
@@ -127,4 +131,11 @@ public class UserProfile {
         this.user = user;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

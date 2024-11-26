@@ -45,6 +45,7 @@ public class UserProfileService {
                 userProfile.setProfilePictureUrl(userProfileUpdates.getProfilePictureUrl());
                 userProfile.setBio(userProfileUpdates.getBio());
                 userProfile.setSocialMediaLinks(userProfileUpdates.getSocialMediaLinks());
+                userRepository.save(user);
                 return Optional.of(userProfile);
             }
         }
@@ -61,7 +62,7 @@ public class UserProfileService {
 
             // create user profile from dto
             UserProfile userProfile = new UserProfile(user,userProfileDto.getFirstName(), userProfileDto.getLastName(),
-                    userProfileDto.getDateOfBirth(), userProfileDto.getAddress(), userProfileDto.getPhoneNumber(),
+                    userProfileDto.getDateOfBirth(), userProfileDto.getAddress(), userProfileDto.getPhoneNumber(), userProfileDto.getEmail(),
                     userProfileDto.getProfilePictureUrl(), userProfileDto.getBio(), userProfileDto.getSocialMediaLinks());
 
             userProfile.setUser(user);
@@ -81,6 +82,7 @@ public class UserProfileService {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent() && userOptional.get().getUserProfile() != null) {
             userProfileRepository.delete(userOptional.get().getUserProfile());
+            userRepository.save(userOptional.get());
             logger.info("Successfully deleted profile of userId: ", userId);
             return true;
         }
@@ -91,8 +93,8 @@ public class UserProfileService {
     public UserProfileDto convertToDto(UserProfile userProfile) {
         logger.info("Converting userProfile to userProfileDto");
         // Convert to DTO to return to the user
-        UserProfileDto userProfileDto = new UserProfileDto(userProfile.getFirstName(), userProfile.getLastName(),
-                userProfile.getDateOfBirth(), userProfile.getAddress(), userProfile.getPhoneNumber(),
+        UserProfileDto userProfileDto = new UserProfileDto(userProfile.getId(), userProfile.getUser().getId(), userProfile.getFirstName(), userProfile.getLastName(),
+                userProfile.getDateOfBirth(), userProfile.getAddress(), userProfile.getPhoneNumber(), userProfile.getUser().getEmail(),
                 userProfile.getProfilePictureUrl(), userProfile.getBio(), userProfile.getSocialMediaLinks());
 
         logger.debug("Successfully converted userProfile to userProfileDto");

@@ -9,7 +9,7 @@ public class UserProfileDto {
 
     private Long id;
 
-    private User user;
+    private Long userId; // todo maybe make this to user dto if needed
 
     // Personal Information
     private String firstName;
@@ -17,6 +17,9 @@ public class UserProfileDto {
     private String dateOfBirth;
     private String address;
     private String phoneNumber;
+
+
+    private String email;
 
 
 
@@ -28,12 +31,17 @@ public class UserProfileDto {
     // Constructors
     public UserProfileDto() {}
 
-    public UserProfileDto(String firstName, String lastName, String dateOfBirth, String address, String phoneNumber, String profilePictureUrl, String bio, String socialMediaLinks) {
+
+
+    public UserProfileDto(Long id, long userId, String firstName, String lastName, String dateOfBirth, String address, String phoneNumber, String email,  String profilePictureUrl, String bio, String socialMediaLinks) {
+        this.id = id;
+        this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.email = email;
         this.profilePictureUrl = profilePictureUrl;
         this.bio = bio;
         this.socialMediaLinks = socialMediaLinks;
@@ -112,12 +120,21 @@ public class UserProfileDto {
         this.socialMediaLinks = socialMediaLinks;
     }
 
-    public User getUser() {
-        return user;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

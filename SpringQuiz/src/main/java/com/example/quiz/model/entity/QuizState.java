@@ -58,7 +58,7 @@ public class QuizState implements Serializable {
     @JoinColumn(name = "quiz_modifier_id", referencedColumnName = "id")
     private QuizModifier quizModifier;
 
-
+	// todo add timestamp here
 
     // TODO think about this. i want to be able to flexibly change out questions for a given degree of diffuclty via a joker.
     // So either load spare question set or retrieve the questions "live" and do not make premade quiz set.
