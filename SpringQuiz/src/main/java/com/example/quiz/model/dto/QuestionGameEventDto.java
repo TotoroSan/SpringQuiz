@@ -51,4 +51,13 @@ public class QuestionGameEventDto extends GameEventDto{
 	public void setQuestionId(Long questionId) {
 		this.questionId = questionId;
 	}
+
+    @Override
+    public String toString() {
+        return "QuestionGameEventDto{" +
+                "questionText='" + questionText + '\'' +
+                ", questionId=" + questionId +
+                ", shuffledAnswers=" + shuffledAnswers +
+                '}';
+    }
 }

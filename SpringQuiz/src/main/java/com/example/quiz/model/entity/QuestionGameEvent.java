@@ -17,6 +17,7 @@ public class QuestionGameEvent extends GameEvent {
     private String questionText;        // The question itself
 
     @ElementCollection
+    @Column(name = "shuffled_answer_id") // Define the column for the Answer ID
     private List<Answer> shuffledAnswers;  // The shuffled list of answers
 
     // Constructors

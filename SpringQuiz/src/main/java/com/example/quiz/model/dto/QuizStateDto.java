@@ -59,4 +59,15 @@ public class QuizStateDto {
     public void setQuizModifierDto(QuizModifierDto quizModifierDto) {
         this.quizModifierDto = quizModifierDto;
     }
+
+    @Override
+    public String toString() {
+        return "QuizStateDto{" +
+                "score=" + score +
+                ", currentRound=" + currentRound +
+                ", currentQuestionText='" + currentQuestionText + '\'' +
+                ", quizModifierDto=" + quizModifierDto +
+                ", isActive=" + isActive +
+                '}';
+    }
 }

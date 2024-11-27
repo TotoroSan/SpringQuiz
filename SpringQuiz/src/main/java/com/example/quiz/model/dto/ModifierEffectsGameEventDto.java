@@ -26,4 +26,10 @@ public class ModifierEffectsGameEventDto extends GameEventDto {
     }
 
 
+    @Override
+    public String toString() {
+        return "ModifierEffectsGameEventDto{" +
+                "quizModifierEffectDtos=" + quizModifierEffectDtos +
+                '}';
+    }
 }

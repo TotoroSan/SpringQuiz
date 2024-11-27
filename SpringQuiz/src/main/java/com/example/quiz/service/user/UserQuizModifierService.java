@@ -63,7 +63,7 @@ public class UserQuizModifierService {
     public boolean applyModifierEffectById(QuizModifier quizModifier, String idString) {
         // TODO: 2 is only placeholder here, overload to also have function with custom duration
         logger.info("Instantiating and Applying quizModifierEffect with id ", idString);
-        QuizModifierEffect quizModifierEffect = QuizModifierEffectFactory.createEffect(idString, 2, quizModifier);
+        QuizModifierEffect quizModifierEffect = QuizModifierEffectFactory.createEffect(idString, 6, quizModifier);
 
         if (quizModifierEffect != null) {
             quizModifierEffect.apply(quizModifier);

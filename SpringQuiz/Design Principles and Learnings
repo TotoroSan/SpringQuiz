@@ -40,6 +40,13 @@ Learnings
       - The backend on the other hand could also run in dyno container because it is no "multi stage" build
       - It is still beneficial to have a docker setup for the backend to maintain flexibility in hosting options
 
+- Regarding JSON serialization of parent-sub classes:
+  -  If you assign a subclass object (e.g., QuestionGameEventDto) to a GameEventDto field in your QuizSaveDto and
+     then serialize it, it will serialize all attributes from the subclass (not just the parent class's attributes)
+  - When using a polymorphic field (e.g., GameEventDto), the actual type of the object (the subclass) will determine which attributes are serialized.
+    For instance, if GameEventDto is a superclass, and you assign a QuestionGameEventDto (subclass),
+    Jackson will detect that the object is of type QuestionGameEventDto and serialize all its fields.
+   - Polymorphism also works in java but if we want to use the actual child class methods or access its attributes, we would need to cast the object to the subclass
 
 
 

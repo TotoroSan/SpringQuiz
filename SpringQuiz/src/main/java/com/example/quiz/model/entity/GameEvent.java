@@ -8,21 +8,19 @@ import java.time.LocalDateTime;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "event_type")
-public class GameEvent {
+public abstract class GameEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private QuizState quizState;
 
     @Column(nullable = false)
     private LocalDateTime eventTimestamp;
 
     // Constructors
-    public GameEvent() {
-        this.eventTimestamp = LocalDateTime.now();
-    }
+    public GameEvent() {}
 
     public GameEvent(QuizState quizState) {
         this.quizState = quizState;

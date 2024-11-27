@@ -21,6 +21,19 @@ public class QuizModifierEffectDto {
 		this.setRarity(rarity);
     }
 
+	@Override
+	public String toString() {
+		return "QuizModifierEffectDto{" +
+				"id='" + id + '\'' +
+				", name='" + name + '\'' +
+				", duration=" + duration +
+				", description='" + description + '\'' +
+				", type='" + type + '\'' +
+				", isPermanent=" + isPermanent +
+				", rarity=" + rarity +
+				'}';
+	}
+
 	public String getId() {
 		return id;
 	}

@@ -106,6 +106,10 @@ public class QuizModifier {
         this.activeQuizModifierEffects.add(quizModifierEffect);
     }
 
+    public void clearActiveQuizModifierEffects() {
+        this.activeQuizModifierEffects.clear();
+    }
+
     public Integer getLifeCounter() {
         return lifeCounter;
     }

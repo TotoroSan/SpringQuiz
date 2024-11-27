@@ -7,6 +7,8 @@ import com.example.quiz.service.user.UserGameEventService;
 import com.example.quiz.service.user.UserQuestionService;
 import com.example.quiz.service.user.UserQuizModifierService;
 import com.example.quiz.service.user.UserQuizStateService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +55,36 @@ public class UserQuizStateController {
         session.setAttribute("quizState", quizState); // we use session as a "hot storage" for QuizState
         return ResponseEntity.ok("Quiz started!");
     }
+
+    // Load the last active Quiz if there is one
+    @GetMapping("/load")
+    public ResponseEntity<QuizSaveDto> loadLastActiveQuiz(HttpSession session, @AuthenticationPrincipal User user) throws JsonProcessingException {
+        logger.info("Received request to load the last active quiz for user ID: {}", user.getId());
+
+        Long userId = user.getId();
+        Optional<QuizState> optionalQuizState = userQuizStateService.getLatestActiveQuizStateByUserId(userId);
+
+        if (optionalQuizState.isEmpty()) {
+            logger.warn("No active quiz state found for user ID: {}", userId);
+            return ResponseEntity.noContent().build();
+        }
+
+        QuizState quizState = optionalQuizState.get();
+        session.setAttribute("quizState", quizState);
+
+        QuizSaveDto quizSaveDto = userQuizStateService.createQuizSaveDto(quizState);
+
+        if (quizSaveDto == null) {
+            logger.info("Loaded QuizState was null or invalid");
+            return ResponseEntity.noContent().build();
+        }
+
+        logger.info("Loaded QuizSave with ID: {} for user ID: {}", quizState.getId(), userId);
+        logger.info("QuizSaveDto content: {}" , quizSaveDto); // here the .toString() method of quizSaveDto is implicetly called
+
+        return ResponseEntity.ok(quizSaveDto);
+    }
+
     
     // Get QuizState
     /* 
@@ -113,40 +145,16 @@ public class UserQuizStateController {
 
 
         // convert game event to dto here (the nextGameEvent is a subclass -> polymorphism causes converToDto to be applied for the subclass parameter (eg. QuestionGameEvent)
+        // polymorphic serializatiuon is also supported by jackson, that is why we don't need to cast the subclass specifically.
         logger.info("Requesting conversion of nextGameEvent to nextGameEventDto");
         GameEventDto nextGameEventDto = userGameEventService.convertToDto(nextGameEvent);
 
 
-        // this is needed to infer the subclass. we need to send the specific subclass because we need subclass attributes.
-        // if we just send nextGameEventDto, then it will only treat it as a GameEventDto object and thus serialize only parent class data.
-        if (nextGameEventDto instanceof QuestionGameEventDto) {
-            logger.info("Successfully inferred sub class of nextGameEvent as QuestionGameEventDto");
-            QuestionGameEventDto questionGameEventDto = (QuestionGameEventDto) nextGameEventDto;
-            return ResponseEntity.ok(questionGameEventDto);
+        return ResponseEntity.ok(nextGameEventDto);
 
-        } else if (nextGameEventDto instanceof ModifierEffectsGameEventDto) {
-            logger.info("Successfully inferred sub class of nextGameEvent as modifierEffectsGameEventDto");
-            ModifierEffectsGameEventDto modifierEffectsGameEventDto = (ModifierEffectsGameEventDto) nextGameEventDto;
-            return ResponseEntity.ok(modifierEffectsGameEventDto);
-        }
-
-        // todo this is a more generalized alternative to the if block above
-        // Use a map to associate subclasses with their type tokens
-        // Map<Class<? extends GameEventDto>, Function<GameEventDto, ? extends GameEventDto>> subclassMap = new HashMap<>();
-        // subclassMap.put(QuestionGameEventDto.class, dto -> (QuestionGameEventDto) dto);
-        // subclassMap.put(ModifierEffectsGameEventDto.class, dto -> (ModifierEffectsGameEventDto) dto);
-        // Function<GameEventDto, ? extends GameEventDto> converter = subclassMap.get(nextGameEventDto.getClass());
-        // if (converter != null) { return ResponseEntity.ok(converter.apply(nextGameEventDto)); }
-
-        // Assuming randomQuizModifierEffects is List<QuizModifierEffectDto>
-
-        // TODO this is just a saveguard. it should never end here,
-        logger.info("Could not infer subclass of nextGameEvent");
-        return ResponseEntity.badRequest().build();
     }
 
 
-    
     // Endpoint to get random QuizModifierEffects to present to the user
     // TODO currently not in use
     @GetMapping("/modifiers/getrandom")

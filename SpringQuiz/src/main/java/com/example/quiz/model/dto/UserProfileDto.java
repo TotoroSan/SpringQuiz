@@ -22,6 +22,22 @@ public class UserProfileDto {
     private String email;
 
 
+    @Override
+    public String toString() {
+        return "UserProfileDto{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", profilePictureUrl='" + profilePictureUrl + '\'' +
+                ", bio='" + bio + '\'' +
+                ", socialMediaLinks='" + socialMediaLinks + '\'' +
+                '}';
+    }
 
     // Account Information
     private String profilePictureUrl;

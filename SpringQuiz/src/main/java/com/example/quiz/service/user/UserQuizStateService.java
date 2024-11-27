@@ -36,15 +36,46 @@ public class UserQuizStateService {
     @Autowired
     private UserGameEventService userGameEventService;
 
+
+    // This should be transactional i think
     // Initialize quiz with questions fetched from the QuestionService
+    // todo move the clearing of old states to a dedicated function (might run periodically)
     public QuizState startNewQuiz(Long userId) {
+        logger.info("Starting new Quiz (creating new QuizState) for user: {}", userId);
+
+        // We currently need this snippet to clear the last save game when starting a new game
+
+        // Find all active quiz states for the user (only one quiz can be active at a time currently)
+        List<QuizState> activeQuizStates = quizStateRepository.findAllByUserIdAndIsActiveTrue(userId);
+
+        // Invalidate all active quiz states
+        for (QuizState activeState : activeQuizStates) {
+            logger.info("Clearing old QuizStates...");
+            activeState.setActive(false);
+            activeState.clearGameEvents(); // Clear associated GameEvents
+            quizStateRepository.save(activeState);
+        }
+
+        // save and create new quizState
         QuizState quizState = new QuizState(userId);
+        logger.debug("Successfully created new QuizState for user: {}", userId);
+
         return quizStateRepository.save(quizState);
     }
+
+    public List<QuizState> getQuizStateHistory(Long userId) {
+        return quizStateRepository.findAllByUserIdAndIsActiveFalse(userId);
+    }
+
 
     // Method to get the latest quiz state by user ID
     public Optional<QuizState> getLatestQuizStateByUserId(Long userId) {
         return quizStateRepository.findFirstByUserIdOrderByIdDesc(userId);
+    }
+
+    // Method to get the latest quiz state by user ID
+    public Optional<QuizState> getLatestActiveQuizStateByUserId(Long userId) {
+        return quizStateRepository.findFirstByUserIdAndIsActiveIsTrueOrderByIdDesc(userId);
     }
 
     // Get all QuizStates by user ID
@@ -178,7 +209,11 @@ public class UserQuizStateService {
         logger.info("Processing quiz end for QuizState", quizState);
 
         quizState.setActive(false);  // set game as inactive on wrong answer
-        quizState.getQuizModifier().getActiveQuizModifierEffects().clear(); // clear active effects when the game ends
+
+        // clearing out part of the quizstate data that is should not be permanent as of now
+        quizState.getQuizModifier().clearActiveQuizModifierEffects(); // clear active modifier effects
+        quizState.clearGameEvents();  // clear game event history TODO careful this automatically invalidates/corrupts the save of the game (=> currently no loading of ended games)
+
         saveQuizState(quizState);
 
         logger.debug("Successfully processed quiz end");
@@ -220,6 +255,8 @@ public class UserQuizStateService {
             ModifierEffectsGameEvent modifierEffectsGameEvent = new ModifierEffectsGameEvent(quizState, effectIds);
 
             quizState.addGameEvent(modifierEffectsGameEvent);
+            saveQuizState(quizState);
+
             logger.debug("Successfully returned random modifier effects game event");
             return modifierEffectsGameEvent;
         } else {
@@ -251,6 +288,7 @@ public class UserQuizStateService {
             addQuestion(quizState, currentQuestion); // todo check if this needs to stay here or if we maybe consolidate with processnextgamestep or sth
             QuestionGameEvent questionGameEvent = userQuestionService.createQuestionGameEvent(currentQuestion, quizState);
             quizState.addGameEvent(questionGameEvent);
+            saveQuizState(quizState);
 
             logger.debug("Successfully returned question game event");
             return questionGameEvent;
@@ -258,35 +296,24 @@ public class UserQuizStateService {
     }
 
 
+    public QuizSaveDto createQuizSaveDto(QuizState quizState) {
+        logger.info("Creating QuizSaveDto from QuizState with ID: {}", quizState.getId());
 
+        QuizStateDto quizStateDto = convertToDto(quizState);
 
-
-
-
-
-
-    public Optional<QuizSaveDto> loadActiveGame(QuizState quizState) {
-
-        if (quizState != null) {
-            // Load the current question
-            Question currentQuestion = quizState.getAllQuestions().get(quizState.getCurrentQuestionIndex());
-
-            if (currentQuestion == null) {
-                logger.warn("No question found when trying to load quizState for SaveGame");
-                return Optional.empty(); // If the question is not found, return empty
-            }
-
-            // todo currently we just create the current question new -> can be changed by saving last mock answers as list or full dto
-            // Construct the QuestionGameEvent (previously QuestionWithShuffledAnswersDto)
-            QuestionGameEvent questionGameEvent = userQuestionService.createQuestionGameEvent(currentQuestion, quizState);
-
-            // Construct SaveGameDto with current state TODO fix those classes are only placeholder
-            QuizSaveDto saveGameDto = new QuizSaveDto(new QuizStateDto(), userGameEventService.convertToDto(questionGameEvent));
-
-            return Optional.of(saveGameDto);
-        } else {
-            return Optional.empty();
+        // Safely retrieve the last game event
+        if (quizState.getGameEvents().isEmpty()) {
+            logger.warn("No game events found for QuizState with ID: {}", quizState.getId(), "returning QuizSaveDto as null");
+            // todo check when question is added to gameevents
+            return null; // save state without GameEvents is invalid (saved without having a question)
         }
+
+        GameEvent lastGameEvent = quizState.getGameEvents().getLast();
+        GameEventDto lastGameEventDto = userGameEventService.convertToDto(lastGameEvent);
+
+        logger.info("Successfully created QuizSaveDto for QuizState with ID: {}", quizState.getId());
+        return new QuizSaveDto(quizStateDto, lastGameEventDto);
     }
+
 
 }

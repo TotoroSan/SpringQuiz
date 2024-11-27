@@ -60,7 +60,7 @@ public class QuizState implements Serializable {
     private QuizModifier quizModifier;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<GameEvent> gameEvents = new ArrayList<>();
+	private List<GameEvent> gameEvents;
 
 
 
@@ -82,6 +82,7 @@ public class QuizState implements Serializable {
 		this.isActive = true;
 		this.createdAt = LocalDateTime.now();
         this.quizModifier = new QuizModifier(this); // initialize with standard quiz modifier
+		this.gameEvents = new ArrayList<>();
     }
     
     // Constructor to initialize a new quiz with a list of questions
@@ -97,7 +98,9 @@ public class QuizState implements Serializable {
 		this.isActive = true;
 		this.createdAt = LocalDateTime.now();
         this.quizModifier = new QuizModifier(this); // initialize with standard quiz modifier
-    }
+		this.gameEvents = new ArrayList<>();
+
+	}
 
 	// Constructor to initialize a new quiz with a list of questions and existing a custom modifier
 	public QuizState(Long userId, List<Question> questions, QuizModifier quizModifier) {
@@ -224,6 +227,10 @@ public class QuizState implements Serializable {
 
 	public void addGameEvent(GameEvent gameEvent) {
 		this.gameEvents.add(gameEvent);
+	}
+
+	public void clearGameEvents() {
+		this.gameEvents.clear();
 	}
 }
 

@@ -35,4 +35,13 @@ public class QuestionDto {
     public void setMockAnswers(List<String> mockAnswers) {
         this.mockAnswers = mockAnswers;
     }
+
+    @Override
+    public String toString() {
+        return "QuestionDto{" +
+                "questionText='" + questionText + '\'' +
+                ", realAnswer='" + realAnswer + '\'' +
+                ", mockAnswers=" + mockAnswers +
+                '}';
+    }
 }

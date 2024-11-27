@@ -65,4 +65,14 @@ public class QuizModifierDto {
     }
 
 
+    @Override
+    public String toString() {
+        return "QuizModifierDto{" +
+                "id=" + id +
+                ", scoreMultiplier=" + scoreMultiplier +
+                ", difficultyModifier=" + difficultyModifier +
+                ", lifeCounter=" + lifeCounter +
+                ", activeQuizModifierEffectDtos=" + activeQuizModifierEffectDtos +
+                '}';
+    }
 }
