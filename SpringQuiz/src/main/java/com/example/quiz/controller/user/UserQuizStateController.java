@@ -1,14 +1,9 @@
 package com.example.quiz.controller.user;
 
 
-import com.example.quiz.model.dto.GameEventDto;
-import com.example.quiz.model.dto.QuestionWithShuffledAnswersDto;
-import com.example.quiz.model.dto.QuizModifierEffectDto;
-import com.example.quiz.model.dto.QuizStateDto;
-import com.example.quiz.model.entity.Question;
-import com.example.quiz.model.entity.QuizModifier;
-import com.example.quiz.model.entity.QuizState;
-import com.example.quiz.model.entity.User;
+import com.example.quiz.model.dto.*;
+import com.example.quiz.model.entity.*;
+import com.example.quiz.service.user.UserGameEventService;
 import com.example.quiz.service.user.UserQuestionService;
 import com.example.quiz.service.user.UserQuizModifierService;
 import com.example.quiz.service.user.UserQuizStateService;
@@ -22,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 // having the same URI for different actions (like create, update, and delete) but distinguishing them by the HTTP method (POST, PUT, DELETE, etc.) is indeed the best practice in RESTful API design.
 
@@ -45,6 +41,8 @@ public class UserQuizStateController {
     @Autowired
     private UserQuestionService userQuestionService;
 
+    @Autowired
+    private UserGameEventService userGameEventService;
     // TODO how does a user interact with quizzes?
 
     // Start a new quiz
@@ -108,58 +106,46 @@ public class UserQuizStateController {
             return ResponseEntity.badRequest().build();
         }
 
-        // Check if the current round is divisible by 5 to provide modifier effects
-        // TODO 5 is arbitrary value for testing.
-        if (quizState.getAnsweredQuestionsInSegment() % 5 == 0) {
-            logger.info("Returning random modifier effects for user ID: {}", userId);
 
-            List<QuizModifierEffectDto> randomQuizModifierEffects = userQuizModifierService.pickRandomModifierEffectDtos();
-            GameEventDto modifierEvent = new GameEventDto(randomQuizModifierEffects);
+        // quizState get next gameevent
+        logger.info("Requesting nextGameEvent");
+        GameEvent nextGameEvent = userQuizStateService.getNextGameEvent(quizState);
 
-            logger.debug("Successfully returned random modifier effects");
 
-            return ResponseEntity.ok(modifierEvent);
-        } else {
-            logger.info("Returning next question for user ID: {}", userId);
+        // convert game event to dto here (the nextGameEvent is a subclass -> polymorphism causes converToDto to be applied for the subclass parameter (eg. QuestionGameEvent)
+        logger.info("Requesting conversion of nextGameEvent to nextGameEventDto");
+        GameEventDto nextGameEventDto = userGameEventService.convertToDto(nextGameEvent);
 
-            // Return the next question with the given difficulty
-            int difficultyModifier = quizState.getQuizModifier().getDifficultyModifier();
-            Integer maxDifficultyModifier = quizState.getQuizModifier().getMaxDifficultyModifier();
-            Integer minDifficultyModifier = quizState.getQuizModifier().getMinDifficultyModifier();
-            // get topic modifier, if topic is set pass topic
-            String currentTopic = quizState.getQuizModifier().getTopicModifier();
 
-            Question currentQuestion = null;
+        // this is needed to infer the subclass. we need to send the specific subclass because we need subclass attributes.
+        // if we just send nextGameEventDto, then it will only treat it as a GameEventDto object and thus serialize only parent class data.
+        if (nextGameEventDto instanceof QuestionGameEventDto) {
+            logger.info("Successfully inferred sub class of nextGameEvent as QuestionGameEventDto");
+            QuestionGameEventDto questionGameEventDto = (QuestionGameEventDto) nextGameEventDto;
+            return ResponseEntity.ok(questionGameEventDto);
 
-            // todo move this as function into question service? but then questionservice would need to be passed the quizmodifier which is not optimal in terms of separation of concerns
-
-            // if there is a max difficulty modifier use it, else if there is a min modifier use this and if there is no min or max use the default difficulty modifier
-            if (maxDifficultyModifier != null) {
-                 currentQuestion = userQuestionService.getRandomQuestionExcludingCompletedWithMaxDifficultyLimit(quizState.getCompletedQuestionIds(), maxDifficultyModifier, currentTopic);
-            } else if (minDifficultyModifier != null) {
-                 currentQuestion = userQuestionService.getRandomQuestionExcludingCompletedWithMinDifficultyLimit(quizState.getCompletedQuestionIds(), minDifficultyModifier, currentTopic);
-            } else {
-                // todo this if solution is a temporary workaround
-                 currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), difficultyModifier, currentTopic);
-                 // if we dont find question for given difficulty, use any difficulty
-                 if (currentQuestion == null) {
-                     logger.info("Used fallback to find question with any difficulty, because no question for topic: ", currentTopic, " with difficulty: ", difficultyModifier, " found.");
-                     currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), null, currentTopic);
-                 }
-            }
-
-            userQuizStateService.addQuestion(quizState, currentQuestion);
-            QuestionWithShuffledAnswersDto questionWithShuffledAnswersDto = userQuestionService.createQuestionWithShuffledAnswersDto(currentQuestion);
-            GameEventDto questionEvent = new GameEventDto(questionWithShuffledAnswersDto);
-
-            logger.debug("Successfully returned QuestionWithShuffledAnswers");
-
-            return ResponseEntity.ok(questionEvent);
+        } else if (nextGameEventDto instanceof ModifierEffectsGameEventDto) {
+            logger.info("Successfully inferred sub class of nextGameEvent as modifierEffectsGameEventDto");
+            ModifierEffectsGameEventDto modifierEffectsGameEventDto = (ModifierEffectsGameEventDto) nextGameEventDto;
+            return ResponseEntity.ok(modifierEffectsGameEventDto);
         }
+
+        // todo this is a more generalized alternative to the if block above
+        // Use a map to associate subclasses with their type tokens
+        // Map<Class<? extends GameEventDto>, Function<GameEventDto, ? extends GameEventDto>> subclassMap = new HashMap<>();
+        // subclassMap.put(QuestionGameEventDto.class, dto -> (QuestionGameEventDto) dto);
+        // subclassMap.put(ModifierEffectsGameEventDto.class, dto -> (ModifierEffectsGameEventDto) dto);
+        // Function<GameEventDto, ? extends GameEventDto> converter = subclassMap.get(nextGameEventDto.getClass());
+        // if (converter != null) { return ResponseEntity.ok(converter.apply(nextGameEventDto)); }
+
+        // Assuming randomQuizModifierEffects is List<QuizModifierEffectDto>
+
+        // TODO this is just a saveguard. it should never end here,
+        logger.info("Could not infer subclass of nextGameEvent");
+        return ResponseEntity.badRequest().build();
     }
 
 
-    
     
     // Endpoint to get random QuizModifierEffects to present to the user
     // TODO currently not in use

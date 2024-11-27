@@ -1,8 +1,8 @@
 package com.example.quiz.model.dto;
 import java.util.List;
 
-
-public class QuestionWithShuffledAnswersDto {
+// todo maybe do parent / child class with gameventdto
+public class QuestionGameEventDto extends GameEventDto{
 // this class isa DTO (Data Transfer Object) and solely serves as business logic class.
 // it is used as a response class and is not persisted
 // we use Strings for the answer instead of answer objects to avoid cheating on client side. 
@@ -14,10 +14,14 @@ public class QuestionWithShuffledAnswersDto {
     private List<AnswerDto> shuffledAnswers;  // The shuffled list of answers
     
     // Empty constructor for testing and framework purposes
-    public QuestionWithShuffledAnswersDto() {}
+    public QuestionGameEventDto() {
+        super("QUESTION");
+    }
+
 
     // Constructor
-    public QuestionWithShuffledAnswersDto(String questionText, Long questionId, List<AnswerDto> shuffledAnswers) {
+    public QuestionGameEventDto(String questionText, Long questionId, List<AnswerDto> shuffledAnswers) {
+        super("QUESTION");
         this.questionText = questionText;
         this.questionId = questionId; 
         this.shuffledAnswers = shuffledAnswers;

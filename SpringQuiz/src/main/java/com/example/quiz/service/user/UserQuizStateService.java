@@ -1,15 +1,17 @@
 package com.example.quiz.service.user;
 
-import com.example.quiz.model.dto.QuizStateDto;
-import com.example.quiz.model.entity.Question;
-import com.example.quiz.model.entity.QuizState;
+import com.example.quiz.model.dto.*;
+import com.example.quiz.model.entity.*;
 import com.example.quiz.repository.QuizStateRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserQuizStateService {
@@ -30,6 +32,9 @@ public class UserQuizStateService {
 
     @Autowired
     private UserQuizModifierService userQuizModifierService;
+
+    @Autowired
+    private UserGameEventService userGameEventService;
 
     // Initialize quiz with questions fetched from the QuestionService
     public QuizState startNewQuiz(Long userId) {
@@ -194,5 +199,94 @@ public class UserQuizStateService {
         logger.debug("Successfully processed incorrect answer");
     }
 
+
+    // cann return either subtype
+    public GameEvent getNextGameEvent(QuizState quizState) {
+        // Check if the current round is divisible by 5 to provide modifier effects
+        // TODO 5 is arbitrary value for testing.
+
+
+        if (quizState.getAnsweredQuestionsInSegment() % 5 == 0) {
+            logger.info("Returning random modifier effects for QuizState ID: {}", quizState.getId());
+
+
+            List<QuizModifierEffectDto> randomQuizModifierEffects = userQuizModifierService.pickRandomModifierEffectDtos();
+
+            // Extract IDs from the list of QuizModifierEffectDto
+            List<String> effectIds = randomQuizModifierEffects.stream()
+                    .map(QuizModifierEffectDto::getId)
+                    .collect(Collectors.toList());
+
+            ModifierEffectsGameEvent modifierEffectsGameEvent = new ModifierEffectsGameEvent(quizState, effectIds);
+
+            quizState.addGameEvent(modifierEffectsGameEvent);
+            logger.debug("Successfully returned random modifier effects game event");
+            return modifierEffectsGameEvent;
+        } else {
+            logger.info("Returning next question for QuizState ID: {}", quizState.getId());
+
+            // Return the next question with the given difficulty
+            int difficultyModifier = quizState.getQuizModifier().getDifficultyModifier();
+            Integer maxDifficultyModifier = quizState.getQuizModifier().getMaxDifficultyModifier();
+            Integer minDifficultyModifier = quizState.getQuizModifier().getMinDifficultyModifier();
+            // get topic modifier, if topic is set pass topic
+            String currentTopic = quizState.getQuizModifier().getTopicModifier();
+
+            Question currentQuestion = null;
+
+            // if there is a max difficulty modifier use it, else if there is a min modifier use this and if there is no min or max use the default difficulty modifier
+            if (maxDifficultyModifier != null) {
+                currentQuestion = userQuestionService.getRandomQuestionExcludingCompletedWithMaxDifficultyLimit(quizState.getCompletedQuestionIds(), maxDifficultyModifier, currentTopic);
+            } else if (minDifficultyModifier != null) {
+                currentQuestion = userQuestionService.getRandomQuestionExcludingCompletedWithMinDifficultyLimit(quizState.getCompletedQuestionIds(), minDifficultyModifier, currentTopic);
+            } else {
+                // todo this if solution is a temporary workaround
+                currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), difficultyModifier, currentTopic);
+                // if we dont find question for given difficulty, use any difficulty
+                if (currentQuestion == null) {
+                    logger.info("Used fallback to find question with any difficulty, because no question for topic: ", currentTopic, " with difficulty: ", difficultyModifier, " found.");
+                    currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), null, currentTopic);
+                }
+            }
+            addQuestion(quizState, currentQuestion); // todo check if this needs to stay here or if we maybe consolidate with processnextgamestep or sth
+            QuestionGameEvent questionGameEvent = userQuestionService.createQuestionGameEvent(currentQuestion, quizState);
+            quizState.addGameEvent(questionGameEvent);
+
+            logger.debug("Successfully returned question game event");
+            return questionGameEvent;
+        }
+    }
+
+
+
+
+
+
+
+
+
+    public Optional<QuizSaveDto> loadActiveGame(QuizState quizState) {
+
+        if (quizState != null) {
+            // Load the current question
+            Question currentQuestion = quizState.getAllQuestions().get(quizState.getCurrentQuestionIndex());
+
+            if (currentQuestion == null) {
+                logger.warn("No question found when trying to load quizState for SaveGame");
+                return Optional.empty(); // If the question is not found, return empty
+            }
+
+            // todo currently we just create the current question new -> can be changed by saving last mock answers as list or full dto
+            // Construct the QuestionGameEvent (previously QuestionWithShuffledAnswersDto)
+            QuestionGameEvent questionGameEvent = userQuestionService.createQuestionGameEvent(currentQuestion, quizState);
+
+            // Construct SaveGameDto with current state TODO fix those classes are only placeholder
+            QuizSaveDto saveGameDto = new QuizSaveDto(new QuizStateDto(), userGameEventService.convertToDto(questionGameEvent));
+
+            return Optional.of(saveGameDto);
+        } else {
+            return Optional.empty();
+        }
+    }
 
 }

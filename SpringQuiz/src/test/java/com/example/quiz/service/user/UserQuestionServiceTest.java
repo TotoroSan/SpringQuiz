@@ -2,10 +2,8 @@ package com.example.quiz.service.user;
 
 import com.example.quiz.exception.ResourceNotFoundException;
 import com.example.quiz.model.dto.AnswerDto;
-import com.example.quiz.model.dto.QuestionWithShuffledAnswersDto;
-import com.example.quiz.model.entity.CorrectAnswer;
-import com.example.quiz.model.entity.MockAnswer;
-import com.example.quiz.model.entity.Question;
+import com.example.quiz.model.dto.QuestionGameEventDto;
+import com.example.quiz.model.entity.*;
 import com.example.quiz.repository.QuestionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -116,7 +114,7 @@ public class UserQuestionServiceTest {
         question.setCorrectAnswer(new CorrectAnswer(correctAnswerDto.getText(), question));
 
         // Act
-        QuestionWithShuffledAnswersDto result = userQuestionService.createQuestionWithShuffledAnswersDto(question);
+        QuestionGameEvent result = userQuestionService.createQuestionGameEvent(question, new QuizState());
 
         // Assert
         assertNotNull(result);

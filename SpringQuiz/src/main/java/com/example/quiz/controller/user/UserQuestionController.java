@@ -1,9 +1,12 @@
 package com.example.quiz.controller.user;
 
-import com.example.quiz.model.dto.QuestionWithShuffledAnswersDto;
+import com.example.quiz.model.dto.GameEventDto;
+import com.example.quiz.model.dto.QuestionGameEventDto;
 import com.example.quiz.model.entity.Question;
+import com.example.quiz.model.entity.QuestionGameEvent;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.model.entity.User;
+import com.example.quiz.service.user.UserGameEventService;
 import com.example.quiz.service.user.UserQuestionService;
 import com.example.quiz.service.user.UserQuizStateService;
 import jakarta.servlet.http.HttpSession;
@@ -25,15 +28,19 @@ public class UserQuestionController {
 
     @Autowired
     private UserQuestionService userQuestionService;
-    
+
+    @Autowired
+    private UserGameEventService userGameEventService;
+
     @Autowired
     private UserQuizStateService userQuizStateService;
     // TODO how does a user interact with questions?
 
     // Get a random question with shuffled answers including realAnswer and answers from the mock-answer pool
     // TODO currently not in use. QuizStateController handles quiz logic.
+    // depreceated
     @GetMapping
-    public ResponseEntity<QuestionWithShuffledAnswersDto> getRandomQuestionWithShuffledAnswers(HttpSession session, @AuthenticationPrincipal User user) {
+    public ResponseEntity<GameEventDto> getRandomQuestionWithShuffledAnswers(HttpSession session, @AuthenticationPrincipal User user) {
     	logger.info("Received request to get QuestionWithShuffledAnswers for user ID: {}", user.getId());
         // Fetch the current user ID
         Long userId = user.getId();
@@ -56,10 +63,10 @@ public class UserQuestionController {
         // Update the session with the modified QuizState for quick access
         session.setAttribute("quizState", quizState);
 
-        QuestionWithShuffledAnswersDto questionWithShuffledAnswersDto = userQuestionService.createQuestionWithShuffledAnswersDto(currentQuestion);
-
+        QuestionGameEvent questionGameEvent = userQuestionService.createQuestionGameEvent(currentQuestion, quizState);
+        GameEventDto questionGameEventDto = userGameEventService.convertToDto(questionGameEvent);
         logger.info("Successfully retreived a QuestionWithShuffledAnswers");
-        return ResponseEntity.ok(questionWithShuffledAnswersDto); 
+        return ResponseEntity.ok(questionGameEventDto);
         // set new question as active 
     }
     

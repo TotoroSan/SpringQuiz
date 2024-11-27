@@ -3,10 +3,8 @@ package com.example.quiz.service.user;
 
 import com.example.quiz.model.dto.AnswerDto;
 import com.example.quiz.model.dto.QuestionDto;
-import com.example.quiz.model.dto.QuestionWithShuffledAnswersDto;
-import com.example.quiz.model.entity.Answer;
-import com.example.quiz.model.entity.MockAnswer;
-import com.example.quiz.model.entity.Question;
+import com.example.quiz.model.dto.QuestionGameEventDto;
+import com.example.quiz.model.entity.*;
 import com.example.quiz.repository.QuestionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -175,17 +173,20 @@ public class UserQuestionService {
     }
 
     // Get a Question with Shuffled Answers
-	public QuestionWithShuffledAnswersDto createQuestionWithShuffledAnswersDto(Question question) {
+    // TODO split this function to enable resuablilty of core functioanlity (find random question and shuffle answers)
+    // todo this bleongs somewhere else, quizstate seems off here
+    // todo need to implement function to convert to dto
+	public QuestionGameEvent createQuestionGameEvent(Question question, QuizState quizState) {
 		// TODO check where to add exception for findRandomQuestion (e.g. there are no questions left)
 		// we use this datatype and not questionDto because we do not want to reveal real true answer to the client
 
-        logger.info("Creating QuestionWithShuffledAnswersDto for question: ", question.getId());
+        logger.info("Creating QuestionGameEvent for question: {}", question.getId());
 
 		// Prepare a list to hold the final answers (including the real one)
-        List<AnswerDto> finalAnswers = new ArrayList<>();
+        List<Answer> finalAnswers = new ArrayList<>();
 
         // Add the correct answer
-        finalAnswers.add(new AnswerDto(question.getCorrectAnswer().getId(), question.getCorrectAnswer().getAnswerText()));
+        finalAnswers.add(question.getCorrectAnswer());
 
         // Create a copy of the mock answers list to shuffle
         List<MockAnswer> mockAnswersCopy = new ArrayList<>(question.getMockAnswers());
@@ -194,20 +195,17 @@ public class UserQuestionService {
 
         // Add up to 3 mock answers from the shuffled copy
         for (int i = 0; i < Math.min(3, mockAnswersCopy.size()); i++) {
-        	finalAnswers.add(new AnswerDto(mockAnswersCopy.get(i).getId(), mockAnswersCopy.get(i).getAnswerText()));
+        	finalAnswers.add(mockAnswersCopy.get(i));
         }
 
         // Shuffle the final list of answers (real + selected mock answers)
         Collections.shuffle(finalAnswers);
 
-        logger.info("Created QuestionWithShuffledAnswersDto for question: ", question.getId(), "with answers {}", finalAnswers);
+        logger.info("Created QuestionGameEvent for question: {} ", question.getId(), "with answers: {}", finalAnswers);
 
         // Return the question with the shuffled answers
-        return new QuestionWithShuffledAnswersDto(question.getQuestionText(), question.getId(), finalAnswers);
+        return new QuestionGameEvent(quizState, question.getId(),  question.getQuestionText(), finalAnswers);
 	}
-	
 
-	
-	
-	
+
 }

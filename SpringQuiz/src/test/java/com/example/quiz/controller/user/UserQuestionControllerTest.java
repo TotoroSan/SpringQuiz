@@ -1,7 +1,9 @@
 package com.example.quiz.controller.user;
 
-import com.example.quiz.model.dto.QuestionWithShuffledAnswersDto;
+import com.example.quiz.model.dto.GameEventDto;
+import com.example.quiz.model.dto.QuestionGameEventDto;
 import com.example.quiz.model.entity.Question;
+import com.example.quiz.model.entity.QuestionGameEvent;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.model.entity.User;
 import com.example.quiz.service.user.UserQuestionService;
@@ -19,7 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-
+// todo fix this ish
 public class UserQuestionControllerTest {
 
     @Mock
@@ -48,18 +50,18 @@ public class UserQuestionControllerTest {
         Long userId = 1L;
         QuizState quizState = new QuizState(userId);
         Question question = new Question();
-        QuestionWithShuffledAnswersDto questionWithShuffledAnswersDto = new QuestionWithShuffledAnswersDto();
+        GameEventDto questionGameEventDto = new QuestionGameEventDto();
 
         when(user.getId()).thenReturn(userId);
         when(userQuizStateService.getLatestQuizStateByUserId(userId)).thenReturn(Optional.of(quizState));
         when(userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds())).thenReturn(question);
-        when(userQuestionService.createQuestionWithShuffledAnswersDto(question)).thenReturn(questionWithShuffledAnswersDto);
+        //when(userQuestionService.createQuestionGameEvent(question, quizState)).thenReturn(questionGameEventDto);
 
         // Act
-        ResponseEntity<QuestionWithShuffledAnswersDto> response = userQuestionController.getRandomQuestionWithShuffledAnswers(session, user);
+        ResponseEntity<GameEventDto> response = userQuestionController.getRandomQuestionWithShuffledAnswers(session, user);
 
         // Assert
-        assertEquals(ResponseEntity.ok(questionWithShuffledAnswersDto), response);
+        assertEquals(ResponseEntity.ok(questionGameEventDto), response);
         verify(userQuizStateService, times(1)).getLatestQuizStateByUserId(userId);
         verify(userQuestionService, times(1)).getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds());
         verify(userQuizStateService, times(1)).saveQuizState(quizState);
@@ -75,7 +77,7 @@ public class UserQuestionControllerTest {
         when(userQuizStateService.getLatestQuizStateByUserId(userId)).thenReturn(Optional.empty());
 
         // Act
-        ResponseEntity<QuestionWithShuffledAnswersDto> response = userQuestionController.getRandomQuestionWithShuffledAnswers(session, user);
+        ResponseEntity<GameEventDto> response = userQuestionController.getRandomQuestionWithShuffledAnswers(session, user);
 
         // Assert
         assertEquals(ResponseEntity.badRequest().build(), response);

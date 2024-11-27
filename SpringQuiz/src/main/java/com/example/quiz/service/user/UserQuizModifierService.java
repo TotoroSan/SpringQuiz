@@ -1,11 +1,13 @@
 // QuizModifierService.java
 package com.example.quiz.service.user;
 
+import com.example.quiz.model.dto.GameEventDto;
 import com.example.quiz.model.dto.QuizModifierDto;
 import com.example.quiz.model.dto.QuizModifierEffectDto;
 import com.example.quiz.model.entity.QuizModifier;
 import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffect;
 import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffectFactory;
+import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffectMetaData;
 import com.example.quiz.repository.QuizModifierRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -139,22 +141,49 @@ public class UserQuizModifierService {
         return quizModifierDto;
     }
 
+    // todo  relocate if dedicated modifierEffectsService is used
+    public QuizModifierEffectDto convertToDto(QuizModifierEffect quizModifierEffect) {
+        logger.info("Converting QuizModifierEffect to QuizModifierEffectDto");
+
+        QuizModifierEffectDto quizModifierEffectDto = new QuizModifierEffectDto(quizModifierEffect.getIdString(),
+                quizModifierEffect.getName(),
+                quizModifierEffect.getDuration(),
+                quizModifierEffect.getDescription(),
+                quizModifierEffect.getType(),
+                quizModifierEffect.getPermanent(),
+                quizModifierEffect.getRarity());
+
+        logger.debug("QuizModifierEffectDto successfully created");
+        return quizModifierEffectDto;
+    }
+
+    // todo bandaid fix: create a QuizModifierDto from id string (using the registry)
+    // todo: this is needed to recreate the last ModifierEffectsGameEvents
+
+    // this is used to convert a non instantiated effect to dto to present for selection
+    public QuizModifierEffectDto convertToDto(String idString) {
+        logger.info("Converting QuizModifierEffect idString to QuizModifierEffectDto");
+        QuizModifierEffectMetaData quizModifierEffectMetaData = QuizModifierEffectFactory.getQuizModifierEffectMetadataRegistry().get(idString);
+
+        QuizModifierEffectDto quizModifierEffectDto = new QuizModifierEffectDto(quizModifierEffectMetaData.getIdString(),
+                quizModifierEffectMetaData.getName(),
+                quizModifierEffectMetaData.getDuration(),
+                quizModifierEffectMetaData.getDescription(),
+                quizModifierEffectMetaData.getType(),
+                quizModifierEffectMetaData.getPermanent(),
+                quizModifierEffectMetaData.getRarity());
+
+        logger.debug("QuizModifierEffectDto successfully created");
+        return quizModifierEffectDto;
+    }
+
     // Get all active modifier effects for a given quiz state.
     // This is called from within convertToDto to handle the conversion of effects to dto.
-    // TODO this is actually the convertToDto function of the ModifierEffect class.
-    //  relocate if dedicated modifierEffectsService is used
     public List<QuizModifierEffectDto> getActiveModifierEffectDtos(QuizModifier quizModifier) {
         logger.info("Getting QuizModifierEffectDtos for active modifierEffects");
 
         List<QuizModifierEffectDto>  quizModifierEffectDtos =  quizModifier.getActiveQuizModifierEffects().stream()
-                .map(quizModifierEffect -> new QuizModifierEffectDto(
-                        quizModifierEffect.getIdString(),
-                        quizModifierEffect.getName(),
-                        quizModifierEffect.getDuration(),
-                        quizModifierEffect.getDescription(),
-                        quizModifierEffect.getType(),
-                        quizModifierEffect.getPermanent(),
-                        quizModifierEffect.getRarity())
+                .map(quizModifierEffect -> convertToDto(quizModifierEffect)
                 ).collect(Collectors.toList());
 
 

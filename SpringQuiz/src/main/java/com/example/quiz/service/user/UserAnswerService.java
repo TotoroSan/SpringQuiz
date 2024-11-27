@@ -2,6 +2,7 @@ package com.example.quiz.service.user;
 
 
 import com.example.quiz.model.dto.AnswerDto;
+import com.example.quiz.model.entity.Answer;
 import com.example.quiz.model.entity.Question;
 import com.example.quiz.repository.AnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,4 +20,9 @@ public class UserAnswerService {
 		// check answerId against the corresponding question
 		return answerDto.getId().equals(question.getCorrectAnswer().getId()); 	
 	}
+
+    public AnswerDto convertToDto(Answer answer){
+        AnswerDto answerDto = new AnswerDto(answer.getId(), answer.getAnswerText());
+        return answerDto;
+    }
 }

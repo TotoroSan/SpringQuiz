@@ -3,6 +3,7 @@ package com.example.quiz.model.entity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -49,24 +50,23 @@ public class QuizState implements Serializable {
 	// number of (correctly) answered questions in the current segment
 	private int answeredQuestionsInSegment;
 
-
-
 	// flag that indicates if the GameState is active (meaning the game hasnt ended)
 	private boolean isActive;
+
+	private LocalDateTime createdAt;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "quiz_modifier_id", referencedColumnName = "id")
     private QuizModifier quizModifier;
 
-	// todo add timestamp here
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<GameEvent> gameEvents = new ArrayList<>();
 
-    // TODO think about this. i want to be able to flexibly change out questions for a given degree of diffuclty via a joker.
-    // So either load spare question set or retrieve the questions "live" and do not make premade quiz set.
-    
+
+
     // Standard Constructor for JPA reflection
     public QuizState() {
     }
-
 
 	// Todo consolidate constructors (builder or factory?)
     // Constructor to initialize a new quiz
@@ -80,6 +80,7 @@ public class QuizState implements Serializable {
 		this.currentSegment = 1;
 		this.answeredQuestionsInSegment = 1;
 		this.isActive = true;
+		this.createdAt = LocalDateTime.now();
         this.quizModifier = new QuizModifier(this); // initialize with standard quiz modifier
     }
     
@@ -94,6 +95,7 @@ public class QuizState implements Serializable {
 		this.currentSegment = 1;
 		this.answeredQuestionsInSegment = 0;
 		this.isActive = true;
+		this.createdAt = LocalDateTime.now();
         this.quizModifier = new QuizModifier(this); // initialize with standard quiz modifier
     }
 
@@ -203,6 +205,25 @@ public class QuizState implements Serializable {
 	}
 	public void setQuizModifier(QuizModifier quizModifier) {
 		this.quizModifier = quizModifier;
+	}
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public List<GameEvent> getGameEvents() {
+		return gameEvents;
+	}
+
+	public void setGameEvents(List<GameEvent> gameEvents) {
+		this.gameEvents = gameEvents;
+	}
+
+	public void addGameEvent(GameEvent gameEvent) {
+		this.gameEvents.add(gameEvent);
 	}
 }
 

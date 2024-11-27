@@ -14,6 +14,9 @@ Business logic notes
 ---------------------------
 - Randomization logic is currently handled by the database.
     - eventually we could initialize a registry of all questions at startup or use a in memory database / cache.
+- the conversion from model entity classes to dtos is always invoked in the controller
+- GameEventDto is the parent class of all GameEventsDtos. A GameEventDto-subclass always contains all necessary data
+  that the frontend needs to process a gameevent and display it.
 
 Learnings
 ------------------
