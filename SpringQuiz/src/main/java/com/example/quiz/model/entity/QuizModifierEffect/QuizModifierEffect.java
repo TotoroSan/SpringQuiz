@@ -13,12 +13,11 @@ public abstract class QuizModifierEffect {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	
+
     private String idString; // TODO fix -> this is currently used to identy the effect subclass
-    
+
     private String name;
     private Integer duration;  // The number of questions for which this modifier is active  // duration of null means permanent effect
-
 
 
     private String description;
@@ -56,24 +55,33 @@ public abstract class QuizModifierEffect {
     }
 
     public abstract void apply(QuizModifier quizModifier);
-	public abstract void reverse(QuizModifier quizModifier);
-	
-    public String getIdString() {
-		return idString;
-	}
 
-	public void setIdString(String identifier) {
-		this.idString = identifier;
-	}
+    public abstract void reverse(QuizModifier quizModifier);
+
+    public String getIdString() {
+        return idString;
+    }
+
+    public void setIdString(String identifier) {
+        this.idString = identifier;
+    }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Integer getDuration() {
         return duration;
     }
-    
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
     public QuizModifier getQuizModifier() {
         return quizModifier;
     }
@@ -103,8 +111,13 @@ public abstract class QuizModifierEffect {
             duration--;
         }
     }
+
     public Boolean getPermanent() {
         return isPermanent;
+    }
+
+    public void setPermanent(Boolean permanent) {
+        isPermanent = permanent;
     }
 
     public String getDescription() {
@@ -115,18 +128,8 @@ public abstract class QuizModifierEffect {
         this.description = description;
     }
 
-    public void setPermanent(Boolean permanent) {
-        isPermanent = permanent;
-    }
     public void incrementDuration() {
         duration++;
-    }
-    public void setDuration(Integer duration) {
-        this.duration = duration;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Long getId() {
@@ -144,7 +147,6 @@ public abstract class QuizModifierEffect {
     public void setTier(Integer tier) {
         this.tier = tier;
     }
-
 
 
 }

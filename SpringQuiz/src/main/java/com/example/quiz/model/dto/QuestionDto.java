@@ -1,12 +1,13 @@
 package com.example.quiz.model.dto;
+
 import java.util.List;
 
 public class QuestionDto {
-	// this is the data transfer object view of a question. 
-	// we use it to post a question with answers in string form. 
-	// the data will be processed to regular model question and answer objects that will be persisted.
-	
-	
+    // this is the data transfer object view of a question.
+    // we use it to post a question with answers in string form.
+    // the data will be processed to regular model question and answer objects that will be persisted.
+
+
     private String questionText;
     private String realAnswer;  // This will be a string from JSON
     private List<String> mockAnswers;  // List of strings from JSON

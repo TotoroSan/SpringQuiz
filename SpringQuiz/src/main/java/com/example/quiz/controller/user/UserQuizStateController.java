@@ -1,14 +1,19 @@
 package com.example.quiz.controller.user;
 
 
-import com.example.quiz.model.dto.*;
-import com.example.quiz.model.entity.*;
+import com.example.quiz.model.dto.GameEventDto;
+import com.example.quiz.model.dto.QuizModifierEffectDto;
+import com.example.quiz.model.dto.QuizSaveDto;
+import com.example.quiz.model.dto.QuizStateDto;
+import com.example.quiz.model.entity.GameEvent;
+import com.example.quiz.model.entity.QuizModifier;
+import com.example.quiz.model.entity.QuizState;
+import com.example.quiz.model.entity.User;
 import com.example.quiz.service.user.UserGameEventService;
 import com.example.quiz.service.user.UserQuestionService;
 import com.example.quiz.service.user.UserQuizModifierService;
 import com.example.quiz.service.user.UserQuizStateService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 // having the same URI for different actions (like create, update, and delete) but distinguishing them by the HTTP method (POST, PUT, DELETE, etc.) is indeed the best practice in RESTful API design.
 
@@ -29,14 +33,14 @@ public class UserQuizStateController {
     private static final Logger logger = LoggerFactory.getLogger(UserQuizStateController.class);
 
     // this is the controller for quiz management and users accessing session data
-	
-	// we will route requests to different controllers to keep separation of concern.
-	// we will update the session data from different controllers, so we can update in one go.
-	// for later: (its possible to first confirm question correctness and then update with second requesst to have centralized place for session)
-	
+
+    // we will route requests to different controllers to keep separation of concern.
+    // we will update the session data from different controllers, so we can update in one go.
+    // for later: (its possible to first confirm question correctness and then update with second requesst to have centralized place for session)
+
     @Autowired
     private UserQuizStateService userQuizStateService;
-    
+
     @Autowired
     private UserQuizModifierService userQuizModifierService;
 
@@ -80,17 +84,17 @@ public class UserQuizStateController {
         }
 
         logger.info("Loaded QuizSave with ID: {} for user ID: {}", quizState.getId(), userId);
-        logger.info("QuizSaveDto content: {}" , quizSaveDto); // here the .toString() method of quizSaveDto is implicetly called
+        logger.info("QuizSaveDto content: {}", quizSaveDto); // here the .toString() method of quizSaveDto is implicetly called
 
         return ResponseEntity.ok(quizSaveDto);
     }
 
-    
+
     // Get QuizState
-    /* 
+    /*
      * @AuthenticationPrincipal annotation is used to directly inject the currently authenticated user into a method parameter.
      * Specifically, it extracts the user details from the authentication token, which means the authenticated user's information
-     * is available for use without the need to manually parse the JWT or session. 
+     * is available for use without the need to manually parse the JWT or session.
      * */
     @GetMapping("/state")
     public ResponseEntity<QuizStateDto> getQuizState(HttpSession session, @AuthenticationPrincipal User user) {

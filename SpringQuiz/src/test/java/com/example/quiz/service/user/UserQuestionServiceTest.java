@@ -2,7 +2,6 @@ package com.example.quiz.service.user;
 
 import com.example.quiz.exception.ResourceNotFoundException;
 import com.example.quiz.model.dto.AnswerDto;
-import com.example.quiz.model.dto.QuestionGameEventDto;
 import com.example.quiz.model.entity.*;
 import com.example.quiz.repository.QuestionRepository;
 import org.junit.jupiter.api.BeforeEach;

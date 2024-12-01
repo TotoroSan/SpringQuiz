@@ -1,6 +1,9 @@
 package com.example.quiz.service.user;
 
-import com.example.quiz.model.dto.*;
+import com.example.quiz.model.dto.GameEventDto;
+import com.example.quiz.model.dto.QuizModifierEffectDto;
+import com.example.quiz.model.dto.QuizSaveDto;
+import com.example.quiz.model.dto.QuizStateDto;
 import com.example.quiz.model.entity.*;
 import com.example.quiz.repository.QuizStateRepository;
 import org.slf4j.Logger;
@@ -142,7 +145,6 @@ public class UserQuizStateService {
     }
 
 
-
     // Increment the round
     public void incrementCurrentRound(QuizState quizState) {
         quizState.setCurrentRound(quizState.getCurrentRound() + 1);
@@ -244,8 +246,6 @@ public class UserQuizStateService {
     }
 
 
-
-
     // cann return either subtype
     public GameEvent getNextGameEvent(QuizState quizState) {
         // Check if the current round is divisible by 5 to provide modifier effects
@@ -335,11 +335,9 @@ public class UserQuizStateService {
 
         GameEvent lastEvent = quizState.getGameEvents().get(quizState.getGameEvents().size() - 1);
 
-        if (!(lastEvent instanceof ModifierEffectsGameEvent)) {
+        if (!(lastEvent instanceof ModifierEffectsGameEvent modifierEffectsGameEvent)) {
             throw new IllegalStateException("The last game event is not a ModifierEffectsGameEvent");
         }
-
-        ModifierEffectsGameEvent modifierEffectsGameEvent = (ModifierEffectsGameEvent) lastEvent;
 
         // Check if the event is already consumed
         if (modifierEffectsGameEvent.isConsumed()) {
@@ -389,8 +387,6 @@ public class UserQuizStateService {
         logger.error("Failed to instantiate and apply effect: {}", chosenEffectUuid);
         return false;
     }
-
-
 
 
     public QuizSaveDto createQuizSaveDto(QuizState quizState) {

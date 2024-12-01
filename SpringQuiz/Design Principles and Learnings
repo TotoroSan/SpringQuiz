@@ -52,6 +52,13 @@ Learnings
 - Regarding Cors: even without reverse proxy for the frontend requests we do not need to allow every single origin of request (otherwise reverse proxy or proxy-"cors" server would be mandatory)
   The header with which the requests will be send from the client machine contain the origin header of the frontend server. so the backend "thinks" it is accessed by the frontend, not some client browser machine.
 
+ -@JoinColumn(name = "quiz_state_id") joincolumn jpa annotations are helpful to avoid duplicate "ownership" of a bidirectional relation.
+  Without it both ends of the relationship would create a reference to the other part. but most of the time, we only want one part
+  to reference the other (e.g. each GameEvent belongs to da QuizState and thus the QuizState id should be in the QuizEvent table,
+  but we do not neeed to have an extra table that associates quizstates with GameEvents, because that would be redundant.
+  Sometimes we might want it to speed up searches etc. but most of the time one sided ownership is fine.
+  the mappedBy attribute is used in the "non owning" side of the relationship. mappedBy = quizState means that the attribute is
+   mapped by quizState in the other table.
 
 
 

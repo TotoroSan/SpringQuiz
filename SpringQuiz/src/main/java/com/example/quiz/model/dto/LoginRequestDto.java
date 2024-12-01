@@ -6,7 +6,8 @@ public class LoginRequestDto {
     private String password;
 
     // Default constructor
-    public LoginRequestDto() {}
+    public LoginRequestDto() {
+    }
 
     // Parameterized constructor (for testing currently)
     public LoginRequestDto(String username, String email, String password) {

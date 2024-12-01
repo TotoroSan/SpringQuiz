@@ -1,7 +1,7 @@
 package com.example.quiz.controller.user;
 
-import com.example.quiz.model.dto.LoginRequestDto;
 import com.example.quiz.model.dto.JwtResponseDto;
+import com.example.quiz.model.dto.LoginRequestDto;
 import com.example.quiz.security.JwtTokenProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

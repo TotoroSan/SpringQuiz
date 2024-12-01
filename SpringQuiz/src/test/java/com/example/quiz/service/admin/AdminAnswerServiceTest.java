@@ -32,7 +32,7 @@ public class AdminAnswerServiceTest {
     @Test
     public void testCreateAnswer() {
         // Arrange
-    	CorrectAnswer answer = new CorrectAnswer();
+        CorrectAnswer answer = new CorrectAnswer();
         answer.setAnswerText("Sample Answer");
         when(answerRepository.save(any(Answer.class))).thenReturn(answer);
 

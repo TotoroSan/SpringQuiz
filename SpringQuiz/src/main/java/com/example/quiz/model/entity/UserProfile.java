@@ -24,14 +24,14 @@ public class UserProfile {
     private String email;
 
 
-
     // Account Information
     private String profilePictureUrl;
     private String bio;
     private String socialMediaLinks;
 
     // Constructors
-    public UserProfile() {}
+    public UserProfile() {
+    }
 
     public UserProfile(User user) {
         this.user = user;

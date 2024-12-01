@@ -36,22 +36,22 @@ public class UserAnswerController {
     private UserQuizModifierService userQuizModifierService;
 
     @PostMapping("/answer")
-    public ResponseEntity<Boolean> submitAnswer(@RequestBody AnswerDto answerDto,  @AuthenticationPrincipal User user, 
-    		HttpSession session) {
+    public ResponseEntity<Boolean> submitAnswer(@RequestBody AnswerDto answerDto, @AuthenticationPrincipal User user,
+                                                HttpSession session) {
 
         logger.info("Received request to evaluate submitted answer", answerDto.getText());
 
         // Retrieve the current quiz state from the database
         Long userId = user.getId();
         Optional<QuizState> optionalQuizState = userQuizStateService.getLatestQuizStateByUserId(userId);
-        
+
         if (optionalQuizState.isEmpty()) {
             logger.warn("Quiz state not found for user ID: {}", userId);
             return ResponseEntity.badRequest().body(null);
         }
-        
-        QuizState quizState = optionalQuizState.get(); 
-       
+
+        QuizState quizState = optionalQuizState.get();
+
         // Get the current question from state object
         Question currentQuestion = userQuizStateService.getCurrentQuestion(quizState);
 
@@ -64,7 +64,7 @@ public class UserAnswerController {
             userQuizStateService.processIncorrectAnswerSubmission(quizState);
             return ResponseEntity.ok(false);
         }
-        
+
         // If answer is correct, update the quiz state using the quiz state service
         logger.info("Submitted answer is correct");
         userQuizStateService.processCorrectAnswerSubmission(quizState);

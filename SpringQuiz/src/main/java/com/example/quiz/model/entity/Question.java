@@ -19,37 +19,38 @@ public class Question {
 //    @JoinColumn(name = "quiz_id")
 //    @JsonBackReference // To avoid looping between Question and Quiz
 //    private Quiz quiz;
-    
-   
-    
+
+
     // Cascade the save operation to the real answer (i.e. if a question object is saved, the associated real answer object is also saved)
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "correct_answer_id", referencedColumnName = "id")  // Separate column for correct answer
     @JsonManagedReference // To avoid looping between Question and Answer
     private CorrectAnswer correctAnswer;
-    
+
     // question difficulty 1 (easiest) to 10
     private int difficulty;
-    
-    private String topic;  
-    
+
+    private String topic;
+
     // Reminder: we need this mock_answer_question_id because JPA otherwise throws correct answer and mock answer 
     // together since they are both associated with the same question id and are both the same data type.
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     //@JoinColumn(name = "mock_answer_question_id")  // Separate column for mock answers
     private List<MockAnswer> mockAnswers;
-    
+
     // Constructors
-    public Question() {}
-    
+    public Question() {
+    }
+
     // Constructors
-    public Question(String questionText) {}
+    public Question(String questionText) {
+    }
 
     public Question(String questionText, Quiz quiz) {
         this.questionText = questionText;
         //this.quiz = quiz;
     }
-    
+
     @Override
     public String toString() {
         return "Question Text: " + questionText;
@@ -87,7 +88,7 @@ public class Question {
     public void setMockAnswers(List<MockAnswer> mockAnswers) {
         this.mockAnswers = mockAnswers;
     }
-    
+
     public CorrectAnswer getCorrectAnswer() {
         return correctAnswer;
     }
@@ -96,22 +97,21 @@ public class Question {
         this.correctAnswer = correctAnswer;
     }
 
-	public int getDifficulty() {
-		return difficulty;
-	}
+    public int getDifficulty() {
+        return difficulty;
+    }
 
-	public void setDifficulty(int difficulty) {
-		this.difficulty = difficulty;
-	}
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
 
-	public String getTopic() {
-		return topic;
-	}
+    public String getTopic() {
+        return topic;
+    }
 
-	public void setTopic(String topic) {
-		this.topic = topic;
-	}
-    
-  
-    
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+
 }

@@ -3,20 +3,15 @@ package com.example.quiz.service.user;
 import com.example.quiz.model.dto.*;
 import com.example.quiz.model.entity.GameEvent;
 import com.example.quiz.model.entity.ModifierEffectsGameEvent;
-import com.example.quiz.model.entity.Question;
 import com.example.quiz.model.entity.QuestionGameEvent;
-import com.example.quiz.repository.AnswerRepository;
 import com.example.quiz.repository.GameEventRepository;
-import com.example.quiz.repository.QuestionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -42,14 +37,12 @@ public class UserGameEventService {
 
     public GameEventDto convertToDto(GameEvent gameEvent) {
         logger.info("Trying to infer gameEvent subtype for conversion.");
-        if (gameEvent instanceof QuestionGameEvent) {
+        if (gameEvent instanceof QuestionGameEvent questionGameEvent) {
             logger.info("Trying to initiate conversion for QuestionGameEvent");
 
-            QuestionGameEvent questionGameEvent = (QuestionGameEvent) gameEvent;
             return convertToDto(questionGameEvent);
-        } else if (gameEvent instanceof ModifierEffectsGameEvent) {
+        } else if (gameEvent instanceof ModifierEffectsGameEvent modifierEffectsEvent) {
             logger.info("Trying to initiate conversion for ModifierEffectsGameEvent");
-            ModifierEffectsGameEvent modifierEffectsEvent = (ModifierEffectsGameEvent) gameEvent;
             return convertToDto(modifierEffectsEvent);
         } else {
             throw new IllegalArgumentException("Unknown game event type: " + gameEvent.getClass());

@@ -3,7 +3,6 @@ package com.example.quiz.controller.user;
 import com.example.quiz.model.dto.GameEventDto;
 import com.example.quiz.model.dto.QuestionGameEventDto;
 import com.example.quiz.model.entity.Question;
-import com.example.quiz.model.entity.QuestionGameEvent;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.model.entity.User;
 import com.example.quiz.service.user.UserQuestionService;
@@ -21,6 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+
 // todo fix this ish
 public class UserQuestionControllerTest {
 

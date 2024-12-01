@@ -1,9 +1,7 @@
 package com.example.quiz.service.user;
 
 
-import com.example.quiz.model.dto.AnswerDto;
 import com.example.quiz.model.dto.QuestionDto;
-import com.example.quiz.model.dto.QuestionGameEventDto;
 import com.example.quiz.model.entity.*;
 import com.example.quiz.repository.QuestionRepository;
 import org.slf4j.Logger;
@@ -26,16 +24,16 @@ public class UserQuestionService {
 
     @Autowired
     private QuestionRepository questionRepository;
-    
+
 
     public QuestionDto convertToDto(Question question) {
         String realAnswerText = question.getCorrectAnswer().getAnswerText();
 
         // extract mockAnswer text as string from answer objects
         List<String> mockAnswersText = question.getMockAnswers()
-                                               .stream()
-                                               .map(Answer::getAnswerText)
-                                               .collect(Collectors.toList());
+                .stream()
+                .map(Answer::getAnswerText)
+                .collect(Collectors.toList());
 
         QuestionDto questionDto = new QuestionDto();
         questionDto.setQuestionText(question.getQuestionText());
@@ -46,10 +44,10 @@ public class UserQuestionService {
     }
 
     // Get a random question
-	public Question getRandomQuestion() {
-		// get random question from repository
-		return getRandomQuestion(null);
-	}
+    public Question getRandomQuestion() {
+        // get random question from repository
+        return getRandomQuestion(null);
+    }
 
     // Get a random question by topic
     public Question getRandomQuestion(String topic) {
@@ -58,10 +56,10 @@ public class UserQuestionService {
         Question question;
         if (topic != null) {
             logger.info("Retreiving random question with topic", topic);
-             question = questionRepository.findRandomQuestion(topic);
+            question = questionRepository.findRandomQuestion(topic);
         } else {
             logger.info("Retreiving random question");
-             question = questionRepository.findRandomQuestion();
+            question = questionRepository.findRandomQuestion();
         }
 
         logger.debug("Successfully retreived random question");
@@ -70,12 +68,11 @@ public class UserQuestionService {
     }
 
 
-
     // Get a random question exluding the ones that have already been answered
-	public Question getRandomQuestionExcludingCompleted(Set<Long> completedQuestionIds) {
+    public Question getRandomQuestionExcludingCompleted(Set<Long> completedQuestionIds) {
         // call overloaded method without diffculty parameter
         return getRandomQuestionExcludingCompleted(completedQuestionIds, null, null);
-	}
+    }
 
     public Question getRandomQuestionExcludingCompleted(Set<Long> completedQuestionIds, Integer difficulty) {
         return getRandomQuestionExcludingCompleted(completedQuestionIds, difficulty, null);
@@ -96,8 +93,7 @@ public class UserQuestionService {
             questionsPage = questionRepository.findRandomQuestionExcludingCompleted(completedQuestionIds, difficulty, pageable);
         } else if (topic != null) {
             questionsPage = questionRepository.findRandomQuestionExcludingCompleted(completedQuestionIds, topic, pageable);
-        }
-        else {
+        } else {
             questionsPage = questionRepository.findRandomQuestionExcludingCompleted(completedQuestionIds, pageable);
         }
 
@@ -176,13 +172,13 @@ public class UserQuestionService {
     // TODO split this function to enable resuablilty of core functioanlity (find random question and shuffle answers)
     // todo this bleongs somewhere else, quizstate seems off here
     // todo need to implement function to convert to dto
-	public QuestionGameEvent createQuestionGameEvent(Question question, QuizState quizState) {
-		// TODO check where to add exception for findRandomQuestion (e.g. there are no questions left)
-		// we use this datatype and not questionDto because we do not want to reveal real true answer to the client
+    public QuestionGameEvent createQuestionGameEvent(Question question, QuizState quizState) {
+        // TODO check where to add exception for findRandomQuestion (e.g. there are no questions left)
+        // we use this datatype and not questionDto because we do not want to reveal real true answer to the client
 
         logger.info("Creating QuestionGameEvent for question: {}", question.getId());
 
-		// Prepare a list to hold the final answers (including the real one)
+        // Prepare a list to hold the final answers (including the real one)
         List<Answer> finalAnswers = new ArrayList<>();
 
         // Add the correct answer
@@ -195,7 +191,7 @@ public class UserQuestionService {
 
         // Add up to 3 mock answers from the shuffled copy
         for (int i = 0; i < Math.min(3, mockAnswersCopy.size()); i++) {
-        	finalAnswers.add(mockAnswersCopy.get(i));
+            finalAnswers.add(mockAnswersCopy.get(i));
         }
 
         // Shuffle the final list of answers (real + selected mock answers)
@@ -204,8 +200,8 @@ public class UserQuestionService {
         logger.info("Created QuestionGameEvent for question: {} ", question.getId(), "with answers: {}", finalAnswers);
 
         // Return the question with the shuffled answers
-        return new QuestionGameEvent(quizState, question.getId(),  question.getQuestionText(), finalAnswers);
-	}
+        return new QuestionGameEvent(quizState, question.getId(), question.getQuestionText(), finalAnswers);
+    }
 
 
 }

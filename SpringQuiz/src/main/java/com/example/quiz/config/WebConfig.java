@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-    
+
     // Spring Boot Configuration: If you serve your React app with Spring Boot, you need to ensure all routes are forwarded to the index.html file.
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {

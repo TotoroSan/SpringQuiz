@@ -19,6 +19,7 @@ public class QuizModifierDto {
 
     public QuizModifierDto() {
     }
+
     public QuizModifierDto(Long id, double scoreMultiplier, int difficultyModifier,
                            List<QuizModifierEffectDto> activeQuizModifierEffects, int lifeCounter, int cash, double cashRewardMultiplier, int baseCashReward) {
         this.difficultyModifier = difficultyModifier;
@@ -70,6 +71,7 @@ public class QuizModifierDto {
     public void setLifeCounter(int lifeCounter) {
         this.lifeCounter = lifeCounter;
     }
+
     public int getCash() {
         return cash;
     }

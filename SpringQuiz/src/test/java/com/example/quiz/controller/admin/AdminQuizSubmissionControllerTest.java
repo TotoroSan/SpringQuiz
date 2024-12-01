@@ -39,9 +39,9 @@ public class AdminQuizSubmissionControllerTest {
 
         // Act & Assert
         mockMvc.perform(post("/api/submissions")
-        		.with(csrf())  // Add CSRF toke
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"score\": 90}"))
+                        .with(csrf())  // Add CSRF toke
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"score\": 90}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.score").value(90));
 
@@ -57,8 +57,8 @@ public class AdminQuizSubmissionControllerTest {
 
         // Act & Assert
         mockMvc.perform(get("/api/submissions/user/1")
-        		.with(csrf())  // Add CSRF toke
-                .contentType(MediaType.APPLICATION_JSON))
+                        .with(csrf())  // Add CSRF toke
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
 

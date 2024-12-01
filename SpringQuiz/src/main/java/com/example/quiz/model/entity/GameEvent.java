@@ -14,6 +14,7 @@ public abstract class GameEvent {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "quiz_state_id") // This creates the foreign key column
     private QuizState quizState;
 
     @Column(nullable = false)
@@ -22,7 +23,8 @@ public abstract class GameEvent {
     private boolean isConsumed;
 
     // Constructors
-    public GameEvent() {}
+    public GameEvent() {
+    }
 
     public GameEvent(QuizState quizState) {
         this.quizState = quizState;
@@ -39,12 +41,12 @@ public abstract class GameEvent {
         return quizState;
     }
 
-    public LocalDateTime getEventTimestamp() {
-        return eventTimestamp;
-    }
-
     public void setQuizState(QuizState quizState) {
         this.quizState = quizState;
+    }
+
+    public LocalDateTime getEventTimestamp() {
+        return eventTimestamp;
     }
 
     public boolean isConsumed() {

@@ -3,10 +3,10 @@ package com.example.quiz.exception;
 import java.time.LocalDateTime;
 
 public class ErrorResponse {
+    private final LocalDateTime timestamp;
     private int statusCode;
     private String message;
     private String path;
-    private final LocalDateTime timestamp;
 
     public ErrorResponse(int statusCode, String message, String path) {
         this.statusCode = statusCode;

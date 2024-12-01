@@ -1,6 +1,5 @@
 package com.example.quiz.security;
 
-import com.example.quiz.service.user.UserQuizStateService;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

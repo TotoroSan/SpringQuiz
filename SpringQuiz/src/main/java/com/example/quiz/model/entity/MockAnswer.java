@@ -6,13 +6,13 @@ import jakarta.persistence.Entity;
 @Entity
 @DiscriminatorValue("MOCK")
 public class MockAnswer extends Answer {
-	
-	public MockAnswer() {
-		super.setCorrect(false); // TODO keep?
-	}
-	
+
+    public MockAnswer() {
+        super.setCorrect(false); // TODO keep?
+    }
+
     // You can add specific behavior for mock answers if needed
     public MockAnswer(String answerText, Question question) {
-    	super(answerText, false, question);
-    }  
+        super(answerText, false, question);
+    }
 }

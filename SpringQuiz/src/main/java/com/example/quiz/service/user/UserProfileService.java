@@ -1,8 +1,6 @@
 package com.example.quiz.service.user;
 
-import com.example.quiz.model.dto.QuizStateDto;
 import com.example.quiz.model.dto.UserProfileDto;
-import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.model.entity.User;
 import com.example.quiz.model.entity.UserProfile;
 import com.example.quiz.repository.UserProfileRepository;
@@ -61,7 +59,7 @@ public class UserProfileService {
             User user = userOptional.get();
 
             // create user profile from dto
-            UserProfile userProfile = new UserProfile(user,userProfileDto.getFirstName(), userProfileDto.getLastName(),
+            UserProfile userProfile = new UserProfile(user, userProfileDto.getFirstName(), userProfileDto.getLastName(),
                     userProfileDto.getDateOfBirth(), userProfileDto.getAddress(), userProfileDto.getPhoneNumber(), userProfileDto.getEmail(),
                     userProfileDto.getProfilePictureUrl(), userProfileDto.getBio(), userProfileDto.getSocialMediaLinks());
 

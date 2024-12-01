@@ -17,7 +17,7 @@ public class AdminQuestionController {
     public QuestionDto getQuestionById(@PathVariable Long id) {
         return adminQuestionService.getQuestionById(id);
     }
-    
+
     // Create a new question
     @PostMapping
     public QuestionDto createQuestion(@RequestBody QuestionDto questionDto) {
@@ -35,5 +35,5 @@ public class AdminQuestionController {
     public void deleteQuestionById(@PathVariable Long id) {
         adminQuestionService.deleteQuestionById(id);
     }
-    
+
 }

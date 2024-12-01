@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface QuizStateRepository extends JpaRepository<QuizState, Long> {
     // Custom query to find latest quiz states by userId
-	Optional<QuizState> findFirstByUserIdOrderByIdDesc(Long userId);
+    Optional<QuizState> findFirstByUserIdOrderByIdDesc(Long userId);
 
     // Query is build by QUery derivation via keywords in method name
     Optional<QuizState> findFirstByUserIdAndIsActiveIsTrueOrderByIdDesc(Long userId);

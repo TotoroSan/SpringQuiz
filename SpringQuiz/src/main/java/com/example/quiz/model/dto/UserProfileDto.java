@@ -1,10 +1,6 @@
 package com.example.quiz.model.dto;
 
 
-
-import com.example.quiz.model.entity.User;
-import jakarta.persistence.*;
-
 public class UserProfileDto {
 
     private Long id;
@@ -20,7 +16,27 @@ public class UserProfileDto {
 
 
     private String email;
+    // Account Information
+    private String profilePictureUrl;
+    private String bio;
+    private String socialMediaLinks;
+    // Constructors
+    public UserProfileDto() {
+    }
 
+    public UserProfileDto(Long id, long userId, String firstName, String lastName, String dateOfBirth, String address, String phoneNumber, String email, String profilePictureUrl, String bio, String socialMediaLinks) {
+        this.id = id;
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.profilePictureUrl = profilePictureUrl;
+        this.bio = bio;
+        this.socialMediaLinks = socialMediaLinks;
+    }
 
     @Override
     public String toString() {
@@ -37,30 +53,6 @@ public class UserProfileDto {
                 ", bio='" + bio + '\'' +
                 ", socialMediaLinks='" + socialMediaLinks + '\'' +
                 '}';
-    }
-
-    // Account Information
-    private String profilePictureUrl;
-    private String bio;
-    private String socialMediaLinks;
-
-    // Constructors
-    public UserProfileDto() {}
-
-
-
-    public UserProfileDto(Long id, long userId, String firstName, String lastName, String dateOfBirth, String address, String phoneNumber, String email,  String profilePictureUrl, String bio, String socialMediaLinks) {
-        this.id = id;
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.profilePictureUrl = profilePictureUrl;
-        this.bio = bio;
-        this.socialMediaLinks = socialMediaLinks;
     }
 
     // Getters and Setters

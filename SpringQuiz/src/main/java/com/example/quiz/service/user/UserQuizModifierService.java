@@ -14,7 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -131,8 +134,6 @@ public class UserQuizModifierService {
     }
 
 
-
-
     //@Transactional
     public boolean applyModifierEffectByIdString(QuizModifier quizModifier, String idString, Integer duration, Integer tier) {
         // TODO: 2 is only placeholder here, overload to also have function with custom duration
@@ -154,9 +155,6 @@ public class UserQuizModifierService {
     }
 
 
-
-
-
     public void processActiveQuizModifierEffectsForNewRound(QuizModifier quizModifier) {
         logger.info("Processing ActiveQuizModifierEffects for new round for quizModifier: ", quizModifier);
 
@@ -170,7 +168,7 @@ public class UserQuizModifierService {
             logger.debug("Processing ", quizModifierEffect.getIdString());
 
             // if the effect is temporary
-            if (quizModifierEffect.getPermanent() == false) {
+            if (!quizModifierEffect.getPermanent()) {
                 // Reduce the duration by 1
                 quizModifierEffect.decrementDuration();
 
@@ -213,7 +211,7 @@ public class UserQuizModifierService {
 
         QuizModifierDto quizModifierDto = new QuizModifierDto(quizModifier.getId(),
                 quizModifier.getScoreMultiplier(), quizModifier.getDifficultyModifier(),
-                 getActiveModifierEffectDtos(quizModifier), quizModifier.getLifeCounter(), quizModifier.getCash(),
+                getActiveModifierEffectDtos(quizModifier), quizModifier.getLifeCounter(), quizModifier.getCash(),
                 quizModifier.getCashMultiplier(), quizModifier.getBaseCashReward());
 
         logger.debug("QuizModifierDto successfully created");
@@ -316,7 +314,7 @@ public class UserQuizModifierService {
     public List<QuizModifierEffectDto> getActiveModifierEffectDtos(QuizModifier quizModifier) {
         logger.info("Getting QuizModifierEffectDtos for active modifierEffects");
 
-        List<QuizModifierEffectDto>  quizModifierEffectDtos =  quizModifier.getActiveQuizModifierEffects().stream()
+        List<QuizModifierEffectDto> quizModifierEffectDtos = quizModifier.getActiveQuizModifierEffects().stream()
                 .map(quizModifierEffect -> {
                     logger.debug("Converting active QuizModifierEffect with idString: {}", quizModifierEffect.getIdString());
                     return convertToDto(quizModifierEffect);
@@ -328,19 +326,19 @@ public class UserQuizModifierService {
         return quizModifierEffectDtos;
     }
 
-    public void incrementLifeCounter(QuizModifier quizModifier){
+    public void incrementLifeCounter(QuizModifier quizModifier) {
         incrementLifeCounter(quizModifier, 1);
     }
 
-    public void incrementLifeCounter(QuizModifier quizModifier, int increments){
+    public void incrementLifeCounter(QuizModifier quizModifier, int increments) {
         quizModifier.setLifeCounter(quizModifier.getLifeCounter() + increments);
     }
 
-    public void decrementLifeCounter(QuizModifier quizModifier){
+    public void decrementLifeCounter(QuizModifier quizModifier) {
         decrementLifeCounter(quizModifier, 1);
     }
 
-    public void decrementLifeCounter(QuizModifier quizModifier, int decrements){
+    public void decrementLifeCounter(QuizModifier quizModifier, int decrements) {
         quizModifier.setLifeCounter(quizModifier.getLifeCounter() - decrements);
     }
 

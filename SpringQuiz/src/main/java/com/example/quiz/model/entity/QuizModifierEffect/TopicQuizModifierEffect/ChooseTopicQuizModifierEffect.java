@@ -19,9 +19,11 @@ public class ChooseTopicQuizModifierEffect extends QuizModifierEffect {
     public ChooseTopicQuizModifierEffect(QuizModifier quizModifier) {
         super("CHOOSE_TOPIC", "Choose Topic", 3, quizModifier, "Allows you to choose a topic for the next questions.", "topic", false, 1, null);
     }
+
     public ChooseTopicQuizModifierEffect(QuizModifier quizModifier, int duration) {
         super("CHOOSE_TOPIC", "Choose Topic", duration, quizModifier, "Allows you to choose a topic for the next questions.", "topic", false, 1, null);
     }
+
     public ChooseTopicQuizModifierEffect(QuizModifier quizModifier, int duration, String topic) {
         super("CHOOSE_TOPIC", "Choose Topic", duration, quizModifier, "Allows you to choose topic: " + topic + " for the next questions.", "topic", false, 1, null);
         this.topic = topic; // set topic

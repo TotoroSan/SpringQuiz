@@ -36,30 +36,31 @@ public class QuizModifier {
     private QuizState quizState;
 
     // Default Constructor
-    QuizModifier(){}
+    QuizModifier() {
+    }
 
     // Each QuizModifier belongs to one QuizsState (Jpa needs this to set both sides of OneToOne relationship in table)
-    QuizModifier(QuizState quizState){
+    QuizModifier(QuizState quizState) {
         this.quizState = quizState;
     }
 
     public Long getId() {
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public QuizState getQuizState() {
-		return quizState;
-	}
+    public QuizState getQuizState() {
+        return quizState;
+    }
 
-	public void setQuizState(QuizState quizState) {
-		this.quizState = quizState;
-	}
+    public void setQuizState(QuizState quizState) {
+        this.quizState = quizState;
+    }
 
-	// Getters and setters for scoreMultiplier, difficultyModifier, and activeModifiers
+    // Getters and setters for scoreMultiplier, difficultyModifier, and activeModifiers
     public double getScoreMultiplier() {
         return scoreMultiplier;
     }
@@ -103,11 +104,12 @@ public class QuizModifier {
     public List<QuizModifierEffect> getActiveQuizModifierEffects() {
         return activeQuizModifierEffects;
     }
+
     public void setActiveQuizModifierEffects(List<QuizModifierEffect> activeQuizModifierEffects) {
         this.activeQuizModifierEffects = activeQuizModifierEffects;
     }
 
-    public void addActiveQuizModifierEffect(QuizModifierEffect quizModifierEffect){
+    public void addActiveQuizModifierEffect(QuizModifierEffect quizModifierEffect) {
         this.activeQuizModifierEffects.add(quizModifierEffect);
     }
 

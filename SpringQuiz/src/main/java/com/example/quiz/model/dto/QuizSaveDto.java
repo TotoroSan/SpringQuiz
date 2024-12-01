@@ -1,7 +1,5 @@
 package com.example.quiz.model.dto;
 
-import com.example.quiz.model.entity.QuizState;
-
 // Learning regarding serialization of parent-sub classes:
 // If you assign a subclass object (e.g., QuestionGameEventDto) to a GameEventDto field in your QuizSaveDto and
 // then serialize it, it will serialize all attributes from the subclass (not just the parent class's attributes)
@@ -12,8 +10,8 @@ import com.example.quiz.model.entity.QuizState;
 
 // wrapper class dto to provide everything needed for loading a save game in one call (quizstate + last game event)
 public class QuizSaveDto {
-    private QuizStateDto quizStateDto;
-    private GameEventDto gameEventDto;
+    private final QuizStateDto quizStateDto;
+    private final GameEventDto gameEventDto;
 
     public QuizSaveDto(QuizStateDto quizStateDto, GameEventDto gameEventDto) {
         this.quizStateDto = quizStateDto;

@@ -19,11 +19,11 @@ public class AdminAnswerService {
 
     // Create a new Answer
     public Answer createAnswer(Answer answer) {
-    	if (answer.isCorrect()) {
-    		answer = new CorrectAnswer(answer.getAnswerText(), answer.getQuestion());
-    	} else {
-    		answer = new MockAnswer(answer.getAnswerText(), answer.getQuestion());
-    	}
+        if (answer.isCorrect()) {
+            answer = new CorrectAnswer(answer.getAnswerText(), answer.getQuestion());
+        } else {
+            answer = new MockAnswer(answer.getAnswerText(), answer.getQuestion());
+        }
         return answerRepository.save(answer);
     }
 
@@ -47,7 +47,7 @@ public class AdminAnswerService {
     public void deleteAnswer(Long id) {
         Answer answer = answerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Answer not found for this id :: " + id));
-        
+
         answerRepository.delete(answer);
     }
 }

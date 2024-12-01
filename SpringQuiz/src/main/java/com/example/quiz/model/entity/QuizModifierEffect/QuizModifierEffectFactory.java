@@ -4,13 +4,13 @@ package com.example.quiz.model.entity.QuizModifierEffect;
 // It is needed, because the effects are instantiated after user request, so that only the chosen effect will be instantiated and subsequently saved.
 // An alternative would be to have a "static" table with all effects in the database.
 
-import com.example.quiz.model.entity.*;
+import com.example.quiz.model.entity.QuizModifier;
 import com.example.quiz.model.entity.QuizModifierEffect.DifficultyQuizModifierEffect.HighDifficultyQuizModifierEffect;
 import com.example.quiz.model.entity.QuizModifierEffect.DifficultyQuizModifierEffect.MaxDifficultyLimitQuizModifierEffect;
 import com.example.quiz.model.entity.QuizModifierEffect.DifficultyQuizModifierEffect.MinDifficultyLimitQuizModifierEffect;
 import com.example.quiz.model.entity.QuizModifierEffect.LifeQuizModifierEffect.IncreaseLifeCounterQuizModifierEffect;
 import com.example.quiz.model.entity.QuizModifierEffect.ScoreQuizModifierEffect.IncreaseScoreMultiplierQuizModifierEffect;
-import com.example.quiz.model.entity.QuizModifierEffect.TopicQuizModifierEffect.*;
+import com.example.quiz.model.entity.QuizModifierEffect.TopicQuizModifierEffect.ChooseTopicQuizModifierEffect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,6 +102,7 @@ public class QuizModifierEffectFactory {
     public static Map<String, Class<? extends QuizModifierEffect>> getEffectRegistry() {
         return QUIZMODIFIER_EFFECT_REGISTRY;
     }
+
     public static Map<String, QuizModifierEffectMetaData> getQuizModifierEffectMetadataRegistry() {
         return QUIZ_MODIFIER_EFFECT_META_DATA_REGISTRY;
     }
@@ -111,39 +112,40 @@ public class QuizModifierEffectFactory {
     }
 
     // instantiates an effect by id string.
-    // topic effects are instantiated with e.g. CHOOSE_TOPIC_MEDICINE as effectId
+    // topic effects are instantiated with e.g. CHOOSE_TOPIC_MEDICINE as effectIdString
     // todo replace duration with tier here (duration is indecritly influenced by tier)
-    public static QuizModifierEffect createEffect(String effectId, int duration, QuizModifier quizModifier, Integer tier) {
-        logger.info("Effect Factory is instantiating effect from effectId: {}", effectId);
+    // todo filter for permanent / non permanent effects (for now i just pass an arbitrary duration to permanent effects, which is set to null)
+    public static QuizModifierEffect createEffect(String effectIdString, Integer duration, QuizModifier quizModifier, Integer tier) {
+        logger.info("Effect Factory is instantiating effect from effectIdString: {}", effectIdString);
 
         try {
             // Special case: CHOOSE_TOPIC effects (need this because it has differing parameters to other effects)
-            if (effectId.startsWith("CHOOSE_TOPIC_")) {
+            if (effectIdString.startsWith("CHOOSE_TOPIC_")) {
                 logger.info("Effect_id has CHOOSE_TOPIC_ prefix");
 
-                String topic = effectId.substring("CHOOSE_TOPIC_".length()); // Extract topic
+                String topic = effectIdString.substring("CHOOSE_TOPIC_".length()); // Extract topic
                 logger.info("Extracted topic suffix: {}", topic);
 
                 Class<? extends QuizModifierEffect> effectClass = QUIZMODIFIER_EFFECT_REGISTRY.get("CHOOSE_TOPIC");
                 if (effectClass != null) {
                     logger.info("Instantiating class");
-                    return effectClass.getConstructor(QuizModifier.class, int.class, String.class, Integer.class)
+                    return effectClass.getConstructor(QuizModifier.class, Integer.class, String.class, Integer.class)
                             .newInstance(quizModifier, duration, topic, tier);
                 }
             }
 
-            // General case: Look up by exact effectId
-            Class<? extends QuizModifierEffect> effectClass = QUIZMODIFIER_EFFECT_REGISTRY.get(effectId);
+            // General case: Look up by exact effectIdString
+            Class<? extends QuizModifierEffect> effectClass = QUIZMODIFIER_EFFECT_REGISTRY.get(effectIdString);
             if (effectClass != null) {
                 logger.info("Instantiating class");
-                return effectClass.getConstructor(QuizModifier.class, int.class, Integer.class)
+                return effectClass.getConstructor(QuizModifier.class, Integer.class, Integer.class)
                         .newInstance(quizModifier, duration, tier);
             }
         } catch (Exception e) {
-            throw new RuntimeException("Error instantiating effect: " + effectId, e);
+            throw new RuntimeException("Error instantiating effect: " + effectIdString, e);
         }
 
-        throw new IllegalArgumentException("Unknown effect ID: " + effectId);
+        throw new IllegalArgumentException("Unknown effect ID: " + effectIdString);
     }
 
 

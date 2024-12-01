@@ -1,6 +1,5 @@
 package com.example.quiz.repository;
 
-import com.example.quiz.model.entity.User;
 import com.example.quiz.model.entity.UserProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 

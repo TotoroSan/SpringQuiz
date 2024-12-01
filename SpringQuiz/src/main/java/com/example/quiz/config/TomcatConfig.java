@@ -14,7 +14,7 @@ public class TomcatConfig {
     public WebServerFactoryCustomizer<TomcatServletWebServerFactory> containerCustomizer() {
         return server -> {
             if (server instanceof TomcatServletWebServerFactory) {
-                ((TomcatServletWebServerFactory) server).addAdditionalTomcatConnectors(httpToHttpsRedirectConnector());
+                server.addAdditionalTomcatConnectors(httpToHttpsRedirectConnector());
             }
         };
     }

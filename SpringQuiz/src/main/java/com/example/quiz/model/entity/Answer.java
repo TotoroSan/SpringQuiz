@@ -14,27 +14,29 @@ public abstract class Answer {
 
     private String answerText;
     private boolean isCorrect; // this flags if it is a mock answer or not 
-    
+
     @ManyToOne
     @JoinColumn(name = "question_id") // Foreign key in Answer table
-    @JsonBackReference // To avoid looping between Answer and Question TODO switch this qith JsonIdentityInfo approach to only incorporate the id of question into answer. currently nothing is incorporated.
+    @JsonBackReference
+    // To avoid looping between Answer and Question TODO switch this qith JsonIdentityInfo approach to only incorporate the id of question into answer. currently nothing is incorporated.
     private Question question;
 
     // Constructors
-    public Answer() {}
+    public Answer() {
+    }
 
     public Answer(String answerText, boolean isCorrect, Question question) {
         this.answerText = answerText;
         this.isCorrect = isCorrect;
         this.question = question;
     }
-    
+
     @Override
     public String toString() {
         return "Answer Text: " + answerText;
     }
-    
-    
+
+
     // Getters and Setters
     public Long getId() {
         return id;

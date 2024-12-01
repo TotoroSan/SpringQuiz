@@ -25,6 +25,7 @@ public class AdminQuestionControllerTest {
 
     @MockBean
     private AdminQuestionService adminQuestionService;
+
     // TODO IMPLEMENT
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -36,8 +37,8 @@ public class AdminQuestionControllerTest {
 
         // Act & Assert
         mockMvc.perform(get("/api/questions/1")
-        		.with(csrf())  // Add CSRF toke
-                .contentType(MediaType.APPLICATION_JSON))
+                        .with(csrf())  // Add CSRF toke
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.questionText").value("Sample Question"));
 
@@ -54,9 +55,9 @@ public class AdminQuestionControllerTest {
 
         // Act & Assert
         mockMvc.perform(post("/api/questions")
-        		.with(csrf())  // Add CSRF toke
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"questionText\": \"New Question\"}"))
+                        .with(csrf())  // Add CSRF toke
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"questionText\": \"New Question\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.questionText").value("New Question"));
 

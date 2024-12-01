@@ -17,7 +17,7 @@ public class HighDifficultyQuizModifierEffect extends QuizModifierEffect {
     public HighDifficultyQuizModifierEffect(QuizModifier quizModifier) {
         super("HIGH_DIFFICULTY", "High Difficulty", 3, quizModifier, "The next questions will have increased difficulty.", "topic", false, 1, null);
     }
-    
+
     public HighDifficultyQuizModifierEffect(QuizModifier quizModifier, int duration) {
         super("HIGH_DIFFICULTY", "High Difficulty", duration, quizModifier, "The next questions will have increased difficulty.", "topic", false, 1, null);
     }
@@ -31,8 +31,8 @@ public class HighDifficultyQuizModifierEffect extends QuizModifierEffect {
         quizModifier.setDifficultyModifier(quizModifier.getDifficultyModifier() + this.getTier() - 1); // todo placeholder
     }
 
-	@Override
-	public void reverse(QuizModifier quizModifier) {
-		quizModifier.setDifficultyModifier(quizModifier.getDifficultyModifier() - this.getTier() + 1);
-	}
+    @Override
+    public void reverse(QuizModifier quizModifier) {
+        quizModifier.setDifficultyModifier(quizModifier.getDifficultyModifier() - this.getTier() + 1);
+    }
 }

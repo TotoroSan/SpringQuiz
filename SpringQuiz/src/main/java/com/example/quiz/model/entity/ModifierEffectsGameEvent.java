@@ -1,6 +1,10 @@
 package com.example.quiz.model.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OrderColumn;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -15,26 +19,28 @@ public class ModifierEffectsGameEvent extends GameEvent {
     // active modifier effects and selection modifier effects in one table
 
 
-
-
     @ElementCollection
+    @OrderColumn(name = "uuid_order")
     private List<UUID> presentedEffectUuids; // Stores the IDs of the presented modifier effects (used for identification and validation afterwards)
-
     // instead of having those 3 attribute lists i could also instantiate the effects and just have the effects in a list here.
     // but this would require us "saving" the instances in memory/cache until the user picks, which is suboptimal if we think scalingwise
     @ElementCollection
+    @OrderColumn(name = "id_order")
     private List<String> presentedEffectIdStrings; // Stores the IDs of the presented modifier effects
 
     @ElementCollection
+    @OrderColumn(name = "tier_order")
     private List<Integer> presentedEffectTiers; // Stores the IDs of the presented modifier effects
 
     @ElementCollection
+    @OrderColumn(name = "duration_order")
     private List<Integer> presentedEffectDurations; // Stores the IDs of the presented modifier effects
 
     // Constructors
     public ModifierEffectsGameEvent() {
         super();
     }
+
     // todo continue here , need to add the effect ids so i can use them for the dto, so we can identify the event later with the effect ids (are there effect ids if we dont instantiate?)
     public ModifierEffectsGameEvent(List<UUID> presentedEffectUuids, QuizState quizState, List<String> presentedEffectIdStrings, List<Integer> presentedEffectTiers, List<Integer> presentedEffectDurations) {
         super(quizState);

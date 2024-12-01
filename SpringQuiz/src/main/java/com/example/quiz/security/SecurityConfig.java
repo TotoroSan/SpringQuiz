@@ -14,12 +14,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -31,7 +26,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
     private final Environment environment;
@@ -58,9 +53,9 @@ public class SecurityConfig {
 
                 // todo uncomment this snippet to enforce https (disable for heroku hosting)
                 // .requiresChannel(channel -> {
-               //     logger.info("Requiring https");
+                //     logger.info("Requiring https");
                 //channel.anyRequest().requiresSecure();
-               // })
+                // })
 
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS configuration
                 .csrf(csrf -> csrf.disable())  // Disable CSRF for development
@@ -109,14 +104,13 @@ public class SecurityConfig {
                 .userDetailsService(customUserDetailsService)
                 .passwordEncoder(passwordEncoder);
     }
-    
 
-    
+
     @Bean
     public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-    
+
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();

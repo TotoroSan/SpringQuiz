@@ -29,8 +29,8 @@ public class MinDifficultyLimitQuizModifierEffect extends QuizModifierEffect {
         quizModifier.setMinDifficultyModifier(this.getTier()); // todo edit arbitrary value if needed
     }
 
-	@Override
-	public void reverse(QuizModifier quizModifier) {
-		quizModifier.setMinDifficultyModifier(null);
-	}
+    @Override
+    public void reverse(QuizModifier quizModifier) {
+        quizModifier.setMinDifficultyModifier(null);
+    }
 }

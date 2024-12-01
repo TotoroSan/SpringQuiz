@@ -1,9 +1,5 @@
 package com.example.quiz.model.dto;
 
-import com.example.quiz.model.dto.GameEventDto;
-import com.example.quiz.model.dto.QuizModifierDto;
-import com.example.quiz.model.dto.QuizModifierEffectDto;
-import jakarta.persistence.*;
 import java.util.List;
 
 // game event dto that is used for displaying 3 modifier effects for selection

@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
 public class User implements UserDetails {
 
 
-	private static final long serialVersionUID = 5L;
+    private static final long serialVersionUID = 5L;
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false, unique = true)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false, unique = true)
@@ -35,7 +35,6 @@ public class User implements UserDetails {
     private LocalDateTime createdAt;
 
     private String roles;  // e.g. ROLE_USER, ROLE_ADMIN
-
 
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
@@ -120,6 +119,7 @@ public class User implements UserDetails {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
     public UserProfile getUserProfile() {
         return userProfile;
     }

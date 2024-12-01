@@ -18,7 +18,8 @@ public class QuizSubmission {
     //private Quiz quiz;
 
     // Constructors
-    public QuizSubmission() {}
+    public QuizSubmission() {
+    }
 
     public QuizSubmission(Long userId, int score, Quiz quiz) {
         this.userId = userId;

@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 // this will be the class with "premade" quizzes. 
 @Entity
 public class Quiz {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,11 +18,11 @@ public class Quiz {
 //    @ManyToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    @JsonManagedReference // to prevent infinite (question -> quiz -> questions -> quiz ) loop in answer json 
 //    private List<Question> questions;
-    
 
-    
+
     // Constructors
-    public Quiz() {}
+    public Quiz() {
+    }
 
     public Quiz(String title) {
         this.title = title;

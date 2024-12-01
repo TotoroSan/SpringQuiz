@@ -1,18 +1,19 @@
 package com.example.quiz.model.dto;
+
 import java.util.List;
 
 // todo maybe do parent / child class with gameventdto
-public class QuestionGameEventDto extends GameEventDto{
+public class QuestionGameEventDto extends GameEventDto {
 // this class isa DTO (Data Transfer Object) and solely serves as business logic class.
 // it is used as a response class and is not persisted
 // we use Strings for the answer instead of answer objects to avoid cheating on client side. 
 // if we sent answer objects, one could inspect the payload and see the flag if a answer is correct.
-	
-	
+
+
     private String questionText;        // The question itself
-    private Long questionId; 		// Id of the question 
+    private Long questionId;        // Id of the question
     private List<AnswerDto> shuffledAnswers;  // The shuffled list of answers
-    
+
     // Empty constructor for testing and framework purposes
     public QuestionGameEventDto() {
         super("QUESTION");
@@ -23,7 +24,7 @@ public class QuestionGameEventDto extends GameEventDto{
     public QuestionGameEventDto(String questionText, Long questionId, List<AnswerDto> shuffledAnswers) {
         super("QUESTION");
         this.questionText = questionText;
-        this.questionId = questionId; 
+        this.questionId = questionId;
         this.shuffledAnswers = shuffledAnswers;
     }
 
@@ -44,13 +45,13 @@ public class QuestionGameEventDto extends GameEventDto{
         this.shuffledAnswers = shuffledAnswers;
     }
 
-	public Long getQuestionId() {
-		return questionId;
-	}
+    public Long getQuestionId() {
+        return questionId;
+    }
 
-	public void setQuestionId(Long questionId) {
-		this.questionId = questionId;
-	}
+    public void setQuestionId(Long questionId) {
+        this.questionId = questionId;
+    }
 
     @Override
     public String toString() {

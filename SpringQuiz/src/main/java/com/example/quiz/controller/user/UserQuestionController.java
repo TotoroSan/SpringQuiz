@@ -1,7 +1,6 @@
 package com.example.quiz.controller.user;
 
 import com.example.quiz.model.dto.GameEventDto;
-import com.example.quiz.model.dto.QuestionGameEventDto;
 import com.example.quiz.model.entity.Question;
 import com.example.quiz.model.entity.QuestionGameEvent;
 import com.example.quiz.model.entity.QuizState;
@@ -41,7 +40,7 @@ public class UserQuestionController {
     // depreceated
     @GetMapping
     public ResponseEntity<GameEventDto> getRandomQuestionWithShuffledAnswers(HttpSession session, @AuthenticationPrincipal User user) {
-    	logger.info("Received request to get QuestionWithShuffledAnswers for user ID: {}", user.getId());
+        logger.info("Received request to get QuestionWithShuffledAnswers for user ID: {}", user.getId());
         // Fetch the current user ID
         Long userId = user.getId();
 
@@ -55,10 +54,10 @@ public class UserQuestionController {
 
         // Get the QuizState from Optional
         QuizState quizState = optionalQuizState.get();
-    	
-    	// Add next question to QuizState
-    	Question currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds());
-    	userQuizStateService.addQuestion(quizState, currentQuestion);
+
+        // Add next question to QuizState
+        Question currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds());
+        userQuizStateService.addQuestion(quizState, currentQuestion);
 
         // Update the session with the modified QuizState for quick access
         session.setAttribute("quizState", quizState);
@@ -69,13 +68,13 @@ public class UserQuestionController {
         return ResponseEntity.ok(questionGameEventDto);
         // set new question as active 
     }
-    
+
     // get next question (if we run a prepared quiz)
-    
+
     // get the next question with specific rank
-    
+
     // check validity of answer (might be moved to answer service later)
-    
+
     // update session 
-    
+
 }

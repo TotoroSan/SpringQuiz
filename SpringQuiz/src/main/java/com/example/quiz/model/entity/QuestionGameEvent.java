@@ -1,10 +1,10 @@
 package com.example.quiz.model.entity;
 
-import com.example.quiz.model.dto.AnswerDto;
-import com.example.quiz.model.entity.GameEvent;
-import com.example.quiz.model.entity.Quiz;
-import com.example.quiz.model.entity.QuizState;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+
 import java.util.List;
 
 @Entity
@@ -25,7 +25,7 @@ public class QuestionGameEvent extends GameEvent {
         super();
     }
 
-    public QuestionGameEvent(QuizState quizState, Long questionId, String questionText,   List<Answer> shuffledAnswers) {
+    public QuestionGameEvent(QuizState quizState, Long questionId, String questionText, List<Answer> shuffledAnswers) {
         super(quizState);
         this.questionId = questionId;
         this.questionText = questionText;

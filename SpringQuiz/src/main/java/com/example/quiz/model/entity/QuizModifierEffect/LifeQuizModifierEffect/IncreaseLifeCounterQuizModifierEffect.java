@@ -13,11 +13,15 @@ public class IncreaseLifeCounterQuizModifierEffect extends QuizModifierEffect {
     }
 
     public IncreaseLifeCounterQuizModifierEffect(QuizModifier quizModifier) {
-        super("INCREASE_LIFE_COUNTER", "Increase Life Counter", null, quizModifier, "Increase your life count by 1.", "topic", true, 1, null);
+        super("INCREASE_LIFE_COUNTER", "Increase Life Counter", null, quizModifier, "Increase your life count by 1.", "life", true, 1, null);
     }
 
     public IncreaseLifeCounterQuizModifierEffect(QuizModifier quizModifier, Integer tier) {
-        super("INCREASE_LIFE_COUNTER", "Increase Life Counter", null, quizModifier, "Increase your life count by 1.", "topic", true, 1, tier);
+        super("INCREASE_LIFE_COUNTER", "Increase Life Counter", null, quizModifier, "Increase your life count by 1.", "life", true, 1, tier);
+    }
+
+    public IncreaseLifeCounterQuizModifierEffect(QuizModifier quizModifier, Integer duration, Integer tier) {
+        super("INCREASE_LIFE_COUNTER", "Increase Life Counter", null, quizModifier, "Increase your life count by: " + tier, "life", true, 1, tier);
     }
 
     @Override
