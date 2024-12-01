@@ -23,6 +23,11 @@ public class QuizModifier {
     private String topicModifier = null; // null meaning all topics are possible // todo conver to a list for multiple topics possible
 
     private Integer lifeCounter = 3;
+
+    private int cash = 0;
+    private double cashMultiplier = 1.0;
+    private int baseCashReward = 10;
+
     // orphanRemoval = true because if a effect is no longer active (= expired), it can be deleted
     @OneToMany(mappedBy = "quizModifier", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuizModifierEffect> activeQuizModifierEffects = new ArrayList<>();
@@ -118,5 +123,34 @@ public class QuizModifier {
         this.lifeCounter = lifeCounter;
     }
 
+    // Getter and Setter
+    public double getCashMultiplier() {
+        return cashMultiplier;
+    }
 
+    public void setCashMultiplier(double cashMultiplier) {
+        this.cashMultiplier = cashMultiplier;
+    }
+
+    // Getter and Setter
+    public int getCash() {
+        return cash;
+    }
+
+    public void setCash(int cash) {
+        this.cash = cash;
+    }
+
+    // Increment method
+    public void addCash(int amount) {
+        this.cash += amount;
+    }
+
+    public int getBaseCashReward() {
+        return baseCashReward;
+    }
+
+    public void setBaseCashReward(int baseCashReward) {
+        this.baseCashReward = baseCashReward;
+    }
 }

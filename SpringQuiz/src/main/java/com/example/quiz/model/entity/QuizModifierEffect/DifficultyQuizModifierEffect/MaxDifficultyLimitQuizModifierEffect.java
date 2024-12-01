@@ -13,16 +13,20 @@ public class MaxDifficultyLimitQuizModifierEffect extends QuizModifierEffect {
     }
 
     public MaxDifficultyLimitQuizModifierEffect(QuizModifier quizModifier) {
-        super("MAX_DIFFICULTY_LIMIT", "Max Difficulty Limit", 3, quizModifier, "The next questions will have a given max difficulty.", "topic", false, 1);
+        super("MAX_DIFFICULTY_LIMIT", "Max Difficulty Limit", 3, quizModifier, "The next questions will have a given max difficulty.", "topic", false, 1, null);
     }
 
     public MaxDifficultyLimitQuizModifierEffect(QuizModifier quizModifier, int duration) {
-        super("MAX_DIFFICULTY_LIMIT", "Max Difficulty Limit", duration, quizModifier, "The next questions will have a given max difficulty.", "topic", false, 1);
+        super("MAX_DIFFICULTY_LIMIT", "Max Difficulty Limit", duration, quizModifier, "The next questions will have a given max difficulty.", "topic", false, 1, null);
+    }
+
+    public MaxDifficultyLimitQuizModifierEffect(QuizModifier quizModifier, int duration, Integer tier) {
+        super("MAX_DIFFICULTY_LIMIT", "Max Difficulty Limit", duration, quizModifier, "The next questions will have a given max difficulty.", "topic", false, 1, tier );
     }
 
     @Override
     public void apply(QuizModifier quizModifier) {
-        quizModifier.setMaxDifficultyModifier(3); // todo 3 is an arbitrary value for testing, ideally we would set this dynamically
+        quizModifier.setMaxDifficultyModifier(this.getTier()); // todo 3 is an arbitrary value for testing, ideally we would set this dynamically
     }
 
 	@Override

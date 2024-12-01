@@ -11,17 +11,24 @@ public class QuizModifierDto {
 
     private int lifeCounter = 3;
 
+    private int cash = 0;
+    private double cashRewardMultiplier = 1.0;
+    private int baseCashReward = 10;
+
     private List<QuizModifierEffectDto> activeQuizModifierEffectDtos = new ArrayList<>();
 
     public QuizModifierDto() {
     }
     public QuizModifierDto(Long id, double scoreMultiplier, int difficultyModifier,
-                           List<QuizModifierEffectDto> activeQuizModifierEffects, int lifeCounter) {
+                           List<QuizModifierEffectDto> activeQuizModifierEffects, int lifeCounter, int cash, double cashRewardMultiplier, int baseCashReward) {
         this.difficultyModifier = difficultyModifier;
         this.scoreMultiplier = scoreMultiplier;
         this.id = id;
         this.activeQuizModifierEffectDtos = activeQuizModifierEffects;
         this.lifeCounter = lifeCounter;
+        this.cash = cash;
+        this.cashRewardMultiplier = cashRewardMultiplier;
+        this.baseCashReward = baseCashReward;
     }
 
     public Long getId() {
@@ -63,16 +70,29 @@ public class QuizModifierDto {
     public void setLifeCounter(int lifeCounter) {
         this.lifeCounter = lifeCounter;
     }
-
-
-    @Override
-    public String toString() {
-        return "QuizModifierDto{" +
-                "id=" + id +
-                ", scoreMultiplier=" + scoreMultiplier +
-                ", difficultyModifier=" + difficultyModifier +
-                ", lifeCounter=" + lifeCounter +
-                ", activeQuizModifierEffectDtos=" + activeQuizModifierEffectDtos +
-                '}';
+    public int getCash() {
+        return cash;
     }
+
+    public void setCash(int cash) {
+        this.cash = cash;
+    }
+
+    public double getCashRewardMultiplier() {
+        return cashRewardMultiplier;
+    }
+
+    public void setCashRewardMultiplier(double cashRewardMultiplier) {
+        this.cashRewardMultiplier = cashRewardMultiplier;
+    }
+
+    public int getBaseCashReward() {
+        return baseCashReward;
+    }
+
+    public void setBaseCashReward(int baseCashReward) {
+        this.baseCashReward = baseCashReward;
+    }
+
+
 }

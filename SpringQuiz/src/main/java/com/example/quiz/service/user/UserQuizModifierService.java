@@ -1,22 +1,20 @@
 // QuizModifierService.java
 package com.example.quiz.service.user;
 
-import com.example.quiz.model.dto.GameEventDto;
 import com.example.quiz.model.dto.QuizModifierDto;
 import com.example.quiz.model.dto.QuizModifierEffectDto;
 import com.example.quiz.model.entity.QuizModifier;
 import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffect;
 import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffectFactory;
 import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffectMetaData;
+import com.example.quiz.repository.GameEventRepository;
 import com.example.quiz.repository.QuizModifierRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,43 +25,119 @@ public class UserQuizModifierService {
     @Autowired
     private QuizModifierRepository quizModifierRepository;
 
+    @Autowired
+    private GameEventRepository gameEventRepository;
+
     // todo check if randomness requirement is met
     // Returns a list of X (currently 3) random QuizModifierEffectDtos
     // Todo if we want to display more modifiers, change here (either introduce parameter or change in code)
     // todo can be done more efficiently
+
+    // todo: introduce weights for different modifier classes, pick specific classes with that weight then roll the tier (rarity of an effect and tier are 2 different things, currently tier is only duration)
+    // todo: all the weight information / configurable parameters can be found in the effect factory class
     public List<QuizModifierEffectDto> pickRandomModifierEffectDtos() {
-        logger.info("Picking random modifier effects to present to the user");
+        logger.info("Picking random modifier effects with weighted probabilities");
 
-        List<QuizModifierEffectDto> quizModifierEffectDtos = QuizModifierEffectFactory.getQuizModifierEffectMetadataRegistry().values().stream()
-                .map(metadata -> new QuizModifierEffectDto(
-                        metadata.getIdString(),
-                        metadata.getName(),
-                        metadata.getDuration(), // Setting duration to 0 as it’s just for selection
-                        metadata.getDescription(),
-                        metadata.getType(),
-                        metadata.getPermanent(),
-                        metadata.getRarity())
-                )
-                .collect(Collectors.toList());
+        // Fetch all metadata from the registry
+        ArrayList<QuizModifierEffectMetaData> allEffects = new ArrayList<>(QuizModifierEffectFactory.getQuizModifierEffectMetadataRegistry().values());
 
-        // Shuffle the list to pick random elements
-        Collections.shuffle(quizModifierEffectDtos);
+        List<QuizModifierEffectDto> selectedEffects = new ArrayList<>();
+        Random random = new Random();
 
-        // Limit the list to 3 random elements
-        List<QuizModifierEffectDto> randomQuizModifierEffectDtos = quizModifierEffectDtos.stream()
-                .limit(3)
-                .collect(Collectors.toList());
 
-        logger.debug("Picked modifier effects: {}", randomQuizModifierEffectDtos);
+        // effect picker rolls a random number X € (1,SUM(rarityWeight)).  the effect in which ragne this number falls is picked
+        // (e.g. first uncommon effect (1,50) second uncommon effect (51,100), rare effect (101, 115))
+        // this way the probability of drawing an effect is proportional to its rarityWeight
+        // Ensure we can pick up to 3 effects via weighted effect picking
+        for (int i = 0; i < 3 && !allEffects.isEmpty(); i++) {
+            // Calculate total weight
+            int totalWeight = allEffects.stream()
+                    .mapToInt(QuizModifierEffectMetaData::getRarityWeight)
+                    .sum();
 
-        return randomQuizModifierEffectDtos;
+            // Pick a random value in range (1, totalWeight)
+            int randomValue = random.nextInt(totalWeight);
+            // Iterate to find the selected effect
+            int cumulativeWeight = 0;
+            QuizModifierEffectMetaData chosenEffect = null;
+
+            for (QuizModifierEffectMetaData effect : allEffects) {
+                cumulativeWeight += effect.getRarityWeight();
+                if (randomValue < cumulativeWeight) {
+                    chosenEffect = effect;
+                    logger.info("Chosen ModifierEffect: {}", chosenEffect.getIdString());
+                    break;
+                }
+            }
+
+            // todo here we would also need to roll the tier for the effect
+            if (chosenEffect != null) {
+                logger.info("Chosen ModifierEffect is of type: {}", chosenEffect.getType());
+
+                // Adjust description or other fields based on tier
+                int rolledTier = QuizModifierEffectFactory.rollTier();
+                logger.info("Rolled tier: {}", rolledTier);
+
+
+                if ("topic".equalsIgnoreCase(chosenEffect.getType())) {
+                    String randomTopic = QuizModifierEffectFactory.getRandomTopic();
+                    logger.info("Chosen topic is: {}", randomTopic);
+
+                    String effectId = chosenEffect.getIdString() + "_" + randomTopic.toUpperCase();
+                    logger.info("Created effectIdString: {}", effectId);
+
+                    String descriptionWithTopic = chosenEffect.getDescription() + " (Topic: " + randomTopic + ")";
+
+                    selectedEffects.add(new QuizModifierEffectDto(
+                            UUID.randomUUID(),
+                            effectId, // Append topic to ID
+                            chosenEffect.getName(),
+                            randomizeDuration(chosenEffect), // todo this is our "fake" tiering for now (depreceated)
+                            descriptionWithTopic,
+                            chosenEffect.getType(),
+                            chosenEffect.getPermanent(),
+                            chosenEffect.getRarity(),
+                            rolledTier
+                    ));
+                } else {
+                    selectedEffects.add(new QuizModifierEffectDto(
+                            UUID.randomUUID(),
+                            chosenEffect.getIdString(),
+                            chosenEffect.getName(),
+                            randomizeDuration(chosenEffect), // todo think about how we tie this to tiers
+                            chosenEffect.getDescription(),
+                            chosenEffect.getType(),
+                            chosenEffect.getPermanent(),
+                            chosenEffect.getRarity(),
+                            rolledTier
+                    ));
+                }
+
+                // Remove the chosen effect from the pool
+                allEffects.remove(chosenEffect);
+            }
+        }
+
+        logger.debug("Selected modifier effects: {}", selectedEffects);
+
+        return selectedEffects;
     }
 
+    // Optional: Adjust the duration based on rarity or other factors
+    private int randomizeDuration(QuizModifierEffectMetaData effect) {
+        int minDuration = 2; // Tier 1
+        int maxDuration = 8; // Tier 5
+        return minDuration + (effect.getRarity() - 1) * (maxDuration - minDuration) / 4; // Scale duration
+    }
+
+
+
+
     //@Transactional
-    public boolean applyModifierEffectById(QuizModifier quizModifier, String idString) {
+    public boolean applyModifierEffectByIdString(QuizModifier quizModifier, String idString, Integer duration, Integer tier) {
         // TODO: 2 is only placeholder here, overload to also have function with custom duration
-        logger.info("Instantiating and Applying quizModifierEffect with id ", idString);
-        QuizModifierEffect quizModifierEffect = QuizModifierEffectFactory.createEffect(idString, 6, quizModifier);
+        logger.info("Instantiating and Applying quizModifierEffect with id: {}", idString);
+        QuizModifierEffect quizModifierEffect = QuizModifierEffectFactory.createEffect(idString, duration, quizModifier, tier);
 
         if (quizModifierEffect != null) {
             quizModifierEffect.apply(quizModifier);
@@ -78,6 +152,10 @@ public class UserQuizModifierService {
         logger.debug("No quizModifierEffect could be instantiated");
         return false;
     }
+
+
+
+
 
     public void processActiveQuizModifierEffectsForNewRound(QuizModifier quizModifier) {
         logger.info("Processing ActiveQuizModifierEffects for new round for quizModifier: ", quizModifier);
@@ -135,7 +213,8 @@ public class UserQuizModifierService {
 
         QuizModifierDto quizModifierDto = new QuizModifierDto(quizModifier.getId(),
                 quizModifier.getScoreMultiplier(), quizModifier.getDifficultyModifier(),
-                 getActiveModifierEffectDtos(quizModifier), quizModifier.getLifeCounter());
+                 getActiveModifierEffectDtos(quizModifier), quizModifier.getLifeCounter(), quizModifier.getCash(),
+                quizModifier.getCashMultiplier(), quizModifier.getBaseCashReward());
 
         logger.debug("QuizModifierDto successfully created");
         return quizModifierDto;
@@ -143,15 +222,19 @@ public class UserQuizModifierService {
 
     // todo  relocate if dedicated modifierEffectsService is used
     public QuizModifierEffectDto convertToDto(QuizModifierEffect quizModifierEffect) {
-        logger.info("Converting QuizModifierEffect to QuizModifierEffectDto");
+        logger.info("Converting QuizModifierEffect: {}", quizModifierEffect.getIdString(), "to QuizModifierEffectDto");
 
-        QuizModifierEffectDto quizModifierEffectDto = new QuizModifierEffectDto(quizModifierEffect.getIdString(),
+        QuizModifierEffectDto quizModifierEffectDto = new QuizModifierEffectDto(
+                UUID.randomUUID(),  // todo this is a placeholder, think about if we need to pass the actual id
+                quizModifierEffect.getIdString(),
                 quizModifierEffect.getName(),
                 quizModifierEffect.getDuration(),
                 quizModifierEffect.getDescription(),
                 quizModifierEffect.getType(),
                 quizModifierEffect.getPermanent(),
-                quizModifierEffect.getRarity());
+                quizModifierEffect.getRarity(),
+                quizModifierEffect.getTier()
+        );
 
         logger.debug("QuizModifierEffectDto successfully created");
         return quizModifierEffectDto;
@@ -161,21 +244,72 @@ public class UserQuizModifierService {
     // todo: this is needed to recreate the last ModifierEffectsGameEvents
 
     // this is used to convert a non instantiated effect to dto to present for selection
-    public QuizModifierEffectDto convertToDto(String idString) {
-        logger.info("Converting QuizModifierEffect idString to QuizModifierEffectDto");
+    // wee need special handling for topic effects here because we only keep CHOOSE_TOPIC in the registry
+    // we carry the topic info directly in the string (random picker puts out CHOOSE_TOPIC_MEDICINE)
+    // because otherwise we would need to pass an argument or keep all topic subclasses in the registry
+    // we decided to do it like this to keep adding and removing topics easy (just need to add to topic registry)
+    // TODO maybe rename this? as it is no conversion but rather a creation
+    public QuizModifierEffectDto convertToDto(UUID uuid, String idString, Integer tier, Integer duration) {
+        logger.info("Converting QuizModifierEffect: {} to QuizModifierEffectDto", idString);
+
+        // Check for topic-based effects
+        if (idString.startsWith("CHOOSE_TOPIC_")) {
+            logger.info("Detected topic-based effect: {}", idString);
+
+            // Extract the base ID and topic
+            String baseId = "CHOOSE_TOPIC";
+            String topic = idString.substring("CHOOSE_TOPIC_".length());
+
+            // Fetch metadata for base ID
+            QuizModifierEffectMetaData quizModifierEffectMetaData = QuizModifierEffectFactory.getQuizModifierEffectMetadataRegistry().get(baseId);
+
+            if (quizModifierEffectMetaData == null) {
+                logger.error("Metadata not found for base ID: {}", baseId);
+                throw new IllegalArgumentException("Invalid effect ID: " + idString);
+            }
+
+            // Append the topic to the description and ID in the DTO
+            String descriptionWithTopic = quizModifierEffectMetaData.getDescription() + " (Topic: " + topic + ")";
+            QuizModifierEffectDto quizModifierEffectDto = new QuizModifierEffectDto(
+                    uuid,
+                    idString, // Full ID with topic
+                    quizModifierEffectMetaData.getName(),
+                    duration,
+                    descriptionWithTopic,
+                    quizModifierEffectMetaData.getType(),
+                    quizModifierEffectMetaData.getPermanent(),
+                    quizModifierEffectMetaData.getRarity(),
+                    tier
+            );
+
+            logger.info("QuizModifierEffectDto successfully created for topic-based effect");
+            return quizModifierEffectDto;
+        }
+
+        // Default case for non-topic effects
         QuizModifierEffectMetaData quizModifierEffectMetaData = QuizModifierEffectFactory.getQuizModifierEffectMetadataRegistry().get(idString);
 
-        QuizModifierEffectDto quizModifierEffectDto = new QuizModifierEffectDto(quizModifierEffectMetaData.getIdString(),
+        if (quizModifierEffectMetaData == null) {
+            logger.error("Metadata not found for effect ID: {}", idString);
+            throw new IllegalArgumentException("Invalid effect ID: " + idString);
+        }
+
+        QuizModifierEffectDto quizModifierEffectDto = new QuizModifierEffectDto(
+                uuid,
+                quizModifierEffectMetaData.getIdString(),
                 quizModifierEffectMetaData.getName(),
-                quizModifierEffectMetaData.getDuration(),
+                duration,
                 quizModifierEffectMetaData.getDescription(),
                 quizModifierEffectMetaData.getType(),
                 quizModifierEffectMetaData.getPermanent(),
-                quizModifierEffectMetaData.getRarity());
+                quizModifierEffectMetaData.getRarity(),
+                tier
+        );
 
-        logger.debug("QuizModifierEffectDto successfully created");
+        logger.info("QuizModifierEffectDto successfully created for non-topic effect");
         return quizModifierEffectDto;
     }
+
 
     // Get all active modifier effects for a given quiz state.
     // This is called from within convertToDto to handle the conversion of effects to dto.
@@ -183,8 +317,10 @@ public class UserQuizModifierService {
         logger.info("Getting QuizModifierEffectDtos for active modifierEffects");
 
         List<QuizModifierEffectDto>  quizModifierEffectDtos =  quizModifier.getActiveQuizModifierEffects().stream()
-                .map(quizModifierEffect -> convertToDto(quizModifierEffect)
-                ).collect(Collectors.toList());
+                .map(quizModifierEffect -> {
+                    logger.debug("Converting active QuizModifierEffect with idString: {}", quizModifierEffect.getIdString());
+                    return convertToDto(quizModifierEffect);
+                }).collect(Collectors.toList());
 
 
         logger.debug("Retreived ModifierEffectDtos for active modifiers: {}", quizModifierEffectDtos);

@@ -26,7 +26,7 @@ public abstract class QuizModifierEffect {
     private Boolean isPermanent;
     private Integer rarity;
 
-
+    private Integer tier;
 
 
     @ManyToOne
@@ -45,12 +45,14 @@ public abstract class QuizModifierEffect {
         this.duration = duration;
     }
 
-    public QuizModifierEffect(String idString, String name, Integer duration, QuizModifier quizModifier, String description, String type, boolean isPermanent, Integer rarity) {
+    public QuizModifierEffect(String idString, String name, Integer duration, QuizModifier quizModifier, String description, String type, boolean isPermanent, Integer rarity, Integer tier) {
         this.idString = idString;
         this.name = name;
         this.duration = duration;
         this.quizModifier = quizModifier;
         this.isPermanent = isPermanent;
+        this.rarity = rarity;
+        this.tier = tier;
     }
 
     public abstract void apply(QuizModifier quizModifier);
@@ -119,7 +121,29 @@ public abstract class QuizModifierEffect {
     public void incrementDuration() {
         duration++;
     }
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getTier() {
+        return tier;
+    }
+
+    public void setTier(Integer tier) {
+        this.tier = tier;
+    }
 
 
 

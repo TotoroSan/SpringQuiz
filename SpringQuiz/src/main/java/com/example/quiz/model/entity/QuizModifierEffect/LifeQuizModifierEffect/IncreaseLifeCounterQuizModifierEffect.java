@@ -13,16 +13,20 @@ public class IncreaseLifeCounterQuizModifierEffect extends QuizModifierEffect {
     }
 
     public IncreaseLifeCounterQuizModifierEffect(QuizModifier quizModifier) {
-        super("INCREASE_LIFE_COUNTER", "Increase Life Counter", null, quizModifier, "Increase your life count by 1.", "topic", true, 1);
+        super("INCREASE_LIFE_COUNTER", "Increase Life Counter", null, quizModifier, "Increase your life count by 1.", "topic", true, 1, null);
+    }
+
+    public IncreaseLifeCounterQuizModifierEffect(QuizModifier quizModifier, Integer tier) {
+        super("INCREASE_LIFE_COUNTER", "Increase Life Counter", null, quizModifier, "Increase your life count by 1.", "topic", true, 1, tier);
     }
 
     @Override
     public void apply(QuizModifier quizModifier) {
-        quizModifier.setLifeCounter(quizModifier.getLifeCounter() + 1);
+        quizModifier.setLifeCounter(quizModifier.getLifeCounter() + this.getTier());
     }
 
     @Override
     public void reverse(QuizModifier quizModifier) {
-        quizModifier.setLifeCounter(quizModifier.getLifeCounter() - 1);
+        quizModifier.setLifeCounter(quizModifier.getLifeCounter() - this.getTier());
     }
 }

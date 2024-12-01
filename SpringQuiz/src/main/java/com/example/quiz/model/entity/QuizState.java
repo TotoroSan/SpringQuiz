@@ -44,6 +44,7 @@ public class QuizState implements Serializable {
     
     private int currentRound;
 
+
 	// a segment is a series of questions (an effect choice constitutes the end of a segment)
 	private int currentSegment;
 
@@ -176,8 +177,6 @@ public class QuizState implements Serializable {
 	}
 
 
-
-
 	public int getAnsweredQuestionsInSegment() {
 		return answeredQuestionsInSegment;
 	}
@@ -232,5 +231,9 @@ public class QuizState implements Serializable {
 	public void clearGameEvents() {
 		this.gameEvents.clear();
 	}
+
+
+
+
 }
 

@@ -178,10 +178,12 @@ public class UserQuizStateController {
 
         QuizState quizState = optionalQuizState.get();
         QuizModifier quizModifier = quizState.getQuizModifier();
-        boolean success = userQuizModifierService.applyModifierEffectById(quizModifier, quizModifierEffectDto.getId());
 
+        // function would throw an exception if something is not valid
 
-        if (success) {
+        boolean effectIsApplied = userQuizStateService.validateAndApplyModifierEffect(quizState, quizModifierEffectDto.getUuid());
+
+        if (effectIsApplied) {
             userQuizStateService.moveToNextSegment(quizState);
             session.setAttribute("quizState", quizState);
             userQuizStateService.saveQuizState(quizState); // TODO move saving logic to service (?)

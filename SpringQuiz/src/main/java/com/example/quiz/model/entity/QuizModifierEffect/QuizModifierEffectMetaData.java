@@ -12,11 +12,14 @@ public class QuizModifierEffectMetaData {
     private String type;
     private Boolean isPermanent;
 
+    private Integer rarity; // describes the rarity of a effect class
 
+    //possible weights: Common: 50, Uncommon: 30, Rare: 15, Epic: 4, Legendary: 1
+    // effect picker rolls a random number X € (1,SUM(rarityWeight)).  the effect in which ragne this number falls is picked (e.g. first uncommon effect (1,50) second uncommon effect (51,100), rare effect (101, 115)
+    // this way the probability of drawing an effect is proportional to its rarityWeight
+    private int rarityWeight; // describes the weight for picking the effect class
 
-    private Integer rarity;
-
-    public QuizModifierEffectMetaData(String idString, String name, String description, Integer duration, String type, Boolean isPermanent, Integer rarity) {
+    public QuizModifierEffectMetaData(String idString, String name, String description, Integer duration, String type, Boolean isPermanent, Integer rarity, Integer rarityWeight) {
         this.idString = idString;
         this.name = name;
         this.description = description;
@@ -24,6 +27,7 @@ public class QuizModifierEffectMetaData {
         this.type = type;
         this.isPermanent = isPermanent;
         this.rarity = rarity;
+        this.rarityWeight = rarityWeight;
     }
 
     public String getIdString() {
@@ -69,4 +73,14 @@ public class QuizModifierEffectMetaData {
     public void setRarity(Integer rarity) {
         this.rarity = rarity;
     }
+
+
+    public int getRarityWeight() {
+        return rarityWeight;
+    }
+
+    public void setRarityWeight(int rarityWeight) {
+        this.rarityWeight = rarityWeight;
+    }
+
 }

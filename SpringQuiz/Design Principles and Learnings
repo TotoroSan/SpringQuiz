@@ -8,7 +8,8 @@ Applied Principles
 - QuizState is persisted via JWT-Token User-Id to dedicated database
 - new effects need to be added to the registry in QuizModifierEffectFactory
 - Rich Domain Model
-
+- Presented effects are chosen by weighted random drawing. The weights depend on the overall rarity of a effect modifier.
+    Each modifier can have a tier which is drawn separately. The Tier determines the duration + magnitude of the modifiereffect.
 
 Business logic notes
 ---------------------------
@@ -47,6 +48,9 @@ Learnings
     For instance, if GameEventDto is a superclass, and you assign a QuestionGameEventDto (subclass),
     Jackson will detect that the object is of type QuestionGameEventDto and serialize all its fields.
    - Polymorphism also works in java but if we want to use the actual child class methods or access its attributes, we would need to cast the object to the subclass
+
+- Regarding Cors: even without reverse proxy for the frontend requests we do not need to allow every single origin of request (otherwise reverse proxy or proxy-"cors" server would be mandatory)
+  The header with which the requests will be send from the client machine contain the origin header of the frontend server. so the backend "thinks" it is accessed by the frontend, not some client browser machine.
 
 
 

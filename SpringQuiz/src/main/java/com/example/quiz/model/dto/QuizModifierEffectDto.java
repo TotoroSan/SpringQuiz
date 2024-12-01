@@ -1,7 +1,12 @@
 package com.example.quiz.model.dto;
 
+import java.util.UUID;
+
 public class QuizModifierEffectDto {
-    private String id; // this is is set by the subclasses and serves as identifier of the class
+
+
+	private UUID uuid;
+    private String idString; // this is is set by the subclasses and serves as identifier of the class
     private String name;
     private Integer duration;
     private String description;
@@ -11,35 +16,34 @@ public class QuizModifierEffectDto {
 	private Boolean isPermanent;
 	private Integer rarity;
 
-    public QuizModifierEffectDto(String id, String name, Integer duration, String description, String type, Boolean isPermanent, Integer rarity) {
-        this.setId(id);
+
+	private Integer tier;
+
+    public QuizModifierEffectDto(UUID uuid, String idString, String name, Integer duration, String description, String type, Boolean isPermanent, Integer rarity, Integer tier) {
+        this.setUuid(uuid);
+		this.setIdString(idString);
         this.setName(name);
         this.setDuration(duration);
         this.setDescription(description);
 		this.setType(type);
 		this.setPermanent(isPermanent);
 		this.setRarity(rarity);
+		this.setTier(tier);
     }
 
-	@Override
-	public String toString() {
-		return "QuizModifierEffectDto{" +
-				"id='" + id + '\'' +
-				", name='" + name + '\'' +
-				", duration=" + duration +
-				", description='" + description + '\'' +
-				", type='" + type + '\'' +
-				", isPermanent=" + isPermanent +
-				", rarity=" + rarity +
-				'}';
+	public UUID getUuid() {
+		return uuid;
 	}
 
-	public String getId() {
-		return id;
+	public void setUuid(UUID uuid) {
+		this.uuid = uuid;
+	}
+	public String getIdString() {
+		return idString;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setIdString(String idString) {
+		this.idString = idString;
 	}
 
 	public String getName() {
@@ -85,10 +89,29 @@ public class QuizModifierEffectDto {
 		return type;
 	}
 
+	public Integer getTier() {
+		return tier;
+	}
+
+	public void setTier(Integer tier) {
+		this.tier = tier;
+	}
+
 	public Integer getRarity() {
 		return rarity;
 	}
 
-
-
+	@Override
+	public String toString() {
+		return "QuizModifierEffectDto{" +
+				"id='" + idString + '\'' +
+				", name='" + name + '\'' +
+				", duration=" + duration +
+				", description='" + description + '\'' +
+				", type='" + type + '\'' +
+				", isPermanent=" + isPermanent +
+				", rarity=" + rarity +
+				", tier=" + tier +
+				'}';
+	}
 }

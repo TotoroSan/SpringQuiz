@@ -86,6 +86,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of("http://localhost:3000", "https://localhost:3000", "https://localhost:443",
+                "http://192.168.178.107:3000", "https://192.168.178.107:3000",
                 "https://quiz-frontend-container:443", "https://quiz-frontend-local-container:443",
                 "https://quiz-frontend-heroku-4f689e167461.herokuapp.com",
                 "https://quiz-backend-heroku-e8403919253f.herokuapp.com")); // port for container not necessary because backend and frontend are in same network

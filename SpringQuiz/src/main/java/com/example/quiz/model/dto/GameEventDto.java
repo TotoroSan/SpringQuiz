@@ -17,9 +17,19 @@ import java.util.List;
 // this is a "Wrapper" Dto for Game Events
 // the frontend uses eventType to dynamically choose the correct components
 public abstract class GameEventDto {
+
+    private long id;
     private final String eventType;
 
-    // Constructor for a question event TODO continue here
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    // Constructor for a question event
     public GameEventDto(String eventType) {
         this.eventType = eventType;
     }

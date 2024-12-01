@@ -6,11 +6,11 @@ import com.example.quiz.repository.QuizStateRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -189,34 +189,28 @@ public class UserQuizStateService {
     // Update the game state after a correct answer was submitted
     public void processCorrectAnswerSubmission(QuizState quizState) {
         logger.info("Processing correct answer submission for", quizState);
+        QuizModifier quizModifier = quizState.getQuizModifier();
 
         // update quizState
         markQuestionAsCompleted(quizState, getCurrentQuestion(quizState).getId());
         incrementScore(quizState, getCurrentQuestion(quizState).getDifficulty()); // todo change here if we want every question to have same score (currently score of a question = difficulty)
         incrementCurrentRound(quizState);
         incrementAnsweredQuestionsInSegment(quizState);
+
         // update ActiveQuizModifierEffects
-        userQuizModifierService.processActiveQuizModifierEffectsForNewRound(quizState.getQuizModifier());
+        userQuizModifierService.processActiveQuizModifierEffectsForNewRound(quizModifier);
+        // earned cash = basereward * multi * difficulty todo move this into own function in UserQuizModifierSupport for consistency
+        int cashEarned = (int) (quizModifier.getBaseCashReward() *
+                quizModifier.getCashMultiplier() * getCurrentQuestion(quizState).getDifficulty());
+        quizModifier.addCash(cashEarned);
+
+        logger.info("Added {} cash (after multiplier) to QuizState ID: {}", cashEarned, quizState.getId());
+
+
         // Persist the updated quiz state
         saveQuizState(quizState);
 
         logger.debug("Successfully processed correct answer submission for", quizState);
-    }
-
-
-    // Update the game state after a correct answer was submitted
-    public void processQuizEnd(QuizState quizState) {
-        logger.info("Processing quiz end for QuizState", quizState);
-
-        quizState.setActive(false);  // set game as inactive on wrong answer
-
-        // clearing out part of the quizstate data that is should not be permanent as of now
-        quizState.getQuizModifier().clearActiveQuizModifierEffects(); // clear active modifier effects
-        quizState.clearGameEvents();  // clear game event history TODO careful this automatically invalidates/corrupts the save of the game (=> currently no loading of ended games)
-
-        saveQuizState(quizState);
-
-        logger.debug("Successfully processed quiz end");
     }
 
     // Update the game state after a correct answer was submitted
@@ -234,6 +228,23 @@ public class UserQuizStateService {
         logger.debug("Successfully processed incorrect answer");
     }
 
+    // Update the game state after a correct answer was submitted
+    public void processQuizEnd(QuizState quizState) {
+        logger.info("Processing quiz end for QuizState", quizState);
+
+        quizState.setActive(false);  // set game as inactive on wrong answer
+
+        // clearing out part of the quizstate data that is should not be permanent as of now
+        quizState.getQuizModifier().clearActiveQuizModifierEffects(); // clear active modifier effects
+        quizState.clearGameEvents();  // clear game event history TODO careful this automatically invalidates/corrupts the save of the game (=> currently no loading of ended games)
+
+        saveQuizState(quizState);
+
+        logger.debug("Successfully processed quiz end");
+    }
+
+
+
 
     // cann return either subtype
     public GameEvent getNextGameEvent(QuizState quizState) {
@@ -241,18 +252,34 @@ public class UserQuizStateService {
         // TODO 5 is arbitrary value for testing.
 
 
-        if (quizState.getAnsweredQuestionsInSegment() % 5 == 0) {
+        if (quizState.getAnsweredQuestionsInSegment() % 2 == 0) {
             logger.info("Returning random modifier effects for QuizState ID: {}", quizState.getId());
 
 
             List<QuizModifierEffectDto> randomQuizModifierEffects = userQuizModifierService.pickRandomModifierEffectDtos();
 
-            // Extract IDs from the list of QuizModifierEffectDto
-            List<String> effectIds = randomQuizModifierEffects.stream()
-                    .map(QuizModifierEffectDto::getId)
+            // todo consolidate this extracton and move.
+            //  it is necessary to do this way because we need this info to restore the modifierSelection event by loading. we cannot just store the dto (dtos are not persisted)
+
+            List<UUID> effectUuids = randomQuizModifierEffects.stream()
+                    .map(id -> UUID.randomUUID())
                     .collect(Collectors.toList());
 
-            ModifierEffectsGameEvent modifierEffectsGameEvent = new ModifierEffectsGameEvent(quizState, effectIds);
+            // Extract IDs from the list of QuizModifierEffectDto
+            List<String> effectIds = randomQuizModifierEffects.stream()
+                    .map(QuizModifierEffectDto::getIdString)
+                    .collect(Collectors.toList());
+
+            List<Integer> effectTiers = randomQuizModifierEffects.stream()
+                    .map(QuizModifierEffectDto::getTier)
+                    .collect(Collectors.toList());
+
+            List<Integer> effectDurations = randomQuizModifierEffects.stream()
+                    .map(QuizModifierEffectDto::getDuration)
+                    .collect(Collectors.toList());
+
+
+            ModifierEffectsGameEvent modifierEffectsGameEvent = new ModifierEffectsGameEvent(effectUuids, quizState, effectIds, effectTiers, effectDurations);
 
             quizState.addGameEvent(modifierEffectsGameEvent);
             saveQuizState(quizState);
@@ -294,6 +321,76 @@ public class UserQuizStateService {
             return questionGameEvent;
         }
     }
+
+
+    // validates a modififerEffect uuid against the latest event to prevent cheating (could also put this in the apply modifer effect method, since both methods are used in combination)
+    // returns the last active modifierEffectsGameEvent if effect choice is valid
+    public ModifierEffectsGameEvent validateModifierChoiceEffectAgainstLastEvent(QuizState quizState, UUID chosenEffectUuid) {
+        logger.info("Validating effect choice: {} for QuizState ID: {}", chosenEffectUuid, quizState.getId());
+
+        // Retrieve the last game event
+        if (quizState.getGameEvents().isEmpty()) {
+            throw new IllegalStateException("No game events found for QuizState ID: " + quizState.getId());
+        }
+
+        GameEvent lastEvent = quizState.getGameEvents().get(quizState.getGameEvents().size() - 1);
+
+        if (!(lastEvent instanceof ModifierEffectsGameEvent)) {
+            throw new IllegalStateException("The last game event is not a ModifierEffectsGameEvent");
+        }
+
+        ModifierEffectsGameEvent modifierEffectsGameEvent = (ModifierEffectsGameEvent) lastEvent;
+
+        // Check if the event is already consumed
+        if (modifierEffectsGameEvent.isConsumed()) {
+            throw new IllegalStateException("The last ModifierEffectsGameEvent is already consumed");
+        }
+
+        // Validate if the chosen effect UUID is in the presented effects
+        List<UUID> presentedEffectUuids = modifierEffectsGameEvent.getPresentedEffectUuids();
+        if (!presentedEffectUuids.contains(chosenEffectUuid)) {
+            logger.warn("Chosen effect UUID: {} is not valid for the latest event", chosenEffectUuid);
+            throw new IllegalArgumentException("Invalid effect choice: " + chosenEffectUuid);
+        }
+
+        logger.info("Effect choice validated for UUID: {}", chosenEffectUuid);
+        return modifierEffectsGameEvent;
+    }
+
+    // instantiates and applies the modifierEffect with the given uuid (by extracting needed info from last event)
+    // to directly apply a modifierEffect use function in userQuizModifierService
+    public boolean validateAndApplyModifierEffect(QuizState quizState, UUID chosenEffectUuid) {
+        logger.info("Applying effect choice: {} for QuizState ID: {}", chosenEffectUuid, quizState.getId());
+
+        // Validate the choice and retrieve the corresponding ModifierEffectsGameEvent
+        ModifierEffectsGameEvent modifierEffectsGameEvent = validateModifierChoiceEffectAgainstLastEvent(quizState, chosenEffectUuid);
+
+        // Find the index of the chosen effect UUID
+        List<UUID> presentedEffectUuids = modifierEffectsGameEvent.getPresentedEffectUuids();
+        int effectIndex = presentedEffectUuids.indexOf(chosenEffectUuid);
+
+        // Retrieve additional effect data (e.g., ID, tier, duration) based on the index
+        String effectId = modifierEffectsGameEvent.getPresentedEffectIdStrings().get(effectIndex);
+        int tier = modifierEffectsGameEvent.getPresentedEffectTiers().get(effectIndex);
+        int duration = modifierEffectsGameEvent.getPresentedEffectDurations().get(effectIndex);
+
+        // Instantiate and apply the effect
+        Boolean effectIsApplied = userQuizModifierService.applyModifierEffectByIdString(quizState.getQuizModifier(), effectId, duration, tier);
+
+        if (effectIsApplied != null) {
+            // Mark the event as consumed
+            modifierEffectsGameEvent.setConsumed(true);
+            saveQuizState(quizState);
+
+            logger.info("Successfully applied effect: {} and marked event as consumed", chosenEffectUuid);
+            return true;
+        }
+
+        logger.error("Failed to instantiate and apply effect: {}", chosenEffectUuid);
+        return false;
+    }
+
+
 
 
     public QuizSaveDto createQuizSaveDto(QuizState quizState) {

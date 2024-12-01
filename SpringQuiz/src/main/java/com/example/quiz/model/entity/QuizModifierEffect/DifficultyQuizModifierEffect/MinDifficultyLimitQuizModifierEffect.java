@@ -13,16 +13,20 @@ public class MinDifficultyLimitQuizModifierEffect extends QuizModifierEffect {
     }
 
     public MinDifficultyLimitQuizModifierEffect(QuizModifier quizModifier) {
-        super("MIN_DIFFICULTY_LIMIT", "Min Difficulty Limit", 3, quizModifier, "The next questions will have a given min difficulty.", "topic", false, 1);
+        super("MIN_DIFFICULTY_LIMIT", "Min Difficulty Limit", 3, quizModifier, "The next questions will have a given min difficulty.", "topic", false, 1, null);
     }
 
     public MinDifficultyLimitQuizModifierEffect(QuizModifier quizModifier, int duration) {
-        super("MIN_DIFFICULTY_LIMIT", "Min Difficulty Limit", duration, quizModifier, "The next questions will have a given min difficulty.", "topic", false, 1);
+        super("MIN_DIFFICULTY_LIMIT", "Min Difficulty Limit", duration, quizModifier, "The next questions will have a given min difficulty.", "topic", false, 1, null);
+    }
+
+    public MinDifficultyLimitQuizModifierEffect(QuizModifier quizModifier, int duration, Integer tier) {
+        super("MIN_DIFFICULTY_LIMIT", "Min Difficulty Limit", duration, quizModifier, "The next questions will have a given min difficulty.", "topic", false, 1, tier);
     }
 
     @Override
     public void apply(QuizModifier quizModifier) {
-        quizModifier.setMinDifficultyModifier(3); // todo edit arbitrary value if needed
+        quizModifier.setMinDifficultyModifier(this.getTier()); // todo edit arbitrary value if needed
     }
 
 	@Override

@@ -19,12 +19,15 @@ public abstract class GameEvent {
     @Column(nullable = false)
     private LocalDateTime eventTimestamp;
 
+    private boolean isConsumed;
+
     // Constructors
     public GameEvent() {}
 
     public GameEvent(QuizState quizState) {
         this.quizState = quizState;
         this.eventTimestamp = LocalDateTime.now();
+        this.isConsumed = false;
     }
 
     // Getters and Setters
@@ -42,6 +45,14 @@ public abstract class GameEvent {
 
     public void setQuizState(QuizState quizState) {
         this.quizState = quizState;
+    }
+
+    public boolean isConsumed() {
+        return isConsumed;
+    }
+
+    public void setConsumed(boolean b) {
+        isConsumed = true;
     }
 }
 

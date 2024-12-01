@@ -13,8 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 // todo currently a "helper" service. actual deciding on which event will be used is in UserQuizState currentlyx
@@ -29,6 +32,9 @@ public class UserGameEventService {
 
     @Autowired
     private UserQuizModifierService userQuizModifierService;
+
+    @Autowired
+    private GameEventRepository gameEventRepository;
 
     public UserGameEventService() {
 
@@ -69,15 +75,54 @@ public class UserGameEventService {
         return questionGameEventDto;
     }
 
+    // this is used to extract info from our save object (modifierEffectsGameEvent)
     private ModifierEffectsGameEventDto convertToDto(ModifierEffectsGameEvent modifierEffectsGameEvent) {
-        logger.info("Converting questionGameEvent to modifierEffectsGameEventDto");
-        // Retrieve Modifier Effects by their IDs todo need function that creates mofifiereffectrdtos from => has to access registry i think
-        List<QuizModifierEffectDto> modifierEffects = modifierEffectsGameEvent.getPresentedEffectIdStrings().stream()
-                .map(effectId -> userQuizModifierService.convertToDto(effectId))
-                .collect(Collectors.toList());
+        logger.info("Converting modifierEffectsGameEvent to ModifierEffectsGameEventDto");
 
-        // Create and return the DTO
-        return new ModifierEffectsGameEventDto(modifierEffects);
+        // Extract the presented effect details
+        List<UUID> effectUuids = modifierEffectsGameEvent.getPresentedEffectUuids();
+        List<String> effectIdStrings = modifierEffectsGameEvent.getPresentedEffectIdStrings();
+        List<Integer> effectTiers = modifierEffectsGameEvent.getPresentedEffectTiers();
+        List<Integer> effectDurations = modifierEffectsGameEvent.getPresentedEffectDurations();
+
+        if (effectIdStrings.size() != effectTiers.size() || effectIdStrings.size() != effectDurations.size()) {
+            logger.error("Mismatch in sizes of presentedEffectIdStrings, tiers, or durations lists");
+            throw new IllegalStateException("Mismatch in sizes of presentedEffectIdStrings, tiers, or durations lists");
+        }
+
+        // Combine the three lists to create a list of QuizModifierEffectDto objects
+        List<QuizModifierEffectDto> modifierEffects = new ArrayList<>();
+        for (int i = 0; i < effectIdStrings.size(); i++) {
+            UUID effectUuid = effectUuids.get(i);
+            String effectIdString = effectIdStrings.get(i);
+            Integer tier = effectTiers.get(i);
+            Integer duration = effectDurations.get(i);
+
+            try {
+                // Convert to DTO using the updated convertToDto method
+                QuizModifierEffectDto dto = userQuizModifierService.convertToDto(effectUuid, effectIdString, tier, duration);
+                modifierEffects.add(dto);
+            } catch (Exception e) {
+                logger.error("Error converting effect ID: {} to QuizModifierEffectDto", effectIdString, e);
+            }
+        }
+
+        // Create and return the ModifierEffectsGameEventDto
+        ModifierEffectsGameEventDto modifierEffectsGameEventDto = new ModifierEffectsGameEventDto(modifierEffects);
+        logger.info("Successfully converted modifierEffectsGameEvent to ModifierEffectsGameEventDto");
+        return modifierEffectsGameEventDto;
+    }
+
+    public void resolveGameEvent(Long gameEventId) {
+        GameEvent gameEvent = gameEventRepository.findById(gameEventId)
+                .orElseThrow(() -> new IllegalArgumentException("GameEvent not found"));
+
+        if (gameEvent.isConsumed()) {
+            throw new IllegalStateException("GameEvent has already been resolved");
+        }
+
+        gameEvent.setConsumed(true);
+        gameEventRepository.save(gameEvent);
     }
 
 }
