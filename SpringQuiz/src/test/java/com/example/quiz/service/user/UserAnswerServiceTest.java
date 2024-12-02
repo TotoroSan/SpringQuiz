@@ -2,64 +2,93 @@ package com.example.quiz.service.user;
 
 import com.example.quiz.model.dto.AnswerDto;
 import com.example.quiz.model.entity.CorrectAnswer;
+import com.example.quiz.model.entity.MockAnswer;
 import com.example.quiz.model.entity.Question;
 import com.example.quiz.repository.AnswerRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class UserAnswerServiceTest {
-
-    @Mock
-    private AnswerRepository answerRepository;
+class UserAnswerServiceTest {
 
     @InjectMocks
     private UserAnswerService userAnswerService;
 
-    @BeforeEach
-    public void setup() {
+    @Mock
+    private AnswerRepository answerRepository;
+
+    public UserAnswerServiceTest() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testIsCorrectAnswer_CorrectAnswer() {
+    void testIsCorrectAnswer_True() {
         // Arrange
-        Long answerId = 1L;
-        AnswerDto answerDto = new AnswerDto(answerId, "Correct Answer");
         CorrectAnswer correctAnswer = new CorrectAnswer();
-        correctAnswer.setId(answerId);
+        correctAnswer.setId(1L);
 
         Question question = new Question();
         question.setCorrectAnswer(correctAnswer);
 
+        AnswerDto answerDto = new AnswerDto(1L, "Correct Answer");
+
         // Act
-        Boolean isCorrect = userAnswerService.isCorrectAnswer(answerDto, question);
+        Boolean result = userAnswerService.isCorrectAnswer(answerDto, question);
 
         // Assert
-        assertTrue(isCorrect);
+        assertTrue(result);
     }
 
     @Test
-    public void testIsCorrectAnswer_WrongAnswer() {
+    void testIsCorrectAnswer_False() {
         // Arrange
-        Long answerId = 1L;
-        Long wrongAnswerId = 2L;
-        AnswerDto answerDto = new AnswerDto(wrongAnswerId, "Wrong Answer");
         CorrectAnswer correctAnswer = new CorrectAnswer();
-        correctAnswer.setId(answerId);
+        correctAnswer.setId(1L);
 
         Question question = new Question();
         question.setCorrectAnswer(correctAnswer);
 
+        AnswerDto answerDto = new AnswerDto(2L, "Wrong Answer");
+
         // Act
-        Boolean isCorrect = userAnswerService.isCorrectAnswer(answerDto, question);
+        Boolean result = userAnswerService.isCorrectAnswer(answerDto, question);
 
         // Assert
-        assertFalse(isCorrect);
+        assertFalse(result);
+    }
+
+    @Test
+    void testConvertToDto_WithCorrectAnswer() {
+        // Arrange
+        CorrectAnswer correctAnswer = new CorrectAnswer();
+        correctAnswer.setId(1L);
+        correctAnswer.setAnswerText("Correct Answer Text");
+
+        // Act
+        AnswerDto result = userAnswerService.convertToDto(correctAnswer);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1L, result.getId());
+        assertEquals("Correct Answer Text", result.getText());
+    }
+
+    @Test
+    void testConvertToDto_WithMockAnswer() {
+        // Arrange
+        MockAnswer mockAnswer = new MockAnswer();
+        mockAnswer.setId(2L);
+        mockAnswer.setAnswerText("Mock Answer Text");
+
+        // Act
+        AnswerDto result = userAnswerService.convertToDto(mockAnswer);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(2L, result.getId());
+        assertEquals("Mock Answer Text", result.getText());
     }
 }

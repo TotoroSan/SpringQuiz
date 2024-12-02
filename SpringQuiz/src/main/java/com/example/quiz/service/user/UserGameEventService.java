@@ -74,6 +74,7 @@ public class UserGameEventService {
 
         // Extract the presented effect details
         List<UUID> effectUuids = modifierEffectsGameEvent.getPresentedEffectUuids();
+        List<String> effectDescriptions = modifierEffectsGameEvent.getPresentedEffectDescriptions();
         List<String> effectIdStrings = modifierEffectsGameEvent.getPresentedEffectIdStrings();
         List<Integer> effectTiers = modifierEffectsGameEvent.getPresentedEffectTiers();
         List<Integer> effectDurations = modifierEffectsGameEvent.getPresentedEffectDurations();
@@ -88,12 +89,13 @@ public class UserGameEventService {
         for (int i = 0; i < effectIdStrings.size(); i++) {
             UUID effectUuid = effectUuids.get(i);
             String effectIdString = effectIdStrings.get(i);
+            String effectDescription = effectDescriptions.get(i);
             Integer tier = effectTiers.get(i);
             Integer duration = effectDurations.get(i);
 
             try {
                 // Convert to DTO using the updated convertToDto method
-                QuizModifierEffectDto dto = userQuizModifierService.convertToDto(effectUuid, effectIdString, tier, duration);
+                QuizModifierEffectDto dto = userQuizModifierService.convertToDto(effectUuid, effectIdString, effectDescription, tier, duration);
                 modifierEffects.add(dto);
             } catch (Exception e) {
                 logger.error("Error converting effect ID: {} to QuizModifierEffectDto", effectIdString, e);

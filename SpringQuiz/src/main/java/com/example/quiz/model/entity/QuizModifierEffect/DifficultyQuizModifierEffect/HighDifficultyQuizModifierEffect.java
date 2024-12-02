@@ -18,11 +18,11 @@ public class HighDifficultyQuizModifierEffect extends QuizModifierEffect {
         super("HIGH_DIFFICULTY", "High Difficulty", 3, quizModifier, "The next questions will have increased difficulty.", "topic", false, 1, null);
     }
 
-    public HighDifficultyQuizModifierEffect(QuizModifier quizModifier, int duration) {
+    public HighDifficultyQuizModifierEffect(QuizModifier quizModifier, Integer duration) {
         super("HIGH_DIFFICULTY", "High Difficulty", duration, quizModifier, "The next questions will have increased difficulty.", "topic", false, 1, null);
     }
 
-    public HighDifficultyQuizModifierEffect(QuizModifier quizModifier, int duration, Integer tier) {
+    public HighDifficultyQuizModifierEffect(QuizModifier quizModifier, Integer duration, Integer tier) {
         super("HIGH_DIFFICULTY", "High Difficulty", duration, quizModifier, "The next questions will have increased difficulty.", "topic", false, 1, tier);
     }
 

@@ -53,15 +53,15 @@ public class QuizModifierEffectFactory {
         // METADATA REGISTRY
 
         // Score effects
-        QUIZ_MODIFIER_EFFECT_META_DATA_REGISTRY.put("INCREASE_SCORE_MULTIPLIER", new QuizModifierEffectMetaData("INCREASE_SCORE_MULTIPLIER", "Increase Score Multiplier", "The next questions give more score.", 3, "score", false, 1, 50));
+        QUIZ_MODIFIER_EFFECT_META_DATA_REGISTRY.put("INCREASE_SCORE_MULTIPLIER", new QuizModifierEffectMetaData("INCREASE_SCORE_MULTIPLIER", "Increases the score multiplier", "Increases the score multiplier", 3, "score", false, 1, 20));
         // Difficulty effects
-        QUIZ_MODIFIER_EFFECT_META_DATA_REGISTRY.put("HIGH_DIFFICULTY", new QuizModifierEffectMetaData("HIGH_DIFFICULTY", "High Difficulty", "The next questions will be of higher difficulty.", 3, "difficulty", false, 1, 50));
-        QUIZ_MODIFIER_EFFECT_META_DATA_REGISTRY.put("MAX_DIFFICULTY_LIMIT", new QuizModifierEffectMetaData("MAX_DIFFICULTY_LIMIT", "Max Difficulty Limit", "The next questions will have a given max difficulty.", 3, "difficulty", false, 1, 50));
-        QUIZ_MODIFIER_EFFECT_META_DATA_REGISTRY.put("MIN_DIFFICULTY_LIMIT", new QuizModifierEffectMetaData("MIN_DIFFICULTY_LIMIT", "Min Difficulty Limit", "The next questions will have a given min difficulty.", 3, "difficulty", false, 1, 50));
+        QUIZ_MODIFIER_EFFECT_META_DATA_REGISTRY.put("HIGH_DIFFICULTY", new QuizModifierEffectMetaData("HIGH_DIFFICULTY", "High Difficulty", "Increases question difficulty", 3, "difficulty", false, 1, 50));
+        QUIZ_MODIFIER_EFFECT_META_DATA_REGISTRY.put("MAX_DIFFICULTY_LIMIT", new QuizModifierEffectMetaData("MAX_DIFFICULTY_LIMIT", "Max Difficulty Limit", "Set maximum question difficulty", 3, "difficulty", false, 1, 50));
+        QUIZ_MODIFIER_EFFECT_META_DATA_REGISTRY.put("MIN_DIFFICULTY_LIMIT", new QuizModifierEffectMetaData("MIN_DIFFICULTY_LIMIT", "Min Difficulty Limit", "Set minimum question difficulty", 3, "difficulty", false, 1, 50));
         // topic modifier effects
-        QUIZ_MODIFIER_EFFECT_META_DATA_REGISTRY.put("CHOOSE_TOPIC", new QuizModifierEffectMetaData("CHOOSE_TOPIC", "Choose Topic", "Allows you to choose the topic for the next questions.", 3, "topic", false, 1, 50));
+        QUIZ_MODIFIER_EFFECT_META_DATA_REGISTRY.put("CHOOSE_TOPIC", new QuizModifierEffectMetaData("CHOOSE_TOPIC", "Choose Topic", "Allows you to choose the topic ", 3, "topic", false, 1, 50));
         // life counter effects this would need to be a permanent effect though
-        QUIZ_MODIFIER_EFFECT_META_DATA_REGISTRY.put("INCREASE_LIFE_COUNTER", new QuizModifierEffectMetaData("INCREASE_LIFE_COUNTER", "Increase Life Counter", "Increases your life count by 1.", null, "life", true, 1, 50));
+        QUIZ_MODIFIER_EFFECT_META_DATA_REGISTRY.put("INCREASE_LIFE_COUNTER", new QuizModifierEffectMetaData("INCREASE_LIFE_COUNTER", "Increase Life Counter", "Increases your life count", null, "life", true, 1, 10));
 
 
         TOPIC_REGISTRY = List.of(
@@ -154,6 +154,7 @@ public class QuizModifierEffectFactory {
     }
 
     public static int rollTier() {
+
         int totalWeight = TIER_PROBABILITIES.values().stream().mapToInt(Integer::intValue).sum();
         int randomValue = RANDOM.nextInt(totalWeight);
         int cumulativeWeight = 0;
@@ -161,11 +162,13 @@ public class QuizModifierEffectFactory {
         for (Map.Entry<Integer, Integer> entry : TIER_PROBABILITIES.entrySet()) {
             cumulativeWeight += entry.getValue();
             if (randomValue < cumulativeWeight) {
+                logger.info("Rolled tier: {}", entry.getKey());
                 return entry.getKey();
             }
         }
 
-        // Default fallback (shouldn't be reached)
+        // Default fallback (shouldn't be reached),
+        logger.debug("Ran into troubles when rollin the tier, using fallback of 1");
         return 1;
     }
 

@@ -26,7 +26,7 @@ public class QuizModifierEffectDto {
         this.setDuration(duration);
         this.setDescription(description);
         this.setType(type);
-        this.setPermanent(isPermanent);
+        this.setIsPermanent(isPermanent);
         this.setRarity(rarity);
         this.setTier(tier);
     }
@@ -71,11 +71,11 @@ public class QuizModifierEffectDto {
         this.description = description;
     }
 
-    public Boolean getPermanent() {
+    public Boolean getIsPermanent() {
         return isPermanent;
     }
 
-    public void setPermanent(Boolean permanent) {
+    public void setIsPermanent(Boolean permanent) {
         isPermanent = permanent;
     }
 

@@ -8,7 +8,7 @@ public class QuizModifierEffectMetaData {
     private final String idString;
     private final String name;
     private final String description;
-    private Integer duration;
+    private Integer duration; // this is depreceated since we roll the durations (still keep for completeness)
     private String type;
     private Boolean isPermanent;
 

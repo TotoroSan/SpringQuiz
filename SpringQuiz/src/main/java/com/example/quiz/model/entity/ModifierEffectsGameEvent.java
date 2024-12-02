@@ -18,15 +18,22 @@ public class ModifierEffectsGameEvent extends GameEvent {
     // could also save the modifier effects but thats not good because then i am mixing
     // active modifier effects and selection modifier effects in one table
 
+    // instead of having those  attribute lists i could also instantiate the effects and just have the effects in a list here.
+    // but this would require us "saving" the instances in memory/cache until the user picks, which is suboptimal if we think scalingwise
 
     @ElementCollection
     @OrderColumn(name = "uuid_order")
     private List<UUID> presentedEffectUuids; // Stores the IDs of the presented modifier effects (used for identification and validation afterwards)
-    // instead of having those 3 attribute lists i could also instantiate the effects and just have the effects in a list here.
-    // but this would require us "saving" the instances in memory/cache until the user picks, which is suboptimal if we think scalingwise
+
+
     @ElementCollection
     @OrderColumn(name = "id_order")
     private List<String> presentedEffectIdStrings; // Stores the IDs of the presented modifier effects
+
+
+    @ElementCollection
+    @OrderColumn(name = "id_order")
+    private List<String> presentedEffectDescriptions; // Stores the IDs of the presented modifier effects
 
     @ElementCollection
     @OrderColumn(name = "tier_order")
@@ -42,10 +49,11 @@ public class ModifierEffectsGameEvent extends GameEvent {
     }
 
     // todo continue here , need to add the effect ids so i can use them for the dto, so we can identify the event later with the effect ids (are there effect ids if we dont instantiate?)
-    public ModifierEffectsGameEvent(List<UUID> presentedEffectUuids, QuizState quizState, List<String> presentedEffectIdStrings, List<Integer> presentedEffectTiers, List<Integer> presentedEffectDurations) {
+    public ModifierEffectsGameEvent(QuizState quizState, List<UUID> presentedEffectUuids,  List<String> presentedEffectIdStrings, List<String> presentedEffectDescriptions, List<Integer> presentedEffectTiers, List<Integer> presentedEffectDurations) {
         super(quizState);
         this.presentedEffectUuids = presentedEffectUuids;
         this.presentedEffectIdStrings = presentedEffectIdStrings;
+        this.presentedEffectDescriptions = presentedEffectDescriptions;
         this.presentedEffectTiers = presentedEffectTiers;
         this.presentedEffectDurations = presentedEffectDurations;
     }
@@ -82,4 +90,13 @@ public class ModifierEffectsGameEvent extends GameEvent {
     public void setPresentedEffectDurations(List<Integer> presentedEffectDurations) {
         this.presentedEffectDurations = presentedEffectDurations;
     }
+
+    public List<String> getPresentedEffectDescriptions() {
+        return presentedEffectDescriptions;
+    }
+
+    public void setPresentedEffectDescriptions(List<String> presentedEffectDescriptions) {
+        this.presentedEffectDescriptions = presentedEffectDescriptions;
+    }
+
 }

@@ -2,7 +2,9 @@ package com.example.quiz.controller.user;
 
 import com.example.quiz.model.dto.JwtResponseDto;
 import com.example.quiz.model.dto.LoginRequestDto;
+import com.example.quiz.model.entity.User;
 import com.example.quiz.security.JwtTokenProvider;
+import com.example.quiz.service.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -12,12 +14,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class UserAuthenticationControllerTest {
+class UserAuthenticationControllerTest {
+
+    @InjectMocks
+    private UserAuthenticationController userAuthenticationController;
 
     @Mock
     private AuthenticationManager authenticationManager;
@@ -25,38 +30,45 @@ public class UserAuthenticationControllerTest {
     @Mock
     private JwtTokenProvider jwtTokenProvider;
 
-    @InjectMocks
-    private UserAuthenticationController userAuthenticationController;
+    @Mock
+    private UserService userService;
 
     @BeforeEach
-    public void setup() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testAuthenticateUser_Success() {
+    void testAuthenticateUser_Success() {
         // Arrange
-        LoginRequestDto loginRequestDto = new LoginRequestDto("testUser", "test@test", "password");
-        Authentication authentication = mock(Authentication.class);
-        String jwtToken = "mockJwtToken";
+        LoginRequestDto loginRequestDto = new LoginRequestDto();
+        loginRequestDto.setUsername("testuser");
+        loginRequestDto.setPassword("password");
 
+        Authentication authentication = mock(Authentication.class);
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authentication);
-        when(jwtTokenProvider.generateToken(authentication)).thenReturn(jwtToken);
+        when(jwtTokenProvider.generateToken(authentication)).thenReturn("test-jwt-token");
 
         // Act
         ResponseEntity<?> response = userAuthenticationController.authenticateUser(loginRequestDto);
 
         // Assert
-        assertEquals(ResponseEntity.ok(new JwtResponseDto(jwtToken)), response);
+        assertEquals(200, response.getStatusCodeValue());
+        assertTrue(response.getBody() instanceof JwtResponseDto);
+        assertEquals("test-jwt-token", ((JwtResponseDto) response.getBody()).getToken());
         verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
         verify(jwtTokenProvider, times(1)).generateToken(authentication);
     }
 
     @Test
-    public void testAuthenticateUser_Failure() {
+    void testAuthenticateUser_Failure() {
         // Arrange
-        LoginRequestDto loginRequestDto = new LoginRequestDto("testUser", "email@memail", "wrongPassword");
-        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenThrow(new RuntimeException("Authentication failed"));
+        LoginRequestDto loginRequestDto = new LoginRequestDto();
+        loginRequestDto.setUsername("testuser");
+        loginRequestDto.setPassword("wrongpassword");
+
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
+                .thenThrow(new RuntimeException("Invalid credentials"));
 
         // Act
         ResponseEntity<?> response = userAuthenticationController.authenticateUser(loginRequestDto);
@@ -65,6 +77,51 @@ public class UserAuthenticationControllerTest {
         assertEquals(401, response.getStatusCodeValue());
         assertEquals("Authentication failed", response.getBody());
         verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
-        verify(jwtTokenProvider, never()).generateToken(any());
+        verify(jwtTokenProvider, never()).generateToken(any(Authentication.class));
+    }
+
+    @Test
+    void testRefreshToken_Success() {
+        // Arrange
+        User user = new User();
+        user.setUsername("testuser");
+        when(jwtTokenProvider.generateToken(any(Authentication.class))).thenReturn("new-jwt-token");
+
+        // Act
+        ResponseEntity<?> response = userAuthenticationController.refreshToken(user);
+
+        // Assert
+        assertEquals(200, response.getStatusCodeValue());
+        assertTrue(response.getBody() instanceof JwtResponseDto);
+        assertEquals("new-jwt-token", ((JwtResponseDto) response.getBody()).getToken());
+        verify(jwtTokenProvider, times(1)).generateToken(any(Authentication.class));
+    }
+
+    @Test
+    void testRefreshToken_UserNull() {
+        // Act
+        ResponseEntity<?> response = userAuthenticationController.refreshToken(null);
+
+        // Assert
+        assertEquals(401, response.getStatusCodeValue());
+        assertEquals("Unauthorized", response.getBody());
+        verify(jwtTokenProvider, never()).generateToken(any(Authentication.class));
+    }
+
+    @Test
+    void testRefreshToken_Error() {
+        // Arrange
+        User user = new User();
+        user.setUsername("testuser");
+
+        when(jwtTokenProvider.generateToken(any(Authentication.class))).thenThrow(new RuntimeException("Unexpected error"));
+
+        // Act
+        ResponseEntity<?> response = userAuthenticationController.refreshToken(user);
+
+        // Assert
+        assertEquals(500, response.getStatusCodeValue());
+        assertEquals("An error occurred while refreshing the token", response.getBody());
+        verify(jwtTokenProvider, times(1)).generateToken(any(Authentication.class));
     }
 }

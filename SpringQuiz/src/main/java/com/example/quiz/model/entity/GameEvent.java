@@ -37,6 +37,10 @@ public abstract class GameEvent {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public QuizState getQuizState() {
         return quizState;
     }

@@ -78,8 +78,9 @@ public class UserQuizModifierService {
                 logger.info("Chosen ModifierEffect is of type: {}", chosenEffect.getType());
 
                 // Adjust description or other fields based on tier
+
                 int rolledTier = QuizModifierEffectFactory.rollTier();
-                logger.info("Rolled tier: {}", rolledTier);
+                Integer rolledDuration = rollDuration(chosenEffect);
 
 
                 if ("topic".equalsIgnoreCase(chosenEffect.getType())) {
@@ -89,26 +90,36 @@ public class UserQuizModifierService {
                     String effectId = chosenEffect.getIdString() + "_" + randomTopic.toUpperCase();
                     logger.info("Created effectIdString: {}", effectId);
 
-                    String descriptionWithTopic = chosenEffect.getDescription() + " (Topic: " + randomTopic + ")";
+                    String nameWithTopic = chosenEffect.getName() + " " + randomTopic;
+                    String descriptionWithTopicAndDuration = chosenEffect.getDescription() +  randomTopic + " for the next " + rolledDuration + " questions";
+
 
                     selectedEffects.add(new QuizModifierEffectDto(
                             UUID.randomUUID(),
                             effectId, // Append topic to ID
-                            chosenEffect.getName(),
-                            randomizeDuration(chosenEffect), // todo this is our "fake" tiering for now (depreceated)
-                            descriptionWithTopic,
+                            nameWithTopic,
+                            rolledDuration, // todo this is our "fake" tiering for now (depreceated)
+                            descriptionWithTopicAndDuration,
                             chosenEffect.getType(),
                             chosenEffect.getPermanent(),
                             chosenEffect.getRarity(),
                             rolledTier
                     ));
                 } else {
+                    // todo needs review if we keep it here
+                    String descriptionWithDuration = chosenEffect.getDescription();
+                    if (!chosenEffect.getPermanent()) {
+                         descriptionWithDuration += " for the next " + rolledDuration + " questions.";
+                    } else {
+                         descriptionWithDuration += " until the end of the game.";
+                    }
+
                     selectedEffects.add(new QuizModifierEffectDto(
                             UUID.randomUUID(),
                             chosenEffect.getIdString(),
                             chosenEffect.getName(),
-                            randomizeDuration(chosenEffect), // todo think about how we tie this to tiers
-                            chosenEffect.getDescription(),
+                            rolledDuration, // todo think about how we tie this to tiers
+                            descriptionWithDuration,
                             chosenEffect.getType(),
                             chosenEffect.getPermanent(),
                             chosenEffect.getRarity(),
@@ -126,12 +137,18 @@ public class UserQuizModifierService {
         return selectedEffects;
     }
 
-    // Optional: Adjust the duration based on rarity or other factors
-    private int randomizeDuration(QuizModifierEffectMetaData effect) {
-        int minDuration = 2; // Tier 1
-        int maxDuration = 8; // Tier 5
-        return minDuration + (effect.getRarity() - 1) * (maxDuration - minDuration) / 4; // Scale duration
+    // Optional: Roll a random duration TODO (could also tie this to rarity or tier later)
+    private Integer rollDuration(QuizModifierEffectMetaData effect) {
+        int minDuration = 2; // Minimum duration
+        int maxDuration = 6; // Maximum duration
+
+        // Generate a random duration in the range [minDuration, maxDuration]
+        Integer randomizedDuration = new Random().nextInt((maxDuration - minDuration) + 1) + minDuration;
+
+        logger.info("Randomized duration to value: {} for effect: {}", randomizedDuration, effect.getIdString());
+        return randomizedDuration;
     }
+
 
 
     //@Transactional
@@ -246,8 +263,8 @@ public class UserQuizModifierService {
     // we carry the topic info directly in the string (random picker puts out CHOOSE_TOPIC_MEDICINE)
     // because otherwise we would need to pass an argument or keep all topic subclasses in the registry
     // we decided to do it like this to keep adding and removing topics easy (just need to add to topic registry)
-    // TODO maybe rename this? as it is no conversion but rather a creation
-    public QuizModifierEffectDto convertToDto(UUID uuid, String idString, Integer tier, Integer duration) {
+    // TODO maybe rename this? as it is no conversion but rather a creation// this is needed to restore a quizmodififereffectdto from saved data and currently also to create it (will change)
+    public QuizModifierEffectDto convertToDto(UUID uuid, String idString, String description, Integer tier, Integer duration) {
         logger.info("Converting QuizModifierEffect: {} to QuizModifierEffectDto", idString);
 
         // Check for topic-based effects
@@ -267,13 +284,12 @@ public class UserQuizModifierService {
             }
 
             // Append the topic to the description and ID in the DTO
-            String descriptionWithTopic = quizModifierEffectMetaData.getDescription() + " (Topic: " + topic + ")";
             QuizModifierEffectDto quizModifierEffectDto = new QuizModifierEffectDto(
                     uuid,
                     idString, // Full ID with topic
                     quizModifierEffectMetaData.getName(),
                     duration,
-                    descriptionWithTopic,
+                    description,
                     quizModifierEffectMetaData.getType(),
                     quizModifierEffectMetaData.getPermanent(),
                     quizModifierEffectMetaData.getRarity(),
@@ -297,7 +313,7 @@ public class UserQuizModifierService {
                 quizModifierEffectMetaData.getIdString(),
                 quizModifierEffectMetaData.getName(),
                 duration,
-                quizModifierEffectMetaData.getDescription(),
+                description,
                 quizModifierEffectMetaData.getType(),
                 quizModifierEffectMetaData.getPermanent(),
                 quizModifierEffectMetaData.getRarity(),

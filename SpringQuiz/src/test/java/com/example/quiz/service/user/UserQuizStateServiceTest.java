@@ -1,7 +1,7 @@
 package com.example.quiz.service.user;
 
-import com.example.quiz.model.entity.Question;
-import com.example.quiz.model.entity.QuizState;
+import com.example.quiz.model.dto.*;
+import com.example.quiz.model.entity.*;
 import com.example.quiz.repository.QuizStateRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,13 +9,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class UserQuizStateServiceTest {
+class UserQuizStateServiceTest {
+
+    @InjectMocks
+    private UserQuizStateService userQuizStateService;
 
     @Mock
     private QuizStateRepository quizStateRepository;
@@ -23,98 +25,129 @@ public class UserQuizStateServiceTest {
     @Mock
     private UserQuestionService userQuestionService;
 
-    @InjectMocks
-    private UserQuizStateService userQuizStateService;
+    @Mock
+    private UserQuizModifierService userQuizModifierService;
+
+    @Mock
+    private UserGameEventService userGameEventService;
 
     @BeforeEach
-    public void setup() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testStartNewQuiz() {
+    void testStartNewQuiz() {
         // Arrange
         Long userId = 1L;
-        QuizState quizState = new QuizState(userId);
-        when(quizStateRepository.save(any(QuizState.class))).thenReturn(quizState);
+        List<QuizState> activeQuizStates = List.of(new QuizState(userId));
+        when(quizStateRepository.findAllByUserIdAndIsActiveTrue(userId)).thenReturn(activeQuizStates);
 
         // Act
         QuizState result = userQuizStateService.startNewQuiz(userId);
 
         // Assert
         assertNotNull(result);
-        assertEquals(userId, result.getUserId());
-        verify(quizStateRepository, times(1)).save(any(QuizState.class));
+        assertFalse(activeQuizStates.get(0).isActive());
+        verify(quizStateRepository, times(1)).save(activeQuizStates.get(0));
+        verify(quizStateRepository, times(1)).save(result);
     }
 
     @Test
-    public void testGetLatestQuizStateByUserId_Found() {
+    void testGetNextQuestion() {
         // Arrange
-        Long userId = 1L;
-        QuizState quizState = new QuizState(userId);
-        when(quizStateRepository.findFirstByUserIdOrderByIdDesc(userId)).thenReturn(Optional.of(quizState));
+        QuizState quizState = new QuizState();
+        quizState.setCurrentQuestionIndex(0);
+        quizState.setAllQuestions(new ArrayList<>());
+
+        Question mockQuestion = new Question();
+        quizState.getAllQuestions().add(mockQuestion);
 
         // Act
-        Optional<QuizState> result = userQuizStateService.getLatestQuizStateByUserId(userId);
+        Question result = userQuizStateService.getNextQuestion(quizState);
 
         // Assert
-        assertTrue(result.isPresent());
-        assertEquals(userId, result.get().getUserId());
-    }
-
-    @Test
-    public void testGetLatestQuizStateByUserId_NotFound() {
-        // Arrange
-        Long userId = 1L;
-        when(quizStateRepository.findFirstByUserIdOrderByIdDesc(userId)).thenReturn(Optional.empty());
-
-        // Act
-        Optional<QuizState> result = userQuizStateService.getLatestQuizStateByUserId(userId);
-
-        // Assert
-        assertFalse(result.isPresent());
-    }
-
-    @Test
-    public void testAddQuestion() {
-        // Arrange
-        QuizState quizState = new QuizState(1L);
-        Question question = new Question();
-        question.setId(1L);
-
-        // Act
-        userQuizStateService.addQuestion(quizState, question);
-
-        // Assert
-        assertTrue(quizState.getAllQuestions().contains(question));
+        assertEquals(mockQuestion, result);
+        assertEquals(1, quizState.getCurrentQuestionIndex());
         verify(quizStateRepository, times(1)).save(quizState);
     }
 
     @Test
-    public void testIncrementScore() {
+    void testProcessCorrectAnswerSubmission() {
         // Arrange
-        QuizState quizState = new QuizState(1L);
-        double initialScore = quizState.getScore();
+        QuizState quizState = new QuizState();
+        QuizModifier quizModifier = quizState.getQuizModifier(); // Mock values
+        quizModifier.setBaseCashReward(10); // Mock base reward
+        quizState.setQuizModifier(quizModifier);
+        quizState.setCurrentQuestionIndex(0);
+
+        Question mockQuestion = new Question();
+        mockQuestion.setId(1L);
+        mockQuestion.setDifficulty(2);
+        quizState.setAllQuestions(List.of(mockQuestion));
 
         // Act
-        userQuizStateService.incrementScore(quizState);
+        userQuizStateService.processCorrectAnswerSubmission(quizState);
 
         // Assert
-        assertEquals(initialScore + 1, quizState.getScore());
+        verify(userQuizModifierService, times(1)).processActiveQuizModifierEffectsForNewRound(any());
         verify(quizStateRepository, times(1)).save(quizState);
+        assertEquals(1, quizState.getCompletedQuestionIds().size());
+        assertEquals(20, quizState.getQuizModifier().getCash()); // 10 * 2 = 20 cash earned
     }
 
     @Test
-    public void testMarkQuestionAsCompleted() {
+    void testValidateModifierChoiceEffectAgainstLastEvent_ValidChoice() {
         // Arrange
-        QuizState quizState = new QuizState(1L);
-        Long questionId = 1L;
+        QuizState quizState = new QuizState();
+        UUID validUuid = UUID.randomUUID();
+        ModifierEffectsGameEvent lastEvent = new ModifierEffectsGameEvent();
+        lastEvent.setPresentedEffectUuids(List.of(validUuid));
+        quizState.setGameEvents(new LinkedList<>(List.of(lastEvent)));
 
         // Act
-        userQuizStateService.markQuestionAsCompleted(quizState, questionId);
+        ModifierEffectsGameEvent result = userQuizStateService.validateModifierChoiceEffectAgainstLastEvent(quizState, validUuid);
 
         // Assert
-        assertTrue(quizState.getCompletedQuestionIds().contains(questionId));
-        verify(quizStateRepository, times(1)).save(quizState);
+        assertNotNull(result);
+        assertEquals(lastEvent, result);
+    }
+
+    @Test
+    void testCreateQuizSaveDto() {
+        // Arrange
+        QuizState quizState = new QuizState();
+        quizState.setId(1L);
+
+        QuestionGameEvent lastGameEvent = new QuestionGameEvent();
+        lastGameEvent.setQuestionId(1L);
+        quizState.setGameEvents(new LinkedList<>(List.of(lastGameEvent)));
+
+        QuizStateDto mockQuizStateDto = new QuizStateDto(0, 0, "Question?", null, true);
+        when(userGameEventService.convertToDto(lastGameEvent)).thenReturn(new QuestionGameEventDto());
+        when(userQuizStateService.convertToDto(quizState)).thenReturn(mockQuizStateDto);
+
+        // Act
+        QuizSaveDto result = userQuizStateService.createQuizSaveDto(quizState);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(mockQuizStateDto, result.getQuizStateDto());
+        assertNotNull(result.getGameEventDto());
+        assertTrue(result.getGameEventDto() instanceof QuestionGameEventDto);
+    }
+
+    @Test
+    void testCreateQuizSaveDto_NoGameEvents() {
+        // Arrange
+        QuizState quizState = new QuizState();
+        quizState.setId(1L);
+        quizState.setGameEvents(new LinkedList<>()); // No events
+
+        // Act
+        QuizSaveDto result = userQuizStateService.createQuizSaveDto(quizState);
+
+        // Assert
+        assertNull(result);
     }
 }

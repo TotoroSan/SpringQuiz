@@ -19,11 +19,11 @@ public class IncreaseScoreMultiplierQuizModifierEffect extends QuizModifierEffec
         super("INCREASE_SCORE_MULTIPLIER", "Increase Score Multiplier", 3, quizModifier, "The next questions give x score.", "score", false, 1, null);
     }
 
-    public IncreaseScoreMultiplierQuizModifierEffect(QuizModifier quizModifier, int duration) {
+    public IncreaseScoreMultiplierQuizModifierEffect(QuizModifier quizModifier, Integer duration) {
         super("INCREASE_SCORE_MULTIPLIER", "Increase Score Multiplier", duration, quizModifier, "The next questions give x score.", "score", false, 1, null);
     }
 
-    public IncreaseScoreMultiplierQuizModifierEffect(QuizModifier quizModifier, int duration, Integer tier) {
+    public IncreaseScoreMultiplierQuizModifierEffect(QuizModifier quizModifier, Integer duration, Integer tier) {
         super("INCREASE_SCORE_MULTIPLIER", "Increase Score Multiplier (Tier " + tier + ")", duration, quizModifier, "The next questions give" + calculateMultiplierByTier(tier) + "x score.", "score", false, 1, tier);
     }
 

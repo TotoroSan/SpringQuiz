@@ -38,6 +38,9 @@ public class UserService {
         if (userRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("Email already in use");
         }
+        if (userRepository.existsByUsername(username)) {
+            throw new IllegalArgumentException("Username already in use");
+        }
 
         User user = new User();
         user.setEmail(email);
@@ -49,4 +52,5 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
 }

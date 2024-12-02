@@ -10,8 +10,12 @@ package com.example.quiz.model.dto;
 
 // wrapper class dto to provide everything needed for loading a save game in one call (quizstate + last game event)
 public class QuizSaveDto {
-    private final QuizStateDto quizStateDto;
-    private final GameEventDto gameEventDto;
+    private QuizStateDto quizStateDto;
+    private GameEventDto gameEventDto;
+
+    // just for testing
+    public  QuizSaveDto(){}
+
 
     public QuizSaveDto(QuizStateDto quizStateDto, GameEventDto gameEventDto) {
         this.quizStateDto = quizStateDto;

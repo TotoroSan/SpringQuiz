@@ -251,18 +251,23 @@ public class UserQuizStateService {
         // Check if the current round is divisible by 5 to provide modifier effects
         // TODO 5 is arbitrary value for testing.
 
-
-        if (quizState.getAnsweredQuestionsInSegment() % 2 == 0) {
+        // TODO move this value into some confiq. maybe create an event function that evalutes this
+        if (quizState.getAnsweredQuestionsInSegment() % 3 == 0) {
             logger.info("Returning random modifier effects for QuizState ID: {}", quizState.getId());
 
 
             List<QuizModifierEffectDto> randomQuizModifierEffects = userQuizModifierService.pickRandomModifierEffectDtos();
+            // i could also directly create the dto with this in addition to creating th event for saving
 
             // todo consolidate this extracton and move.
             //  it is necessary to do this way because we need this info to restore the modifierSelection event by loading. we cannot just store the dto (dtos are not persisted)
 
             List<UUID> effectUuids = randomQuizModifierEffects.stream()
                     .map(id -> UUID.randomUUID())
+                    .collect(Collectors.toList());
+
+            List<String> effectDescriptions = randomQuizModifierEffects.stream()
+                    .map(QuizModifierEffectDto::getDescription)
                     .collect(Collectors.toList());
 
             // Extract IDs from the list of QuizModifierEffectDto
@@ -279,7 +284,7 @@ public class UserQuizStateService {
                     .collect(Collectors.toList());
 
 
-            ModifierEffectsGameEvent modifierEffectsGameEvent = new ModifierEffectsGameEvent(effectUuids, quizState, effectIds, effectTiers, effectDurations);
+            ModifierEffectsGameEvent modifierEffectsGameEvent = new ModifierEffectsGameEvent( quizState, effectUuids, effectIds, effectDescriptions, effectTiers, effectDurations);
 
             quizState.addGameEvent(modifierEffectsGameEvent);
             saveQuizState(quizState);
@@ -369,8 +374,8 @@ public class UserQuizStateService {
 
         // Retrieve additional effect data (e.g., ID, tier, duration) based on the index
         String effectId = modifierEffectsGameEvent.getPresentedEffectIdStrings().get(effectIndex);
-        int tier = modifierEffectsGameEvent.getPresentedEffectTiers().get(effectIndex);
-        int duration = modifierEffectsGameEvent.getPresentedEffectDurations().get(effectIndex);
+        Integer tier = modifierEffectsGameEvent.getPresentedEffectTiers().get(effectIndex);
+        Integer duration = modifierEffectsGameEvent.getPresentedEffectDurations().get(effectIndex);
 
         // Instantiate and apply the effect
         Boolean effectIsApplied = userQuizModifierService.applyModifierEffectByIdString(quizState.getQuizModifier(), effectId, duration, tier);
