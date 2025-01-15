@@ -64,6 +64,8 @@ public class UserQuizModifierService {
             int cumulativeWeight = 0;
             QuizModifierEffectMetaData chosenEffect = null;
 
+            // add up effect weights until we are in the range of the random value, pick the effect that crosses the threshold
+            // todo could prefix sum be used here? => i think so but it  would just replace the addition, so low prio
             for (QuizModifierEffectMetaData effect : allEffects) {
                 cumulativeWeight += effect.getRarityWeight();
                 if (randomValue < cumulativeWeight) {
