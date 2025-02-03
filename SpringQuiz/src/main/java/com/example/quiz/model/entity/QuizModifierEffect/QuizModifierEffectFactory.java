@@ -134,6 +134,7 @@ public class QuizModifierEffectFactory {
     // topic effects are instantiated with e.g. CHOOSE_TOPIC_MEDICINE as effectIdString
     // todo replace duration with tier here (duration is indecritly influenced by tier)
     // todo filter for permanent / non permanent effects (for now i just pass an arbitrary duration to permanent effects, which is set to null)
+    // todo maybe add rarity to enable showing of rarity of active effects in frontend ( so far we color code only ttier)
     public static QuizModifierEffect createEffect(String effectIdString, Integer duration, QuizModifier quizModifier, Integer tier) {
         logger.info("Effect Factory is instantiating effect from effectIdString: {}", effectIdString);
 

@@ -14,6 +14,10 @@ public class QuestionGameEventDto extends GameEventDto {
     private Long questionId;        // Id of the question
     private List<AnswerDto> shuffledAnswers;  // The shuffled list of answers
 
+
+    // A list of answer IDs (or identifiers) that have been eliminated.
+    private List<Long> eliminatedAnswerIds;
+
     // Empty constructor for testing and framework purposes
     public QuestionGameEventDto() {
         super("QUESTION");
@@ -52,6 +56,15 @@ public class QuestionGameEventDto extends GameEventDto {
     public void setQuestionId(Long questionId) {
         this.questionId = questionId;
     }
+
+    public List<Long> getEliminatedAnswerIds() {
+        return eliminatedAnswerIds;
+    }
+
+    public void setEliminatedAnswerIds(List<Long> eliminatedAnswerIds) {
+        this.eliminatedAnswerIds = eliminatedAnswerIds;
+    }
+
 
     @Override
     public String toString() {

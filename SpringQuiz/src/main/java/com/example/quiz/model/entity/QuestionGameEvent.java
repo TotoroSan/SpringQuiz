@@ -1,10 +1,8 @@
 package com.example.quiz.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,6 +17,15 @@ public class QuestionGameEvent extends GameEvent {
     @ElementCollection
     @Column(name = "shuffled_answer_id") // Define the column for the Answer ID
     private List<Answer> shuffledAnswers;  // The shuffled list of answers
+
+
+    // Represents the IDs of answers that have been eliminated via Joker usage
+    @ElementCollection
+    @OrderColumn(name = "eliminated_order")
+    private List<Long> eliminatedAnswerIds = new ArrayList<>();
+
+    // If true, the question was skipped via SkipQuestionJoker
+    private boolean skipUsed = false;
 
     // Constructors
     public QuestionGameEvent() {
@@ -56,6 +63,23 @@ public class QuestionGameEvent extends GameEvent {
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
     }
+
+    public List<Long> getEliminatedAnswerIds() {
+        return eliminatedAnswerIds;
+    }
+
+    public void setEliminatedAnswerIds(List<Long> eliminatedAnswerIds) {
+        this.eliminatedAnswerIds = eliminatedAnswerIds;
+    }
+
+    public boolean isSkipUsed() {
+        return skipUsed;
+    }
+
+    public void setSkipUsed(boolean skipUsed) {
+        this.skipUsed = skipUsed;
+    }
+
 
 
 }

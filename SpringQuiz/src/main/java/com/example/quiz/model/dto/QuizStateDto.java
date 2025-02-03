@@ -1,10 +1,15 @@
 package com.example.quiz.model.dto;
 
+import com.example.quiz.model.entity.Joker.Joker;
+
+import java.util.List;
+
 public class QuizStateDto {
     private double score;
     private int currentRound;
     private String currentQuestionText;
     private QuizModifierDto quizModifierDto;
+    private List<JokerDto> activeJokerDtos;
 
 
     private Boolean isActive;
@@ -13,11 +18,12 @@ public class QuizStateDto {
     public QuizStateDto() {
     }
 
-    public QuizStateDto(double score, int currentRound, String currentQuestionText, QuizModifierDto quizModifierDto, Boolean isActive) {
+    public QuizStateDto(double score, int currentRound, String currentQuestionText, QuizModifierDto quizModifierDto, List<JokerDto> activeJokerDtos, Boolean isActive) {
         this.score = score;
         this.currentRound = currentRound;
         this.currentQuestionText = currentQuestionText;
         this.quizModifierDto = quizModifierDto;
+        this.activeJokerDtos = activeJokerDtos;
         this.isActive = isActive;
     }
 
@@ -61,6 +67,15 @@ public class QuizStateDto {
     public void setQuizModifierDto(QuizModifierDto quizModifierDto) {
         this.quizModifierDto = quizModifierDto;
     }
+
+    public List<JokerDto> getActiveJokerDtos() {
+        return activeJokerDtos;
+    }
+
+    public void setActiveJokerDtos(List<JokerDto> activeJokerDtos) {
+        this.activeJokerDtos = activeJokerDtos;
+    }
+
 
     @Override
     public String toString() {

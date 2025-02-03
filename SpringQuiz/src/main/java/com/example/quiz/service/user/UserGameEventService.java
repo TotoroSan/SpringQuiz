@@ -4,6 +4,7 @@ import com.example.quiz.model.dto.*;
 import com.example.quiz.model.entity.GameEvent;
 import com.example.quiz.model.entity.ModifierEffectsGameEvent;
 import com.example.quiz.model.entity.QuestionGameEvent;
+import com.example.quiz.model.entity.ShopGameEvent;
 import com.example.quiz.repository.GameEventRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,6 +108,47 @@ public class UserGameEventService {
         logger.info("Successfully converted modifierEffectsGameEvent to ModifierEffectsGameEventDto");
         return modifierEffectsGameEventDto;
     }
+
+    public ShopGameEventDto convertToDto(ShopGameEvent shopGameEvent) {
+        logger.info("Converting ShopGameEvent to ShopGameEventDto");
+
+        // We'll build a list of JokerDto objects from the parallel lists in the entity
+        List<JokerDto> jokerDtos = new ArrayList<>();
+
+        List<String> idStrings = shopGameEvent.getPresentedJokerIds();
+        List<String> names = shopGameEvent.getPresentedJokerNames();
+        List<Integer> costs = shopGameEvent.getPresentedJokerCosts();
+        List<Integer> rarities = shopGameEvent.getPresentedJokerRarities();
+        List<Integer> tiers = shopGameEvent.getPresentedJokerTiers();
+
+        // Safeguard in case sizes differ
+        int size = idStrings.size();
+        for (int i = 0; i < size; i++) {
+            String idString = idStrings.get(i);
+            String name = names.get(i);
+            Integer cost = costs.get(i);
+            Integer rarity = rarities.get(i);
+            Integer tier = tiers.get(i);
+
+            // Build a JokerDto
+            JokerDto jokerDto = new JokerDto(
+                    null,            // no persistent ID yet
+                    idString,
+                    name,
+                    "Purchase this joker to enhance your game!", // or a more meaningful description
+                    (cost != null ? cost : 0),
+                    1, // default uses?
+                    tier,
+                    rarity
+            );
+            jokerDtos.add(jokerDto);
+        }
+
+        ShopGameEventDto shopGameEventDto = new ShopGameEventDto(jokerDtos);
+        logger.info("Created ShopGameEventDto with {} jokers", jokerDtos.size());
+        return shopGameEventDto;
+    }
+
 
     public void resolveGameEvent(Long gameEventId) {
         GameEvent gameEvent = gameEventRepository.findById(gameEventId)

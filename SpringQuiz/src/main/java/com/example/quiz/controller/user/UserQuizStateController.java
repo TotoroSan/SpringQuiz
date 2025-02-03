@@ -219,4 +219,6 @@ public class UserQuizStateController {
 
         return ResponseEntity.ok(activeQuizModifierEffects);
     }
+
+    // TODO CONTROLLER FUNCTIONS FOR JOKER / SHOP GAME EVENT
 }

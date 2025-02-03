@@ -1,13 +1,11 @@
 package com.example.quiz.model.entity;
 
+import com.example.quiz.model.entity.Joker.Joker;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class QuizState implements Serializable {
@@ -66,6 +64,9 @@ public class QuizState implements Serializable {
     @OrderColumn(name = "event_order") // This ensures events are ordered by this column in the database
     private List<GameEvent> gameEvents;
 
+    // list of bought and usable jokers TODO fix here if problems, maybe need to add ordering
+    @OneToMany(mappedBy = "quizState", cascade = CascadeType.ALL, orphanRemoval = true)
+    private HashMap<Long, Joker> activeJokers;
 
     // Standard Constructor for JPA reflection
     public QuizState() {
@@ -86,6 +87,7 @@ public class QuizState implements Serializable {
         this.createdAt = LocalDateTime.now();
         this.quizModifier = new QuizModifier(this); // initialize with standard quiz modifier
         this.gameEvents = new ArrayList<>();
+        this.activeJokers = new HashMap<>();
     }
 
     // Constructor to initialize a new quiz with a list of questions
@@ -102,7 +104,7 @@ public class QuizState implements Serializable {
         this.createdAt = LocalDateTime.now();
         this.quizModifier = new QuizModifier(this); // initialize with standard quiz modifier
         this.gameEvents = new ArrayList<>();
-
+        this.activeJokers = new HashMap<>();
     }
 
     // Constructor to initialize a new quiz with a list of questions and existing a custom modifier
@@ -152,6 +154,9 @@ public class QuizState implements Serializable {
         this.currentQuestionIndex = currentQuestionIndex;
     }
 
+    public Question getCurrentQuestion() {
+        return allQuestions.get(currentQuestionIndex);
+    }
 
     public double getScore() {
         return score;
@@ -231,10 +236,21 @@ public class QuizState implements Serializable {
         this.gameEvents.add(gameEvent);
     }
 
+    public GameEvent getLatestGameEvent() {
+        return getGameEvents().get(this.gameEvents.size() - 1);
+    }
+
     public void clearGameEvents() {
         this.gameEvents.clear();
     }
 
+    public HashMap<Long, Joker> getActiveJokers() {
+        return activeJokers;
+    }
+
+    public void setActiveJokers(HashMap<Long, Joker> activeJokers) {
+        this.activeJokers = activeJokers;
+    }
 
 }
 

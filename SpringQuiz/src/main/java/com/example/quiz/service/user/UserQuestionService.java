@@ -172,6 +172,7 @@ public class UserQuestionService {
     // TODO split this function to enable resuablilty of core functioanlity (find random question and shuffle answers)
     // todo this bleongs somewhere else, quizstate seems off here
     // todo need to implement function to convert to dto
+    //
     public QuestionGameEvent createQuestionGameEvent(Question question, QuizState quizState) {
         // TODO check where to add exception for findRandomQuestion (e.g. there are no questions left)
         // we use this datatype and not questionDto because we do not want to reveal real true answer to the client

@@ -1,16 +1,15 @@
 package com.example.quiz.service.user;
 
-import com.example.quiz.model.dto.GameEventDto;
-import com.example.quiz.model.dto.QuizModifierEffectDto;
-import com.example.quiz.model.dto.QuizSaveDto;
-import com.example.quiz.model.dto.QuizStateDto;
+import com.example.quiz.model.dto.*;
 import com.example.quiz.model.entity.*;
+import com.example.quiz.model.entity.Joker.JokerMetaData;
 import com.example.quiz.repository.QuizStateRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,6 +34,9 @@ public class UserQuizStateService {
 
     @Autowired
     private UserQuizModifierService userQuizModifierService;
+
+    @Autowired
+    private UserJokerService userJokerService;
 
     @Autowired
     private UserGameEventService userGameEventService;
@@ -114,7 +116,7 @@ public class UserQuizStateService {
 
     public QuizStateDto convertToDto(QuizState quizState) {
         logger.info("Converting quizState to quizStateDto");
-        // Convert to DTO to return to the user
+        // Convert to DTO to return to the user TODO add jokers here
         QuizStateDto quizStateDto = new QuizStateDto(
                 quizState.getScore(),
                 quizState.getCurrentRound(),
@@ -252,7 +254,17 @@ public class UserQuizStateService {
         // TODO 5 is arbitrary value for testing.
 
         // TODO move this value into some confiq. maybe create an event function that evalutes this
-        if (quizState.getAnsweredQuestionsInSegment() % 3 == 0) {
+        // 1) Check for shop event condition (e.g., every 5th question)
+        if (quizState.getAnsweredQuestionsInSegment() % 5 == 0) {
+            // TODO
+            logger.info("Returning ShopGameEvent for QuizState ID: {}", quizState.getId());
+            ShopGameEvent shopGameEvent = createShopGameEvent(quizState);
+            quizState.addGameEvent(shopGameEvent);
+            saveQuizState(quizState);
+            logger.debug("Successfully returned ShopGameEvent");
+            return shopGameEvent;
+        }
+        else if (quizState.getAnsweredQuestionsInSegment() % 3 == 0) {
             logger.info("Returning random modifier effects for QuizState ID: {}", quizState.getId());
 
 
@@ -327,6 +339,51 @@ public class UserQuizStateService {
         }
     }
 
+    private ShopGameEvent createShopGameEvent(QuizState quizState) {
+        logger.info("Returning random shop items for QuizState ID: {}", quizState.getId());
+
+        // 1) Pick random Joker DTOs
+        List<JokerDto> chosenJokers = userJokerService.pickRandomJokerDtos();
+
+        // 2) Build parallel lists using stream()
+        List<String> jokerIds = chosenJokers.stream()
+                .map(JokerDto::getIdString)
+                .collect(Collectors.toList());
+
+        List<String> jokerNames = chosenJokers.stream()
+                .map(JokerDto::getName)
+                .collect(Collectors.toList());
+
+        List<Integer> jokerCosts = chosenJokers.stream()
+                .map(JokerDto::getCost)
+                .collect(Collectors.toList());
+
+        List<Integer> jokerRarities = chosenJokers.stream()
+                .map(dto -> dto.getRarity() != null ? dto.getRarity() : 1)
+                .collect(Collectors.toList());
+
+        List<Integer> jokerTiers = chosenJokers.stream()
+                .map(dto -> dto.getTier() != null ? dto.getTier() : 1)
+                .collect(Collectors.toList());
+
+        // 3) Create the ShopGameEvent
+        ShopGameEvent shopGameEvent = new ShopGameEvent(
+                quizState,
+                jokerIds,
+                jokerNames,
+                jokerCosts,
+                jokerRarities,
+                jokerTiers
+        );
+
+        // 4) Add to the quiz state and persist
+        quizState.addGameEvent(shopGameEvent);
+        saveQuizState(quizState);
+
+        logger.debug("Successfully returned random ShopGameEvent for QuizState ID: {}", quizState.getId());
+        return shopGameEvent;
+    }
+
 
     // validates a modififerEffect uuid against the latest event to prevent cheating (could also put this in the apply modifer effect method, since both methods are used in combination)
     // returns the last active modifierEffectsGameEvent if effect choice is valid
@@ -392,6 +449,28 @@ public class UserQuizStateService {
         logger.error("Failed to instantiate and apply effect: {}", chosenEffectUuid);
         return false;
     }
+
+    public boolean validateAndPurchaseJoker(QuizState quizState, String jokerId) {
+        // TODO
+        GameEvent latestEvent = quizState.getLatestGameEvent();
+        if (!(latestEvent instanceof ShopGameEvent shopEvent)) {
+            logger.warn("Latest event isn't a ShopGameEvent! Can't purchase a joker.");
+            return false;
+        }
+
+        // Check if the requested jokerId is presented
+        List<String> presentedJokerIds = shopEvent.getPresentedJokerIds();
+        if (!presentedJokerIds.contains(jokerId)) {
+            logger.warn("Joker ID {} is not in the presented shop event!", jokerId);
+            return false;
+        }
+
+        // Now call your userJokerService to do the actual purchase
+        // e.g. userJokerService.purchaseJoker(quizState, jokerId, desiredTier);
+        // or extract cost from shopEvent if you want to override the cost from the registry
+        return true;
+    }
+
 
 
     public QuizSaveDto createQuizSaveDto(QuizState quizState) {
