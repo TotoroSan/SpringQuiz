@@ -55,7 +55,28 @@ public class UserQuizStateController {
 
     // TODO how does a user interact with quizzes?
 
-    // Start a new quiz
+
+    // TODO this is an example of how we use swagger for external documentation of public endpoints for users
+    //  and javadoc for internal documentation for development
+    /**
+     * Starts a new quiz session for the authenticated user, storing the new QuizState in the session.
+     * This endpoint returns a simple success message indicating that the quiz has started.
+     *
+     * @param session The HTTP session used for storing the newly created QuizState
+     * @param user    The currently authenticated user
+     * @return A ResponseEntity containing a success message
+     */
+    @Operation(
+            summary = "Start a new quiz",
+            description = """
+        Initializes a new QuizState for the authenticated user,
+        saves it in the HTTP session, and returns a confirmation message.
+        """
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Quiz started successfully"
+    )
     @GetMapping("/start")
     public ResponseEntity<String> startQuiz(HttpSession session, @AuthenticationPrincipal User user) {
         Long userId = user.getId();
@@ -64,7 +85,34 @@ public class UserQuizStateController {
         return ResponseEntity.ok("Quiz started!");
     }
 
-    // Load the last active Quiz if there is one
+    /**
+     * Loads the last active quiz state for the authenticated user,
+     * converts it to a QuizSaveDto, and returns it.
+     * If no active quiz is found or the loaded QuizState is invalid,
+     * a 204 (No Content) response is returned.
+     *
+     * @param session The HTTP session for storing the loaded QuizState
+     * @param user    The authenticated user
+     * @return A ResponseEntity containing a QuizSaveDto if found, otherwise 204 No Content
+     * @throws JsonProcessingException if there's an issue serializing the quiz state
+     */
+    @Operation(
+            summary = "Load the last active quiz",
+            description = """
+        Retrieves the most recent active QuizState for the user, if one exists.
+        Converts it to a QuizSaveDto and returns it. If none is found or if the 
+        QuizState is invalid, a 204 No Content response is issued.
+        """
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Successfully loaded the last active quiz"
+    )
+    @ApiResponse(
+            responseCode = "204",
+            description = "No active quiz found or invalid quiz state",
+            content = @Content
+    )
     @GetMapping("/load")
     public ResponseEntity<QuizSaveDto> loadLastActiveQuiz(HttpSession session, @AuthenticationPrincipal User user) throws JsonProcessingException {
         logger.info("Received request to load the last active quiz for user ID: {}", user.getId());
@@ -95,11 +143,34 @@ public class UserQuizStateController {
 
 
     // Get QuizState
-    /*
-     * @AuthenticationPrincipal annotation is used to directly inject the currently authenticated user into a method parameter.
-     * Specifically, it extracts the user details from the authentication token, which means the authenticated user's information
-     * is available for use without the need to manually parse the JWT or session.
-     * */
+
+
+
+
+    /**
+     * Retrieves the current QuizState for the authenticated user and converts it into a QuizStateDto.
+     * If no QuizState is found, returns a 400 Bad Request.
+     *
+     * @param session The HTTP session for storing the retrieved QuizState
+     * @param user    The currently authenticated user
+     * @return A ResponseEntity containing the QuizStateDto, or 400 if no QuizState is found
+     */
+    @Operation(
+            summary = "Get current QuizState",
+            description = """
+        Fetches the latest QuizState for the authenticated user and converts it into
+        a QuizStateDto. If no QuizState is found, returns a 400 (Bad Request).
+        """
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Successfully retrieved the current QuizState"
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "QuizState not found for the user",
+            content = @Content
+    )
     @GetMapping("/state")
     public ResponseEntity<QuizStateDto> getQuizState(HttpSession session, @AuthenticationPrincipal User user) {
         logger.info("Received request to get QuizState for user: {}", user.getId());
@@ -122,7 +193,34 @@ public class UserQuizStateController {
         return ResponseEntity.ok(quizStateDto);
     }
 
-    // Endpoint to handle next game event (either a question or modifier effects)
+    /**
+     * Retrieves the next game event for the authenticated user's current quiz state.
+     * This event can be a QuestionGameEvent, a ModifierEffectsGameEvent, or a ShopGameEvent,
+     * depending on the quiz logic. If the quiz has ended or no quiz state is found, returns a 400 error.
+     *
+     * @param session The HTTP session used to store the updated QuizState
+     * @param user    The currently authenticated user
+     * @return A ResponseEntity containing the next GameEventDto
+     */
+    @Operation(
+            summary = "Get next game event",
+            description = """
+        Retrieves and returns the next game event for the user's quiz session. 
+        The event could be a question, modifier selection, or shop event, based 
+        on the quiz progression logic. If the quiz is not active or no quiz state 
+        is found, a 400 Bad Request is returned.
+        """
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Successfully retrieved the next GameEvent",
+            content = @Content
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "No active quiz state found or the quiz has ended",
+            content = @Content
+    )
     @GetMapping("/nextGameEvent")
     public ResponseEntity<GameEventDto> getNextGameEvent(HttpSession session, @AuthenticationPrincipal User user) {
         logger.info("Received request to get next game event for user ID: {}", user.getId());
@@ -163,15 +261,33 @@ public class UserQuizStateController {
     }
 
 
-    // Endpoint to get random QuizModifierEffects to present to the user
-    // TODO currently not in use
-    @GetMapping("/modifiers/getrandom")
-    public ResponseEntity<List<QuizModifierEffectDto>> getRandomModifiers() {
-        List<QuizModifierEffectDto> randomQuizModifierEffects = userQuizModifierService.pickRandomModifierEffectDtos();
-        return ResponseEntity.ok(randomQuizModifierEffects);
-    }
-
-    // Endpoint to apply the chosen modifier effect to the modifier of the gamestate
+    /**
+     * Applies a chosen modifier effect to the current QuizState based on the provided QuizModifierEffectDto.
+     * Validates and instantiates the effect using its UUID, then moves the quiz forward if successful.
+     * Returns 400 if the quiz state is not found or the effect cannot be applied.
+     *
+     * @param session                 The HTTP session where the QuizState is stored
+     * @param quizModifierEffectDto   The DTO representing the chosen modifier effect
+     * @param user                    The authenticated user
+     * @return A ResponseEntity with a success message (200 OK) or an error (400 Bad Request)
+     */
+    @Operation(
+            summary = "Apply a chosen modifier effect",
+            description = """
+        Takes a QuizModifierEffectDto containing an effect UUID, validates and applies it 
+        to the user's current quiz state. If valid, the quiz state is advanced to the next segment.
+        If invalid, a 400 Bad Request response is returned.
+        """
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Modifier applied successfully"
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "Failed to apply modifier (no quiz state found or invalid effect)",
+            content = @Content
+    )
     @PostMapping("/modifiers/apply")
     public ResponseEntity<String> applyModifier(HttpSession session, @RequestBody QuizModifierEffectDto quizModifierEffectDto, @AuthenticationPrincipal User user) {
         logger.info("Received request to apply chosen QuizModifierEffect for user ID: {}", user.getId());
@@ -204,6 +320,31 @@ public class UserQuizStateController {
     }
 
 
+    /**
+     * Retrieves all currently active modifier effects for the authenticated user's quiz state
+     * and returns them as a list of QuizModifierEffectDto. If no quiz state is found, returns 400.
+     *
+     * @param user The authenticated user
+     * @return A ResponseEntity containing the list of active modifier effect DTOs,
+     *         or 400 if no quiz state is found
+     */
+    @Operation(
+            summary = "Get active modifier effects",
+            description = """
+        Fetches the latest quiz state for the user and returns all active modifier effects 
+        (wrapped in QuizModifierEffectDto) that are currently applied to the quiz.
+        Returns 400 if no quiz state is available.
+        """
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Successfully retrieved active modifier effects"
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "Quiz state not found for the user",
+            content = @Content
+    )
     @GetMapping("/modifiers/getactive")
     public ResponseEntity<List<QuizModifierEffectDto>> getActiveQuizModifierDtos(@AuthenticationPrincipal User user) {
         logger.info("Received request to get ActiveQuizModifierDtos for user: {}", user.getId());
@@ -224,7 +365,6 @@ public class UserQuizStateController {
         return ResponseEntity.ok(activeQuizModifierEffects);
     }
 
-    // TODO this is an example of how we use swagger annotations for documentation of user facing endpoints
     /**
      * Purchases a Joker by receiving a JokerDto from the client.
      * Validates that the Joker is available in the current ShopGameEvent and

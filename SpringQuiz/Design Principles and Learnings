@@ -61,7 +61,9 @@ Learnings
   the mappedBy attribute is used in the "non owning" side of the relationship. mappedBy = quizState means that the attribute is
    mapped by quizState in the other table.
 
--
+-  @AuthenticationPrincipal annotation is used to directly inject the currently authenticated user into a method parameter.
+   Specifically, it extracts the user details from the authentication token, which means the authenticated user's information
+   is available for use without the need to manually parse the JWT or session. See the QuizStateController for an example.
 
 
 
