@@ -6,10 +6,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OrderColumn;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @DiscriminatorValue("SHOP")
 public class ShopGameEvent extends GameEvent {
+
+
+
+    @ElementCollection
+    @OrderColumn(name = "uuid_order")
+    private List<UUID> presentedJokerUuids; // Stores the IDs of the presented joker (used for identification and validation afterwards)
 
     // IDs for the jokers presented to the user in the shop
     @ElementCollection
@@ -39,12 +46,14 @@ public class ShopGameEvent extends GameEvent {
     }
 
     public ShopGameEvent(QuizState quizState,
+                         List<UUID> presentedJokerUuids,
                          List<String> presentedJokerIds,
                          List<String> presentedJokerNames,
                          List<Integer> presentedJokerCosts,
                          List<Integer> presentedJokerRarities,
                          List<Integer> presentedJokerTiers) {
         super(quizState);
+        this.presentedJokerUuids = presentedJokerUuids;
         this.presentedJokerIds = presentedJokerIds;
         this.presentedJokerNames = presentedJokerNames;
         this.presentedJokerCosts = presentedJokerCosts;
@@ -53,6 +62,14 @@ public class ShopGameEvent extends GameEvent {
     }
 
     // Getters & setters
+    public List<UUID> getPresentedJokerUuids() {
+        return presentedJokerUuids;
+    }
+
+    public void setPresentedJokerUuids(List<UUID> presentedJokerUuids) {
+        this.presentedJokerUuids = presentedJokerUuids;
+    }
+
     public List<String> getPresentedJokerIds() {
         return presentedJokerIds;
     }

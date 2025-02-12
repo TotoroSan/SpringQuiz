@@ -40,12 +40,15 @@ public class UserGameEventService {
         logger.info("Trying to infer gameEvent subtype for conversion.");
         if (gameEvent instanceof QuestionGameEvent questionGameEvent) {
             logger.info("Trying to initiate conversion for QuestionGameEvent");
-
             return convertToDto(questionGameEvent);
         } else if (gameEvent instanceof ModifierEffectsGameEvent modifierEffectsEvent) {
             logger.info("Trying to initiate conversion for ModifierEffectsGameEvent");
             return convertToDto(modifierEffectsEvent);
-        } else {
+        } else if (gameEvent instanceof ShopGameEvent shopGameEvent) {
+            logger.info("Trying to initiate conversion for ShopGameEvent");
+            return convertToDto(shopGameEvent);
+        }
+        else {
             throw new IllegalArgumentException("Unknown game event type: " + gameEvent.getClass());
         }
     }
@@ -86,7 +89,7 @@ public class UserGameEventService {
         }
 
         // Combine the three lists to create a list of QuizModifierEffectDto objects
-        List<QuizModifierEffectDto> modifierEffects = new ArrayList<>();
+        List<QuizModifierEffectDto> modifierEffectDtos = new ArrayList<>();
         for (int i = 0; i < effectIdStrings.size(); i++) {
             UUID effectUuid = effectUuids.get(i);
             String effectIdString = effectIdStrings.get(i);
@@ -97,14 +100,14 @@ public class UserGameEventService {
             try {
                 // Convert to DTO using the updated convertToDto method
                 QuizModifierEffectDto dto = userQuizModifierService.convertToDto(effectUuid, effectIdString, effectDescription, tier, duration);
-                modifierEffects.add(dto);
+                modifierEffectDtos.add(dto);
             } catch (Exception e) {
                 logger.error("Error converting effect ID: {} to QuizModifierEffectDto", effectIdString, e);
             }
         }
 
         // Create and return the ModifierEffectsGameEventDto
-        ModifierEffectsGameEventDto modifierEffectsGameEventDto = new ModifierEffectsGameEventDto(modifierEffects);
+        ModifierEffectsGameEventDto modifierEffectsGameEventDto = new ModifierEffectsGameEventDto(modifierEffectDtos);
         logger.info("Successfully converted modifierEffectsGameEvent to ModifierEffectsGameEventDto");
         return modifierEffectsGameEventDto;
     }
@@ -130,7 +133,7 @@ public class UserGameEventService {
             Integer rarity = rarities.get(i);
             Integer tier = tiers.get(i);
 
-            // Build a JokerDto
+            // Build a JokerDto TODO this one is a seperate function for the modifier effects, maybe also do here
             JokerDto jokerDto = new JokerDto(
                     null,            // no persistent ID yet
                     idString,

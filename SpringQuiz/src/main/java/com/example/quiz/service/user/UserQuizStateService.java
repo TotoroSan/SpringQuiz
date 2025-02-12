@@ -21,6 +21,7 @@ public class UserQuizStateService {
 
     // responsible for actions that modify the state, like incrementing the question index.
 
+    // TODO FIXME BUG XXX HACK OPTIMIZE (= builtin comment annotations)
 
     // by stating autowired the object creation gets handed over to spring.
     // it is an "automatic" connection to another class that is needed and has a connection to our class. we basically "wire" the classes -> if we create a quizservice we always reate a quizrepository via that wire
@@ -122,6 +123,7 @@ public class UserQuizStateService {
                 quizState.getCurrentRound(),
                 quizState.getAllQuestions().isEmpty() ? null : quizState.getAllQuestions().get(quizState.getCurrentQuestionIndex()).getQuestionText(),
                 userQuizModifierService.convertToDto(quizState.getQuizModifier()),
+                userJokerService.getActiveJokerDtos(quizState),
                 quizState.isActive()); // convert quizModifier to dto as well in this process
 
         logger.debug("Successfully converted quizState to quizStateDto");
@@ -259,8 +261,6 @@ public class UserQuizStateService {
             // TODO
             logger.info("Returning ShopGameEvent for QuizState ID: {}", quizState.getId());
             ShopGameEvent shopGameEvent = createShopGameEvent(quizState);
-            quizState.addGameEvent(shopGameEvent);
-            saveQuizState(quizState);
             logger.debug("Successfully returned ShopGameEvent");
             return shopGameEvent;
         }
@@ -273,6 +273,7 @@ public class UserQuizStateService {
 
             // todo consolidate this extracton and move.
             //  it is necessary to do this way because we need this info to restore the modifierSelection event by loading. we cannot just store the dto (dtos are not persisted)
+            // todo maybe move this to a function
 
             List<UUID> effectUuids = randomQuizModifierEffects.stream()
                     .map(id -> UUID.randomUUID())
@@ -346,6 +347,10 @@ public class UserQuizStateService {
         List<JokerDto> chosenJokers = userJokerService.pickRandomJokerDtos();
 
         // 2) Build parallel lists using stream()
+        List<UUID> jokerUuids = chosenJokers.stream()
+                .map(JokerDto::getUuid)
+                .collect(Collectors.toList());
+
         List<String> jokerIds = chosenJokers.stream()
                 .map(JokerDto::getIdString)
                 .collect(Collectors.toList());
@@ -369,6 +374,7 @@ public class UserQuizStateService {
         // 3) Create the ShopGameEvent
         ShopGameEvent shopGameEvent = new ShopGameEvent(
                 quizState,
+                jokerUuids,
                 jokerIds,
                 jokerNames,
                 jokerCosts,
@@ -451,7 +457,7 @@ public class UserQuizStateService {
     }
 
     public boolean validateAndPurchaseJoker(QuizState quizState, String jokerId) {
-        // TODO
+        // TODO => depreceated, i already doing this in the jokerService purchase method (flagged for removal)
         GameEvent latestEvent = quizState.getLatestGameEvent();
         if (!(latestEvent instanceof ShopGameEvent shopEvent)) {
             logger.warn("Latest event isn't a ShopGameEvent! Can't purchase a joker.");

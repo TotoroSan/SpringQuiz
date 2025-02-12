@@ -83,43 +83,57 @@ public class UserJokerService {
      * @param tier      The desired joker tier (if null, a tier will be rolled).
      * @return True if the Joker was successfully purchased and added; false otherwise.
      */
+
     @Transactional
     public boolean purchaseJoker(QuizState quizState, String jokerId, Integer tier) {
         logger.info("Purchasing Joker with id: {} and tier: {}", jokerId, tier);
 
-        // Retrieve metadata for the specified Joker from the factory registry.
-        JokerMetaData metaData = JokerFactory.getJokerMetadataRegistry().get(jokerId);
-        // Retrieve QuizModifier to deduct cash
-        QuizModifier quizModifier = quizState.getQuizModifier();
+        // 1) Validate that the latest event is a ShopGameEvent
+        GameEvent latestEvent = quizState.getLatestGameEvent();
+        if (!(latestEvent instanceof ShopGameEvent shopGameEvent)) {
+            logger.warn("Latest game event is not a ShopGameEvent, so purchasing a Joker is disallowed.");
+            return false;
+        }
 
+        // 2) Check if the requested jokerId is actually in the presented shop list
+        if (!shopGameEvent.getPresentedJokerIds().contains(jokerId)) {
+            logger.warn("Joker ID {} not found in the current ShopGameEvent list.", jokerId);
+            return false;
+        }
+
+        // 3) Retrieve metadata for the specified Joker from the factory registry
+        JokerMetaData metaData = JokerFactory.getJokerMetadataRegistry().get(jokerId);
         if (metaData == null) {
             logger.error("No metadata found for Joker id: {}", jokerId);
             return false;
         }
 
-        // Check if the QuizState has enough coins for the purchase.
+        // 4) Retrieve QuizModifier to deduct cash
+        QuizModifier quizModifier = quizState.getQuizModifier();
         int cost = metaData.getCost();
         if (quizModifier.getCash() < cost) {
             logger.warn("Insufficient funds: required {} coins, available {} coins", cost, quizModifier.getCash());
             return false;
         }
 
-        // Deduct the cost from the QuizState's coin balance.
+        // 5) Deduct the cost from the QuizState's coin balance
         quizModifier.setCash(quizModifier.getCash() - cost);
 
-        // Instantiate the Joker using the factory.
-        // Note: The rarity is drawn from the registry, so it is not passed as an argument.
+        // 6) Instantiate the Joker using the factory
         Joker joker = JokerFactory.createJoker(jokerId, tier);
-        if (joker != null) {
-            // Add the new Joker to the active jokers list.
-            quizState.getActiveJokers().put(joker.getId(), joker);
-            quizStateRepository.save(quizState);
-            logger.info("Joker {} purchased and added to active jokers", joker.getIdString());
-            return true;
+        if (joker == null) {
+            logger.warn("Failed to instantiate Joker for id: {}", jokerId);
+            return false;
         }
 
-        logger.warn("Failed to instantiate Joker for id: {}", jokerId);
-        return false;
+        // 7) Add the new Joker to the active jokers map
+        // Note: The Joker's ID will be assigned upon persistence if needed
+        quizState.getActiveJokers().put(joker.getId(), joker);
+
+        // 8) Save updated quiz state
+        quizStateRepository.save(quizState);
+        logger.info("Joker {} purchased and added to active jokers for QuizState {}", joker.getIdString(), quizState.getId());
+        return true;
     }
 
     /**
@@ -135,10 +149,10 @@ public class UserJokerService {
 
     // appliance of jokers is different to modifiereffects - since the joker effects are more complex
     // each joker has its own effect function in this service instead of the joker class itself
-    public boolean useJoker(QuizState quizState, Long jokerObjectId) {
+    public boolean useJoker(QuizState quizState, UUID jokerObjectId) {
         logger.info("Attempting to use Joker with object id: {}", jokerObjectId);
 
-        HashMap<Long, Joker> activeJokers = quizState.getActiveJokers();
+        HashMap<UUID, Joker> activeJokers = quizState.getActiveJokers();
         Joker jokerToUse = activeJokers.get(jokerObjectId);
 
         if (jokerToUse == null) {
@@ -322,6 +336,18 @@ public class UserJokerService {
     }
 
     /**
+     * Retrieves a list of active Joker DTOs from the QuizState.
+     * @param quizState
+     * @return The corresponding list of JokerDto objects.
+     */
+    public List<JokerDto> getActiveJokerDtos(QuizState quizState) {
+        return quizState.getActiveJokers().values().stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+
+    /**
      * Converts a Joker entity to a JokerDto.
      *
      * @param joker The Joker entity.
@@ -331,7 +357,7 @@ public class UserJokerService {
         // Assuming JokerDto has a constructor:
         // (Long id, String idString, String name, String description, int cost, Integer uses, Integer tier, int rarity)
         return new JokerDto(
-                joker.getId(),
+                UUID.randomUUID(), // TODO this is different from the id that is used for the "real" joker object, we just use this uuid to identify presented jokers, maybe change?
                 joker.getIdString(),
                 joker.getName(),
                 joker.getDescription(),

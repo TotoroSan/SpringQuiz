@@ -1,8 +1,10 @@
 package com.example.quiz.model.dto;
 
+import java.util.UUID;
+
 public class JokerDto {
 
-    private Long id;
+    private UUID uuid;
     private String idString; // Identifier string set by the Joker subclasses
     private String name;
     private String description;
@@ -12,8 +14,8 @@ public class JokerDto {
     private Integer tier;   // The tier of the Joker
 
 
-    public JokerDto(Long id, String idString, String name, String description, int cost, Integer uses, Integer tier, Integer rarity) {
-        this.id = id;
+    public JokerDto(UUID id, String idString, String name, String description, int cost, Integer uses, Integer tier, Integer rarity) {
+        this.uuid = id;
         this.idString = idString;
         this.name = name;
         this.description = description;
@@ -23,12 +25,12 @@ public class JokerDto {
         this.tier = tier;
     }
 
-    public Long getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getIdString() {
@@ -90,7 +92,7 @@ public class JokerDto {
     @Override
     public String toString() {
         return "JokerDto{" +
-                "id=" + id +
+                "id=" + uuid +
                 ", idString='" + idString + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

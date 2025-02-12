@@ -1,19 +1,17 @@
 package com.example.quiz.controller.user;
 
 
-import com.example.quiz.model.dto.GameEventDto;
-import com.example.quiz.model.dto.QuizModifierEffectDto;
-import com.example.quiz.model.dto.QuizSaveDto;
-import com.example.quiz.model.dto.QuizStateDto;
+import com.example.quiz.model.dto.*;
 import com.example.quiz.model.entity.GameEvent;
 import com.example.quiz.model.entity.QuizModifier;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.model.entity.User;
-import com.example.quiz.service.user.UserGameEventService;
-import com.example.quiz.service.user.UserQuestionService;
-import com.example.quiz.service.user.UserQuizModifierService;
-import com.example.quiz.service.user.UserQuizStateService;
+import com.example.quiz.service.user.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.Content;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +22,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 // having the same URI for different actions (like create, update, and delete) but distinguishing them by the HTTP method (POST, PUT, DELETE, etc.) is indeed the best practice in RESTful API design.
 
 @RestController
 @RequestMapping("user/api/quiz")
+@Tag(name = "QuizState", description = "Endpoints for everything related to the user's quiz state")
 public class UserQuizStateController {
     private static final Logger logger = LoggerFactory.getLogger(UserQuizStateController.class);
 
@@ -49,6 +49,10 @@ public class UserQuizStateController {
 
     @Autowired
     private UserGameEventService userGameEventService;
+
+    @Autowired
+    private UserJokerService userJokerService;
+
     // TODO how does a user interact with quizzes?
 
     // Start a new quiz
@@ -220,5 +224,160 @@ public class UserQuizStateController {
         return ResponseEntity.ok(activeQuizModifierEffects);
     }
 
-    // TODO CONTROLLER FUNCTIONS FOR JOKER / SHOP GAME EVENT
+    // TODO this is an example of how we use swagger annotations for documentation of user facing endpoints
+    /**
+     * Purchases a Joker by receiving a JokerDto from the client.
+     * Validates that the Joker is available in the current ShopGameEvent and
+     * ensures the user has enough currency. On success, adds the Joker to the user's active jokers.
+     */
+    @Operation(
+            summary = "Purchase a Joker",
+            description = """
+            Deducts the Joker's cost from the QuizState's coin balance and adds the Joker 
+            to the user's active jokers if valid. The JokerDto is sent in the request body.
+            """
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Joker purchased successfully"
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "Purchase failed (insufficient funds, invalid Joker, or no shop event)",
+            content = @Content
+    )
+    @PostMapping("/jokers/purchase")
+    public ResponseEntity<String> purchaseJoker(
+            @AuthenticationPrincipal User user,
+            HttpSession session,
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "The Joker being purchased, containing at least its idString and possibly a tier."
+            )
+            @RequestBody JokerDto jokerDto
+    ) {
+        logger.info("User {} requested to purchase Joker with idString={}", user.getId(), jokerDto.getIdString());
+
+        // 1) Retrieve the user's latest QuizState
+        Long userId = user.getId();
+        Optional<QuizState> optionalQuizState = userQuizStateService.getLatestQuizStateByUserId(userId);
+        if (optionalQuizState.isEmpty()) {
+            logger.warn("No active quiz state found for user ID: {}", userId);
+            return ResponseEntity.badRequest().body("No active quiz state found.");
+        }
+        QuizState quizState = optionalQuizState.get();
+
+        // 2) Invoke service to purchase
+        boolean purchased = userJokerService.purchaseJoker(quizState, jokerDto.getIdString(), jokerDto.getTier());
+        if (!purchased) {
+            logger.warn("Failed to purchase Joker '{}' for user ID {}", jokerDto.getIdString(), userId);
+            return ResponseEntity.badRequest().body("Could not purchase Joker (invalid ID, insufficient funds, or no shop event).");
+        }
+
+        // 3) Update session, return success
+        session.setAttribute("quizState", quizState);
+        logger.info("Joker '{}' purchased successfully by user {}", jokerDto.getIdString(), userId);
+        return ResponseEntity.ok("Joker purchased successfully!");
+    }
+
+    /**
+     * Uses (applies) a Joker from the user's active jokers by receiving a JokerDto in the request body.
+     * We expect the JokerDto to contain at least the DB ID (e.g., jokerDto.getId()) to identify
+     * which Joker to use. The service call decrements uses or removes the Joker if it has zero uses left.
+     */
+    @Operation(
+            summary = "Use a Joker",
+            description = """
+            Applies the effect of a Joker (identified by its DB ID) that the user already owns. 
+            If the Joker has multiple uses, it is decremented; if it only has one use left, 
+            it is removed from active jokers.
+            """
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Joker used successfully"
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "Failed to use Joker (invalid ID or no uses left)",
+            content = @Content
+    )
+    @PostMapping("/jokers/use")
+    public ResponseEntity<String> useJoker(
+            HttpSession session,
+            @AuthenticationPrincipal User user,
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "JokerDto with at least the DB ID of the Joker to use"
+            )
+            @RequestBody JokerDto jokerDto
+    ) {
+        logger.info("User {} requested to use a Joker with DB ID {}", user.getId(), jokerDto.getUuid());
+
+        Long userId = user.getId();
+        Optional<QuizState> optionalQuizState = userQuizStateService.getLatestQuizStateByUserId(userId);
+
+        if (optionalQuizState.isEmpty()) {
+            logger.warn("No active quiz state found for user ID: {}", userId);
+            return ResponseEntity.badRequest().body("No active quiz state found.");
+        }
+
+        QuizState quizState = optionalQuizState.get();
+        // The JokerDto might have other fields, but we primarily need jokerDto.getId()
+        UUID jokerObjectId = jokerDto.getUuid();
+        if (jokerObjectId == null) {
+            logger.warn("JokerDto provided no DB ID (id) for the Joker.");
+            return ResponseEntity.badRequest().body("JokerDto must include a valid 'id' field.");
+        }
+
+        // Attempt to use the Joker
+        boolean success = userJokerService.useJoker(quizState, jokerObjectId);
+        if (!success) {
+            logger.warn("Failed to use Joker with DB ID {} for user ID {}", jokerObjectId, userId);
+            return ResponseEntity.badRequest().body("Failed to use Joker (invalid ID or no uses left).");
+        }
+
+        // Update session and return success
+        session.setAttribute("quizState", quizState);
+        logger.info("Joker with DB ID {} used successfully by user {}", jokerObjectId, userId);
+        return ResponseEntity.ok("Joker used successfully!");
+    }
+
+
+    /**
+     * Returns a list of all active jokers for the quizstate of the user.
+    */
+
+    @Operation(
+            summary = "Get Active Jokers",
+            description = "Retrieves all JokerDto objects for jokers currently owned by the user."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Successfully retrieved active jokers"
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "Quiz state not found for the user",
+            content = @Content
+    )
+    @GetMapping("/jokers/active")
+    public ResponseEntity<List<JokerDto>> getActiveJokers(
+            @AuthenticationPrincipal User user
+    ) {
+        logger.info("Received request to get active jokers for user: {}", user.getId());
+
+        Long userId = user.getId();
+        Optional<QuizState> optionalQuizState = userQuizStateService.getLatestQuizStateByUserId(userId);
+        if (optionalQuizState.isEmpty()) {
+            logger.warn("Quiz state not found for user ID: {}", userId);
+            return ResponseEntity.badRequest().build();
+        }
+
+        QuizState quizState = optionalQuizState.get();
+
+        // Convert active jokers in the quizState to JokerDto
+        List<JokerDto> activeJokers = userJokerService.getActiveJokerDtos(quizState);
+
+        logger.info("Successfully retrieved {} active jokers for user ID: {}", activeJokers.size(), userId);
+        return ResponseEntity.ok(activeJokers);
+    }
 }

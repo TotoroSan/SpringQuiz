@@ -1,8 +1,9 @@
 package com.example.quiz.model.entity.Joker;
 
-import com.example.quiz.model.entity.QuizModifier;
 import com.example.quiz.model.entity.QuizState;
 import jakarta.persistence.*;
+
+import java.util.UUID;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -11,7 +12,7 @@ public abstract class Joker {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     private String idString;
     private String name;
@@ -41,7 +42,7 @@ public abstract class Joker {
 
     // Getter & Setter
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

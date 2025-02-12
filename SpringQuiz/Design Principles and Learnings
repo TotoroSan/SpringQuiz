@@ -10,6 +10,7 @@ Applied Principles
 - Rich Domain Model
 - Presented effects are chosen by weighted random drawing. The weights depend on the overall rarity of a effect modifier.
     Each modifier can have a tier which is drawn separately. The Tier determines the duration + magnitude of the modifiereffect.
+- Swagger for frontend documentation and javadoc for backend documentation
 
 Business logic notes
 ---------------------------
@@ -59,6 +60,8 @@ Learnings
   Sometimes we might want it to speed up searches etc. but most of the time one sided ownership is fine.
   the mappedBy attribute is used in the "non owning" side of the relationship. mappedBy = quizState means that the attribute is
    mapped by quizState in the other table.
+
+-
 
 
 
