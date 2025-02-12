@@ -89,7 +89,7 @@ class UserQuizModifierServiceTest {
         UUID uuid = UUID.randomUUID();
 
         // Act
-        QuizModifierEffectDto result = userQuizModifierService.convertToDto(uuid, "effect1", 1, 5);
+        QuizModifierEffectDto result = userQuizModifierService.convertToDto(uuid, "effect1", "effect1",1, 5);
 
         // Assert
         assertNotNull(result);
@@ -110,7 +110,7 @@ class UserQuizModifierServiceTest {
         UUID uuid = UUID.randomUUID();
 
         // Act
-        QuizModifierEffectDto result = userQuizModifierService.convertToDto(uuid, "CHOOSE_TOPIC_MATH", 1, 5);
+        QuizModifierEffectDto result = userQuizModifierService.convertToDto(uuid, "CHOOSE_TOPIC_MATH", "Choose Topic Math",1, 5);
 
         // Assert
         assertNotNull(result);

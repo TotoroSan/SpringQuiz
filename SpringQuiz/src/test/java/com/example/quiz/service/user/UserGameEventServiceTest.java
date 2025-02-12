@@ -74,6 +74,7 @@ class UserGameEventServiceTest {
         when(userQuizModifierService.convertToDto(
                 eq(effectUuid),
                 eq("effect-1"),
+                eq("effect1"),
                 eq(1),
                 eq(10)
         )).thenReturn(new QuizModifierEffectDto(effectUuid, "effect-1", "effect1", 10,
@@ -87,7 +88,7 @@ class UserGameEventServiceTest {
         ModifierEffectsGameEventDto dto = (ModifierEffectsGameEventDto) result;
         assertEquals(1, dto.getQuizModifierEffectDtos().size());
         assertEquals("effect-1", dto.getQuizModifierEffectDtos().get(0).getIdString());
-        verify(userQuizModifierService, times(1)).convertToDto(eq(effectUuid), eq("effect-1"), eq(1), eq(10));
+        verify(userQuizModifierService, times(1)).convertToDto(eq(effectUuid), eq("effect-1"), eq("effect-1"), eq(1), eq(10));
     }
 
     @Test

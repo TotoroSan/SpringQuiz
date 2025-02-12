@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 
 import jakarta.servlet.http.HttpSession;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,11 +38,26 @@ class UserQuizStateControllerTest {
     private UserGameEventService userGameEventService;
 
     @Mock
+    private UserJokerService userJokerService;
+
+    private User user;
+    private QuizState quizState;
+    private JokerDto jokerDto;
+    private UUID jokerUuid;
+
+    @Mock
     private HttpSession session;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        user = mock(User.class);
+        quizState = mock(QuizState.class);
+        jokerUuid = UUID.randomUUID();
+
+        jokerDto = new JokerDto(jokerUuid, "FIFTY_FIFTY", "50/50 Joker", "Removes two wrong answers", 50, 1, 2, 1);
+
+        when(user.getId()).thenReturn(1L);
+        when(userQuizStateService.getLatestQuizStateByUserId(1L)).thenReturn(Optional.of(quizState));
     }
 
     @Test
@@ -176,5 +192,90 @@ class UserQuizStateControllerTest {
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(1, response.getBody().size());
         assertEquals(effectDto, response.getBody().get(0));
+    }
+
+
+    @Test
+    void testPurchaseJoker_Successful() {
+        when(userJokerService.purchaseJoker(quizState, jokerDto.getIdString(), jokerDto.getTier())).thenReturn(true);
+
+        ResponseEntity<String> response = userQuizStateController.purchaseJoker(user, session, jokerDto);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("Joker purchased successfully!", response.getBody());
+        verify(session, times(1)).setAttribute("quizState", quizState);
+    }
+
+    @Test
+    void testPurchaseJoker_Fails_NoQuizState() {
+        when(userQuizStateService.getLatestQuizStateByUserId(1L)).thenReturn(Optional.empty());
+
+        ResponseEntity<String> response = userQuizStateController.purchaseJoker(user, session, jokerDto);
+
+        assertEquals(400, response.getStatusCodeValue());
+        assertEquals("No active quiz state found.", response.getBody());
+    }
+
+    @Test
+    void testPurchaseJoker_Fails_InvalidJoker() {
+        when(userJokerService.purchaseJoker(quizState, jokerDto.getIdString(), jokerDto.getTier())).thenReturn(false);
+
+        ResponseEntity<String> response = userQuizStateController.purchaseJoker(user, session, jokerDto);
+
+        assertEquals(400, response.getStatusCodeValue());
+        assertEquals("Could not purchase Joker (invalid ID, insufficient funds, or no shop event).", response.getBody());
+    }
+
+    @Test
+    void testUseJoker_Successful() {
+        when(userJokerService.useJoker(quizState, jokerUuid)).thenReturn(true);
+
+        ResponseEntity<String> response = userQuizStateController.useJoker(session, user, jokerDto);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("Joker used successfully!", response.getBody());
+        verify(session, times(1)).setAttribute("quizState", quizState);
+    }
+
+    @Test
+    void testUseJoker_Fails_NoQuizState() {
+        when(userQuizStateService.getLatestQuizStateByUserId(1L)).thenReturn(Optional.empty());
+
+        ResponseEntity<String> response = userQuizStateController.useJoker(session, user, jokerDto);
+
+        assertEquals(400, response.getStatusCodeValue());
+        assertEquals("No active quiz state found.", response.getBody());
+    }
+
+    @Test
+    void testUseJoker_Fails_InvalidJoker() {
+        when(userJokerService.useJoker(quizState, jokerUuid)).thenReturn(false);
+
+        ResponseEntity<String> response = userQuizStateController.useJoker(session, user, jokerDto);
+
+        assertEquals(400, response.getStatusCodeValue());
+        assertEquals("Failed to use Joker (invalid ID or no uses left).", response.getBody());
+    }
+
+    @Test
+    void testGetActiveJokers_Successful() {
+        List<JokerDto> activeJokers = Arrays.asList(jokerDto);
+        when(userJokerService.getActiveJokerDtos(quizState)).thenReturn(activeJokers);
+
+        ResponseEntity<List<JokerDto>> response = userQuizStateController.getActiveJokers(user);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(1, response.getBody().size());
+        assertEquals("FIFTY_FIFTY", response.getBody().get(0).getIdString());
+    }
+
+    @Test
+    void testGetActiveJokers_Fails_NoQuizState() {
+        when(userQuizStateService.getLatestQuizStateByUserId(1L)).thenReturn(Optional.empty());
+
+        ResponseEntity<List<JokerDto>> response = userQuizStateController.getActiveJokers(user);
+
+        assertEquals(400, response.getStatusCodeValue());
+        assertNull(response.getBody());
     }
 }

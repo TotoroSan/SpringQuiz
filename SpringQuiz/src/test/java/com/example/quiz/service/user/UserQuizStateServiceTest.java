@@ -123,7 +123,7 @@ class UserQuizStateServiceTest {
         lastGameEvent.setQuestionId(1L);
         quizState.setGameEvents(new LinkedList<>(List.of(lastGameEvent)));
 
-        QuizStateDto mockQuizStateDto = new QuizStateDto(0, 0, "Question?", null, true);
+        QuizStateDto mockQuizStateDto = new QuizStateDto(0, 0, "Question?", null, null, true);
         when(userGameEventService.convertToDto(lastGameEvent)).thenReturn(new QuestionGameEventDto());
         when(userQuizStateService.convertToDto(quizState)).thenReturn(mockQuizStateDto);
 
