@@ -8,6 +8,10 @@ import com.example.quiz.model.entity.User;
 import com.example.quiz.service.user.UserAnswerService;
 import com.example.quiz.service.user.UserQuizModifierService;
 import com.example.quiz.service.user.UserQuizStateService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +39,33 @@ public class UserAnswerController {
     @Autowired
     private UserQuizModifierService userQuizModifierService;
 
+    /**
+     * Submits an answer to the current question in the quiz.
+     * Evaluates whether the answer is correct, updates the quiz state accordingly,
+     * and handles correct or incorrect responses.
+     *
+     * @param answerDto The submitted answer data.
+     * @param user The authenticated user submitting the answer.
+     * @param session The HTTP session for tracking quiz state.
+     * @return ResponseEntity with a Boolean value indicating whether the answer was correct.
+     */
+    @Operation(
+            summary = "Submit an answer",
+            description = """
+        Submits an answer to the current question. The system verifies correctness,
+        updates the quiz state, and processes correct or incorrect answers accordingly.
+        """
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Answer submitted successfully. Response contains true if correct, false if incorrect.",
+            content = @Content(schema = @Schema(type = "boolean"))
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "Quiz state not found or invalid request",
+            content = @Content
+    )
     @PostMapping("/answer")
     public ResponseEntity<Boolean> submitAnswer(@RequestBody AnswerDto answerDto, @AuthenticationPrincipal User user,
                                                 HttpSession session) {

@@ -142,11 +142,6 @@ public class UserQuizStateController {
     }
 
 
-    // Get QuizState
-
-
-
-
     /**
      * Retrieves the current QuizState for the authenticated user and converts it into a QuizStateDto.
      * If no QuizState is found, returns a 400 Bad Request.

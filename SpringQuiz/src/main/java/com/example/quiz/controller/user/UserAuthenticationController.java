@@ -5,6 +5,10 @@ import com.example.quiz.model.dto.LoginRequestDto;
 import com.example.quiz.model.entity.User;
 import com.example.quiz.security.JwtTokenProvider;
 import com.example.quiz.service.user.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +39,30 @@ public class UserAuthenticationController {
     @Autowired
     private UserService userService;
 
-    // generates a jwt token on successfull login and rerturns it
+    /**
+     * Authenticates a user and generates a JWT token upon successful login.
+     * If authentication fails, a 401 Unauthorized response is returned.
+     *
+     * @param loginRequestDto The login request containing username and password.
+     * @return ResponseEntity containing the JWT token if authentication is successful, otherwise 401 Unauthorized.
+     */
+    @Operation(
+            summary = "User Login",
+            description = """
+        Authenticates the user using the provided username and password.
+        Returns a JWT token if authentication is successful.
+        """
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Authentication successful, JWT token returned",
+            content = @Content(schema = @Schema(implementation = JwtResponseDto.class))
+    )
+    @ApiResponse(
+            responseCode = "401",
+            description = "Authentication failed (invalid credentials)",
+            content = @Content
+    )
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequestDto loginRequestDto) {
 
@@ -61,8 +88,35 @@ public class UserAuthenticationController {
         }
     }
 
-    // Refresh token endpoint
-    // Refresh token endpoint using @AuthenticationPrincipal
+    /**
+     * Refreshes the JWT token for an authenticated user.
+     * This endpoint generates a new JWT token using the authenticated user's details.
+     *
+     * @param user The currently authenticated user (extracted from the security context).
+     * @return ResponseEntity containing the new JWT token if successful, or an error response otherwise.
+     */
+    @Operation(
+            summary = "Refresh JWT Token",
+            description = """
+        Generates a new JWT token for an authenticated user. 
+        The user must be logged in, and their authentication context must be valid.
+        """
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Token refreshed successfully",
+            content = @Content(schema = @Schema(implementation = JwtResponseDto.class))
+    )
+    @ApiResponse(
+            responseCode = "401",
+            description = "Unauthorized - User is not authenticated or session expired",
+            content = @Content
+    )
+    @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error - Token refresh failed",
+            content = @Content
+    )
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(@AuthenticationPrincipal User user) {
         try {
