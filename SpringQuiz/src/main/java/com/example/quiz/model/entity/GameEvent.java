@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 
 // currently used to store the last game event (can be expanded to history etc.)
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "event_type")
+@Inheritance(strategy = InheritanceType.JOINED) // we use Joined here because single table inheritance would lead to a lot of null values
+@DiscriminatorColumn(name = "event_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class GameEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

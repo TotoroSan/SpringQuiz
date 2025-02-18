@@ -7,6 +7,7 @@ import java.util.List;
 
 @Entity
 @DiscriminatorValue("QUESTION")
+@Table(name = "question_game_event") // Creates a dedicated table
 public class QuestionGameEvent extends GameEvent {
 
     @Column(nullable = false)
@@ -25,6 +26,7 @@ public class QuestionGameEvent extends GameEvent {
     private List<Long> eliminatedAnswerIds = new ArrayList<>();
 
     // If true, the question was skipped via SkipQuestionJoker
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean skipUsed = false;
 
     // Constructors

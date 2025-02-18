@@ -64,9 +64,10 @@ public class QuizState implements Serializable {
     @OrderColumn(name = "event_order") // This ensures events are ordered by this column in the database
     private List<GameEvent> gameEvents;
 
-    // list of bought and usable jokers TODO fix here if problems, maybe need to add ordering
+    // map of bought and usable jokers TODO fix here if problems, maybe need to add ordering
     @OneToMany(mappedBy = "quizState", cascade = CascadeType.ALL, orphanRemoval = true)
-    private HashMap<UUID, Joker> activeJokers;
+    @MapKeyColumn(name = "joker_uuid") // Maps UUIDs as keys in the DB
+    private Map<UUID, Joker> activeJokers = new HashMap<>();
 
     // Standard Constructor for JPA reflection
     public QuizState() {
@@ -244,11 +245,11 @@ public class QuizState implements Serializable {
         this.gameEvents.clear();
     }
 
-    public HashMap<UUID, Joker> getActiveJokers() {
+    public Map<UUID, Joker> getActiveJokers() {
         return activeJokers;
     }
 
-    public void setActiveJokers(HashMap<UUID, Joker> activeJokers) {
+    public void setActiveJokers(Map<UUID, Joker> activeJokers) {
         this.activeJokers = activeJokers;
     }
 

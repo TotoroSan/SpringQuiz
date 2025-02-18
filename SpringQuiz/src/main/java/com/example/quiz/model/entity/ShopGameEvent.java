@@ -1,15 +1,13 @@
 package com.example.quiz.model.entity;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OrderColumn;
+import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 @DiscriminatorValue("SHOP")
+@Table(name = "shop_game_event") // Creates a separate table
 public class ShopGameEvent extends GameEvent {
 
 

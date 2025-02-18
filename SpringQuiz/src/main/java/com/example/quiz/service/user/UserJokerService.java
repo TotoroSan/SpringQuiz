@@ -152,7 +152,7 @@ public class UserJokerService {
     public boolean useJoker(QuizState quizState, UUID jokerObjectId) {
         logger.info("Attempting to use Joker with object id: {}", jokerObjectId);
 
-        HashMap<UUID, Joker> activeJokers = quizState.getActiveJokers();
+        Map<UUID, Joker> activeJokers = quizState.getActiveJokers();
         Joker jokerToUse = activeJokers.get(jokerObjectId);
 
         if (jokerToUse == null) {

@@ -1,15 +1,13 @@
 package com.example.quiz.model.entity;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OrderColumn;
+import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 @DiscriminatorValue("MODIFIER_EFFECTS")
+@Table(name = "modifier_effects_game_event") // Creates a separate table
 public class ModifierEffectsGameEvent extends GameEvent {
 
     // we only save the id strings and use them to create the presented effect dtos again
