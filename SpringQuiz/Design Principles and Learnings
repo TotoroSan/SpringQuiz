@@ -18,7 +18,8 @@ Business logic notes
     - eventually we could initialize a registry of all questions at startup or use a in memory database / cache.
 - the conversion from model entity classes to dtos is always invoked in the controller
 - GameEventDto is the parent class of all GameEventsDtos. A GameEventDto-subclass always contains all necessary data
-  that the frontend needs to process a gameevent and display it.
+  that the frontend needs to process a gameevent and display it. The frontend can then decide how to display the event,
+  but it cannot request specific event types from the backend, the type will be chosen by backend logic only.
 
 Learnings
 ------------------
@@ -64,6 +65,9 @@ Learnings
 -  @AuthenticationPrincipal annotation is used to directly inject the currently authenticated user into a method parameter.
    Specifically, it extracts the user details from the authentication token, which means the authenticated user's information
    is available for use without the need to manually parse the JWT or session. See the QuizStateController for an example.
+
+- Use Enums for Constants: When you have a known, fixed set of constants (like event types), enums are the recommended
+ approach in Java. They prevent errors and improve maintainability.
 
 
 

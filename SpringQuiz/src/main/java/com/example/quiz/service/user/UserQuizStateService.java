@@ -3,16 +3,14 @@ package com.example.quiz.service.user;
 import com.example.quiz.model.dto.*;
 import com.example.quiz.model.entity.*;
 import com.example.quiz.model.entity.Joker.JokerMetaData;
+import com.example.quiz.model.enums.GameEventType;
 import com.example.quiz.repository.QuizStateRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -184,6 +182,7 @@ public class UserQuizStateService {
     public void moveToNextSegment(QuizState quizState) {
         quizState.setCurrentSegment(quizState.getCurrentSegment() + 1);
         quizState.setAnsweredQuestionsInSegment(1);
+        quizState.clearSegmentEventTypes();
         saveQuizState(quizState);
     }
 
@@ -251,97 +250,133 @@ public class UserQuizStateService {
 
 
     // cann return either subtype
+    // TODO this is the main function to get the next game event, basically the main backend switchboard
     public GameEvent getNextGameEvent(QuizState quizState) {
-        // Check if the current round is divisible by 5 to provide modifier effects
-        // TODO 5 is arbitrary value for testing.
 
+        Random random = new Random();
+
+        // Falls Shop oder Modifier Event noch nicht im Segment auftraten
+        boolean canTriggerShop = !quizState.hasEventTypeOccurred(GameEventType.SHOP);
+        boolean canTriggerModifier = !quizState.hasEventTypeOccurred(GameEventType.MODIFIER_EFFECTS);
+
+        double shopChance = canTriggerShop ? 0.2 : 0.0; // 20% Chance wenn es noch nicht passierte
+        double modifierChance = canTriggerModifier ? 0.3 : 0.0; // 30% für Modifier
+
+        double roll = random.nextDouble();
         // TODO move this value into some confiq. maybe create an event function that evalutes this
         // 1) Check for shop event condition (e.g., every 5th question)
-        if (quizState.getAnsweredQuestionsInSegment() % 5 == 0) {
-            // TODO
+        if (canTriggerShop && roll < shopChance) {
+            moveToNextSegment(quizState); // TODO TEMPORARY BANDAID FOR TESTING -> will cause problems after bvuying one joker
             logger.info("Returning ShopGameEvent for QuizState ID: {}", quizState.getId());
+            quizState.addEventTypeToSegment(GameEventType.SHOP);
             ShopGameEvent shopGameEvent = createShopGameEvent(quizState);
             logger.debug("Successfully returned ShopGameEvent");
             return shopGameEvent;
         }
-        else if (quizState.getAnsweredQuestionsInSegment() % 3 == 0) {
+        if (canTriggerModifier && roll < (shopChance + modifierChance)) {
             logger.info("Returning random modifier effects for QuizState ID: {}", quizState.getId());
-
-
-            List<QuizModifierEffectDto> randomQuizModifierEffects = userQuizModifierService.pickRandomModifierEffectDtos();
-            // i could also directly create the dto with this in addition to creating th event for saving
-
-            // todo consolidate this extracton and move.
-            //  it is necessary to do this way because we need this info to restore the modifierSelection event by loading. we cannot just store the dto (dtos are not persisted)
-            // todo maybe move this to a function
-
-            List<UUID> effectUuids = randomQuizModifierEffects.stream()
-                    .map(id -> UUID.randomUUID())
-                    .collect(Collectors.toList());
-
-            List<String> effectDescriptions = randomQuizModifierEffects.stream()
-                    .map(QuizModifierEffectDto::getDescription)
-                    .collect(Collectors.toList());
-
-            // Extract IDs from the list of QuizModifierEffectDto
-            List<String> effectIds = randomQuizModifierEffects.stream()
-                    .map(QuizModifierEffectDto::getIdString)
-                    .collect(Collectors.toList());
-
-            List<Integer> effectTiers = randomQuizModifierEffects.stream()
-                    .map(QuizModifierEffectDto::getTier)
-                    .collect(Collectors.toList());
-
-            List<Integer> effectDurations = randomQuizModifierEffects.stream()
-                    .map(QuizModifierEffectDto::getDuration)
-                    .collect(Collectors.toList());
-
-
-            ModifierEffectsGameEvent modifierEffectsGameEvent = new ModifierEffectsGameEvent( quizState, effectUuids, effectIds, effectDescriptions, effectTiers, effectDurations);
-
-            quizState.addGameEvent(modifierEffectsGameEvent);
-            saveQuizState(quizState);
-
+            quizState.addEventTypeToSegment(GameEventType.MODIFIER_EFFECTS);
+            ModifierEffectsGameEvent modifierEffectsGameEvent = createModifierEffectsGameEvent(quizState);
             logger.debug("Successfully returned random modifier effects game event");
             return modifierEffectsGameEvent;
-        } else {
-            logger.info("Returning next question for QuizState ID: {}", quizState.getId());
-
-            // Return the next question with the given difficulty
-            int difficultyModifier = quizState.getQuizModifier().getDifficultyModifier();
-            Integer maxDifficultyModifier = quizState.getQuizModifier().getMaxDifficultyModifier();
-            Integer minDifficultyModifier = quizState.getQuizModifier().getMinDifficultyModifier();
-            // get topic modifier, if topic is set pass topic
-            String currentTopic = quizState.getQuizModifier().getTopicModifier();
-
-            Question currentQuestion = null;
-
-            // if there is a max difficulty modifier use it, else if there is a min modifier use this and if there is no min or max use the default difficulty modifier
-            if (maxDifficultyModifier != null) {
-                currentQuestion = userQuestionService.getRandomQuestionExcludingCompletedWithMaxDifficultyLimit(quizState.getCompletedQuestionIds(), maxDifficultyModifier, currentTopic);
-            } else if (minDifficultyModifier != null) {
-                currentQuestion = userQuestionService.getRandomQuestionExcludingCompletedWithMinDifficultyLimit(quizState.getCompletedQuestionIds(), minDifficultyModifier, currentTopic);
-            } else {
-                // todo this if solution is a temporary workaround
-                currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), difficultyModifier, currentTopic);
-                // if we dont find question for given difficulty, use any difficulty
-                if (currentQuestion == null) {
-                    logger.info("Used fallback to find question with any difficulty, because no question for topic: ", currentTopic, " with difficulty: ", difficultyModifier, " found.");
-                    currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), null, currentTopic);
-                }
-            }
-            addQuestion(quizState, currentQuestion); // todo check if this needs to stay here or if we maybe consolidate with processnextgamestep or sth
-            QuestionGameEvent questionGameEvent = userQuestionService.createQuestionGameEvent(currentQuestion, quizState);
-            quizState.addGameEvent(questionGameEvent);
-            saveQuizState(quizState);
-
-            logger.debug("Successfully returned question game event");
-            return questionGameEvent;
         }
+
+
+        // todo maybe add "safeguard" like this, so that it always triggers shop or modifier event after X questions
+        /* if (quizState.getCurrentRound() % 10 == 0) {
+            if (canTriggerShop) {
+                quizState.addOccurredEvent(GameEventType.SHOP);
+                return createShopGameEvent(quizState);
+            } else if (canTriggerModifier) {
+                quizState.addOccurredEvent(GameEventType.MODIFIER_EFFECTS);
+                return createModifierEffectsGameEvent(quizState);
+            }
+        }\ */
+
+        // default case return question
+        logger.info("Returning next question for QuizState ID: {}", quizState.getId());
+        QuestionGameEvent questionGameEvent = createQuestionGameEvent(quizState);
+        logger.debug("Successfully returned question game event");
+        return questionGameEvent;
+
+    }
+
+
+    private QuestionGameEvent createQuestionGameEvent(QuizState quizState) {
+        logger.info("Creating QuestionGameEvent for QuizState ID: {}", quizState.getId());
+
+        // Return the next question with the given difficulty
+        int difficultyModifier = quizState.getQuizModifier().getDifficultyModifier();
+        Integer maxDifficultyModifier = quizState.getQuizModifier().getMaxDifficultyModifier();
+        Integer minDifficultyModifier = quizState.getQuizModifier().getMinDifficultyModifier();
+        // get topic modifier, if topic is set pass topic
+        String currentTopic = quizState.getQuizModifier().getTopicModifier();
+
+        Question currentQuestion = null;
+
+        // if there is a max difficulty modifier use it, else if there is a min modifier use this and if there is no min or max use the default difficulty modifier
+        if (maxDifficultyModifier != null) {
+            currentQuestion = userQuestionService.getRandomQuestionExcludingCompletedWithMaxDifficultyLimit(quizState.getCompletedQuestionIds(), maxDifficultyModifier, currentTopic);
+        } else if (minDifficultyModifier != null) {
+            currentQuestion = userQuestionService.getRandomQuestionExcludingCompletedWithMinDifficultyLimit(quizState.getCompletedQuestionIds(), minDifficultyModifier, currentTopic);
+        } else {
+            // todo this if solution is a temporary workaround
+            currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), difficultyModifier, currentTopic);
+            // if we dont find question for given difficulty, use any difficulty
+            if (currentQuestion == null) {
+                logger.info("Used fallback to find question with any difficulty, because no question for topic: ", currentTopic, " with difficulty: ", difficultyModifier, " found.");
+                currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), null, currentTopic);
+            }
+        }
+        addQuestion(quizState, currentQuestion); // todo check if this needs to stay here or if we maybe consolidate with processnextgamestep or sth
+        QuestionGameEvent questionGameEvent = userQuestionService.createQuestionGameEvent(currentQuestion, quizState);
+        quizState.addGameEvent(questionGameEvent);
+        saveQuizState(quizState);
+
+        logger.debug("Successfully created QuestionGameEvent QuizState ID: {}", quizState.getId());
+        return questionGameEvent;
+    }
+
+
+
+    private ModifierEffectsGameEvent createModifierEffectsGameEvent(QuizState quizState){
+        logger.info("creating ModifierEffectsGameEvent for QuizState ID: {}", quizState.getId());
+        List<QuizModifierEffectDto> randomQuizModifierEffects = userQuizModifierService.pickRandomModifierEffectDtos();
+
+        List<UUID> effectUuids = randomQuizModifierEffects.stream()
+                .map(id -> UUID.randomUUID())
+                .collect(Collectors.toList());
+
+        List<String> effectDescriptions = randomQuizModifierEffects.stream()
+                .map(QuizModifierEffectDto::getDescription)
+                .collect(Collectors.toList());
+
+        // Extract IDs from the list of QuizModifierEffectDto
+        List<String> effectIds = randomQuizModifierEffects.stream()
+                .map(QuizModifierEffectDto::getIdString)
+                .collect(Collectors.toList());
+
+        List<Integer> effectTiers = randomQuizModifierEffects.stream()
+                .map(QuizModifierEffectDto::getTier)
+                .collect(Collectors.toList());
+
+        List<Integer> effectDurations = randomQuizModifierEffects.stream()
+                .map(QuizModifierEffectDto::getDuration)
+                .collect(Collectors.toList());
+
+
+        ModifierEffectsGameEvent modifierEffectsGameEvent = new ModifierEffectsGameEvent( quizState, effectUuids, effectIds, effectDescriptions, effectTiers, effectDurations);
+
+        quizState.addGameEvent(modifierEffectsGameEvent);
+        saveQuizState(quizState);
+        logger.debug("Successfully returned ModifierEffectsGameEvent for QuizState ID: {}", quizState.getId());
+
+        return modifierEffectsGameEvent;
+
     }
 
     private ShopGameEvent createShopGameEvent(QuizState quizState) {
-        logger.info("Returning random shop items for QuizState ID: {}", quizState.getId());
+        logger.info("creating ShopGameEvent for QuizState ID: {}", quizState.getId());
 
         // 1) Pick random Joker DTOs
         List<JokerDto> chosenJokers = userJokerService.pickRandomJokerDtos();

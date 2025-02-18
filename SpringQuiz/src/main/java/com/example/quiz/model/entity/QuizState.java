@@ -1,6 +1,7 @@
 package com.example.quiz.model.entity;
 
 import com.example.quiz.model.entity.Joker.Joker;
+import com.example.quiz.model.enums.GameEventType;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -49,6 +50,10 @@ public class QuizState implements Serializable {
     // number of (correctly) answered questions in the current segment
     private int answeredQuestionsInSegment;
 
+    //
+    @Transient
+    private Set<GameEventType> eventTypesOcurredInSegment = new HashSet<>();
+
     // flag that indicates if the GameState is active (meaning the game hasnt ended)
     private boolean isActive;
 
@@ -83,6 +88,7 @@ public class QuizState implements Serializable {
         this.score = 0;  // Initialize score to 0
         this.currentRound = 1;
         this.currentSegment = 1;
+        this.eventTypesOcurredInSegment = new HashSet<>();
         this.answeredQuestionsInSegment = 1;
         this.isActive = true;
         this.createdAt = LocalDateTime.now();
@@ -100,6 +106,7 @@ public class QuizState implements Serializable {
         this.score = 0;  // Initialize score to 0
         this.currentRound = 1;
         this.currentSegment = 1;
+        this.eventTypesOcurredInSegment = new HashSet<>();
         this.answeredQuestionsInSegment = 0;
         this.isActive = true;
         this.createdAt = LocalDateTime.now();
@@ -117,6 +124,7 @@ public class QuizState implements Serializable {
         this.score = 0;  // Initialize score to 0
         this.currentRound = 1;
         this.currentSegment = 1;
+        this.eventTypesOcurredInSegment = new HashSet<>();
         this.answeredQuestionsInSegment = 0;
         this.isActive = true;
         this.quizModifier = quizModifier; // initialize with standard quiz modifier
@@ -253,5 +261,26 @@ public class QuizState implements Serializable {
         this.activeJokers = activeJokers;
     }
 
+
+
+
+    public Set<GameEventType> getEventTypesOcurredInSegment() {
+        return eventTypesOcurredInSegment;
+    }
+
+    public void setEventTypesOccurredInSegment(Set<GameEventType> eventsOccurredInSegment) {
+        this.eventTypesOcurredInSegment = eventsOccurredInSegment;
+    }
+
+    public void addEventTypeToSegment(GameEventType eventType) {
+        this.eventTypesOcurredInSegment.add(eventType);
+    }
+
+    public void clearSegmentEventTypes() {
+        this.eventTypesOcurredInSegment.clear();
+    }
+    public boolean hasEventTypeOccurred(GameEventType eventType) {
+        return eventTypesOcurredInSegment.contains(eventType);
+    }
 }
 

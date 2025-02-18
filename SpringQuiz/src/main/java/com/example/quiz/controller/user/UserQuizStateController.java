@@ -303,7 +303,8 @@ public class UserQuizStateController {
         boolean effectIsApplied = userQuizStateService.validateAndApplyModifierEffect(quizState, quizModifierEffectDto.getUuid());
 
         if (effectIsApplied) {
-            userQuizStateService.moveToNextSegment(quizState);
+            //userQuizStateService.moveToNextSegment(quizState); // TODO deprecreated we move to next segment after trader event, not here
+            userQuizStateService.incrementAnsweredQuestionsInSegment(quizState); // todo temporary for debugging
             session.setAttribute("quizState", quizState);
             userQuizStateService.saveQuizState(quizState); // TODO move saving logic to service (?)
             logger.info("Successfully applied chosen QuizModifierEffect");
