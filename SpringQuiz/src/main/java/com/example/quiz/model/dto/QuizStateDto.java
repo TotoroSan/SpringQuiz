@@ -1,7 +1,5 @@
 package com.example.quiz.model.dto;
 
-import com.example.quiz.model.entity.Joker.Joker;
-
 import java.util.List;
 
 public class QuizStateDto {
@@ -9,7 +7,7 @@ public class QuizStateDto {
     private int currentRound;
     private String currentQuestionText;
     private QuizModifierDto quizModifierDto;
-    private List<JokerDto> activeJokerDtos;
+    private List<JokerDto> ownedJokerDtos;
 
 
     private Boolean isActive;
@@ -18,12 +16,12 @@ public class QuizStateDto {
     public QuizStateDto() {
     }
 
-    public QuizStateDto(double score, int currentRound, String currentQuestionText, QuizModifierDto quizModifierDto, List<JokerDto> activeJokerDtos, Boolean isActive) {
+    public QuizStateDto(double score, int currentRound, String currentQuestionText, QuizModifierDto quizModifierDto, List<JokerDto> ownedJokerDtos, Boolean isActive) {
         this.score = score;
         this.currentRound = currentRound;
         this.currentQuestionText = currentQuestionText;
         this.quizModifierDto = quizModifierDto;
-        this.activeJokerDtos = activeJokerDtos;
+        this.ownedJokerDtos = ownedJokerDtos;
         this.isActive = isActive;
     }
 
@@ -68,12 +66,12 @@ public class QuizStateDto {
         this.quizModifierDto = quizModifierDto;
     }
 
-    public List<JokerDto> getActiveJokerDtos() {
-        return activeJokerDtos;
+    public List<JokerDto> getOwnedJokerDtos() {
+        return ownedJokerDtos;
     }
 
-    public void setActiveJokerDtos(List<JokerDto> activeJokerDtos) {
-        this.activeJokerDtos = activeJokerDtos;
+    public void setOwnedJokerDtos(List<JokerDto> ownedJokerDtos) {
+        this.ownedJokerDtos = ownedJokerDtos;
     }
 
 

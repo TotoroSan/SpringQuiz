@@ -26,6 +26,10 @@ public class ShopGameEvent extends GameEvent {
     private List<String> presentedJokerNames;
 
     @ElementCollection
+    @OrderColumn(name = "description_order")
+    private List<String> presentedJokerDescriptions;
+
+    @ElementCollection
     @OrderColumn(name = "cost_order")
     private List<Integer> presentedJokerCosts;
 
@@ -47,6 +51,7 @@ public class ShopGameEvent extends GameEvent {
                          List<UUID> presentedJokerUuids,
                          List<String> presentedJokerIds,
                          List<String> presentedJokerNames,
+                         List<String> presentedJokerDescriptions,
                          List<Integer> presentedJokerCosts,
                          List<Integer> presentedJokerRarities,
                          List<Integer> presentedJokerTiers) {
@@ -54,6 +59,7 @@ public class ShopGameEvent extends GameEvent {
         this.presentedJokerUuids = presentedJokerUuids;
         this.presentedJokerIds = presentedJokerIds;
         this.presentedJokerNames = presentedJokerNames;
+        this.presentedJokerDescriptions = presentedJokerDescriptions;
         this.presentedJokerCosts = presentedJokerCosts;
         this.presentedJokerRarities = presentedJokerRarities;
         this.presentedJokerTiers = presentedJokerTiers;
@@ -82,6 +88,14 @@ public class ShopGameEvent extends GameEvent {
 
     public void setPresentedJokerNames(List<String> presentedJokerNames) {
         this.presentedJokerNames = presentedJokerNames;
+    }
+
+    public List<String> getPresentedJokerDescriptions() {
+        return presentedJokerDescriptions;
+    }
+
+    public void setPresentedJokerDescriptions(List<String> presentedJokerDescriptions) {
+        this.presentedJokerDescriptions = presentedJokerDescriptions;
     }
 
     public List<Integer> getPresentedJokerCosts() {

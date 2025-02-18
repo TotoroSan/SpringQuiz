@@ -74,7 +74,7 @@ public class JokerFactory {
             // Instantiate the Joker via reflection.
             // The constructor is expected to have the signature:
             // (String idString, String name, String description, int cost, Integer uses, Integer tier)
-            return jokerClass.getConstructor(String.class, String.class, String.class, int.class, Integer.class, Integer.class, Integer.class)
+            return jokerClass.getConstructor(String.class, String.class, String.class, Integer.class, Integer.class, Integer.class, Integer.class)
                     .newInstance(metaData.getIdString(), metaData.getName(), metaData.getDescription(), metaData.getCost(), uses, metaData.getRarity(), effectiveTier);
         } catch (Exception e) {
             throw new RuntimeException("Error instantiating Joker: " + jokerId, e);

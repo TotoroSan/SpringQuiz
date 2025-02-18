@@ -72,7 +72,7 @@ public class QuizState implements Serializable {
     // map of bought and usable jokers TODO fix here if problems, maybe need to add ordering
     @OneToMany(mappedBy = "quizState", cascade = CascadeType.ALL, orphanRemoval = true)
     @MapKeyColumn(name = "joker_uuid") // Maps UUIDs as keys in the DB
-    private Map<UUID, Joker> activeJokers = new HashMap<>();
+    private Map<UUID, Joker> ownedJokers = new HashMap<>();
 
     // Standard Constructor for JPA reflection
     public QuizState() {
@@ -94,7 +94,7 @@ public class QuizState implements Serializable {
         this.createdAt = LocalDateTime.now();
         this.quizModifier = new QuizModifier(this); // initialize with standard quiz modifier
         this.gameEvents = new ArrayList<>();
-        this.activeJokers = new HashMap<UUID, Joker>();
+        this.ownedJokers = new HashMap<UUID, Joker>();
     }
 
     // Constructor to initialize a new quiz with a list of questions
@@ -112,7 +112,7 @@ public class QuizState implements Serializable {
         this.createdAt = LocalDateTime.now();
         this.quizModifier = new QuizModifier(this); // initialize with standard quiz modifier
         this.gameEvents = new ArrayList<>();
-        this.activeJokers = new HashMap<UUID, Joker>();
+        this.ownedJokers = new HashMap<UUID, Joker>();
     }
 
     // Constructor to initialize a new quiz with a list of questions and existing a custom modifier
@@ -254,11 +254,11 @@ public class QuizState implements Serializable {
     }
 
     public Map<UUID, Joker> getActiveJokers() {
-        return activeJokers;
+        return ownedJokers;
     }
 
     public void setActiveJokers(Map<UUID, Joker> activeJokers) {
-        this.activeJokers = activeJokers;
+        this.ownedJokers = activeJokers;
     }
 
 

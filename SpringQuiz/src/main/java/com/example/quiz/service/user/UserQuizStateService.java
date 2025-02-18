@@ -394,6 +394,10 @@ public class UserQuizStateService {
                 .map(JokerDto::getName)
                 .collect(Collectors.toList());
 
+        List<String> jokerDescriptions = chosenJokers.stream()
+                .map(JokerDto::getDescription)
+                .collect(Collectors.toList());
+
         List<Integer> jokerCosts = chosenJokers.stream()
                 .map(JokerDto::getCost)
                 .collect(Collectors.toList());
@@ -412,6 +416,7 @@ public class UserQuizStateService {
                 jokerUuids,
                 jokerIds,
                 jokerNames,
+                jokerDescriptions,
                 jokerCosts,
                 jokerRarities,
                 jokerTiers
