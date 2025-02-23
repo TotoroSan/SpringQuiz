@@ -1,5 +1,7 @@
 package com.example.quiz.model.dto;
 
+import com.example.quiz.model.enums.GameEventType;
+
 import java.util.List;
 
 // game event dto that is used for displaying 3 modifier effects for selection
@@ -9,11 +11,11 @@ public class ModifierEffectsGameEventDto extends GameEventDto {
 
     // Constructors
     public ModifierEffectsGameEventDto() {
-        super("MODIFIER_EFFECTS");
+        super(GameEventType.MODIFIER_EFFECTS);
     }
 
     public ModifierEffectsGameEventDto(List<QuizModifierEffectDto> quizModifierEffectDtos) {
-        super("MODIFIER_EFFECTS");
+        super(GameEventType.MODIFIER_EFFECTS);
         this.quizModifierEffectDtos = quizModifierEffectDtos;
     }
 

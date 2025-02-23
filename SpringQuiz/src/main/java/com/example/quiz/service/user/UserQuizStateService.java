@@ -2,7 +2,6 @@ package com.example.quiz.service.user;
 
 import com.example.quiz.model.dto.*;
 import com.example.quiz.model.entity.*;
-import com.example.quiz.model.entity.Joker.JokerMetaData;
 import com.example.quiz.model.enums.GameEventType;
 import com.example.quiz.repository.QuizStateRepository;
 import org.slf4j.Logger;
@@ -121,7 +120,7 @@ public class UserQuizStateService {
                 quizState.getCurrentRound(),
                 quizState.getAllQuestions().isEmpty() ? null : quizState.getAllQuestions().get(quizState.getCurrentQuestionIndex()).getQuestionText(),
                 userQuizModifierService.convertToDto(quizState.getQuizModifier()),
-                userJokerService.getActiveJokerDtos(quizState),
+                userJokerService.getOwnedJokerDtos(quizState),
                 quizState.isActive()); // convert quizModifier to dto as well in this process
 
         logger.debug("Successfully converted quizState to quizStateDto");
@@ -251,55 +250,72 @@ public class UserQuizStateService {
 
     // cann return either subtype
     // TODO this is the main function to get the next game event, basically the main backend switchboard
+    // TODO tidy up the function with switch or sth (flags + switch)
     public GameEvent getNextGameEvent(QuizState quizState) {
-
         Random random = new Random();
+        // Prevent two special events in direct succession:
+        // If the last game event was a special event (SHOP or MODIFIER_EFFECTS), force a normal question event.
+        if (!quizState.getGameEvents().isEmpty()) {
+            GameEvent lastEvent = quizState.getGameEvents().get(quizState.getGameEvents().size() - 1);
+            if (lastEvent.getGameEventType() == GameEventType.SHOP ||
+                    lastEvent.getGameEventType() == GameEventType.MODIFIER_EFFECTS) {
+                logger.info("Last event was special ({}), forcing a QuestionGameEvent.", lastEvent.getGameEventType());
+                QuestionGameEvent questionGameEvent = createQuestionGameEvent(quizState);
+                logger.debug("Successfully returned QuestionGameEvent");
+                return questionGameEvent;
+            }
+        }
+        // If fewer than 3 questions have been answered in the current segment,
+        // always return a QuestionGameEvent.
+        if (quizState.getAnsweredQuestionsInSegment() < 3) {
+            logger.info("Less than 3 questions answered in current segment; returning QuestionGameEvent for QuizState ID: {}", quizState.getId());
+            QuestionGameEvent questionGameEvent = createQuestionGameEvent(quizState);
+            logger.debug("Successfully returned QuestionGameEvent");
+            return questionGameEvent;
+        }
 
-        // Falls Shop oder Modifier Event noch nicht im Segment auftraten
+        // If both special event types (SHOP and MODIFIER_EFFECTS) have occurred in the current segment, advance to the next segment.
+        if (quizState.hasEventTypeOccurred(GameEventType.SHOP) &&
+                quizState.hasEventTypeOccurred(GameEventType.MODIFIER_EFFECTS)) {
+            moveToNextSegment(quizState);
+        }
+
+        // Determine if a shop or modifier event can be triggered in the current segment.
         boolean canTriggerShop = !quizState.hasEventTypeOccurred(GameEventType.SHOP);
         boolean canTriggerModifier = !quizState.hasEventTypeOccurred(GameEventType.MODIFIER_EFFECTS);
 
-        double shopChance = canTriggerShop ? 0.2 : 0.0; // 20% Chance wenn es noch nicht passierte
-        double modifierChance = canTriggerModifier ? 0.3 : 0.0; // 30% für Modifier
+        // Define new static probabilities for special events TODO move this parameters to a config file
+        double shopChance = canTriggerShop ? 0.20 : 0.0;       // 5% chance for Shop event if not yet triggered
+        double modifierChance = canTriggerModifier ? 0.10 : 0.0;  // 10% chance for Modifier event if not yet triggered
 
         double roll = random.nextDouble();
-        // TODO move this value into some confiq. maybe create an event function that evalutes this
-        // 1) Check for shop event condition (e.g., every 5th question)
+
+        // Try triggering a ShopGameEvent first
         if (canTriggerShop && roll < shopChance) {
-            moveToNextSegment(quizState); // TODO TEMPORARY BANDAID FOR TESTING -> will cause problems after bvuying one joker
             logger.info("Returning ShopGameEvent for QuizState ID: {}", quizState.getId());
             quizState.addEventTypeToSegment(GameEventType.SHOP);
             ShopGameEvent shopGameEvent = createShopGameEvent(quizState);
             logger.debug("Successfully returned ShopGameEvent");
             return shopGameEvent;
         }
+
+        // Next, try triggering a ModifierEffectsGameEvent
         if (canTriggerModifier && roll < (shopChance + modifierChance)) {
-            logger.info("Returning random modifier effects for QuizState ID: {}", quizState.getId());
+            logger.info("Returning ModifierEffectsGameEvent for QuizState ID: {}", quizState.getId());
             quizState.addEventTypeToSegment(GameEventType.MODIFIER_EFFECTS);
             ModifierEffectsGameEvent modifierEffectsGameEvent = createModifierEffectsGameEvent(quizState);
-            logger.debug("Successfully returned random modifier effects game event");
+            logger.debug("Successfully returned ModifierEffectsGameEvent");
             return modifierEffectsGameEvent;
         }
 
-
-        // todo maybe add "safeguard" like this, so that it always triggers shop or modifier event after X questions
-        /* if (quizState.getCurrentRound() % 10 == 0) {
-            if (canTriggerShop) {
-                quizState.addOccurredEvent(GameEventType.SHOP);
-                return createShopGameEvent(quizState);
-            } else if (canTriggerModifier) {
-                quizState.addOccurredEvent(GameEventType.MODIFIER_EFFECTS);
-                return createModifierEffectsGameEvent(quizState);
-            }
-        }\ */
-
-        // default case return question
-        logger.info("Returning next question for QuizState ID: {}", quizState.getId());
+        // Default case: Return a normal QuestionGameEvent
+        logger.info("Returning next QuestionGameEvent for QuizState ID: {}", quizState.getId());
         QuestionGameEvent questionGameEvent = createQuestionGameEvent(quizState);
-        logger.debug("Successfully returned question game event");
+        logger.debug("Successfully returned QuestionGameEvent");
         return questionGameEvent;
-
     }
+
+
 
 
     private QuestionGameEvent createQuestionGameEvent(QuizState quizState) {
@@ -505,7 +521,7 @@ public class UserQuizStateService {
         }
 
         // Check if the requested jokerId is presented
-        List<String> presentedJokerIds = shopEvent.getPresentedJokerIds();
+        List<String> presentedJokerIds = shopEvent.getPresentedJokerIdStrings();
         if (!presentedJokerIds.contains(jokerId)) {
             logger.warn("Joker ID {} is not in the presented shop event!", jokerId);
             return false;

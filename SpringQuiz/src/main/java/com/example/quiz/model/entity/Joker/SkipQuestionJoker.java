@@ -12,7 +12,7 @@ public class SkipQuestionJoker extends Joker {
         super();
     }
 
-    public SkipQuestionJoker(String idString, String name, String description, Integer cost, Integer uses, Integer rarity, Integer tier) {
-        super(idString, name, description, cost, uses, rarity, tier);
+    public SkipQuestionJoker(String idString, String name, String description, Integer cost, Integer uses, Integer rarity, Integer tier, QuizState quizState) {
+        super(idString, name, description, cost, uses, rarity, tier, quizState);
     }
 }

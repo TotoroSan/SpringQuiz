@@ -13,8 +13,8 @@ public class TwentyFiveSeventyFiveJoker extends Joker {
         super();
     }
 
-    public TwentyFiveSeventyFiveJoker(String idString, String name, String description, Integer cost, Integer uses, Integer rarity, Integer tier) {
-        super(idString, name, description, cost, uses, rarity, tier);
+    public TwentyFiveSeventyFiveJoker(String idString, String name, String description, Integer cost, Integer uses, Integer rarity, Integer tier, QuizState quizState) {
+        super(idString, name, description, cost, uses, rarity, tier, quizState);
     }
 
 }

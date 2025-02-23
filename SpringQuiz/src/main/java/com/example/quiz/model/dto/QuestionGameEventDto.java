@@ -1,5 +1,7 @@
 package com.example.quiz.model.dto;
 
+import com.example.quiz.model.enums.GameEventType;
+
 import java.util.List;
 
 // todo maybe do parent / child class with gameventdto
@@ -20,13 +22,13 @@ public class QuestionGameEventDto extends GameEventDto {
 
     // Empty constructor for testing and framework purposes
     public QuestionGameEventDto() {
-        super("QUESTION");
+        super(GameEventType.QUESTION);
     }
 
 
     // Constructor
     public QuestionGameEventDto(String questionText, Long questionId, List<AnswerDto> shuffledAnswers) {
-        super("QUESTION");
+        super(GameEventType.QUESTION);
         this.questionText = questionText;
         this.questionId = questionId;
         this.shuffledAnswers = shuffledAnswers;

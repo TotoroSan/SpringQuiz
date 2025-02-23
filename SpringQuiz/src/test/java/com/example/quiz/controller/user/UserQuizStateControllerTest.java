@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
 import jakarta.servlet.http.HttpSession;
@@ -260,7 +259,7 @@ class UserQuizStateControllerTest {
     @Test
     void testGetActiveJokers_Successful() {
         List<JokerDto> activeJokers = Arrays.asList(jokerDto);
-        when(userJokerService.getActiveJokerDtos(quizState)).thenReturn(activeJokers);
+        when(userJokerService.getOwnedJokerDtos(quizState)).thenReturn(activeJokers);
 
         ResponseEntity<List<JokerDto>> response = userQuizStateController.getActiveJokers(user);
 

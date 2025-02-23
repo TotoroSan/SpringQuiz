@@ -1,5 +1,6 @@
 package com.example.quiz.model.entity;
 
+import com.example.quiz.model.enums.GameEventType;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,12 @@ public abstract class GameEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "game_event_type_explicit", nullable = false)
+    private GameEventType gameEventType;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quiz_state_id") // This creates the foreign key column
     private QuizState quizState;
@@ -22,14 +29,17 @@ public abstract class GameEvent {
 
     private boolean isConsumed;
 
-    // Constructors
-    public GameEvent() {
-    }
 
-    public GameEvent(QuizState quizState) {
-        this.quizState = quizState;
+    // Default constructor for JPA
+    public GameEvent() {
         this.eventTimestamp = LocalDateTime.now();
         this.isConsumed = false;
+    }
+
+    public GameEvent(QuizState quizState, GameEventType gameEventType) {
+        this(); // call  default constructor (constructor chaining)
+        this.quizState = quizState;
+        this.gameEventType = gameEventType;
     }
 
     // Getters and Setters
@@ -40,7 +50,13 @@ public abstract class GameEvent {
     public void setId(Long id) {
         this.id = id;
     }
+    public GameEventType getGameEventType() {
+        return gameEventType;
+    }
 
+    public void setGameEventType(GameEventType gameEventType) {
+        this.gameEventType = gameEventType;
+    }
     public QuizState getQuizState() {
         return quizState;
     }

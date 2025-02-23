@@ -1,6 +1,7 @@
 package com.example.quiz.model.entity.Joker;
 
 import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffectMetaData;
+import com.example.quiz.model.entity.QuizState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +57,7 @@ public class JokerFactory {
      * @param tier    The joker tier (if null, a tier will be rolled).
      * @return An instantiated Joker object.
      */
-    public static Joker createJoker(String jokerId, Integer tier) {
+    public static Joker createJoker(QuizState quizState, String jokerId, Integer tier) {
         logger.info("Creating Joker with id: {} and tier: {}", jokerId, tier);
         JokerMetaData metaData = JOKER_METADATA_REGISTRY.get(jokerId);
         if (metaData == null) {
@@ -74,8 +75,11 @@ public class JokerFactory {
             // Instantiate the Joker via reflection.
             // The constructor is expected to have the signature:
             // (String idString, String name, String description, int cost, Integer uses, Integer tier)
-            return jokerClass.getConstructor(String.class, String.class, String.class, Integer.class, Integer.class, Integer.class, Integer.class)
-                    .newInstance(metaData.getIdString(), metaData.getName(), metaData.getDescription(), metaData.getCost(), uses, metaData.getRarity(), effectiveTier);
+            Joker joker = jokerClass.getConstructor(String.class, String.class, String.class, Integer.class, Integer.class, Integer.class, Integer.class, QuizState.class)
+                    .newInstance(metaData.getIdString(), metaData.getName(), metaData.getDescription(), metaData.getCost(), uses, metaData.getRarity(), effectiveTier, quizState);
+
+            logger.info("Successfully created Joker with id: {} and tier: {} and uuid: {}", jokerId, tier, joker.getId());
+            return joker;
         } catch (Exception e) {
             throw new RuntimeException("Error instantiating Joker: " + jokerId, e);
         }

@@ -1,5 +1,6 @@
 package com.example.quiz.model.entity;
 
+import com.example.quiz.model.enums.GameEventType;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public class ModifierEffectsGameEvent extends GameEvent {
 
     // todo continue here , need to add the effect ids so i can use them for the dto, so we can identify the event later with the effect ids (are there effect ids if we dont instantiate?)
     public ModifierEffectsGameEvent(QuizState quizState, List<UUID> presentedEffectUuids,  List<String> presentedEffectIdStrings, List<String> presentedEffectDescriptions, List<Integer> presentedEffectTiers, List<Integer> presentedEffectDurations) {
-        super(quizState);
+        super(quizState, GameEventType.MODIFIER_EFFECTS);
         this.presentedEffectUuids = presentedEffectUuids;
         this.presentedEffectIdStrings = presentedEffectIdStrings;
         this.presentedEffectDescriptions = presentedEffectDescriptions;

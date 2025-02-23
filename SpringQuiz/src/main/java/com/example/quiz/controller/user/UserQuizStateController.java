@@ -495,11 +495,11 @@ public class UserQuizStateController {
             description = "Quiz state not found for the user",
             content = @Content
     )
-    @GetMapping("/jokers/active")
-    public ResponseEntity<List<JokerDto>> getActiveJokers(
+    @GetMapping("/jokers/owned")
+    public ResponseEntity<List<JokerDto>> getOwnedJokers(
             @AuthenticationPrincipal User user
     ) {
-        logger.info("Received request to get active jokers for user: {}", user.getId());
+        logger.info("Received request to get owned jokers for user: {}", user.getId());
 
         Long userId = user.getId();
         Optional<QuizState> optionalQuizState = userQuizStateService.getLatestQuizStateByUserId(userId);
@@ -511,9 +511,9 @@ public class UserQuizStateController {
         QuizState quizState = optionalQuizState.get();
 
         // Convert active jokers in the quizState to JokerDto
-        List<JokerDto> activeJokers = userJokerService.getActiveJokerDtos(quizState);
+        List<JokerDto> ownedJokers = userJokerService.getOwnedJokerDtos(quizState);
 
-        logger.info("Successfully retrieved {} active jokers for user ID: {}", activeJokers.size(), userId);
-        return ResponseEntity.ok(activeJokers);
+        logger.info("Successfully retrieved {} active jokers for user ID: {}", ownedJokers.size(), userId);
+        return ResponseEntity.ok(ownedJokers);
     }
 }

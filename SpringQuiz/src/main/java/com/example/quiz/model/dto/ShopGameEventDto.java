@@ -1,6 +1,8 @@
 package com.example.quiz.model.dto;
 
 
+import com.example.quiz.model.enums.GameEventType;
+
 import java.util.List;
 
 public class ShopGameEventDto extends GameEventDto {
@@ -9,11 +11,11 @@ public class ShopGameEventDto extends GameEventDto {
 
     // No-arg constructor sets eventType to "SHOP"
     public ShopGameEventDto() {
-        super("SHOP");
+        super(GameEventType.SHOP);
     }
 
     public ShopGameEventDto(List<JokerDto> availableJokers) {
-        super("SHOP");
+        super(GameEventType.SHOP);
         this.availableJokers = availableJokers;
     }
 

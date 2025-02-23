@@ -118,8 +118,10 @@ public class UserGameEventService {
         // We'll build a list of JokerDto objects from the parallel lists in the entity
         List<JokerDto> jokerDtos = new ArrayList<>();
 
-        List<String> idStrings = shopGameEvent.getPresentedJokerIds();
+        List<UUID> jokerUuids = shopGameEvent.getPresentedJokerUuids();
+        List<String> idStrings = shopGameEvent.getPresentedJokerIdStrings();
         List<String> names = shopGameEvent.getPresentedJokerNames();
+        List<String> descriptions = shopGameEvent.getPresentedJokerDescriptions();
         List<Integer> costs = shopGameEvent.getPresentedJokerCosts();
         List<Integer> rarities = shopGameEvent.getPresentedJokerRarities();
         List<Integer> tiers = shopGameEvent.getPresentedJokerTiers();
@@ -127,18 +129,20 @@ public class UserGameEventService {
         // Safeguard in case sizes differ
         int size = idStrings.size();
         for (int i = 0; i < size; i++) {
+            UUID jokerUuid = jokerUuids.get(i);
             String idString = idStrings.get(i);
             String name = names.get(i);
+            String description = descriptions.get(i);
             Integer cost = costs.get(i);
             Integer rarity = rarities.get(i);
             Integer tier = tiers.get(i);
 
             // Build a JokerDto TODO this one is a seperate function for the modifier effects, maybe also do here
             JokerDto jokerDto = new JokerDto(
-                    null,            // no persistent ID yet
+                    jokerUuid,           // no persistent ID yet
                     idString,
                     name,
-                    "Purchase this joker to enhance your game!", // or a more meaningful description
+                    description,
                     (cost != null ? cost : 0),
                     1, // default uses?
                     tier,

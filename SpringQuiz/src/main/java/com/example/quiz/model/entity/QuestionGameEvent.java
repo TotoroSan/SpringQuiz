@@ -1,5 +1,6 @@
 package com.example.quiz.model.entity;
 
+import com.example.quiz.model.enums.GameEventType;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class QuestionGameEvent extends GameEvent {
     }
 
     public QuestionGameEvent(QuizState quizState, Long questionId, String questionText, List<Answer> shuffledAnswers) {
-        super(quizState);
+        super(quizState, GameEventType.QUESTION);
         this.questionId = questionId;
         this.questionText = questionText;
         this.shuffledAnswers = shuffledAnswers;

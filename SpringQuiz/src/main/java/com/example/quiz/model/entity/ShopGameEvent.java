@@ -1,5 +1,6 @@
 package com.example.quiz.model.entity;
 
+import com.example.quiz.model.enums.GameEventType;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -10,8 +11,6 @@ import java.util.UUID;
 @Table(name = "shop_game_event") // Creates a separate table
 public class ShopGameEvent extends GameEvent {
 
-
-
     @ElementCollection
     @OrderColumn(name = "uuid_order")
     private List<UUID> presentedJokerUuids; // Stores the IDs of the presented joker (used for identification and validation afterwards)
@@ -19,7 +18,7 @@ public class ShopGameEvent extends GameEvent {
     // IDs for the jokers presented to the user in the shop
     @ElementCollection
     @OrderColumn(name = "joker_id_order")
-    private List<String> presentedJokerIds; // e.g. ["FIFTY_FIFTY", "SKIP_QUESTION"]
+    private List<String> presentedJokerIdStrings; // e.g. ["FIFTY_FIFTY", "SKIP_QUESTION"]
 
     @ElementCollection
     @OrderColumn(name = "name_order")
@@ -49,15 +48,15 @@ public class ShopGameEvent extends GameEvent {
 
     public ShopGameEvent(QuizState quizState,
                          List<UUID> presentedJokerUuids,
-                         List<String> presentedJokerIds,
+                         List<String> presentedJokerIdStrings,
                          List<String> presentedJokerNames,
                          List<String> presentedJokerDescriptions,
                          List<Integer> presentedJokerCosts,
                          List<Integer> presentedJokerRarities,
                          List<Integer> presentedJokerTiers) {
-        super(quizState);
+        super(quizState, GameEventType.SHOP);
         this.presentedJokerUuids = presentedJokerUuids;
-        this.presentedJokerIds = presentedJokerIds;
+        this.presentedJokerIdStrings = presentedJokerIdStrings;
         this.presentedJokerNames = presentedJokerNames;
         this.presentedJokerDescriptions = presentedJokerDescriptions;
         this.presentedJokerCosts = presentedJokerCosts;
@@ -74,12 +73,12 @@ public class ShopGameEvent extends GameEvent {
         this.presentedJokerUuids = presentedJokerUuids;
     }
 
-    public List<String> getPresentedJokerIds() {
-        return presentedJokerIds;
+    public List<String> getPresentedJokerIdStrings() {
+        return presentedJokerIdStrings;
     }
 
-    public void setPresentedJokerIds(List<String> presentedJokerIds) {
-        this.presentedJokerIds = presentedJokerIds;
+    public void setPresentedJokerIdStrings(List<String> presentedJokerIdStrings) {
+        this.presentedJokerIdStrings = presentedJokerIdStrings;
     }
 
     public List<String> getPresentedJokerNames() {

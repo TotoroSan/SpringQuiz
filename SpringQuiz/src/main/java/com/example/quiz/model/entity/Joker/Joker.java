@@ -11,7 +11,6 @@ import java.util.UUID;
 public abstract class Joker {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "BINARY(16)", updatable = false, nullable = false)
     private UUID id;
 
@@ -31,7 +30,10 @@ public abstract class Joker {
     public Joker() {
     }
 
-    public Joker(String idString, String name, String description, Integer cost, Integer uses, Integer rarity, Integer tier) {
+    // TODO this exists because we want to send a quizModifierDto that is  unrelated to a modifier
+
+    public Joker(String idString, String name, String description, Integer cost, Integer uses, Integer rarity, Integer tier, QuizState quizState) {
+        this.id = UUID.randomUUID();
         this.idString = idString;
         this.name = name;
         this.description = description;
@@ -39,6 +41,7 @@ public abstract class Joker {
         this.uses = uses;
         this.rarity = rarity;
         this.tier = tier;
+        this.quizState = quizState;
     }
 
     // Getter & Setter

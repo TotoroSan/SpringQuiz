@@ -8,15 +8,23 @@ package com.example.quiz.model.dto;
 //})
 
 
-// this is a "Wrapper" Dto for Game Events
-// the frontend uses eventType to dynamically choose the correct components
+import com.example.quiz.model.enums.GameEventType;
+
+/**
+ * This is a "Wrapper" DTO for Game Events.
+ * The frontend uses eventType (as an enum) to dynamically choose the correct components.
+ */
 public abstract class GameEventDto {
 
-    private final String eventType;
+    private final GameEventType eventType;
     private long id;
 
-    // Constructor for a question event
-    public GameEventDto(String eventType) {
+    /**
+     * Constructor for creating a GameEventDto with the given event type.
+     *
+     * @param eventType The type of the event, defined as a GameEventType enum.
+     */
+    public GameEventDto(GameEventType eventType) {
         this.eventType = eventType;
     }
 
@@ -28,16 +36,16 @@ public abstract class GameEventDto {
         this.id = id;
     }
 
-    // Getters and setters
-    public String getEventType() {
+    public GameEventType getEventType() {
         return eventType;
     }
 
     @Override
     public String toString() {
         return "GameEventDto{" +
-                "eventType='" + eventType + '\'' +
+                "eventType=" + eventType +
                 '}';
     }
 }
+
 

@@ -71,7 +71,7 @@ public class QuizState implements Serializable {
 
     // map of bought and usable jokers TODO fix here if problems, maybe need to add ordering
     @OneToMany(mappedBy = "quizState", cascade = CascadeType.ALL, orphanRemoval = true)
-    @MapKeyColumn(name = "joker_uuid") // Maps UUIDs as keys in the DB
+    @MapKey(name = "id") // Use the 'id' attribute of Joker as the map key
     private Map<UUID, Joker> ownedJokers = new HashMap<>();
 
     // Standard Constructor for JPA reflection
@@ -253,12 +253,12 @@ public class QuizState implements Serializable {
         this.gameEvents.clear();
     }
 
-    public Map<UUID, Joker> getActiveJokers() {
+    public Map<UUID, Joker> getOwnedJokers() {
         return ownedJokers;
     }
 
-    public void setActiveJokers(Map<UUID, Joker> activeJokers) {
-        this.ownedJokers = activeJokers;
+    public void setOwnedJokers(Map<UUID, Joker> ownedJokers) {
+        this.ownedJokers = ownedJokers;
     }
 
 
