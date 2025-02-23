@@ -257,11 +257,11 @@ class UserQuizStateControllerTest {
     }
 
     @Test
-    void testGetActiveJokers_Successful() {
+    void testGetOwnedJokers_Successful() {
         List<JokerDto> activeJokers = Arrays.asList(jokerDto);
         when(userJokerService.getOwnedJokerDtos(quizState)).thenReturn(activeJokers);
 
-        ResponseEntity<List<JokerDto>> response = userQuizStateController.getActiveJokers(user);
+        ResponseEntity<List<JokerDto>> response = userQuizStateController.getOwnedJokers(user);
 
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(1, response.getBody().size());
@@ -269,10 +269,10 @@ class UserQuizStateControllerTest {
     }
 
     @Test
-    void testGetActiveJokers_Fails_NoQuizState() {
+    void testGetOwnedJokers_Fails_NoQuizState() {
         when(userQuizStateService.getLatestQuizStateByUserId(1L)).thenReturn(Optional.empty());
 
-        ResponseEntity<List<JokerDto>> response = userQuizStateController.getActiveJokers(user);
+        ResponseEntity<List<JokerDto>> response = userQuizStateController.getOwnedJokers(user);
 
         assertEquals(400, response.getStatusCodeValue());
         assertNull(response.getBody());

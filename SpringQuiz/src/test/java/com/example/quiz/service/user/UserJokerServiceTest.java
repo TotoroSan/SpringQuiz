@@ -42,11 +42,11 @@ class UserJokerServiceTest {
 
         // Stub methods
         when(quizState.getQuizModifier()).thenReturn(quizModifier);
-        when(quizState.getActiveJokers()).thenReturn(activeJokers);
+        when(quizState.getOwnedJokers()).thenReturn(activeJokers);
 
         // Create sample jokers
-        fiftyFiftyJoker = new FiftyFiftyJoker( 1);
-        skipQuestionJoker = new SkipQuestionJoker( 1);
+        fiftyFiftyJoker = new FiftyFiftyJoker( "FIFTY_FIFTY", "test","test",50,1,1,1, quizState);
+        skipQuestionJoker = new SkipQuestionJoker( "SKIP_QUESTION", "test","test",50,1,1,1, quizState);
 
         // Create sample metadata for JokerFactory mock
         jokerMetaData = new JokerMetaData("FIFTY_FIFTY", "50/50", "Removes two wrong answers", 50, "FIFTY_FIFTY", 1, 1, 1);

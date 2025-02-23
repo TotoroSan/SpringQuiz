@@ -20,6 +20,9 @@ public class UserJokerService {
     @Autowired
     private QuizStateRepository quizStateRepository;
 
+    @Autowired
+    private UserQuizStateService userQuizStateService;
+
     /**
      * Picks a list of random Joker DTOs using weighted probabilities.
      * Up to 3 jokers are picked from the metadata registry.
@@ -164,24 +167,39 @@ public class UserJokerService {
             return false;
         }
 
-        // If the Joker has 0 uses, we skip applying it
+        // If the Joker has 0 uses, skip applying it
         if (jokerToUse.getUses() == null || jokerToUse.getUses() <= 0) {
             logger.warn("Joker {} has no uses left. Cannot apply.", jokerToUse.getIdString());
             return false;
         }
 
-        // Determine which Joker it is by checking the subclass
-        if (jokerToUse instanceof FiftyFiftyJoker) {
-            applyFiftyFiftyJoker(quizState, jokerToUse);
-        } else if (jokerToUse instanceof SkipQuestionJoker) {
-            applySkipQuestionJoker(quizState, jokerToUse);
-        } else if (jokerToUse instanceof TwentyFiveSeventyFiveJoker) {
-            applyTwentyFiveSeventyFiveJoker(quizState, jokerToUse);
-        } else {
-            logger.warn("Unknown Joker type: {}", jokerToUse.getClass().getSimpleName());
+        // Ensure the current active event is a QuestionGameEvent, if applicable.
+        List<GameEvent> events = quizState.getGameEvents();
+        if (events.isEmpty() || !(events.get(events.size() - 1) instanceof QuestionGameEvent)) {
+            logger.warn("Joker can only be used during a QuestionGameEvent. Current event type: {}",
+                    events.isEmpty() ? "none" : events.get(events.size() - 1).getClass().getSimpleName());
+            return false;
         }
 
-        // Decrement or remove from inventory
+        // Determine and apply the effect based on the Joker type.
+        boolean effectApplied = false;
+        if (jokerToUse instanceof FiftyFiftyJoker) {
+            effectApplied = applyFiftyFiftyJoker(quizState, jokerToUse);
+        } else if (jokerToUse instanceof SkipQuestionJoker) {
+            effectApplied = applySkipQuestionJoker(quizState, jokerToUse);
+        } else if (jokerToUse instanceof TwentyFiveSeventyFiveJoker) {
+            effectApplied = applyTwentyFiveSeventyFiveJoker(quizState, jokerToUse);
+        } else {
+            logger.warn("Unknown Joker type: {}", jokerToUse.getClass().getSimpleName());
+            return false;
+        }
+
+        // Only deduct uses if the effect was successfully applied.
+        if (!effectApplied) {
+            logger.warn("Effect application failed for Joker {}", jokerToUse.getIdString());
+            return false;
+        }
+
         int currentUses = jokerToUse.getUses();
         if (currentUses > 1) {
             jokerToUse.setUses(currentUses - 1);
@@ -199,25 +217,25 @@ public class UserJokerService {
     /**
      * Eliminates two wrong answers from the current question.
      */
-    public void applyFiftyFiftyJoker(QuizState quizState, Joker joker) {
+    public boolean applyFiftyFiftyJoker(QuizState quizState, Joker joker) {
         logger.info("Applying 50/50 effect from Joker {}", joker.getIdString());
 
         GameEvent latestEvent = quizState.getLatestGameEvent();
         if (latestEvent == null) {
             logger.warn("No latest game event available, cannot apply 50/50.");
-            return;
+            return false;
         }
 
         if (!(latestEvent instanceof QuestionGameEvent questionGameEvent)) {
             logger.warn("Latest game event is not a QuestionGameEvent: {}", latestEvent.getClass().getSimpleName());
-            return;
+            return false;
         }
 
         // Load the Question from quizState
         Question question = quizState.getCurrentQuestion();
         if (question == null) {
             logger.warn("No Question found for id {}. Cannot apply 50/50.");
-            return;
+            return false;
         }
 
         // Identify the correct answer. If you have only one correct answer, you can do:
@@ -228,7 +246,7 @@ public class UserJokerService {
         List<Answer> shuffledAnswers = questionGameEvent.getShuffledAnswers();
         if (shuffledAnswers == null || shuffledAnswers.isEmpty()) {
             logger.warn("No shuffled answers present in QuestionGameEvent. Cannot apply 50/50.");
-            return;
+            return false;
         }
 
         // Identify wrong answers as a list of Answer objects
@@ -238,7 +256,7 @@ public class UserJokerService {
 
         if (wrongAnswers.size() < 2) {
             logger.warn("Not enough wrong answers to apply 50/50. Wrong answers: {}", wrongAnswers.size());
-            return;
+            return false;
         }
 
         // Shuffle and pick 2
@@ -252,38 +270,39 @@ public class UserJokerService {
         logger.info("Eliminated answer IDs: {}", answersToEliminate);
 
         quizStateRepository.save(quizState);
+        return true;
     }
 
     /**
      * Eliminates one wrong answer from the current question
      */
-    public void applyTwentyFiveSeventyFiveJoker(QuizState quizState, Joker joker) {
+    public boolean applyTwentyFiveSeventyFiveJoker(QuizState quizState, Joker joker) {
         logger.info("Applying 25/75 effect from Joker {}", joker.getIdString());
 
         GameEvent latestEvent = quizState.getLatestGameEvent();
         if (latestEvent == null) {
             logger.warn("No latest game event available, cannot apply 25/75.");
-            return;
+            return false;
         }
 
         if (!(latestEvent instanceof QuestionGameEvent questionEvent)) {
             logger.warn("Latest game event is not a QuestionGameEvent. Type: {}",
                     latestEvent.getClass().getSimpleName());
-            return;
+            return false;
         }
 
         // If you store the correct answer or can look it up similarly
         List<Answer> shuffledAnswers = questionEvent.getShuffledAnswers();
         if (shuffledAnswers == null || shuffledAnswers.isEmpty()) {
             logger.warn("No shuffled answers present, cannot apply 25/75.");
-            return;
+            return false;
         }
 
         // Load the Question from quizState
         Question question = quizState.getCurrentQuestion();
         if (question == null) {
             logger.warn("No Question found for id {}. Cannot apply 50/50.");
-            return;
+            return false;
         }
 
         // Identify the correct answer. If you have only one correct answer, you can do:
@@ -295,7 +314,7 @@ public class UserJokerService {
 
         if (wrongAnswers.size() < 1) {
             logger.warn("No wrong answers to eliminate for 25/75.");
-            return;
+            return false;
         }
 
         // Randomly pick 1 wrong answer to remove
@@ -308,35 +327,39 @@ public class UserJokerService {
         logger.info("Eliminated answer ID: {}", answerToEliminate.getId());
 
         quizStateRepository.save(quizState);
+        return true;
     }
 
     /**
      * Marks the current question as skipped and moves on to the next question event.
      */
-    public void applySkipQuestionJoker(QuizState quizState, Joker joker) {
+    public boolean applySkipQuestionJoker(QuizState quizState, Joker joker) {
         logger.info("Applying Skip Question effect from Joker {}", joker.getIdString());
 
         GameEvent latestEvent = quizState.getLatestGameEvent();
         if (latestEvent == null) {
             logger.warn("No latest game event available, cannot skip question.");
-            return;
+            return false;
         }
 
         // Ensure it's a QuestionGameEvent
         if (!(latestEvent instanceof QuestionGameEvent questionGameEvent)) {
             logger.warn("Latest game event is not a QuestionGameEvent. Type: {}",
                     latestEvent.getClass().getSimpleName());
-            return;
+            return false;
         }
 
         // Mark the current question as skipped
         questionGameEvent.setSkipUsed(true);
+        userQuizStateService.processSkipQuestionSubmission(quizState);
+
 
 
         // Save changes (both skipUsed on current event and the new index or new event)
         quizStateRepository.save(quizState);
 
         logger.info("QuestionGameEvent {} was skipped; advanced to the next event: {}");
+        return true;
     }
 
     /**

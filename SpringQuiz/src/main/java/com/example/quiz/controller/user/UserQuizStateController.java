@@ -9,6 +9,7 @@ import com.example.quiz.model.entity.User;
 import com.example.quiz.service.user.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -257,6 +258,51 @@ public class UserQuizStateController {
 
 
     /**
+     * Refreshes and returns the current active GameEvent from the QuizState.
+     * This endpoint retrieves the last game event (if available) so the frontend
+     * can display the updated question or special event after effects have been applied.
+     *
+     * @param user the currently authenticated user
+     * @return a ResponseEntity containing the current GameEventDto, or a 400 Bad Request if no active event is found.
+     */
+    @Operation(
+            summary = "Refresh current GameEvent",
+            description = "Retrieves the currently active game event (the last one in QuizState) and returns it as a DTO."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Successfully retrieved current game event",
+            content = @Content(schema = @Schema(implementation = GameEventDto.class))
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "No active game event found",
+            content = @Content
+    )
+    @GetMapping("/refresh")
+    public ResponseEntity<GameEventDto> refreshGameEvent(@AuthenticationPrincipal User user) {
+        logger.info("Received request to refresh current game event for user: {}", user.getId());
+
+        Optional<QuizState> optionalQuizState = userQuizStateService.getLatestActiveQuizStateByUserId(user.getId());
+        if (optionalQuizState.isEmpty()) {
+            logger.warn("No active QuizState found for user: {}", user.getId());
+            return ResponseEntity.badRequest().build();
+        }
+
+        QuizState quizState = optionalQuizState.get();
+        if (quizState.getGameEvents().isEmpty()) {
+            logger.warn("No game events available for QuizState: {}", quizState.getId());
+            return ResponseEntity.badRequest().build();
+        }
+
+        GameEvent latestEvent = quizState.getGameEvents().get(quizState.getGameEvents().size() - 1);
+        GameEventDto eventDto = userGameEventService.convertToDto(latestEvent);
+
+        return ResponseEntity.ok(eventDto);
+    }
+
+
+    /**
      * Applies a chosen modifier effect to the current QuizState based on the provided QuizModifierEffectDto.
      * Validates and instantiates the effect using its UUID, then moves the quiz forward if successful.
      * Returns 400 if the quiz state is not found or the effect cannot be applied.
@@ -460,7 +506,7 @@ public class UserQuizStateController {
         // The JokerDto might have other fields, but we primarily need jokerDto.getId()
         UUID jokerObjectId = jokerDto.getUuid();
         if (jokerObjectId == null) {
-            logger.warn("JokerDto provided no DB ID (id) for the Joker.");
+            logger.warn("JokerDto provided no UUID for the Joker.");
             return ResponseEntity.badRequest().body("JokerDto must include a valid 'id' field.");
         }
 

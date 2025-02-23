@@ -43,10 +43,17 @@ public class UserQuizStateService {
     // This should be transactional i think
     // Initialize quiz with questions fetched from the QuestionService
     // todo move the clearing of old states to a dedicated function (might run periodically)
+    /**
+     * Starts a new quiz session for a given user.
+     * <p>
+     * If there is an existing active quiz, it is invalidated before creating a new one.
+     * </p>
+     *
+     * @param userId The ID of the user starting a new quiz.
+     * @return The newly created {@link QuizState}.
+     */
     public QuizState startNewQuiz(Long userId) {
         logger.info("Starting new Quiz (creating new QuizState) for user: {}", userId);
-
-        // We currently need this snippet to clear the last save game when starting a new game
 
         // Find all active quiz states for the user (only one quiz can be active at a time currently)
         List<QuizState> activeQuizStates = quizStateRepository.findAllByUserIdAndIsActiveTrue(userId);
@@ -59,42 +66,71 @@ public class UserQuizStateService {
             quizStateRepository.save(activeState);
         }
 
-        // save and create new quizState
+        // Create and save new quiz state
         QuizState quizState = new QuizState(userId);
         logger.debug("Successfully created new QuizState for user: {}", userId);
 
         return quizStateRepository.save(quizState);
     }
 
+    /**
+     * Retrieves the history of past quiz states for a given user.
+     *
+     * @param userId The ID of the user whose quiz history is requested.
+     * @return A list of past {@link QuizState} objects.
+     */
     public List<QuizState> getQuizStateHistory(Long userId) {
         return quizStateRepository.findAllByUserIdAndIsActiveFalse(userId);
     }
 
-
-    // Method to get the latest quiz state by user ID
+    /**
+     * Retrieves the most recent quiz state for a given user.
+     *
+     * @param userId The ID of the user whose latest quiz state is requested.
+     * @return An {@link Optional} containing the latest {@link QuizState}, if available.
+     */
     public Optional<QuizState> getLatestQuizStateByUserId(Long userId) {
         return quizStateRepository.findFirstByUserIdOrderByIdDesc(userId);
     }
 
-    // Method to get the latest quiz state by user ID
+    /**
+     * Retrieves the latest active quiz state for a given user.
+     *
+     * @param userId The ID of the user whose active quiz state is requested.
+     * @return An {@link Optional} containing the latest active {@link QuizState}, if available.
+     */
     public Optional<QuizState> getLatestActiveQuizStateByUserId(Long userId) {
         return quizStateRepository.findFirstByUserIdAndIsActiveIsTrueOrderByIdDesc(userId);
     }
 
-    // Get all QuizStates by user ID
+    /**
+     * Retrieves all quiz states for a given user.
+     *
+     * @param userId The ID of the user.
+     * @return An {@link Optional} containing all {@link QuizState} objects for the user.
+     */
     public Optional<QuizState> getAllQuizStatesByUserId(Long userId) {
         return quizStateRepository.findByUserId(userId);
     }
 
-    // Save changes to the QuizState
+    /**
+     * Saves the given quiz state to the database.
+     *
+     * @param quizState The {@link QuizState} to be saved.
+     */
     public void saveQuizState(QuizState quizState) {
         quizStateRepository.save(quizState);
     }
 
-    // Get the next question that hasn't been answered yet
+    /**
+     * Retrieves the next unanswered question for the current quiz session.
+     *
+     * @param quizState The current quiz state.
+     * @return The next {@link Question} or {@code null} if there are no more questions.
+     */
     public Question getNextQuestion(QuizState quizState) {
         if (!hasMoreQuestions(quizState)) {
-            return null;  // No more questions
+            return null;  // No more questions available
         }
         Question currentQuestion = getCurrentQuestion(quizState);
         quizState.setCurrentQuestionIndex(quizState.getCurrentQuestionIndex() + 1);  // Move to the next question
@@ -102,82 +138,137 @@ public class UserQuizStateService {
         return currentQuestion;
     }
 
+    /**
+     * Adds a new question to the quiz state.
+     *
+     * @param quizState The current quiz state.
+     * @param question  The {@link Question} to be added.
+     */
     public void addQuestion(QuizState quizState, Question question) {
-        logger.info("Adding question ", question.getId(), "to quizState");
+        logger.info("Adding question {} to quizState", question.getId());
 
         quizState.getAllQuestions().add(question);
         incrementCurrentQuestionIndex(quizState);
         saveQuizState(quizState);
 
-        logger.debug("Added question ", question.getId(), "successfully");
+        logger.debug("Added question {} successfully", question.getId());
     }
 
+    /**
+     * Converts a {@link QuizState} entity into a {@link QuizStateDto}.
+     *
+     * @param quizState The quiz state to be converted.
+     * @return A DTO representation of the quiz state.
+     */
     public QuizStateDto convertToDto(QuizState quizState) {
-        logger.info("Converting quizState to quizStateDto");
-        // Convert to DTO to return to the user TODO add jokers here
+        logger.info("Converting quizState to QuizStateDto");
+
         QuizStateDto quizStateDto = new QuizStateDto(
                 quizState.getScore(),
                 quizState.getCurrentRound(),
-                quizState.getAllQuestions().isEmpty() ? null : quizState.getAllQuestions().get(quizState.getCurrentQuestionIndex()).getQuestionText(),
+                quizState.getAllQuestions().isEmpty()
+                        ? null
+                        : quizState.getAllQuestions().get(quizState.getCurrentQuestionIndex()).getQuestionText(),
                 userQuizModifierService.convertToDto(quizState.getQuizModifier()),
                 userJokerService.getOwnedJokerDtos(quizState),
-                quizState.isActive()); // convert quizModifier to dto as well in this process
+                quizState.isActive()
+        );
 
-        logger.debug("Successfully converted quizState to quizStateDto");
+        logger.debug("Successfully converted QuizState to QuizStateDto");
         return quizStateDto;
     }
 
-
-    // Move to the next question
+    /**
+     * Increments the current question index to move to the next question in the quiz.
+     *
+     * @param quizState The current quiz state.
+     */
     public void incrementCurrentQuestionIndex(QuizState quizState) {
-        quizState.setCurrentQuestionIndex(quizState.getCurrentQuestionIndex() + 1); // Move to the next question
+        quizState.setCurrentQuestionIndex(quizState.getCurrentQuestionIndex() + 1);
     }
 
-    // Increment the score by 1 (* multiplicator) // todo consolidate with overloaded function (?)
+    /**
+     * Increments the quiz score by 1, taking into account the score multiplier.
+     *
+     * @param quizState The current quiz state.
+     */
     public void incrementScore(QuizState quizState) {
         quizState.setScore(quizState.getScore() + (quizState.getQuizModifier().getScoreMultiplier() * 1));
         saveQuizState(quizState);
     }
 
-    // Increment the score by increments ( * multiplicator)
+    /**
+     * Increments the quiz score by a specified amount, considering the score multiplier.
+     *
+     * @param quizState The current quiz state.
+     * @param increments The number of increments to be added to the score.
+     */
     public void incrementScore(QuizState quizState, int increments) {
         quizState.setScore(quizState.getScore() + (quizState.getQuizModifier().getScoreMultiplier() * increments));
         saveQuizState(quizState);
     }
 
-
-    // Increment the round
+    /**
+     * Increments the current round in the quiz state.
+     *
+     * @param quizState The current quiz state.
+     */
     public void incrementCurrentRound(QuizState quizState) {
         quizState.setCurrentRound(quizState.getCurrentRound() + 1);
     }
 
-    // Mark a question as completed
+    /**
+     * Marks a question as completed by adding its ID to the completed questions list.
+     *
+     * @param quizState The current quiz state.
+     * @param questionId The ID of the question to mark as completed.
+     */
     public void markQuestionAsCompleted(QuizState quizState, Long questionId) {
         quizState.getCompletedQuestionIds().add(questionId);
     }
 
-    // Get the current question
+    /**
+     * Retrieves the current question based on the quiz state's question index.
+     *
+     * @param quizState The current quiz state.
+     * @return The current {@link Question}, or {@code null} if no question is available.
+     */
     public Question getCurrentQuestion(QuizState quizState) {
-        logger.info("Retreiving current question from quizState");
+        logger.info("Retrieving current question from quizState");
         if (quizState.getCurrentQuestionIndex() < quizState.getAllQuestions().size()) {
             return quizState.getAllQuestions().get(quizState.getCurrentQuestionIndex());
         }
 
-        logger.debug("Retreival of current question from quizState failed");
-        return null;  // No more questions
+        logger.debug("Retrieval of current question from quizState failed");
+        return null;
     }
 
-    // Check if a question is completed
+    /**
+     * Checks whether a specific question has been completed.
+     *
+     * @param quizState The current quiz state.
+     * @param questionId The ID of the question to check.
+     * @return {@code true} if the question is completed, otherwise {@code false}.
+     */
     public boolean isCompleted(QuizState quizState, Long questionId) {
         return quizState.getCompletedQuestionIds().contains(questionId);
     }
 
-    // Check if quiz has more questions
+    /**
+     * Determines whether there are more questions remaining in the quiz.
+     *
+     * @param quizState The current quiz state.
+     * @return {@code true} if there are more questions, otherwise {@code false}.
+     */
     public boolean hasMoreQuestions(QuizState quizState) {
         return quizState.getCurrentQuestionIndex() < quizState.getAllQuestions().size();
     }
 
-    // Move to the next segment (i.e. reset question count in segment)
+    /**
+     * Moves to the next segment by resetting the answered question count and clearing event tracking.
+     *
+     * @param quizState The current quiz state.
+     */
     public void moveToNextSegment(QuizState quizState) {
         quizState.setCurrentSegment(quizState.getCurrentSegment() + 1);
         quizState.setAnsweredQuestionsInSegment(1);
@@ -185,178 +276,234 @@ public class UserQuizStateService {
         saveQuizState(quizState);
     }
 
-    // Todo methods like this should be moved to the model class itself
+    /**
+     * Increments the count of answered questions in the current segment.
+     *
+     * @param quizState The current quiz state.
+     */
     public void incrementAnsweredQuestionsInSegment(QuizState quizState) {
         quizState.setAnsweredQuestionsInSegment(quizState.getAnsweredQuestionsInSegment() + 1);
     }
 
-    // Update the game state after a correct answer was submitted
+    /**
+     * Processes a correct answer submission by updating the quiz state.
+     * <p>
+     * This method marks the question as completed, increments the score and round,
+     * updates active modifier effects, and adds cash based on multipliers.
+     * </p>
+     *
+     * @param quizState The current quiz state.
+     */
     public void processCorrectAnswerSubmission(QuizState quizState) {
-        logger.info("Processing correct answer submission for", quizState);
+        logger.info("Processing correct answer submission for QuizState ID: {}", quizState.getId());
         QuizModifier quizModifier = quizState.getQuizModifier();
 
-        // update quizState
+        // Update quizState
         markQuestionAsCompleted(quizState, getCurrentQuestion(quizState).getId());
-        incrementScore(quizState, getCurrentQuestion(quizState).getDifficulty()); // todo change here if we want every question to have same score (currently score of a question = difficulty)
+        incrementScore(quizState, getCurrentQuestion(quizState).getDifficulty()); // Score = Difficulty
         incrementCurrentRound(quizState);
         incrementAnsweredQuestionsInSegment(quizState);
 
-        // update ActiveQuizModifierEffects
+        // Update active QuizModifierEffects
         userQuizModifierService.processActiveQuizModifierEffectsForNewRound(quizModifier);
-        // earned cash = basereward * multi * difficulty todo move this into own function in UserQuizModifierSupport for consistency
+
+        // Calculate and add earned cash
         int cashEarned = (int) (quizModifier.getBaseCashReward() *
                 quizModifier.getCashMultiplier() * getCurrentQuestion(quizState).getDifficulty());
         quizModifier.addCash(cashEarned);
 
         logger.info("Added {} cash (after multiplier) to QuizState ID: {}", cashEarned, quizState.getId());
 
+        // Persist the updated quiz state
+        saveQuizState(quizState);
+
+        logger.debug("Successfully processed correct answer submission for QuizState ID: {}", quizState.getId());
+    }
+
+
+
+
+    /**
+     * Processes the skipping of a question. A skipped question is marked as completed,
+     * the current round and answered counter are advanced, but no points, cash, or lives are affected.
+     *
+     * @param quizState The current quiz state.
+     */
+    public void processSkipQuestionSubmission(QuizState quizState) {
+        logger.info("Processing skip question submission for QuizState ID: {}", quizState.getId());
+
+        // Mark the current question as completed
+        Question currentQuestion = getCurrentQuestion(quizState);
+        if (currentQuestion != null) {
+            markQuestionAsCompleted(quizState, currentQuestion.getId());
+        } else {
+            logger.warn("No current question found; cannot mark as completed.");
+        }
+
+        // Advance round and increment questions in segment without awarding points or cash
+        incrementCurrentRound(quizState);
+        incrementAnsweredQuestionsInSegment(quizState);
 
         // Persist the updated quiz state
         saveQuizState(quizState);
 
-        logger.debug("Successfully processed correct answer submission for", quizState);
+        logger.debug("Successfully processed skip question submission for QuizState ID: {}", quizState.getId());
     }
 
-    // Update the game state after a correct answer was submitted
+
+    /**
+     * Processes an incorrect answer submission by decrementing the life counter.
+     * If the user has no lives left, the quiz ends.
+     *
+     * @param quizState The current quiz state.
+     */
     public void processIncorrectAnswerSubmission(QuizState quizState) {
-        logger.info("Processing incorrect answer for QuizState", quizState);
+        logger.info("Processing incorrect answer for QuizState ID: {}", quizState.getId());
 
         userQuizModifierService.decrementLifeCounter(quizState.getQuizModifier());
 
         if (quizState.getQuizModifier().getLifeCounter() <= 0) {
-            logger.info("No lifes left, initiating quiz end");
+            logger.info("No lives left, initiating quiz end.");
             processQuizEnd(quizState);
         }
 
         saveQuizState(quizState);
-        logger.debug("Successfully processed incorrect answer");
+        logger.debug("Successfully processed incorrect answer for QuizState ID: {}", quizState.getId());
     }
 
-    // Update the game state after a correct answer was submitted
+    /**
+     * Ends the quiz by marking it inactive and clearing game-related data.
+     * Active modifier effects and game events are removed to clean up the state.
+     *
+     * @param quizState The current quiz state.
+     */
     public void processQuizEnd(QuizState quizState) {
-        logger.info("Processing quiz end for QuizState", quizState);
+        logger.info("Processing quiz end for QuizState ID: {}", quizState.getId());
 
-        quizState.setActive(false);  // set game as inactive on wrong answer
+        quizState.setActive(false);  // Set game as inactive
 
-        // clearing out part of the quizstate data that is should not be permanent as of now
-        quizState.getQuizModifier().clearActiveQuizModifierEffects(); // clear active modifier effects
-        quizState.clearGameEvents();  // clear game event history TODO careful this automatically invalidates/corrupts the save of the game (=> currently no loading of ended games)
+        // Clear temporary state-related data
+        quizState.getQuizModifier().clearActiveQuizModifierEffects(); // Remove active modifier effects
+        quizState.clearGameEvents();  // Clear game event history (note: this invalidates game save)
 
         saveQuizState(quizState);
-
-        logger.debug("Successfully processed quiz end");
+        logger.debug("Successfully processed quiz end for QuizState ID: {}", quizState.getId());
     }
 
-
-    // cann return either subtype
-    // TODO this is the main function to get the next game event, basically the main backend switchboard
-    // TODO tidy up the function with switch or sth (flags + switch)
+    /**
+     * Determines and returns the next game event based on the current game state.
+     * Ensures that no two special events (Shop/ModifierEffects) occur in direct succession.
+     * Also enforces a minimum of 3 questions per segment before triggering a special event.
+     *
+     * @param quizState The current quiz state.
+     * @return The next {@link GameEvent} instance.
+     */
     public GameEvent getNextGameEvent(QuizState quizState) {
         Random random = new Random();
-        // Prevent two special events in direct succession:
-        // If the last game event was a special event (SHOP or MODIFIER_EFFECTS), force a normal question event.
+
+        // Prevent consecutive special events
         if (!quizState.getGameEvents().isEmpty()) {
             GameEvent lastEvent = quizState.getGameEvents().get(quizState.getGameEvents().size() - 1);
             if (lastEvent.getGameEventType() == GameEventType.SHOP ||
                     lastEvent.getGameEventType() == GameEventType.MODIFIER_EFFECTS) {
                 logger.info("Last event was special ({}), forcing a QuestionGameEvent.", lastEvent.getGameEventType());
-                QuestionGameEvent questionGameEvent = createQuestionGameEvent(quizState);
-                logger.debug("Successfully returned QuestionGameEvent");
-                return questionGameEvent;
+                return createQuestionGameEvent(quizState);
             }
         }
-        // If fewer than 3 questions have been answered in the current segment,
-        // always return a QuestionGameEvent.
+
+        // Ensure at least 3 questions are answered before allowing special events
         if (quizState.getAnsweredQuestionsInSegment() < 3) {
             logger.info("Less than 3 questions answered in current segment; returning QuestionGameEvent for QuizState ID: {}", quizState.getId());
-            QuestionGameEvent questionGameEvent = createQuestionGameEvent(quizState);
-            logger.debug("Successfully returned QuestionGameEvent");
-            return questionGameEvent;
+            return createQuestionGameEvent(quizState);
         }
 
-        // If both special event types (SHOP and MODIFIER_EFFECTS) have occurred in the current segment, advance to the next segment.
+        // If both special events occurred in the segment, move to the next segment
         if (quizState.hasEventTypeOccurred(GameEventType.SHOP) &&
                 quizState.hasEventTypeOccurred(GameEventType.MODIFIER_EFFECTS)) {
             moveToNextSegment(quizState);
         }
 
-        // Determine if a shop or modifier event can be triggered in the current segment.
+        // Determine event probabilities
         boolean canTriggerShop = !quizState.hasEventTypeOccurred(GameEventType.SHOP);
         boolean canTriggerModifier = !quizState.hasEventTypeOccurred(GameEventType.MODIFIER_EFFECTS);
 
-        // Define new static probabilities for special events TODO move this parameters to a config file
-        double shopChance = canTriggerShop ? 0.20 : 0.0;       // 5% chance for Shop event if not yet triggered
-        double modifierChance = canTriggerModifier ? 0.10 : 0.0;  // 10% chance for Modifier event if not yet triggered
+        double shopChance = canTriggerShop ? 0.05 : 0.0;       // 5% chance for Shop event if not triggered
+        double modifierChance = canTriggerModifier ? 0.10 : 0.0;  // 10% chance for Modifier event if not triggered
 
         double roll = random.nextDouble();
 
-        // Try triggering a ShopGameEvent first
         if (canTriggerShop && roll < shopChance) {
             logger.info("Returning ShopGameEvent for QuizState ID: {}", quizState.getId());
             quizState.addEventTypeToSegment(GameEventType.SHOP);
-            ShopGameEvent shopGameEvent = createShopGameEvent(quizState);
-            logger.debug("Successfully returned ShopGameEvent");
-            return shopGameEvent;
+            return createShopGameEvent(quizState);
         }
 
-        // Next, try triggering a ModifierEffectsGameEvent
         if (canTriggerModifier && roll < (shopChance + modifierChance)) {
             logger.info("Returning ModifierEffectsGameEvent for QuizState ID: {}", quizState.getId());
             quizState.addEventTypeToSegment(GameEventType.MODIFIER_EFFECTS);
-            ModifierEffectsGameEvent modifierEffectsGameEvent = createModifierEffectsGameEvent(quizState);
-            logger.debug("Successfully returned ModifierEffectsGameEvent");
-            return modifierEffectsGameEvent;
+            return createModifierEffectsGameEvent(quizState);
         }
 
-        // Default case: Return a normal QuestionGameEvent
+        // Default case: Return a question event
         logger.info("Returning next QuestionGameEvent for QuizState ID: {}", quizState.getId());
-        QuestionGameEvent questionGameEvent = createQuestionGameEvent(quizState);
-        logger.debug("Successfully returned QuestionGameEvent");
-        return questionGameEvent;
+        return createQuestionGameEvent(quizState);
     }
 
-
-
-
+    /**
+     * Creates a new {@link QuestionGameEvent} based on the quiz state.
+     * The difficulty and topic modifiers are considered when fetching the next question.
+     *
+     * @param quizState The current quiz state.
+     * @return The newly created {@link QuestionGameEvent}.
+     */
     private QuestionGameEvent createQuestionGameEvent(QuizState quizState) {
         logger.info("Creating QuestionGameEvent for QuizState ID: {}", quizState.getId());
 
-        // Return the next question with the given difficulty
         int difficultyModifier = quizState.getQuizModifier().getDifficultyModifier();
         Integer maxDifficultyModifier = quizState.getQuizModifier().getMaxDifficultyModifier();
         Integer minDifficultyModifier = quizState.getQuizModifier().getMinDifficultyModifier();
-        // get topic modifier, if topic is set pass topic
         String currentTopic = quizState.getQuizModifier().getTopicModifier();
 
         Question currentQuestion = null;
 
-        // if there is a max difficulty modifier use it, else if there is a min modifier use this and if there is no min or max use the default difficulty modifier
+        // Select question based on modifiers
         if (maxDifficultyModifier != null) {
-            currentQuestion = userQuestionService.getRandomQuestionExcludingCompletedWithMaxDifficultyLimit(quizState.getCompletedQuestionIds(), maxDifficultyModifier, currentTopic);
+            currentQuestion = userQuestionService.getRandomQuestionExcludingCompletedWithMaxDifficultyLimit(
+                    quizState.getCompletedQuestionIds(), maxDifficultyModifier, currentTopic);
         } else if (minDifficultyModifier != null) {
-            currentQuestion = userQuestionService.getRandomQuestionExcludingCompletedWithMinDifficultyLimit(quizState.getCompletedQuestionIds(), minDifficultyModifier, currentTopic);
+            currentQuestion = userQuestionService.getRandomQuestionExcludingCompletedWithMinDifficultyLimit(
+                    quizState.getCompletedQuestionIds(), minDifficultyModifier, currentTopic);
         } else {
-            // todo this if solution is a temporary workaround
-            currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), difficultyModifier, currentTopic);
-            // if we dont find question for given difficulty, use any difficulty
+            currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(
+                    quizState.getCompletedQuestionIds(), difficultyModifier, currentTopic);
+
             if (currentQuestion == null) {
-                logger.info("Used fallback to find question with any difficulty, because no question for topic: ", currentTopic, " with difficulty: ", difficultyModifier, " found.");
-                currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(quizState.getCompletedQuestionIds(), null, currentTopic);
+                logger.info("Fallback: No question found for topic: {}, difficulty: {}. Using any difficulty.", currentTopic, difficultyModifier);
+                currentQuestion = userQuestionService.getRandomQuestionExcludingCompleted(
+                        quizState.getCompletedQuestionIds(), null, currentTopic);
             }
         }
-        addQuestion(quizState, currentQuestion); // todo check if this needs to stay here or if we maybe consolidate with processnextgamestep or sth
+
+        addQuestion(quizState, currentQuestion);
         QuestionGameEvent questionGameEvent = userQuestionService.createQuestionGameEvent(currentQuestion, quizState);
         quizState.addGameEvent(questionGameEvent);
         saveQuizState(quizState);
 
-        logger.debug("Successfully created QuestionGameEvent QuizState ID: {}", quizState.getId());
+        logger.debug("Successfully created QuestionGameEvent for QuizState ID: {}", quizState.getId());
         return questionGameEvent;
     }
 
 
 
-    private ModifierEffectsGameEvent createModifierEffectsGameEvent(QuizState quizState){
-        logger.info("creating ModifierEffectsGameEvent for QuizState ID: {}", quizState.getId());
+    /**
+     * Creates a {@link ModifierEffectsGameEvent} for the given quiz state.
+     * Randomly selects modifier effects and associates them with the event.
+     *
+     * @param quizState The current quiz state.
+     * @return The created {@link ModifierEffectsGameEvent}.
+     */
+    private ModifierEffectsGameEvent createModifierEffectsGameEvent(QuizState quizState) {
+        logger.info("Creating ModifierEffectsGameEvent for QuizState ID: {}", quizState.getId());
         List<QuizModifierEffectDto> randomQuizModifierEffects = userQuizModifierService.pickRandomModifierEffectDtos();
 
         List<UUID> effectUuids = randomQuizModifierEffects.stream()
@@ -367,7 +514,6 @@ public class UserQuizStateService {
                 .map(QuizModifierEffectDto::getDescription)
                 .collect(Collectors.toList());
 
-        // Extract IDs from the list of QuizModifierEffectDto
         List<String> effectIds = randomQuizModifierEffects.stream()
                 .map(QuizModifierEffectDto::getIdString)
                 .collect(Collectors.toList());
@@ -380,24 +526,31 @@ public class UserQuizStateService {
                 .map(QuizModifierEffectDto::getDuration)
                 .collect(Collectors.toList());
 
-
-        ModifierEffectsGameEvent modifierEffectsGameEvent = new ModifierEffectsGameEvent( quizState, effectUuids, effectIds, effectDescriptions, effectTiers, effectDurations);
+        ModifierEffectsGameEvent modifierEffectsGameEvent = new ModifierEffectsGameEvent(
+                quizState, effectUuids, effectIds, effectDescriptions, effectTiers, effectDurations
+        );
 
         quizState.addGameEvent(modifierEffectsGameEvent);
         saveQuizState(quizState);
-        logger.debug("Successfully returned ModifierEffectsGameEvent for QuizState ID: {}", quizState.getId());
+        logger.debug("Successfully created ModifierEffectsGameEvent for QuizState ID: {}", quizState.getId());
 
         return modifierEffectsGameEvent;
-
     }
 
+    /**
+     * Creates a {@link ShopGameEvent} for the given quiz state.
+     * Randomly selects a set of jokers for the shop event.
+     *
+     * @param quizState The current quiz state.
+     * @return The created {@link ShopGameEvent}.
+     */
     private ShopGameEvent createShopGameEvent(QuizState quizState) {
-        logger.info("creating ShopGameEvent for QuizState ID: {}", quizState.getId());
+        logger.info("Creating ShopGameEvent for QuizState ID: {}", quizState.getId());
 
-        // 1) Pick random Joker DTOs
+        // Pick random Jokers
         List<JokerDto> chosenJokers = userJokerService.pickRandomJokerDtos();
 
-        // 2) Build parallel lists using stream()
+        // Extract attributes from Joker DTOs
         List<UUID> jokerUuids = chosenJokers.stream()
                 .map(JokerDto::getUuid)
                 .collect(Collectors.toList());
@@ -426,52 +579,44 @@ public class UserQuizStateService {
                 .map(dto -> dto.getTier() != null ? dto.getTier() : 1)
                 .collect(Collectors.toList());
 
-        // 3) Create the ShopGameEvent
+        // Create the ShopGameEvent
         ShopGameEvent shopGameEvent = new ShopGameEvent(
-                quizState,
-                jokerUuids,
-                jokerIds,
-                jokerNames,
-                jokerDescriptions,
-                jokerCosts,
-                jokerRarities,
-                jokerTiers
+                quizState, jokerUuids, jokerIds, jokerNames, jokerDescriptions, jokerCosts, jokerRarities, jokerTiers
         );
 
-        // 4) Add to the quiz state and persist
         quizState.addGameEvent(shopGameEvent);
         saveQuizState(quizState);
+        logger.debug("Successfully created ShopGameEvent for QuizState ID: {}", quizState.getId());
 
-        logger.debug("Successfully returned random ShopGameEvent for QuizState ID: {}", quizState.getId());
         return shopGameEvent;
     }
 
-
-    // validates a modififerEffect uuid against the latest event to prevent cheating (could also put this in the apply modifer effect method, since both methods are used in combination)
-    // returns the last active modifierEffectsGameEvent if effect choice is valid
+    /**
+     * Validates whether the chosen modifier effect is valid for the last modifier event.
+     *
+     * @param quizState       The current quiz state.
+     * @param chosenEffectUuid The UUID of the chosen modifier effect.
+     * @return The last valid {@link ModifierEffectsGameEvent}.
+     * @throws IllegalStateException If no valid event is found or the effect is invalid.
+     */
     public ModifierEffectsGameEvent validateModifierChoiceEffectAgainstLastEvent(QuizState quizState, UUID chosenEffectUuid) {
         logger.info("Validating effect choice: {} for QuizState ID: {}", chosenEffectUuid, quizState.getId());
 
-        // Retrieve the last game event
         if (quizState.getGameEvents().isEmpty()) {
             throw new IllegalStateException("No game events found for QuizState ID: " + quizState.getId());
         }
 
-        GameEvent lastEvent = quizState.getGameEvents().get(quizState.getGameEvents().size() - 1);
+        GameEvent lastEvent = quizState.getGameEvents().getLast();
 
         if (!(lastEvent instanceof ModifierEffectsGameEvent modifierEffectsGameEvent)) {
             throw new IllegalStateException("The last game event is not a ModifierEffectsGameEvent");
         }
 
-        // Check if the event is already consumed
         if (modifierEffectsGameEvent.isConsumed()) {
             throw new IllegalStateException("The last ModifierEffectsGameEvent is already consumed");
         }
 
-        // Validate if the chosen effect UUID is in the presented effects
-        List<UUID> presentedEffectUuids = modifierEffectsGameEvent.getPresentedEffectUuids();
-        if (!presentedEffectUuids.contains(chosenEffectUuid)) {
-            logger.warn("Chosen effect UUID: {} is not valid for the latest event", chosenEffectUuid);
+        if (!modifierEffectsGameEvent.getPresentedEffectUuids().contains(chosenEffectUuid)) {
             throw new IllegalArgumentException("Invalid effect choice: " + chosenEffectUuid);
         }
 
@@ -479,31 +624,30 @@ public class UserQuizStateService {
         return modifierEffectsGameEvent;
     }
 
-    // instantiates and applies the modifierEffect with the given uuid (by extracting needed info from last event)
-    // to directly apply a modifierEffect use function in userQuizModifierService
+    /**
+     * Validates and applies a modifier effect chosen by the user.
+     *
+     * @param quizState       The current quiz state.
+     * @param chosenEffectUuid The UUID of the chosen effect.
+     * @return {@code true} if the effect was applied successfully; otherwise, {@code false}.
+     */
     public boolean validateAndApplyModifierEffect(QuizState quizState, UUID chosenEffectUuid) {
         logger.info("Applying effect choice: {} for QuizState ID: {}", chosenEffectUuid, quizState.getId());
 
-        // Validate the choice and retrieve the corresponding ModifierEffectsGameEvent
         ModifierEffectsGameEvent modifierEffectsGameEvent = validateModifierChoiceEffectAgainstLastEvent(quizState, chosenEffectUuid);
 
-        // Find the index of the chosen effect UUID
         List<UUID> presentedEffectUuids = modifierEffectsGameEvent.getPresentedEffectUuids();
         int effectIndex = presentedEffectUuids.indexOf(chosenEffectUuid);
 
-        // Retrieve additional effect data (e.g., ID, tier, duration) based on the index
         String effectId = modifierEffectsGameEvent.getPresentedEffectIdStrings().get(effectIndex);
         Integer tier = modifierEffectsGameEvent.getPresentedEffectTiers().get(effectIndex);
         Integer duration = modifierEffectsGameEvent.getPresentedEffectDurations().get(effectIndex);
 
-        // Instantiate and apply the effect
-        Boolean effectIsApplied = userQuizModifierService.applyModifierEffectByIdString(quizState.getQuizModifier(), effectId, duration, tier);
+        boolean effectApplied = userQuizModifierService.applyModifierEffectByIdString(quizState.getQuizModifier(), effectId, duration, tier);
 
-        if (effectIsApplied != null) {
-            // Mark the event as consumed
+        if (effectApplied) {
             modifierEffectsGameEvent.setConsumed(true);
             saveQuizState(quizState);
-
             logger.info("Successfully applied effect: {} and marked event as consumed", chosenEffectUuid);
             return true;
         }
@@ -512,39 +656,20 @@ public class UserQuizStateService {
         return false;
     }
 
-    public boolean validateAndPurchaseJoker(QuizState quizState, String jokerId) {
-        // TODO => depreceated, i already doing this in the jokerService purchase method (flagged for removal)
-        GameEvent latestEvent = quizState.getLatestGameEvent();
-        if (!(latestEvent instanceof ShopGameEvent shopEvent)) {
-            logger.warn("Latest event isn't a ShopGameEvent! Can't purchase a joker.");
-            return false;
-        }
-
-        // Check if the requested jokerId is presented
-        List<String> presentedJokerIds = shopEvent.getPresentedJokerIdStrings();
-        if (!presentedJokerIds.contains(jokerId)) {
-            logger.warn("Joker ID {} is not in the presented shop event!", jokerId);
-            return false;
-        }
-
-        // Now call your userJokerService to do the actual purchase
-        // e.g. userJokerService.purchaseJoker(quizState, jokerId, desiredTier);
-        // or extract cost from shopEvent if you want to override the cost from the registry
-        return true;
-    }
-
-
-
+    /**
+     * Creates a {@link QuizSaveDto} from the given quiz state, including the latest game event.
+     *
+     * @param quizState The quiz state to save.
+     * @return A {@link QuizSaveDto} containing the state and last game event.
+     */
     public QuizSaveDto createQuizSaveDto(QuizState quizState) {
         logger.info("Creating QuizSaveDto from QuizState with ID: {}", quizState.getId());
 
         QuizStateDto quizStateDto = convertToDto(quizState);
 
-        // Safely retrieve the last game event
         if (quizState.getGameEvents().isEmpty()) {
-            logger.warn("No game events found for QuizState with ID: {}", quizState.getId(), "returning QuizSaveDto as null");
-            // todo check when question is added to gameevents
-            return null; // save state without GameEvents is invalid (saved without having a question)
+            logger.warn("No game events found for QuizState with ID: {}, returning QuizSaveDto as null", quizState.getId());
+            return null;
         }
 
         GameEvent lastGameEvent = quizState.getGameEvents().getLast();
@@ -553,6 +678,5 @@ public class UserQuizStateService {
         logger.info("Successfully created QuizSaveDto for QuizState with ID: {}", quizState.getId());
         return new QuizSaveDto(quizStateDto, lastGameEventDto);
     }
-
 
 }
