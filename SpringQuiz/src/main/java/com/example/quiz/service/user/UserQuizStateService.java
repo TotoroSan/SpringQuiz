@@ -456,7 +456,7 @@ public class UserQuizStateService {
      * @param quizState The current quiz state.
      * @return The newly created {@link QuestionGameEvent}.
      */
-    private QuestionGameEvent createQuestionGameEvent(QuizState quizState) {
+    public QuestionGameEvent createQuestionGameEvent(QuizState quizState) {
         logger.info("Creating QuestionGameEvent for QuizState ID: {}", quizState.getId());
 
         int difficultyModifier = quizState.getQuizModifier().getDifficultyModifier();
@@ -502,7 +502,7 @@ public class UserQuizStateService {
      * @param quizState The current quiz state.
      * @return The created {@link ModifierEffectsGameEvent}.
      */
-    private ModifierEffectsGameEvent createModifierEffectsGameEvent(QuizState quizState) {
+    public ModifierEffectsGameEvent createModifierEffectsGameEvent(QuizState quizState) {
         logger.info("Creating ModifierEffectsGameEvent for QuizState ID: {}", quizState.getId());
         List<QuizModifierEffectDto> randomQuizModifierEffects = userQuizModifierService.pickRandomModifierEffectDtos();
 
@@ -544,7 +544,7 @@ public class UserQuizStateService {
      * @param quizState The current quiz state.
      * @return The created {@link ShopGameEvent}.
      */
-    private ShopGameEvent createShopGameEvent(QuizState quizState) {
+    public ShopGameEvent createShopGameEvent(QuizState quizState) {
         logger.info("Creating ShopGameEvent for QuizState ID: {}", quizState.getId());
 
         // Pick random Jokers

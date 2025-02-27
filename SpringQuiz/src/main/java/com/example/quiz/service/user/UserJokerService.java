@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -20,8 +21,13 @@ public class UserJokerService {
     @Autowired
     private QuizStateRepository quizStateRepository;
 
-    @Autowired
     private UserQuizStateService userQuizStateService;
+
+    // todo we need @Lazy here because of circular dependency, maybe shift relevant methods to UserQuizStateService, so we do not need to use @Lazy
+    @Autowired
+    public void setUserQuizStateService(@Lazy UserQuizStateService userQuizStateService) {
+        this.userQuizStateService = userQuizStateService;
+    }
 
     /**
      * Picks a list of random Joker DTOs using weighted probabilities.
@@ -351,7 +357,7 @@ public class UserJokerService {
 
         // Mark the current question as skipped
         questionGameEvent.setSkipUsed(true);
-        userQuizStateService.processSkipQuestionSubmission(quizState);
+        //userQuizStateService.processSkipQuestionSubmission(quizState);
 
 
 

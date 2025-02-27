@@ -29,7 +29,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("user/api/quiz")
-@Tag(name = "QuizState", description = "Endpoints for everything related to the user's quiz state")
+//@Tag(name = "QuizState", description = "Endpoints for everything related to the user's quiz state") example of how we can tag endpoints in swagger
 public class UserQuizStateController {
     private static final Logger logger = LoggerFactory.getLogger(UserQuizStateController.class);
 

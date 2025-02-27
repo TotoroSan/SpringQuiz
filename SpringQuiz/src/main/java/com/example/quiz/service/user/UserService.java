@@ -46,7 +46,7 @@ public class UserService {
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
         user.setUsername(username);
-        user.setRoles("USER");
+        user.setRoles("ROLE_USER");
         user.setCreatedAt(LocalDateTime.now());
         user.setUserProfile(new UserProfile(user));
 
