@@ -69,6 +69,11 @@ Learnings
 - Use Enums for Constants: When you have a known, fixed set of constants (like event types), enums are the recommended
  approach in Java. They prevent errors and improve maintainability.
 
+ - Spring Security by default expects the roles to be prefixed with "ROLE_" (e.g., ROLE_USER, ROLE_ADMIN).
+ when defining preauthorizations in the controller, you DON'T need to use the prefix - it is stripped automatically.
+   If you don't want to use this prefix with your roles, you can customize it by setting the rolePrefix property in the @EnableWebSecurity annotation.
+   For example, @EnableWebSecurity(rolePrefix = "") will remove the prefix.
+
 
 
 Tech Stack
