@@ -1,10 +1,14 @@
 package com.example.quiz.controller.admin;
 
+import com.example.quiz.model.dto.JokerDto;
 import com.example.quiz.model.dto.QuizStateDto;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.model.entity.User;
 import com.example.quiz.repository.QuizStateRepository;
 import com.example.quiz.service.user.UserQuizStateService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -155,5 +159,79 @@ public class AdminQuizStateController {
         return ResponseEntity.ok(quizStateDto);
     }
 
+    /**
+     * Resets the quiz state of the authenticated user by ending the current state and starting a new quiz.
+     *
+     * @param user The authenticated user
+     * @return A ResponseEntity containing the new QuizStateDto
+     * @throws EntityNotFoundException if the active QuizState is not found
+     */
+    @Operation(summary = "Reset quiz state", description = "Resets the active quiz state of the authenticated user by ending the current state and starting a new quiz")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Quiz state reset successfully"),
+            @ApiResponse(responseCode = "404", description = "Active QuizState not found")
+    })
+    @PostMapping("/reset")
+    public ResponseEntity<QuizStateDto> resetQuizState(@AuthenticationPrincipal User user) {
+        logger.info("Admin resetting quiz state for user ID: {}", user.getId());
+        Optional<QuizState> optionalQuizState = userQuizStateService.getLatestActiveQuizStateByUserId(user.getId());
+        if (optionalQuizState.isEmpty()) {
+            throw new EntityNotFoundException("Active QuizState not found for user ID: " + user.getId());
+        }
+        QuizState quizState = optionalQuizState.get();
+        userQuizStateService.processQuizEnd(quizState);
+        QuizState newQuizState = userQuizStateService.startNewQuiz(quizState.getUserId());
+        return ResponseEntity.ok(userQuizStateService.convertToDto(newQuizState));
+    }
 
+    /**
+     * Forces the end of the active quiz state of the authenticated user.
+     *
+     * @param user The authenticated user
+     * @return A ResponseEntity containing the QuizStateDto of the ended quiz state
+     * @throws EntityNotFoundException if the active QuizState is not found
+     */
+    @Operation(summary = "Force quiz end", description = "Forces the end of the active quiz state for the authenticated user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Quiz ended successfully"),
+            @ApiResponse(responseCode = "404", description = "Active QuizState not found")
+    })
+    @PostMapping("/end")
+    public ResponseEntity<QuizStateDto> forceQuizEnd(@AuthenticationPrincipal User user) {
+        logger.info("Admin forcing quiz end for user ID: {}", user.getId());
+        Optional<QuizState> optionalQuizState = userQuizStateService.getLatestActiveQuizStateByUserId(user.getId());
+        if (optionalQuizState.isEmpty()) {
+            throw new EntityNotFoundException("Active QuizState not found for user ID: " + user.getId());
+        }
+        QuizState quizState = optionalQuizState.get();
+        userQuizStateService.processQuizEnd(quizState);
+        return ResponseEntity.ok(userQuizStateService.convertToDto(quizState));
+    }
+
+    /**
+     * Tests the joker effect on the active quiz state of the authenticated user.
+     *
+     * @param user      The authenticated user
+     * @param jokerDto  The DTO containing joker information
+     * @return A ResponseEntity containing the QuizStateDto after applying the joker effect
+     * @throws EntityNotFoundException if the active QuizState is not found
+     */
+    @Operation(summary = "Test joker effect", description = "Tests the effect of a joker on the active quiz state of the authenticated user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Joker effect applied successfully"),
+            @ApiResponse(responseCode = "404", description = "Active QuizState not found")
+    })
+    @PostMapping("/joker")
+    public ResponseEntity<QuizStateDto> testJokerEffect(
+            @AuthenticationPrincipal User user,
+            @RequestBody JokerDto jokerDto) {
+        logger.info("Admin testing joker of type {} for user ID: {}", jokerDto.getIdString(), user.getId());
+        Optional<QuizState> optionalQuizState = userQuizStateService.getLatestActiveQuizStateByUserId(user.getId());
+        if (optionalQuizState.isEmpty()) {
+            throw new EntityNotFoundException("Active QuizState not found for user ID: " + user.getId());
+        }
+        QuizState quizState = optionalQuizState.get();
+        // TODO: Implement joker logic
+        return ResponseEntity.ok(userQuizStateService.convertToDto(quizState));
+    }
 }
