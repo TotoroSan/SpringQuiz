@@ -153,6 +153,6 @@ public class AdminGameEventControllerTest {
 
     // Dummy subclass of GameEvent used for tests.
     private static class TestGameEvent extends GameEvent {
-        // Leere Implementierung für Testzwecke.
+        // Empty implementation for testing
     }
 }

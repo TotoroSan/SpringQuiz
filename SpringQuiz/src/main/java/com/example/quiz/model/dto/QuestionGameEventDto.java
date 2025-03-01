@@ -27,11 +27,12 @@ public class QuestionGameEventDto extends GameEventDto {
 
 
     // Constructor
-    public QuestionGameEventDto(String questionText, Long questionId, List<AnswerDto> shuffledAnswers) {
+    public QuestionGameEventDto(String questionText, Long questionId, List<AnswerDto> shuffledAnswers, List<Long> eliminatedAnswerIds) {
         super(GameEventType.QUESTION);
         this.questionText = questionText;
         this.questionId = questionId;
         this.shuffledAnswers = shuffledAnswers;
+        this.eliminatedAnswerIds = eliminatedAnswerIds;
     }
 
     // Getters and Setters

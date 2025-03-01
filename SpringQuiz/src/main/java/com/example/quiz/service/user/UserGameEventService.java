@@ -59,13 +59,14 @@ public class UserGameEventService {
         // Copy the Question and Shuffled Answers directly from QuestionGameEvent
         Long questionId = questionGameEvent.getQuestionId();
         String questionText = questionGameEvent.getQuestionText();
+        List<Long> eliminatedAnswerIds = questionGameEvent.getEliminatedAnswerIds();
 
         List<AnswerDto> shuffledAnswerDtos = questionGameEvent.getShuffledAnswers().stream()
                 .map(answer -> userAnswerService.convertToDto(answer))
                 .collect(Collectors.toList());
 
         // create questionGameEventDto
-        QuestionGameEventDto questionGameEventDto = new QuestionGameEventDto(questionText, questionId, shuffledAnswerDtos);
+        QuestionGameEventDto questionGameEventDto = new QuestionGameEventDto(questionText, questionId, shuffledAnswerDtos, eliminatedAnswerIds);
 
         // initialize generalized wrapper dto
         // Create and return the DTO

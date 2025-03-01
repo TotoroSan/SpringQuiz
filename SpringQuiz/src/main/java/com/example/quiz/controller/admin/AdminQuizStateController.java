@@ -7,6 +7,7 @@ import com.example.quiz.model.entity.User;
 import com.example.quiz.repository.QuizStateRepository;
 import com.example.quiz.service.user.UserQuizStateService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import com.example.quiz.service.admin.AdminJokerService;
 
 import java.util.Optional;
 
@@ -33,13 +35,15 @@ public class AdminQuizStateController {
 
     private final QuizStateRepository quizStateRepository;
     private final UserQuizStateService userQuizStateService;
+    private final AdminJokerService adminJokerService;
 
     @Autowired
     public AdminQuizStateController(
             QuizStateRepository quizStateRepository,
-            UserQuizStateService userQuizStateService) {
+            UserQuizStateService userQuizStateService, AdminJokerService adminJokerService) {
         this.quizStateRepository = quizStateRepository;
         this.userQuizStateService = userQuizStateService;
+        this.adminJokerService = adminJokerService;
     }
 
     /**
@@ -210,28 +214,42 @@ public class AdminQuizStateController {
 
     /**
      * Tests the joker effect on the active quiz state of the authenticated user.
+     * This endpoint allows admins to test different joker effects without owning the joker.
      *
-     * @param user      The authenticated user
-     * @param jokerDto  The DTO containing joker information
+     * @param user The authenticated user
+     * @param jokerIdString The identifier string of the joker type to test
+     * @param tier The tier of the joker (determines power level)
      * @return A ResponseEntity containing the QuizStateDto after applying the joker effect
      * @throws EntityNotFoundException if the active QuizState is not found
      */
-    @Operation(summary = "Test joker effect", description = "Tests the effect of a joker on the active quiz state of the authenticated user")
+    @PostMapping("/joker/test")
+    @Operation(summary = "Test joker effect", description = "Tests the effect of a joker on the active quiz state without requiring the joker to be owned")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Joker effect applied successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid joker type or could not apply joker effect"),
             @ApiResponse(responseCode = "404", description = "Active QuizState not found")
     })
-    @PostMapping("/joker")
     public ResponseEntity<QuizStateDto> testJokerEffect(
             @AuthenticationPrincipal User user,
-            @RequestBody JokerDto jokerDto) {
-        logger.info("Admin testing joker of type {} for user ID: {}", jokerDto.getIdString(), user.getId());
+            @RequestParam @Parameter(description = "The identifier string of the joker (e.g., 'FIFTY_FIFTY')") String jokerIdString,
+            @RequestParam(defaultValue = "1") @Parameter(description = "The tier level of the joker (default: 1)") Integer tier) {
+        logger.info("Admin testing joker of type {} with tier {} for user ID: {}", jokerIdString, tier, user.getId());
+
         Optional<QuizState> optionalQuizState = userQuizStateService.getLatestActiveQuizStateByUserId(user.getId());
         if (optionalQuizState.isEmpty()) {
             throw new EntityNotFoundException("Active QuizState not found for user ID: " + user.getId());
         }
+
         QuizState quizState = optionalQuizState.get();
-        // TODO: Implement joker logic
+        boolean success = adminJokerService.applyJokerForTesting(quizState, jokerIdString, tier);
+
+        if (!success) {
+            logger.warn("Failed to apply joker effect of type: {} with tier: {}", jokerIdString, tier);
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        // Save the QuizState after applying the joker effect
+        userQuizStateService.saveQuizState(quizState);
         return ResponseEntity.ok(userQuizStateService.convertToDto(quizState));
     }
 }
