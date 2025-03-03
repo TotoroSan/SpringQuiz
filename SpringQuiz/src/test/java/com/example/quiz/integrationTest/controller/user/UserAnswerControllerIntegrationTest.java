@@ -2,7 +2,10 @@
 package com.example.quiz.integrationTest.controller.user;
 
 import com.example.quiz.model.dto.AnswerDto;
-import com.example.quiz.model.entity.*;
+import com.example.quiz.model.entity.CorrectAnswer;
+import com.example.quiz.model.entity.Question;
+import com.example.quiz.model.entity.QuizState;
+import com.example.quiz.model.entity.User;
 import com.example.quiz.service.user.UserAnswerService;
 import com.example.quiz.service.user.UserQuizStateService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;

@@ -1,7 +1,6 @@
 package com.example.quiz.controller.admin;
 
 import com.example.quiz.model.dto.GameEventDto;
-import com.example.quiz.model.dto.JokerDto;
 import com.example.quiz.model.dto.QuizStateDto;
 import com.example.quiz.model.entity.GameEvent;
 import com.example.quiz.model.entity.QuizState;
@@ -21,7 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -1,8 +1,8 @@
 // File: src/integrationTest/java/com/example/quiz/controller/user/UserAuthenticationControllerIntegrationTest.java
 package com.example.quiz.integrationTest.controller.user;
 
-import com.example.quiz.model.dto.LoginRequestDto;
 import com.example.quiz.model.dto.JwtResponseDto;
+import com.example.quiz.model.dto.LoginRequestDto;
 import com.example.quiz.service.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")

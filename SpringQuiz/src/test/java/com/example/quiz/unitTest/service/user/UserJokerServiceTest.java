@@ -1,19 +1,17 @@
-<<<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/service/user/UserJokerServiceTest.java
-package com.example.quiz.service.user;
-========
-package com.example.quiz.unitTest.service.user;
->>>>>>>> 5234cadcc7e235fbc1e9c39b5f08340ea17707a7:SpringQuiz/src/test/java/com/example/quiz/unitTest/service/user/UserJokerServiceTest.java
-
 import com.example.quiz.model.dto.JokerDto;
 import com.example.quiz.model.entity.*;
 import com.example.quiz.model.entity.Joker.*;
 import com.example.quiz.repository.QuizStateRepository;
+import com.example.quiz.service.user.UserJokerService;
+import com.example.quiz.service.user.UserQuizStateService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.*;
 
@@ -21,6 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@ActiveProfiles("test")
 class UserJokerServiceTest {
 
     @Mock

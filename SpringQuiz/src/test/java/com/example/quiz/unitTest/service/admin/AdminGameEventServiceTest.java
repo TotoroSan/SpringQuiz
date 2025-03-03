@@ -1,10 +1,5 @@
 // Sprache: java
-<<<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/service/admin/AdminGameEventServiceTest.java
-package com.example.quiz.service.admin;
-========
 package com.example.quiz.unitTest.service.admin;
->>>>>>>> 5234cadcc7e235fbc1e9c39b5f08340ea17707a7:SpringQuiz/src/test/java/com/example/quiz/unitTest/service/admin/AdminGameEventServiceTest.java
-
 import com.example.quiz.model.dto.JokerDto;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.repository.QuizStateRepository;
@@ -17,13 +12,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.ActiveProfiles;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@ActiveProfiles("test")
 class AdminGameEventServiceTest {
 
     @Mock

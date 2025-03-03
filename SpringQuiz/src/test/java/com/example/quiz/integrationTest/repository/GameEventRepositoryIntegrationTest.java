@@ -1,7 +1,7 @@
 package com.example.quiz.integrationTest.repository;
 
 import com.example.quiz.model.entity.GameEvent;
-import com.example.quiz.model.entity.QuestionGameEvent; // Corrected class name
+import com.example.quiz.model.entity.QuestionGameEvent;
 import com.example.quiz.model.enums.GameEventType;
 import com.example.quiz.repository.GameEventRepository;
 import org.junit.jupiter.api.Test;

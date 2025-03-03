@@ -1,9 +1,4 @@
-<<<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/service/user/UserAnswerServiceTest.java
-package com.example.quiz.service.user;
-========
 package com.example.quiz.unitTest.service.user;
->>>>>>>> 5234cadcc7e235fbc1e9c39b5f08340ea17707a7:SpringQuiz/src/test/java/com/example/quiz/unitTest/service/user/UserAnswerServiceTest.java
-
 import com.example.quiz.model.dto.AnswerDto;
 import com.example.quiz.model.entity.CorrectAnswer;
 import com.example.quiz.model.entity.MockAnswer;
@@ -14,9 +9,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
+@ActiveProfiles("test")
 class UserAnswerServiceTest {
 
     @InjectMocks

@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/service/admin/AdminJokerServiceTest.java
-package com.example.quiz.service.admin;
-========
 package com.example.quiz.unitTest.service.admin;
->>>>>>>> 5234cadcc7e235fbc1e9c39b5f08340ea17707a7:SpringQuiz/src/test/java/com/example/quiz/unitTest/service/admin/AdminJokerServiceTest.java
 
 import com.example.quiz.model.entity.GameEvent;
 import com.example.quiz.model.entity.Joker.FiftyFiftyJoker;
@@ -11,6 +7,7 @@ import com.example.quiz.model.entity.Joker.SkipQuestionJoker;
 import com.example.quiz.model.entity.Joker.TwentyFiveSeventyFiveJoker;
 import com.example.quiz.model.entity.QuestionGameEvent;
 import com.example.quiz.model.entity.QuizState;
+import com.example.quiz.service.admin.AdminJokerService;
 import com.example.quiz.service.user.UserJokerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,12 +16,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@ActiveProfiles("test")
 class AdminJokerServiceTest {
 
     @Mock
@@ -44,7 +46,7 @@ class AdminJokerServiceTest {
 
     @Test
     void successfullyApplyFiftyFiftyJoker() {
-        String jokerIdString = "fiftyfifty";
+        String jokerIdString = "FIFTY_FIFTY";
         Integer tier = 1;
 
         FiftyFiftyJoker mockJoker = mock(FiftyFiftyJoker.class);

@@ -1,9 +1,3 @@
-<<<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/controller/user/UserQuizSubmissionControllerTest.java
-package com.example.quiz.controller.user;
-========
-package com.example.quiz.unitTest.controller.user;
->>>>>>>> 5234cadcc7e235fbc1e9c39b5f08340ea17707a7:SpringQuiz/src/test/java/com/example/quiz/unitTest/controller/user/UserQuizSubmissionControllerTest.java
-
 import com.example.quiz.controller.admin.AdminQuizSubmissionController;
 import com.example.quiz.model.entity.QuizSubmission;
 import com.example.quiz.service.admin.AdminQuizSubmissionService;

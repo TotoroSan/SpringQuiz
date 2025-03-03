@@ -1,6 +1,5 @@
 package com.example.quiz.model.entity.Joker;
 
-import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffectMetaData;
 import com.example.quiz.model.entity.QuizState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(AdminQuestionController.class)
 @ActiveProfiles("test")
-public class AdminQuestionControllerTest {
+public class AdminQuestionControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;

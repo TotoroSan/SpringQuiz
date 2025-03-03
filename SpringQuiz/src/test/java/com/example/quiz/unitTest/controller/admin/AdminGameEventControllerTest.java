@@ -1,10 +1,7 @@
 // Sprache: java
-<<<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/controller/admin/AdminGameEventControllerTest.java
-package com.example.quiz.controller.admin;
-========
 package com.example.quiz.unitTest.controller.admin;
->>>>>>>> 5234cadcc7e235fbc1e9c39b5f08340ea17707a7:SpringQuiz/src/test/java/com/example/quiz/unitTest/controller/admin/AdminGameEventControllerTest.java
 
+import com.example.quiz.controller.admin.AdminGameEventController;
 import com.example.quiz.model.dto.GameEventDto;
 import com.example.quiz.model.dto.JokerDto;
 import com.example.quiz.model.dto.QuizStateDto;
@@ -19,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
@@ -26,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 public class AdminGameEventControllerTest {
 
     @Mock

@@ -1,23 +1,22 @@
-<<<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/service/user/UserServiceTest.java
-package com.example.quiz.service.user;
-========
 package com.example.quiz.unitTest.service.user;
->>>>>>>> 5234cadcc7e235fbc1e9c39b5f08340ea17707a7:SpringQuiz/src/test/java/com/example/quiz/unitTest/service/user/UserServiceTest.java
-
 import com.example.quiz.model.entity.User;
 import com.example.quiz.repository.UserRepository;
+import com.example.quiz.service.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
+@SpringBootTest
+@ActiveProfiles("test")
 class UserServiceTest {
 
     @InjectMocks

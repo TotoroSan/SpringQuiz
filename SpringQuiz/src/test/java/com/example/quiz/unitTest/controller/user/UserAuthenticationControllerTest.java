@@ -1,17 +1,7 @@
-<<<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/controller/user/UserAuthenticationControllerTest.java
-package com.example.quiz.controller.user;
-========
-package com.example.quiz.unitTest.controller.user;
->>>>>>>> 5234cadcc7e235fbc1e9c39b5f08340ea17707a7:SpringQuiz/src/test/java/com/example/quiz/unitTest/controller/user/UserAuthenticationControllerTest.java
-
 import com.example.quiz.model.dto.JwtResponseDto;
 import com.example.quiz.model.dto.LoginRequestDto;
 import com.example.quiz.model.entity.User;
-<<<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/controller/user/UserAuthenticationControllerTest.java
 import com.example.quiz.security.JwtTokenProvider;
-========
-import com.example.quiz.integrationTest.SecurityIntegrationTest.JwtTokenProvider;
->>>>>>>> 5234cadcc7e235fbc1e9c39b5f08340ea17707a7:SpringQuiz/src/test/java/com/example/quiz/unitTest/controller/user/UserAuthenticationControllerTest.java
 import com.example.quiz.service.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,9 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 class UserAuthenticationControllerTest {

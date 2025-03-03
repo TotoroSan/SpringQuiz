@@ -1,9 +1,3 @@
-<<<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/controller/user/UserRegistrationControllerTest.java
-package com.example.quiz.controller.user;
-========
-package com.example.quiz.unitTest.controller.user;
->>>>>>>> 5234cadcc7e235fbc1e9c39b5f08340ea17707a7:SpringQuiz/src/test/java/com/example/quiz/unitTest/controller/user/UserRegistrationControllerTest.java
-
 import com.example.quiz.model.dto.RegistrationRequestDto;
 import com.example.quiz.service.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class UserRegistrationControllerTest {

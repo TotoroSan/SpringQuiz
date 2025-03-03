@@ -7,7 +7,6 @@ import com.example.quiz.model.entity.QuizModifier;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.repository.QuizStateRepository;
 import com.example.quiz.service.admin.AdminGameEventService;
-import com.example.quiz.service.user.UserGameEventService;
 import com.example.quiz.service.user.UserJokerService;
 import com.example.quiz.service.user.UserQuizStateService;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;

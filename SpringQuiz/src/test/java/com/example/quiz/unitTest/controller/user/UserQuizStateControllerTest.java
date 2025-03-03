@@ -1,26 +1,23 @@
-<<<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/controller/user/UserQuizStateControllerTest.java
-package com.example.quiz.controller.user;
-========
-package com.example.quiz.unitTest.controller.user;
->>>>>>>> 5234cadcc7e235fbc1e9c39b5f08340ea17707a7:SpringQuiz/src/test/java/com/example/quiz/unitTest/controller/user/UserQuizStateControllerTest.java
-
 import com.example.quiz.model.dto.*;
-import com.example.quiz.model.entity.*;
+import com.example.quiz.model.entity.GameEvent;
+import com.example.quiz.model.entity.QuizModifier;
+import com.example.quiz.model.entity.QuizState;
+import com.example.quiz.model.entity.User;
 import com.example.quiz.service.user.*;
+import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.ResponseEntity;
 
-import jakarta.servlet.http.HttpSession;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 class UserQuizStateControllerTest {

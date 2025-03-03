@@ -1,9 +1,6 @@
-<<<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/controller/admin/AdminQuizStateControllerTest.java
-package com.example.quiz.controller.admin;
-========
 package com.example.quiz.unitTest.controller.admin;
->>>>>>>> 5234cadcc7e235fbc1e9c39b5f08340ea17707a7:SpringQuiz/src/test/java/com/example/quiz/unitTest/controller/admin/AdminQuizStateControllerTest.java
 
+import com.example.quiz.controller.admin.AdminQuizStateController;
 import com.example.quiz.model.dto.QuizStateDto;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.model.entity.User;
@@ -16,13 +13,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 class AdminQuizStateControllerTest {
 
     @Mock

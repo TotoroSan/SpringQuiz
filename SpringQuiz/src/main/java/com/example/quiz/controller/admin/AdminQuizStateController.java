@@ -1,10 +1,10 @@
 package com.example.quiz.controller.admin;
 
-import com.example.quiz.model.dto.JokerDto;
 import com.example.quiz.model.dto.QuizStateDto;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.model.entity.User;
 import com.example.quiz.repository.QuizStateRepository;
+import com.example.quiz.service.admin.AdminJokerService;
 import com.example.quiz.service.user.UserQuizStateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import com.example.quiz.service.admin.AdminJokerService;
 
 import java.util.Optional;
 

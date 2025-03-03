@@ -1,23 +1,30 @@
-<<<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/service/user/UserGameEventServiceTest.java
-package com.example.quiz.service.user;
-========
 package com.example.quiz.unitTest.service.user;
->>>>>>>> 5234cadcc7e235fbc1e9c39b5f08340ea17707a7:SpringQuiz/src/test/java/com/example/quiz/unitTest/service/user/UserGameEventServiceTest.java
 
 import com.example.quiz.model.dto.*;
-import com.example.quiz.model.entity.*;
+import com.example.quiz.model.entity.CorrectAnswer;
+import com.example.quiz.model.entity.GameEvent;
+import com.example.quiz.model.entity.ModifierEffectsGameEvent;
+import com.example.quiz.model.entity.QuestionGameEvent;
 import com.example.quiz.repository.GameEventRepository;
+import com.example.quiz.service.user.UserAnswerService;
+import com.example.quiz.service.user.UserGameEventService;
+import com.example.quiz.service.user.UserQuizModifierService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
+@SpringBootTest
+@ActiveProfiles("test")
 class UserGameEventServiceTest {
 
     @InjectMocks

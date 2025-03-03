@@ -1,17 +1,16 @@
-<<<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/service/admin/AdminQuizSubmissionServiceTest.java
-package com.example.quiz.service.admin;
-========
 package com.example.quiz.unitTest.service.admin;
->>>>>>>> 5234cadcc7e235fbc1e9c39b5f08340ea17707a7:SpringQuiz/src/test/java/com/example/quiz/unitTest/service/admin/AdminQuizSubmissionServiceTest.java
 
 import com.example.quiz.exception.ResourceNotFoundException;
 import com.example.quiz.model.entity.QuizSubmission;
 import com.example.quiz.repository.QuizSubmissionRepository;
+import com.example.quiz.service.admin.AdminQuizSubmissionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+
+@SpringBootTest
+@ActiveProfiles("test")
 public class AdminQuizSubmissionServiceTest {
 
     @Mock

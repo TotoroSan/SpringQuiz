@@ -1,9 +1,7 @@
-<<<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/controller/admin/AdminQuizSubmissionControllerTest.java
-package com.example.quiz.controller.admin;
-========
 package com.example.quiz.unitTest.controller.admin;
->>>>>>>> 5234cadcc7e235fbc1e9c39b5f08340ea17707a7:SpringQuiz/src/test/java/com/example/quiz/unitTest/controller/admin/AdminQuizSubmissionControllerTest.java
 
+
+import com.example.quiz.controller.admin.AdminQuizSubmissionController;
 import com.example.quiz.model.entity.QuizSubmission;
 import com.example.quiz.service.admin.AdminQuizSubmissionService;
 import org.junit.jupiter.api.Test;
@@ -12,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -25,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AdminQuizSubmissionController.class)
+@ActiveProfiles("test")
 public class AdminQuizSubmissionControllerTest {
 
     @Autowired

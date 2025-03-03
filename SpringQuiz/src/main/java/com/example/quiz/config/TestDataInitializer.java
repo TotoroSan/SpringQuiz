@@ -1,7 +1,13 @@
 package com.example.quiz.config;
 
-import com.example.quiz.model.entity.*;
-import com.example.quiz.repository.*;
+import com.example.quiz.model.entity.CorrectAnswer;
+import com.example.quiz.model.entity.MockAnswer;
+import com.example.quiz.model.entity.Question;
+import com.example.quiz.model.entity.User;
+import com.example.quiz.repository.AnswerRepository;
+import com.example.quiz.repository.QuestionRepository;
+import com.example.quiz.repository.UserRepository;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +15,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 

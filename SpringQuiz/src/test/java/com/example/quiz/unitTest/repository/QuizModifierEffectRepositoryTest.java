@@ -2,8 +2,8 @@
 package com.example.quiz.unitTest.repository;
 
 import com.example.quiz.model.entity.QuizModifier;
-import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffect;
 import com.example.quiz.model.entity.QuizModifierEffect.LifeQuizModifierEffect.IncreaseLifeCounterQuizModifierEffect;
+import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffect;
 import com.example.quiz.model.entity.QuizState;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

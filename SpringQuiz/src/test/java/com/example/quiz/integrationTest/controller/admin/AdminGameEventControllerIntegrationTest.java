@@ -1,8 +1,6 @@
 package com.example.quiz.integrationTest.controller.admin;
 
-import com.example.quiz.model.dto.GameEventDto;
 import com.example.quiz.model.entity.QuizState;
-import com.example.quiz.model.entity.User;
 import com.example.quiz.repository.QuizStateRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +14,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @ActiveProfiles("test")

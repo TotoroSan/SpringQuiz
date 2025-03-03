@@ -1,9 +1,4 @@
-<<<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/service/user/UserQuizSubmissionServiceTest.java
-package com.example.quiz.service.user;
-========
 package com.example.quiz.unitTest.service.user;
->>>>>>>> 5234cadcc7e235fbc1e9c39b5f08340ea17707a7:SpringQuiz/src/test/java/com/example/quiz/unitTest/service/user/UserQuizSubmissionServiceTest.java
-
 import com.example.quiz.exception.ResourceNotFoundException;
 import com.example.quiz.model.entity.QuizSubmission;
 import com.example.quiz.repository.QuizSubmissionRepository;
@@ -13,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +18,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
-
+@SpringBootTest
+@ActiveProfiles("test")
 public class UserQuizSubmissionServiceTest {
 
     @Mock

@@ -1,9 +1,3 @@
-<<<<<<<< HEAD:SpringQuiz/src/test/java/com/example/quiz/controller/user/UserQuestionControllerTest.java
-package com.example.quiz.controller.user;
-========
-package com.example.quiz.unitTest.controller.user;
->>>>>>>> 5234cadcc7e235fbc1e9c39b5f08340ea17707a7:SpringQuiz/src/test/java/com/example/quiz/unitTest/controller/user/UserQuestionControllerTest.java
-
 import com.example.quiz.model.dto.GameEventDto;
 import com.example.quiz.model.dto.QuestionGameEventDto;
 import com.example.quiz.model.entity.Question;
