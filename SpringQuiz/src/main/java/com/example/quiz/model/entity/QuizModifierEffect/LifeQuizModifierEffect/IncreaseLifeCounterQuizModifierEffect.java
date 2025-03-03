@@ -9,7 +9,7 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("INCREASE_LIFE_COUNTER")
 public class IncreaseLifeCounterQuizModifierEffect extends QuizModifierEffect {
     // Default constructor (required by JPA)
-    protected IncreaseLifeCounterQuizModifierEffect() {
+    public IncreaseLifeCounterQuizModifierEffect() {
     }
 
     public IncreaseLifeCounterQuizModifierEffect(QuizModifier quizModifier) {

@@ -40,7 +40,7 @@ public class QuizModifier {
     }
 
     // Each QuizModifier belongs to one QuizsState (Jpa needs this to set both sides of OneToOne relationship in table)
-    QuizModifier(QuizState quizState) {
+    public QuizModifier(QuizState quizState) {
         this.quizState = quizState;
     }
 
