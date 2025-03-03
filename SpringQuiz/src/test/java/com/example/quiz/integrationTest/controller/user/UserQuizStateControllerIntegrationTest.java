@@ -1,5 +1,6 @@
 package com.example.quiz.integrationTest.controller.user;
 
+import com.example.quiz.model.dto.AnswerDto;
 import com.example.quiz.model.dto.QuestionGameEventDto;
 import com.example.quiz.model.dto.QuizStateDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -87,7 +88,7 @@ public class UserQuizStateControllerIntegrationTest {
                 QuestionGameEventDto.class);
 
         // Should have 2 answers eliminated (50-50 joker)
-        assertEquals(2, questionEvent.getAnswersToBeDeleted().size());
+        assertEquals(2, questionEvent.getEliminatedAnswerIds().size());
     }
 
     @Test
@@ -107,14 +108,11 @@ public class UserQuizStateControllerIntegrationTest {
                 QuestionGameEventDto.class);
 
         // 3. Answer with the first answer (could be correct or wrong, doesn't matter for test)
-        Long answerId = questionEvent.getShuffledAnswers().get(0).getId();
-
-        AnswerSubmissionDto answerSubmission = new AnswerSubmissionDto();
-        answerSubmission.setAnswerId(answerId);
+        AnswerDto answerDto = questionEvent.getShuffledAnswers().get(0);
 
         mockMvc.perform(post("/api/quiz/answer")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(answerSubmission)))
+                        .content(objectMapper.writeValueAsString(answerDto)))
                 .andExpect(status().isOk());
 
         // 4. Verify the answer was recorded

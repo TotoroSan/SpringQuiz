@@ -78,7 +78,7 @@ public class UserAnswerControllerIntegrationTest {
         // Create a quiz state with a current question having a correct answer.
         QuizState quizState = new QuizState();
         Question currentQuestion = new Question();
-        Answer correctAnswer = new CorrectAnswer();
+        CorrectAnswer correctAnswer = new CorrectAnswer();
         correctAnswer.setId(200L);
         currentQuestion.setCorrectAnswer(correctAnswer);
 
@@ -111,7 +111,7 @@ public class UserAnswerControllerIntegrationTest {
         // Create a quiz state with a current question having a correct answer.
         QuizState quizState = new QuizState();
         Question currentQuestion = new Question();
-        Answer correctAnswer = new Answer();
+        CorrectAnswer correctAnswer = new CorrectAnswer();
         correctAnswer.setId(300L);
         currentQuestion.setCorrectAnswer(correctAnswer);
 
