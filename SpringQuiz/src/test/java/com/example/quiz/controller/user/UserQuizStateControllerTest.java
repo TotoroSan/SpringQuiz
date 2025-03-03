@@ -68,7 +68,7 @@ class UserQuizStateControllerTest {
         when(userQuizStateService.startNewQuiz(1L)).thenReturn(quizState);
 
         // Act
-        ResponseEntity<String> response = userQuizStateController.startQuiz(session, user);
+        ResponseEntity<QuizStateDto> response = userQuizStateController.startQuiz(session, user);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());

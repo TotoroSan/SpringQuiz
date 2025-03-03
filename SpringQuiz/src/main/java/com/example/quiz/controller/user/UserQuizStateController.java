@@ -79,11 +79,18 @@ public class UserQuizStateController {
             description = "Quiz started successfully"
     )
     @GetMapping("/start")
-    public ResponseEntity<String> startQuiz(HttpSession session, @AuthenticationPrincipal User user) {
+    public ResponseEntity<QuizStateDto> startQuiz(HttpSession session, @AuthenticationPrincipal User user) {
+        logger.info("Received request to start a new quiz for user ID: {}", user.getId());
+
         Long userId = user.getId();
         QuizState quizState = userQuizStateService.startNewQuiz(userId);
-        session.setAttribute("quizState", quizState); // we use session as a "hot storage" for QuizState
-        return ResponseEntity.ok("Quiz started!");
+        session.setAttribute("quizState", quizState);
+
+        // Convert to DTO and return
+        QuizStateDto quizStateDto = userQuizStateService.convertToDto(quizState);
+        logger.info("Quiz successfully started for user ID: {}", userId);
+
+        return ResponseEntity.ok(quizStateDto);
     }
 
     /**

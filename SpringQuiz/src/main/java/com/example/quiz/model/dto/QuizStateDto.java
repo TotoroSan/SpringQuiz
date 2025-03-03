@@ -38,6 +38,7 @@ public class QuizStateDto {
         return currentRound;
     }
 
+
     public void setCurrentRound(int currentRound) {
         this.currentRound = currentRound;
     }
@@ -50,7 +51,7 @@ public class QuizStateDto {
         this.currentQuestionText = currentQuestionText;
     }
 
-    public Boolean getActive() {
+    public Boolean isActive() {
         return isActive;
     }
 
