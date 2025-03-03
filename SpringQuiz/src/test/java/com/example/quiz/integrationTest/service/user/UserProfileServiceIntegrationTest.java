@@ -5,6 +5,7 @@ import com.example.quiz.model.entity.User;
 import com.example.quiz.model.entity.UserProfile;
 import com.example.quiz.repository.UserProfileRepository;
 import com.example.quiz.repository.UserRepository;
+import com.example.quiz.service.user.UserProfileService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
