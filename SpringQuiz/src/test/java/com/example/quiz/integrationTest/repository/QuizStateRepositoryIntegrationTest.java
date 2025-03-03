@@ -2,6 +2,8 @@ package com.example.quiz.integrationTest.repository;
 
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.model.entity.User;
+import com.example.quiz.repository.QuizStateRepository;
+import com.example.quiz.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class QuizStateRepositoryIntegrationTest {
 
     @Autowired
-    private QuizStateRepository quizStateRepository;
+    private     QuizStateRepository quizStateRepository;
 
     @Autowired
     private UserRepository userRepository;

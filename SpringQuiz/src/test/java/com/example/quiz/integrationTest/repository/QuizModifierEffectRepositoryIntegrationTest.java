@@ -3,8 +3,15 @@ package com.example.quiz.integrationTest.repository;
 import com.example.quiz.model.entity.QuizModifier;
 import com.example.quiz.model.entity.QuizModifierEffect.LifeQuizModifierEffect.IncreaseLifeCounterQuizModifierEffect;
 import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffect;
+import com.example.quiz.model.entity.QuizModifierEffect.QuizModifierEffectFactory;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.model.entity.User;
+import com.example.quiz.repository.QuizModifierEffectRepository;
+import com.example.quiz.repository.QuizModifierRepository;
+import com.example.quiz.repository.QuizStateRepository;
+import com.example.quiz.repository.UserRepository;
+import com.example.quiz.service.user.UserQuizModifierService;
+import com.example.quiz.service.user.UserQuizStateService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +32,15 @@ public class QuizModifierEffectRepositoryIntegrationTest {
 
     @Autowired
     private QuizStateRepository quizStateRepository;
+
+    @Autowired
+    private UserQuizStateService quizStateService;
+
+    @Autowired
+    private QuizModifierEffectFactory quizModifierEffectFactory;
+
+    @Autowired
+    private UserQuizModifierService userQuizModifierService;
 
     @Autowired
     private UserRepository userRepository;
@@ -51,12 +67,14 @@ public class QuizModifierEffectRepositoryIntegrationTest {
     @Test
     public void testSaveAndFindQuizModifierEffect() {
         // Create a quiz modifier and associate it with the QuizState
-        QuizModifier quizModifier = new QuizModifier(testQuizState);
+
+
+        QuizModifier quizModifier = testQuizState.getQuizModifier();
         quizModifier.setQuizState(testQuizState); // Associate with QuizState
         QuizModifier savedModifier = quizModifierRepository.save(quizModifier);
 
         // Create a concrete implementation of QuizModifierEffect
-        IncreaseLifeCounterQuizModifierEffect effect = new IncreaseLifeCounterQuizModifierEffect();
+        IncreaseLifeCounterQuizModifierEffect effect = (IncreaseLifeCounterQuizModifierEffect) quizModifierEffectFactory.createEffect("INCREASE_LIFE_COUNTER", 1, quizModifier, 1);
         effect.setQuizModifier(savedModifier);
 
         // Save the entity
@@ -75,12 +93,12 @@ public class QuizModifierEffectRepositoryIntegrationTest {
     @Test
     public void testUpdateQuizModifierEffect() {
         // Create a quiz modifier and associate it with the QuizState
-        QuizModifier quizModifier = new QuizModifier(testQuizState);
+        QuizModifier quizModifier = testQuizState.getQuizModifier();
         quizModifier.setQuizState(testQuizState); // Associate with QuizState
         QuizModifier savedModifier = quizModifierRepository.save(quizModifier);
 
         // Create and save a concrete effect
-        IncreaseLifeCounterQuizModifierEffect effect = new IncreaseLifeCounterQuizModifierEffect();
+        IncreaseLifeCounterQuizModifierEffect effect = (IncreaseLifeCounterQuizModifierEffect) quizModifierEffectFactory.createEffect("INCREASE_LIFE_COUNTER", 1, quizModifier, 1);
         effect.setQuizModifier(savedModifier);
 
         QuizModifierEffect savedEffect = quizModifierEffectRepository.save(effect);
@@ -97,12 +115,12 @@ public class QuizModifierEffectRepositoryIntegrationTest {
     @Test
     public void testDeleteQuizModifierEffect() {
         // Create a quiz modifier and associate it with the QuizState
-        QuizModifier quizModifier =  new QuizModifier(testQuizState);
+        QuizModifier quizModifier = testQuizState.getQuizModifier();
         quizModifier.setQuizState(testQuizState); // Associate with QuizState
         QuizModifier savedModifier = quizModifierRepository.save(quizModifier);
 
         // Create and save a concrete effect
-        IncreaseLifeCounterQuizModifierEffect effect = new IncreaseLifeCounterQuizModifierEffect();
+        IncreaseLifeCounterQuizModifierEffect effect = (IncreaseLifeCounterQuizModifierEffect) quizModifierEffectFactory.createEffect("INCREASE_LIFE_COUNTER", 1, quizModifier, 1);
         effect.setQuizModifier(savedModifier);
 
         QuizModifierEffect savedEffect = quizModifierEffectRepository.save(effect);

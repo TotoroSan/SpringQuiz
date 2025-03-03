@@ -145,21 +145,20 @@ public class UserQuizStateControllerIntegrationTest {
                 QuestionGameEventDto.class);
 
         // Verify joker effect
-        assertFalse(questionEvent.getAnswersToBeDeleted().isEmpty());
+        assertFalse(questionEvent.getEliminatedAnswerIds().isEmpty());
 
         // 4. Answer the question
         Long answerId = questionEvent.getShuffledAnswers().stream()
-                .filter(a -> !questionEvent.getAnswersToBeDeleted().contains(a.getId()))
+                .filter(a -> !questionEvent.getEliminatedAnswerIds().contains(a.getId()))
                 .findFirst()
                 .orElse(questionEvent.getShuffledAnswers().get(0))
                 .getId();
 
-        AnswerSubmissionDto answerSubmission = new AnswerSubmissionDto();
-        answerSubmission.setAnswerId(answerId);
+        AnswerDto answerDto = new AnswerDto();
 
         mockMvc.perform(post("/api/quiz/answer")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(answerSubmission)))
+                        .content(objectMapper.writeValueAsString(answerDto)))
                 .andExpect(status().isOk());
 
         // 5. Verify quiz progression

@@ -4,6 +4,8 @@ import com.example.quiz.model.entity.Answer;
 import com.example.quiz.model.entity.CorrectAnswer;
 import com.example.quiz.model.entity.MockAnswer;
 import com.example.quiz.model.entity.Question;
+import com.example.quiz.repository.AnswerRepository;
+import com.example.quiz.repository.QuestionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

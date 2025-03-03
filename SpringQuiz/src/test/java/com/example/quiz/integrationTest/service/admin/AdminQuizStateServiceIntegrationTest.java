@@ -2,6 +2,7 @@ package com.example.quiz.integrationTest.service.admin;
 
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.repository.QuizStateRepository;
+import com.example.quiz.service.admin.AdminQuizStateService;
 import com.example.quiz.service.user.UserQuizStateService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;

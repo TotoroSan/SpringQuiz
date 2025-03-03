@@ -1,6 +1,7 @@
 package com.example.quiz.integrationTest.repository;
 
 import com.example.quiz.model.entity.Question;
+import com.example.quiz.repository.QuestionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

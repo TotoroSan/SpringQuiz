@@ -6,6 +6,7 @@ import com.example.quiz.model.entity.Joker.JokerFactory;
 import com.example.quiz.model.entity.QuizModifier;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.repository.QuizStateRepository;
+import com.example.quiz.service.admin.AdminGameEventService;
 import com.example.quiz.service.user.UserGameEventService;
 import com.example.quiz.service.user.UserJokerService;
 import com.example.quiz.service.user.UserQuizStateService;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -21,6 +23,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @Transactional
 class AdminGameEventServiceIntegrationTest {
 
@@ -87,7 +90,7 @@ class AdminGameEventServiceIntegrationTest {
     @Test
     void testModifyQuizModifier() {
         // Assuming quizState has a QuizModifier already
-        QuizModifier initialModifier = new QuizModifier(quizState);
+        QuizModifier initialModifier = quizState.getQuizModifier();
         initialModifier.setCash(100);
         initialModifier.setLifeCounter(3);
         initialModifier.setScoreMultiplier(1.0);
@@ -95,7 +98,7 @@ class AdminGameEventServiceIntegrationTest {
         quizStateRepository.save(quizState);
 
         // Create updated modifier with new properties
-        QuizModifier updated = new QuizModifier(quizState);
+        QuizModifier updated = quizState.getQuizModifier();
         updated.setCash(200);
         updated.setLifeCounter(5);
         updated.setScoreMultiplier(2.0);

@@ -5,14 +5,17 @@ import com.example.quiz.model.entity.Answer;
 import com.example.quiz.model.entity.CorrectAnswer;
 import com.example.quiz.model.entity.Question;
 import com.example.quiz.repository.AnswerRepository;
+import com.example.quiz.service.user.UserAnswerService;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @Transactional
 class UserAnswerServiceIntegrationTest {
 

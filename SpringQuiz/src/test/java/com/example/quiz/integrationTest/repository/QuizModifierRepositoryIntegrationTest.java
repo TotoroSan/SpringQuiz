@@ -3,6 +3,9 @@ package com.example.quiz.integrationTest.repository;
 import com.example.quiz.model.entity.QuizModifier;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.model.entity.User;
+import com.example.quiz.repository.QuizModifierRepository;
+import com.example.quiz.repository.QuizStateRepository;
+import com.example.quiz.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +47,7 @@ public class QuizModifierRepositoryIntegrationTest {
     @Test
     public void testSaveAndFindQuizModifier() {
         // Create a QuizModifier associated with the testQuizState
-        QuizModifier quizModifier = new QuizModifier(testQuizState);
+        QuizModifier quizModifier = testQuizState.getQuizModifier();
         quizModifier.setScoreMultiplier(1.5);
         quizModifier.setDifficultyModifier(2);
 
@@ -63,7 +66,7 @@ public class QuizModifierRepositoryIntegrationTest {
     @Test
     public void testUpdateQuizModifier() {
         // Create and save a QuizModifier
-        QuizModifier quizModifier = new QuizModifier(testQuizState);
+        QuizModifier quizModifier = testQuizState.getQuizModifier();
         quizModifier.setScoreMultiplier(1.0);
         quizModifier.setDifficultyModifier(1);
         QuizModifier savedModifier = quizModifierRepository.save(quizModifier);
@@ -83,7 +86,7 @@ public class QuizModifierRepositoryIntegrationTest {
     @Test
     public void testDeleteQuizModifier() {
         // Create and save a QuizModifier
-        QuizModifier quizModifier = new QuizModifier(testQuizState);
+        QuizModifier quizModifier = testQuizState.getQuizModifier();
         quizModifier.setScoreMultiplier(1.0);
         QuizModifier savedModifier = quizModifierRepository.save(quizModifier);
         Long id = savedModifier.getId();

@@ -5,14 +5,18 @@ import com.example.quiz.model.entity.GameEvent;
 import com.example.quiz.model.entity.Question;
 import com.example.quiz.model.entity.QuizState;
 import com.example.quiz.repository.QuizStateRepository;
+import com.example.quiz.service.user.UserQuizStateService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
 
 @SpringBootTest
+@ActiveProfiles("test")
 public class UserQuizStateServiceIntegrationTest {
 
     @Autowired
