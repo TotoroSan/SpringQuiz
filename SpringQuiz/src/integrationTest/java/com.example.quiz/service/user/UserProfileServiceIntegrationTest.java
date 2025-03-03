@@ -92,7 +92,6 @@ class UserProfileServiceIntegrationTest {
         updateDto.setProfilePictureUrl("http://example.com/bobby.jpg");
         updateDto.setBio("Updated bio");
         updateDto.setSocialMediaLinks("http://twitter.com/bobbyj");
-
         Optional<UserProfile> updatedProfileOpt = userProfileService.updateUserProfile(testUser.getId(), updateDto);
         assertTrue(updatedProfileOpt.isPresent());
         UserProfile updatedProfile = updatedProfileOpt.get();
