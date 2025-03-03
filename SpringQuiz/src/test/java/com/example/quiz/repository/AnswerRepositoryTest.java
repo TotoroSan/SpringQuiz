@@ -1,4 +1,3 @@
-// File: `src/test/java/com/example/quiz/repository/AnswerRepositoryTest.java`
 package com.example.quiz.repository;
 
 import com.example.quiz.model.entity.Answer;
