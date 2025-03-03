@@ -3,7 +3,7 @@ package com.example.quiz.controller.user;
 import com.example.quiz.model.dto.JwtResponseDto;
 import com.example.quiz.model.dto.LoginRequestDto;
 import com.example.quiz.model.entity.User;
-import com.example.quiz.security.JwtTokenProvider;
+import com.example.quiz.SecurityIntegrationTest.JwtTokenProvider;
 import com.example.quiz.service.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
