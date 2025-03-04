@@ -1,4 +1,4 @@
-package com.example.quiz.unitTest.controller.admin;
+package com.example.quiz.integrationTest.controller.admin;
 
 import com.example.quiz.controller.admin.AdminQuestionController;
 import com.example.quiz.model.dto.QuestionDto;
