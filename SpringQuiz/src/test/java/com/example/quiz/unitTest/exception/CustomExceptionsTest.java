@@ -1,6 +1,10 @@
 // File: `src/test/java/com/example/quiz/exception/CustomExceptionsTest.java`
 package com.example.quiz.unitTest.exception;
 
+import com.example.quiz.exception.BadRequestException;
+import com.example.quiz.exception.ErrorResponse;
+import com.example.quiz.exception.ResourceNotFoundException;
+import com.example.quiz.exception.ValidationErrorResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,8 +16,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)

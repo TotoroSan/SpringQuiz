@@ -2,6 +2,8 @@ package com.example.quiz.unitTest.repository;
 
 import com.example.quiz.model.entity.QuizModifier;
 import com.example.quiz.model.entity.QuizState;
+import com.example.quiz.repository.QuizModifierRepository;
+import com.example.quiz.repository.QuizStateRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -20,12 +22,12 @@ public class QuizModifierRepositoryTest {
 
     @Test
     public void testSaveAndFindQuizModifier() {
-        QuizState state = new QuizState();
-        state.setUserId(1L);
-        state.setActive(true);
-        QuizState savedState = quizStateRepository.save(state);
+        QuizState quizState = new QuizState();
+        quizState.setUserId(1L);
+        quizState.setActive(true);
+        QuizState savedState = quizStateRepository.save(quizState);
 
-        QuizModifier modifier = new QuizModifier(savedState);
+        QuizModifier modifier = quizState.getQuizModifier()
         // Set additional properties if present
         modifier.setScoreMultiplier(1.0);
         QuizModifier savedModifier = quizModifierRepository.save(modifier);

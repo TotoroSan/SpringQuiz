@@ -2,6 +2,8 @@ package com.example.quiz.unitTest.repository;
 
 import com.example.quiz.model.entity.User;
 import com.example.quiz.model.entity.UserProfile;
+import com.example.quiz.repository.UserProfileRepository;
+import com.example.quiz.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

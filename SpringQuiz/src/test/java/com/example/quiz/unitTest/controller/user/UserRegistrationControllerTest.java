@@ -1,3 +1,6 @@
+package com.example.quiz.integrationTest.controller.user;
+
+import com.example.quiz.controller.user.UserRegistrationController;
 import com.example.quiz.model.dto.RegistrationRequestDto;
 import com.example.quiz.service.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
