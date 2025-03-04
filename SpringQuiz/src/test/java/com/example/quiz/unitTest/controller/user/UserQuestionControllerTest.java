@@ -1,3 +1,5 @@
+package com.example.quiz.unitTest.controller.user;
+import com.example.quiz.controller.user.UserQuestionController;
 import com.example.quiz.model.dto.GameEventDto;
 import com.example.quiz.model.dto.QuestionGameEventDto;
 import com.example.quiz.model.entity.Question;

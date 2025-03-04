@@ -2,6 +2,7 @@ package com.example.quiz.unitTest.repository;
 
 import com.example.quiz.model.entity.Answer;
 import com.example.quiz.model.entity.CorrectAnswer;
+import com.example.quiz.repository.AnswerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

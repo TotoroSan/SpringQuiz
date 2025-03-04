@@ -1,3 +1,5 @@
+package com.example.quiz.unitTest.controller.user;
+import com.example.quiz.controller.user.UserAuthenticationController;
 import com.example.quiz.model.dto.JwtResponseDto;
 import com.example.quiz.model.dto.LoginRequestDto;
 import com.example.quiz.model.entity.User;

@@ -27,7 +27,7 @@ public class QuizModifierRepositoryTest {
         quizState.setActive(true);
         QuizState savedState = quizStateRepository.save(quizState);
 
-        QuizModifier modifier = quizState.getQuizModifier()
+        QuizModifier modifier = quizState.getQuizModifier();
         // Set additional properties if present
         modifier.setScoreMultiplier(1.0);
         QuizModifier savedModifier = quizModifierRepository.save(modifier);
